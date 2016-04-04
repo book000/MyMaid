@@ -1,4 +1,4 @@
-package xyz.jaoafa.MyMaid;
+package xyz.jaoafa.mymaid;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
