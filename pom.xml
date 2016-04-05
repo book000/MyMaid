@@ -4,7 +4,7 @@
   <artifactId>MyMaid</artifactId>
   <version>0.0.1</version>
   <name>MyMaid</name>
-  <description>わたしたちの「めいど」を、ここに。</description>
+  <description>わたしたちの「めいど」をここに。</description>
   <build>
     <plugins>
       <plugin>
