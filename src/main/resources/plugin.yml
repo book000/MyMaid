@@ -1,9 +1,3 @@
 name: MyMaid
 main: xyz.jaoafa.mymaid.MyMaid
 version: 0.0.1
-commands:
-   jf:
-      description: jao! afa!
-      usage: /<command>
-      permission: mymaid.jf
-      permission-message: You dont have <permission>!
