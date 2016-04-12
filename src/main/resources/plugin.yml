@@ -1,3 +1,14 @@
 name: MyMaid
 main: xyz.jaoafa.mymaid.MyMaid
 version: 0.0.1
+commands:
+   jf:
+      description: jaoafa
+      usage: /<command>
+      permission: mymaid.jf
+      permission-message: You dont have <permission>
+   ct:
+      description: Town, City, Country Teleport Command.
+      usage: /<command> [name]
+      permission: command_teleport.ct
+      permission-message: You do not have permission to perform this command.
