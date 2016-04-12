@@ -57,14 +57,14 @@ public class MyMaid extends JavaPlugin {
             // ↑そのままスケジュールします。
     		return true;
 		}
-    	if(cmd.getName().equalsIgnoreCase("ct")) {
+    	if(cmd.getName().equalsIgnoreCase("dt")) {
 			if(args.length == 0){
-				sender.sendMessage("[CT] " + ChatColor.GREEN + "このコマンドは1つまたは2つの引数が必要です。");
+				sender.sendMessage("[DT] " + ChatColor.GREEN + "このコマンドは1つまたは2つの引数が必要です。");
 				return false;
 			}else if(args.length == 1){
 				// コマンド実行者がプレイヤーかどうか
 				if (!(sender instanceof Player)) {
-					sender.sendMessage("[CT] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+					sender.sendMessage("[DT] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
 					getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 					return true;
 				}
@@ -78,18 +78,18 @@ public class MyMaid extends JavaPlugin {
 					InputStream in=connect.getInputStream();//ファイルを開く
 					String data;//ネットから読んだデータを保管する変数を宣言
 					if(location.equalsIgnoreCase("list")){
-						sender.sendMessage("[CT] " + ChatColor.GREEN + "----- Location List -----");
+						sender.sendMessage("[DT] " + ChatColor.GREEN + "----- Location List -----");
 						data = readString(in);//1行読み取り
 						while (data != null) {//読み取りが成功していれば
-							sender.sendMessage("[CT] " + ChatColor.GREEN + data);
+							sender.sendMessage("[DT] " + ChatColor.GREEN + data);
 							data = readString(in);//次を読み込む
 						}
-						sender.sendMessage("[CT] " + ChatColor.GREEN + "-------------------------");
+						sender.sendMessage("[DT] " + ChatColor.GREEN + "-------------------------");
 						return true;
 					}else{
 						data = readString(in);
 						if(data.equalsIgnoreCase("NOLOCATION")){
-							sender.sendMessage("[CT] " + ChatColor.GREEN + "その名前の場所は登録されていません。/ct listで場所を確認してください。");
+							sender.sendMessage("[DT] " + ChatColor.GREEN + "その名前の場所は登録されていません。/dt listで場所を確認してください。");
 							return true;
 						}else{
 							String[] datas = data.split(",", 0);
@@ -110,18 +110,18 @@ public class MyMaid extends JavaPlugin {
 				}
 			}else if(args.length == 2){
 				String p;
-				p = args[1];
+				p = args[0];
 				for(Player player: getServer().getOnlinePlayers()) {
 					if(player.getName().equalsIgnoreCase(p)) {
-						if(Bukkit.dispatchCommand(player, "ct " + args[0])){
-							sender.sendMessage("[CT] " + ChatColor.GREEN + "正常に処理を実行しました。");
+						if(Bukkit.dispatchCommand(player, "ct " + args[1])){
+							sender.sendMessage("[DT] " + ChatColor.GREEN + "正常に処理を実行しました。");
 						}else{
-							sender.sendMessage("[CT] " + ChatColor.GREEN + "エラーが発生しました。");
+							sender.sendMessage("[DT] " + ChatColor.GREEN + "エラーが発生しました。");
 						}
 						return true;
 					}
 				}
-				sender.sendMessage("[CT] " + ChatColor.GREEN + "ユーザーが見つかりません");
+				sender.sendMessage("[DT] " + ChatColor.GREEN + "ユーザーが見つかりません");
 			}
 
 
@@ -132,9 +132,9 @@ public class MyMaid extends JavaPlugin {
     String[] datas;
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (!command.getName().equalsIgnoreCase("ct")) return super.onTabComplete(sender, command, alias, args);
-        if (args.length == 1) {
-            if (args[0].length() == 0) { // /testまで
+        if (!command.getName().equalsIgnoreCase("dt")) return super.onTabComplete(sender, command, alias, args);
+        if (args.length == 2) {
+            if (args[1].length() == 0) { // /testまで
             	try{
 					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=all");
 					// URL接続
@@ -159,7 +159,7 @@ public class MyMaid extends JavaPlugin {
 				}
             } else {
             	try{
-					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[0]);
+					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[1]);
 					// URL接続
 					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
 					connect.setRequestMethod("GET");//プロトコルの設定
@@ -182,6 +182,32 @@ public class MyMaid extends JavaPlugin {
 					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
 				}
             }
+        }else if(args.length == 1){
+        	if (args[0].length() != 0) {
+        		try{
+					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[0]);
+					// URL接続
+					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
+					connect.setRequestMethod("GET");//プロトコルの設定
+					connect.setRequestProperty("Accept-Language", "jp");
+					connect.setRequestProperty("Content-Type","text/html;charset=utf-8");
+					InputStream in=connect.getInputStream();//ファイルを開く
+					String data;//ネットから読んだデータを保管する変数を宣言
+					data = readString(in);
+					if(data == null){
+						return null;
+					}
+					if(!data.contains(",")){
+						return Collections.singletonList(data);
+					}
+					datas = data.split(",", 0);
+					return Arrays.asList(datas);
+				}catch(Exception e){
+					//例外処理が発生したら、表示する
+					System.out.println(e);
+					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+				}
+        	}
         }
         //JavaPlugin#onTabComplete()を呼び出す
         return super.onTabComplete(sender, command, alias, args);

@@ -7,8 +7,8 @@ commands:
       usage: /<command>
       permission: mymaid.jf
       permission-message: You dont have <permission>
-   ct:
+   dt:
       description: Town, City, Country Teleport Command.
       usage: /<command> [name]
-      permission: command_teleport.ct
+      permission: command_teleport.dt
       permission-message: You do not have permission to perform this command.
