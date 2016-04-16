@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,7 +23,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class MyMaid extends JavaPlugin {
 
-	BukkitTask task = null;//あとで自分で自分を止めるためのもの
+
 	@Override
     public void onEnable() {
     	getLogger().info("(c) jao Minecraft Server MyMaid Project.");
@@ -35,23 +37,47 @@ public class MyMaid extends JavaPlugin {
     }
 
 
-
+    BukkitTask task = null;
+    Date Date;
+    SimpleDateFormat H;
+    SimpleDateFormat m;
+    SimpleDateFormat s;
+    String Hs;
+	String ms;
+	String ss;
+	String date;
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+
         // プレイヤーが「/basic」コマンドを投入した際の処理...
     	if(cmd.getName().equalsIgnoreCase("jf")){
+    		//BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+            //scheduler.runTaskLater(arg0, arg1, arg2)
     		final Player player = (Player) sender;
-    		Date date1 = new Date();
-    		SimpleDateFormat date = new SimpleDateFormat("H:m:s");
-    		Bukkit.broadcastMessage(ChatColor.GRAY + "[" + date.format(date1) +"]"  + ChatColor.WHITE + player.getName() +  ": jao");
+    		Date = new Date();
+    		H = new SimpleDateFormat("H");
+    		m = new SimpleDateFormat("m");
+    		s = new SimpleDateFormat("s");
+    		Hs = H.format(Date);
+    		ms = m.format(Date);
+    		ss = s.format(Date);
+    		date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
+    		Bukkit.broadcastMessage(ChatColor.GRAY + "[" + date +"]"  + ChatColor.WHITE + player.getName() +  ": jao");
     		task = new BukkitRunnable() {
 
                 @Override
                 public void run() {
-                	Date date1 = new Date();
-        			SimpleDateFormat date = new SimpleDateFormat("H:m:s");
-        			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date.format(date1) + "]" + ChatColor.WHITE + player.getName() +  ": afa");
-                    task.cancel();
+                	Date = new Date();
+                	Date = new Date();
+            		H = new SimpleDateFormat("H");
+            		m = new SimpleDateFormat("m");
+            		s = new SimpleDateFormat("s");
+            		Hs = H.format(Date);
+            		ms = m.format(Date);
+            		ss = s.format(Date);
+            		date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
+        			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.WHITE + player.getName() +  ": afa");
+                    cancel();
                 }
             }.runTaskLater(this, 60);
             // ↑そのままスケジュールします。
@@ -113,7 +139,7 @@ public class MyMaid extends JavaPlugin {
 				p = args[0];
 				for(Player player: getServer().getOnlinePlayers()) {
 					if(player.getName().equalsIgnoreCase(p)) {
-						if(Bukkit.dispatchCommand(player, "ct " + args[1])){
+						if(Bukkit.dispatchCommand(player, "dt " + args[1])){
 							sender.sendMessage("[DT] " + ChatColor.GREEN + "正常に処理を実行しました。");
 						}else{
 							sender.sendMessage("[DT] " + ChatColor.GREEN + "エラーが発生しました。");
@@ -125,6 +151,39 @@ public class MyMaid extends JavaPlugin {
 			}
 
 
+		}
+    	if(cmd.getName().equalsIgnoreCase("g")){
+    		if(args.length == 0){
+				sender.sendMessage("[DT] " + ChatColor.GREEN + "このコマンドは1つまたは2つの引数が必要です。");
+				return false;
+    		}
+    		Player player = (Player) sender;
+    		String regex = "^[0-3]$"; //正規表現
+			Pattern p = Pattern.compile(regex);
+			Matcher m = p.matcher(args[0]);
+			if (!m.find()){
+				sender.sendMessage("[G] " + ChatColor.GREEN + "エラーが発生しました。1桁の半角数字を入力してください。");
+				return true;
+			}
+    		Bukkit.dispatchCommand(sender, "gamemode " + args[0]);
+    		return true;
+		}
+		if(cmd.getName().equalsIgnoreCase("chat")){
+			if(args.length == 2){
+				Date = new Date();
+				Date = new Date();
+	    		H = new SimpleDateFormat("H");
+	    		m = new SimpleDateFormat("m");
+	    		s = new SimpleDateFormat("s");
+	    		Hs = H.format(Date);
+	    		ms = m.format(Date);
+	    		ss = s.format(Date);
+	    		date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
+        		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.WHITE + args[0] +  ": " + args[1]);
+			}else{
+				sender.sendMessage("[CHAT] " + ChatColor.GREEN + "このコマンドには2つの引数が必要です。");
+			}
+			return true;
 		}
     	return false;
         // コマンドが実行されなかった場合は、falseを返して当メソッドを抜ける。

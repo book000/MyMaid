@@ -12,3 +12,13 @@ commands:
       usage: /<command> [name]
       permission: command_teleport.dt
       permission-message: You do not have permission to perform this command.
+   g:
+      description: gamemode changed.
+      usage: /<command>
+      permission: mymaid.gamemode
+      permission-message: You do not have permission to perform this command.
+   chat:
+      description: chat gisou
+      usage: /<command> [Player] [Message]
+      permission: mymaid.chat
+      permission-message: You do not have permission to perform this command.
