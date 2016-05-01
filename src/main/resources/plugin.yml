@@ -22,3 +22,8 @@ commands:
       usage: /<command> [Player] [Message]
       permission: mymaid.chat
       permission-message: You do not have permission to perform this command.
+   iphost:
+      description: ip to host name.
+      usage: /<command>
+      permission: mymaid.iphost
+      permission-message: You do not have permission to perform this command.

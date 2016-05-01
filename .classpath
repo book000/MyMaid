@@ -32,5 +32,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="N:/解凍したもの/httpcomponents-client-4.5.1/lib/commons-codec-1.9.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
