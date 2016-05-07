@@ -1,6 +1,11 @@
 name: MyMaid
 main: xyz.jaoafa.mymaid.MyMaid
 version: 0.0.1
+description: General Plugin
+database: true
+author: mine_book000
+website: https://jaoafa.xyz/
+default-permission: NOT_OP
 commands:
    jf:
       description: jaoafa
