@@ -37,6 +37,7 @@ import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
 import xyz.jaoafa.mymaid.Command.Gamemode_Change;
 import xyz.jaoafa.mymaid.Command.Ip_To_Host;
+import xyz.jaoafa.mymaid.Command.JaoJao;
 import xyz.jaoafa.mymaid.Command.Jf;
 import xyz.jaoafa.mymaid.Command.TNTReload;
 import xyz.jaoafa.mymaid.EventHandler.PlayerCommand;
@@ -61,6 +62,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("data").setExecutor(new Data(this));
 		getCommand("tnt").setExecutor(new TNTReload(this));
 		getCommand("afk").setExecutor(new AFK(this));
+		getCommand("j2").setExecutor(new JaoJao(this));
     }
 
     @Override
@@ -316,7 +318,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public void onQuitGame(PlayerQuitEvent event){
   		nextbakrender = false;
   		event.getPlayer().sendMessage("[AFK] " + ChatColor.GREEN + "AFK false");
+  		Bukkit.dispatchCommand(event.getPlayer(), "gamerule sendCommandFeedback false");
 		Bukkit.dispatchCommand(event.getPlayer(), "title " + event.getPlayer().getName() + " reset");
+		Bukkit.dispatchCommand(event.getPlayer(), "gamerule sendCommandFeedback true");
   		ItemStack[] is = event.getPlayer().getInventory().getArmorContents();
 		if(is[3].getType() == Material.ICE){
 			ItemStack[] after={

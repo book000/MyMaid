@@ -24,7 +24,7 @@ public class Jf implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		// 変数定義
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("[DT] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+			sender.sendMessage("[JF] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}

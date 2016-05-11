@@ -47,3 +47,8 @@ commands:
       usage: /<command>
       permission: mymaid.afk
       permission-message: You do not have permission to perform this command.
+   j2:
+      description: jaojao
+      usage: /<command>
+      permission: mymaid.j2
+      permission-message: You do not have permission to perform this command.
