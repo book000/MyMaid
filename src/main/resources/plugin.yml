@@ -32,3 +32,18 @@ commands:
       usage: /<command>
       permission: mymaid.iphost
       permission-message: You do not have permission to perform this command.
+   data:
+      description: Server data
+      usage: /<command>
+      permission: mymaid.data
+      permission-message: You do not have permission to perform this command.
+   tnt:
+      description: TNT Explode
+      usage: /<command>
+      permission: mymaid.tnt
+      permission-message: You do not have permission to perform this command.
+   afk:
+      description: AFK
+      usage: /<command>
+      permission: mymaid.afk
+      permission-message: You do not have permission to perform this command.

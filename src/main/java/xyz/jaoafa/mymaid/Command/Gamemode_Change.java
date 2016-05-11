@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Gamemode_Change implements CommandExecutor {
@@ -19,6 +20,11 @@ public class Gamemode_Change implements CommandExecutor {
 	 * ゲームモードを変えます
 	 * /g [newgamemode] */
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("[DT] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
+			return true;
+		}
 		if(args.length == 0){
 			sender.sendMessage("[G] " + ChatColor.GREEN + "このコマンドは1つまたは2つの引数が必要です。");
 			return false;

@@ -2,8 +2,11 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\PlayerCommand.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\TabComplete\TabComplete.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gamemode_Change.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Jf.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Data.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\Explosion.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\MyMaid.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Chat.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\TNTReload.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynmap_Teleporter.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ip_To_Host.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\AFK.java
