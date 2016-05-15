@@ -4,29 +4,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.codec.net.URLCodec;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.CropState;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Crops;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -39,12 +39,15 @@ import xyz.jaoafa.mymaid.Command.Gamemode_Change;
 import xyz.jaoafa.mymaid.Command.Ip_To_Host;
 import xyz.jaoafa.mymaid.Command.JaoJao;
 import xyz.jaoafa.mymaid.Command.Jf;
+import xyz.jaoafa.mymaid.Command.SignLock;
 import xyz.jaoafa.mymaid.Command.TNTReload;
+import xyz.jaoafa.mymaid.Command.Vote;
 import xyz.jaoafa.mymaid.EventHandler.PlayerCommand;
 
 public class MyMaid extends JavaPlugin implements Listener {
 	Boolean nextbakrender = false;
 	public static Boolean tntexplode = true;
+
 	@Override
     public void onEnable() {
     	getLogger().info("(c) jao Minecraft Server MyMaid Project.");
@@ -53,6 +56,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new PlayerCommand(this), this);
 		this.getServer().getScheduler().runTaskTimer(this, new World_saver(), 0L, 36000L);
 		this.getServer().getScheduler().runTaskTimer(this, new Dynmap_Update_Render(), 0L, 36000L);
+
 
 		getCommand("chat").setExecutor(new Chat(this));
 		getCommand("jf").setExecutor(new Jf(this));
@@ -63,6 +67,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("tnt").setExecutor(new TNTReload(this));
 		getCommand("afk").setExecutor(new AFK(this));
 		getCommand("j2").setExecutor(new JaoJao(this));
+		getCommand("vote").setExecutor(new Vote(this));
+		getCommand("sign").setExecutor(new xyz.jaoafa.mymaid.Command.Sign(this));
+		getCommand("signlock").setExecutor(new SignLock(this));
     }
 
     @Override
@@ -147,93 +154,24 @@ public class MyMaid extends JavaPlugin implements Listener {
 
     	return;
     }
-	String[] datas;
-    URLCodec codec = new URLCodec();
-	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (!command.getName().equalsIgnoreCase("dt") && !command.getName().equalsIgnoreCase("plugin")) return onTabComplete(sender, command, alias, args);
-        if (args.length == 2) {
-            if (args[1].length() == 0 && command.getName().equalsIgnoreCase("dt")) { // /testまで
-            	try{
-					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=all");
-					// URL接続
-					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-					connect.setRequestMethod("GET");//プロトコルの設定
-					InputStream in=connect.getInputStream();//ファイルを開く
+	@EventHandler
+	public void onBreak(BlockBreakEvent e){
+		if(e.getBlock().getType() == Material.CROPS){
+			Crops block = (Crops)e.getBlock().getState().getData();
+			if(block.getState() == CropState.RIPE){
+				e.setCancelled(true);
+			}
+		}
+	}
 
-					String data;//ネットから読んだデータを保管する変数を宣言
-					data = readString(in);
-					if(data == null){
-						return null;
-					}
-					data = codec.decode(data, StandardCharsets.UTF_8.name());
-					if(!data.contains(",")){
-						return Collections.singletonList(data);
-					}
-					datas = data.split(",", 0);
-					return Arrays.asList(datas);
-				}catch(Exception e){
-					//例外処理が発生したら、表示する
-					System.out.println(e);
-					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
-				}
-            } else if(command.getName().equalsIgnoreCase("dt")) {
-            	try{
-					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[1]);
-					// URL接続
-					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-					connect.setRequestMethod("GET");//プロトコルの設定
-					connect.setRequestProperty("Accept-Language", "jp");
-					connect.setRequestProperty("Content-Type","text/html;charset=utf-8");
-					InputStream in=connect.getInputStream();//ファイルを開く
-					String data;//ネットから読んだデータを保管する変数を宣言
-					data = readString(in);
-					if(data == null){
-						return null;
-					}
-					data = codec.decode(data, StandardCharsets.UTF_8.name());
-					if(!data.contains(",")){
-						return Collections.singletonList(data);
-					}
-					datas = data.split(",", 0);
-					return Arrays.asList(datas);
-				}catch(Exception e){
-					//例外処理が発生したら、表示する
-					System.out.println(e);
-					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
-				}
-            }
-        }else if(args.length == 1){
-        	if (args[0].length() != 0 && command.getName().equalsIgnoreCase("dt")) {
-        		try{
-					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[0]);
-					// URL接続
-					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-					connect.setRequestMethod("GET");//プロトコルの設定
-					connect.setRequestProperty("Accept-Language", "jp");
-					connect.setRequestProperty("Content-Type","text/html;charset=utf-8");
-					InputStream in=connect.getInputStream();//ファイルを開く
-					String data;//ネットから読んだデータを保管する変数を宣言
-					data = readString(in);
-					if(data == null){
-						return null;
-					}
-					data = codec.decode(data, StandardCharsets.UTF_8.name());
-					if(!data.contains(",")){
-						return Collections.singletonList(data);
-					}
-					datas = data.split(",", 0);
-					return Arrays.asList(datas);
-				}catch(Exception e){
-					//例外処理が発生したら、表示する
-					System.out.println(e);
-					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+	@EventHandler
+	public void onFrom(EntityChangeBlockEvent e){
+		if(e.getBlock().getType() == Material.SOIL){
+			e.setCancelled(true);
+		}
+		//Bukkit.broadcastMessage("EntityChangeBlockEvent! " + e.getBlock().getType());
+	}
 
-				}
-        	}
-        }
-        //JavaPlugin#onTabComplete()を呼び出す
-        return onTabComplete(sender, command, alias, args);
-    }
 	@EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent e){
     	String command = e.getMessage();
@@ -262,8 +200,8 @@ public class MyMaid extends JavaPlugin implements Listener {
         	}
     	}
 	}
-	static String url_access(String address){
-		System.out.println("[PCA] URLConnect Start:"+address);
+	public static String url_access(String address){
+		System.out.println("[MyMaid] URLConnect Start:"+address);
 		try{
 			URL url=new URL(address);
 			// URL接続
@@ -309,27 +247,57 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 	}
 
+
+	@EventHandler //看板ブロックを右クリック
+	public void onSignClick(PlayerInteractEvent event) {
+	    if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+	    if(event.getPlayer().getItemInHand().getType() != Material.STICK) return;
+	    Block clickedBlock = event.getClickedBlock();
+	    Material material = clickedBlock.getType();
+	    if (material == Material.SIGN_POST || material == Material.WALL_SIGN) {
+	        Sign sign = (Sign) clickedBlock.getState();
+	        xyz.jaoafa.mymaid.Command.Sign.signlist.put(event.getPlayer().getName(), sign);
+	        int x = sign.getX();
+	        int y = sign.getY();
+	        int z = sign.getZ();
+	        event.getPlayer().sendMessage("[Sign] " + ChatColor.GREEN + "看板を選択しました。[" + x + " " + y + " " + z + "]");
+	    }
+	}
+
   	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
   		nextbakrender = true;
+  		UUID uuid = event.getPlayer().getUniqueId();
+  		String result = url_access("http://toma.webcrow.jp/jao.php?file=joinvote.php&u="+uuid);
+  		if(!result.equalsIgnoreCase("null")){
+  			event.setJoinMessage(ChatColor.YELLOW + event.getPlayer().getName() + ", " + ChatColor.YELLOW +result+" joined the game.");
+  		}
+
   	}
+
   	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuitGame(PlayerQuitEvent event){
+  		Player player = event.getPlayer();
   		nextbakrender = false;
-  		event.getPlayer().sendMessage("[AFK] " + ChatColor.GREEN + "AFK false");
-  		Bukkit.dispatchCommand(event.getPlayer(), "gamerule sendCommandFeedback false");
-		Bukkit.dispatchCommand(event.getPlayer(), "title " + event.getPlayer().getName() + " reset");
-		Bukkit.dispatchCommand(event.getPlayer(), "gamerule sendCommandFeedback true");
-  		ItemStack[] is = event.getPlayer().getInventory().getArmorContents();
+  		try {
+  			AFK.tnt.get(player.getName()).cancel();
+  		}catch(NullPointerException e){
+
+  		}
+  		player.sendMessage("[AFK] " + ChatColor.GREEN + "AFK false");
+  		Bukkit.dispatchCommand(player.getPlayer(), "gamerule sendCommandFeedback false");
+		Bukkit.dispatchCommand(player.getPlayer(), "title " + player.getPlayer().getName() + " reset");
+		Bukkit.dispatchCommand(player.getPlayer(), "gamerule sendCommandFeedback true");
+  		ItemStack[] is = player.getInventory().getArmorContents();
 		if(is[3].getType() == Material.ICE){
 			ItemStack[] after={
 					new ItemStack(is[0]),
 					new ItemStack(is[1]),
 					new ItemStack(is[2]),
 					new ItemStack(Material.AIR)};
-			event.getPlayer().getInventory().setArmorContents(after);
-			event.getPlayer().updateInventory();
+			player.getInventory().setArmorContents(after);
+			player.updateInventory();
 
 		}
   	}

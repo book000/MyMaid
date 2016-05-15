@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
@@ -99,6 +102,93 @@ public class Dynmap_Teleporter implements CommandExecutor {
 			return true;
 		}
 		return false;
+	}
+
+	String[] datas;
+    URLCodec codec = new URLCodec();
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		if (args.length == 2) {
+            if (args[1].length() == 0) { // /testまで
+            	try{
+					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=all");
+					// URL接続
+					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
+					connect.setRequestMethod("GET");//プロトコルの設定
+					InputStream in=connect.getInputStream();//ファイルを開く
+
+					String data;//ネットから読んだデータを保管する変数を宣言
+					data = readString(in);
+					if(data == null){
+						return null;
+					}
+					data = codec.decode(data, StandardCharsets.UTF_8.name());
+					if(!data.contains(",")){
+						return Collections.singletonList(data);
+					}
+					datas = data.split(",", 0);
+					return Arrays.asList(datas);
+				}catch(Exception e){
+					//例外処理が発生したら、表示する
+					System.out.println(e);
+					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+				}
+            } else{
+            	try{
+					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[1]);
+					// URL接続
+					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
+					connect.setRequestMethod("GET");//プロトコルの設定
+					connect.setRequestProperty("Accept-Language", "jp");
+					connect.setRequestProperty("Content-Type","text/html;charset=utf-8");
+					InputStream in=connect.getInputStream();//ファイルを開く
+					String data;//ネットから読んだデータを保管する変数を宣言
+					data = readString(in);
+					if(data == null){
+						return null;
+					}
+					data = codec.decode(data, StandardCharsets.UTF_8.name());
+					if(!data.contains(",")){
+						return Collections.singletonList(data);
+					}
+					datas = data.split(",", 0);
+					return Arrays.asList(datas);
+				}catch(Exception e){
+					//例外処理が発生したら、表示する
+					System.out.println(e);
+					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+				}
+            }
+        }else if(args.length == 1){
+        	if (args[0].length() != 0 && command.getName().equalsIgnoreCase("dt")) {
+        		try{
+					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[0]);
+					// URL接続
+					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
+					connect.setRequestMethod("GET");//プロトコルの設定
+					connect.setRequestProperty("Accept-Language", "jp");
+					connect.setRequestProperty("Content-Type","text/html;charset=utf-8");
+					InputStream in=connect.getInputStream();//ファイルを開く
+					String data;//ネットから読んだデータを保管する変数を宣言
+					data = readString(in);
+					if(data == null){
+						return null;
+					}
+					data = codec.decode(data, StandardCharsets.UTF_8.name());
+					if(!data.contains(",")){
+						return Collections.singletonList(data);
+					}
+					datas = data.split(",", 0);
+					return Arrays.asList(datas);
+				}catch(Exception e){
+					//例外処理が発生したら、表示する
+					System.out.println(e);
+					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+
+				}
+        	}
+        }
+        //JavaPlugin#onTabComplete()を呼び出す
+        return onTabComplete(sender, command, alias, args);
 	}
 	//InputStreamより１行だけ読む（読めなければnullを返す）
 	static String readString(InputStream in){
