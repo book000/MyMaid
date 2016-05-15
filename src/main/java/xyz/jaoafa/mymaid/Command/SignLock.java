@@ -32,12 +32,27 @@ public class SignLock implements CommandExecutor {
 		int x = sign.getX();
 		int y = sign.getY();
 		int z = sign.getZ();
-		String result = MyMaid.url_access("http://toma.webcrow.jp/jao.php?file=signlock.php&lock&p="+player.getName()+"&x="+x+"&y="+y+"&z="+z);
-		if(result.equalsIgnoreCase("Err")){
-			sender.sendMessage("[Sign] " + ChatColor.GREEN + "ロック出来ませんでした。");
-		}else{
-			sender.sendMessage("[Sign] " + ChatColor.GREEN + "ロックしました。");
+		if(args.length == 0){
+			String result = MyMaid.url_access("http://toma.webcrow.jp/jao.php?file=signlock.php&lock&p="+player.getName()+"&x="+x+"&y="+y+"&z="+z);
+			if(result.equalsIgnoreCase("Err")){
+				sender.sendMessage("[Sign] " + ChatColor.GREEN + "ロック出来ませんでした。");
+			}else{
+				sender.sendMessage("[Sign] " + ChatColor.GREEN + "ロックしました。");
+			}
+		}else if(args.length == 1){
+			if(args[0].equalsIgnoreCase("reset")){
+				String result = MyMaid.url_access("http://toma.webcrow.jp/jao.php?file=signlock.php&reset&p="+player.getName()+"&x="+x+"&y="+y+"&z="+z);
+				if(result.equalsIgnoreCase("Err")){
+					sender.sendMessage("[Sign] " + ChatColor.GREEN + "ロック解除出来ませんでした。");
+				}else{
+					sender.sendMessage("[Sign] " + ChatColor.GREEN + "ロック解除しました。");
+				}
+			}else{
+				sender.sendMessage("[Sign] " + ChatColor.GREEN + "resetを指定してください");
+				return true;
+			}
 		}
+
 		return true;
 	}
 }
