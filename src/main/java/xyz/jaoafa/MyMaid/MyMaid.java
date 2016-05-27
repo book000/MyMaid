@@ -9,21 +9,29 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.CropState;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Crops;
@@ -32,13 +40,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import xyz.jaoafa.mymaid.Command.AFK;
+import xyz.jaoafa.mymaid.Command.Access;
+import xyz.jaoafa.mymaid.Command.Book;
 import xyz.jaoafa.mymaid.Command.Chat;
+import xyz.jaoafa.mymaid.Command.Cmdb;
 import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
 import xyz.jaoafa.mymaid.Command.Gamemode_Change;
+import xyz.jaoafa.mymaid.Command.Head;
 import xyz.jaoafa.mymaid.Command.Ip_To_Host;
 import xyz.jaoafa.mymaid.Command.JaoJao;
 import xyz.jaoafa.mymaid.Command.Jf;
+import xyz.jaoafa.mymaid.Command.Prison;
+import xyz.jaoafa.mymaid.Command.SaveWorld;
 import xyz.jaoafa.mymaid.Command.SignLock;
 import xyz.jaoafa.mymaid.Command.TNTReload;
 import xyz.jaoafa.mymaid.Command.Vote;
@@ -57,10 +71,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 		this.getServer().getScheduler().runTaskTimer(this, new World_saver(), 0L, 36000L);
 		this.getServer().getScheduler().runTaskTimer(this, new Dynmap_Update_Render(), 0L, 36000L);
 
-
 		getCommand("chat").setExecutor(new Chat(this));
 		getCommand("jf").setExecutor(new Jf(this));
 		getCommand("dt").setExecutor(new Dynmap_Teleporter(this));
+		getCommand("dt").setTabCompleter(new Dynmap_Teleporter(this));
 		getCommand("g").setExecutor(new Gamemode_Change(this));
 		getCommand("iphost").setExecutor(new Ip_To_Host(this));
 		getCommand("data").setExecutor(new Data(this));
@@ -70,6 +84,13 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("vote").setExecutor(new Vote(this));
 		getCommand("sign").setExecutor(new xyz.jaoafa.mymaid.Command.Sign(this));
 		getCommand("signlock").setExecutor(new SignLock(this));
+		getCommand("save-world").setExecutor(new SaveWorld(this));
+		getCommand("head").setExecutor(new Head(this));
+		getCommand("cmdb").setExecutor(new Cmdb(this));
+		getCommand("book").setExecutor(new Book(this));
+		getCommand("jail").setExecutor(new Prison(this));
+		getCommand("jail").setTabCompleter(new Prison(this));
+		getCommand("access").setExecutor(new Access(this));
     }
 
     @Override
@@ -83,6 +104,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 		public void run() {
 			if(nextbakrender){
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");
+				for(Player play: Bukkit.getServer().getOnlinePlayers()) {
+					play.sendMessage("[MyMaid] " + ChatColor.GREEN +"あなたのユーザーページはこちらです。https://jaoafa.xyz/user/"+play.getName()+"");
+				}
+				Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN +"自己紹介の変更はこちらより https://jaoafa.xyz/minecraftjp/login");
 			}
 
 		}
@@ -97,31 +122,110 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 	}
 
+    @EventHandler
+    public void onPlayerMoveEvent(PlayerMoveEvent e){
+    	Location to = e.getTo();
+    	Player player = e.getPlayer();
+  		if(!Prison.prison.containsKey(player.getName())){
+  			return;
+  		}
+  		if(Prison.prison.get(player.getName())){
+  			return;
+  		}
+  		World World = Bukkit.getServer().getWorld("Jao_Afa");
+  		Location prison = new Location(World, 1767, 70, 1767);
+  		if(prison.distance(to) >= 150){
+  			player.sendMessage("[PRISON] " + ChatColor.GREEN + "あなたは南の楽園から出られません！");
+  			e.setCancelled(true);
+  			if(prison.distance(to) >= 200){
+  				player.teleport(prison);
+  			}
+  		}
+    }
 
+    @EventHandler
+    public void onBlockPlaceEvent(BlockPlaceEvent e){
+    	Player player = e.getPlayer();
+  		if(!Prison.prison.containsKey(player.getName())){
+  			return;
+  		}
+  		if(Prison.prison_block.get(player.getName())){
+  			return;
+  		}
+  		e.setCancelled(true);
+  		player.sendMessage("[JAIL] " + ChatColor.GREEN + "あなたはブロックを置けません。");
+  		getLogger().info("[JAIL] "+player.getName()+"==>あなたはブロックを置けません。");
+    }
+
+    @EventHandler
+    public void onBlockBreakEvent(BlockBreakEvent e){
+    	Player player = e.getPlayer();
+  		if(!Prison.prison.containsKey(player.getName())){
+  			return;
+  		}
+  		if(Prison.prison_block.get(player.getName())){
+  			return;
+  		}
+  		e.setCancelled(true);
+  		player.sendMessage("[JAIL] " + ChatColor.GREEN + "あなたはブロックを壊せません。");
+  		getLogger().info("[JAIL] "+player.getName()+"==>あなたはブロックを壊せません。");
+    }
+    @EventHandler
+    public void onBlockIgniteEvent(BlockIgniteEvent e){
+    	Player player = e.getPlayer();
+  		if(!Prison.prison.containsKey(player.getName())){
+  			return;
+  		}
+  		e.setCancelled(true);
+  		player.sendMessage("[JAIL] " + ChatColor.GREEN + "あなたはブロックを着火できません。");
+  		getLogger().info("[JAIL] "+player.getName()+"==>あなたはブロックを着火できません。");
+    }
+    @EventHandler
+    public void onPlayerBucketEmptyEvent(PlayerBucketEmptyEvent e){
+    	Player player = e.getPlayer();
+  		if(!Prison.prison.containsKey(player.getName())){
+  			return;
+  		}
+  		e.setCancelled(true);
+  		player.sendMessage("[JAIL] " + ChatColor.GREEN + "あなたは水や溶岩を撒けません。");
+  		getLogger().info("[JAIL] "+player.getName()+"==>あなたは水や溶岩を撒けません。");
+    }
+    @EventHandler
+    public void onPlayerPickupItemEvent(PlayerPickupItemEvent e){
+    	Player player = e.getPlayer();
+  		if(!Prison.prison.containsKey(player.getName())){
+  			return;
+  		}
+  		e.setCancelled(true);
+    }
 	BukkitTask task = null;
 	@EventHandler
     public void onExplosion(EntityExplodeEvent e){
     	try {
+    		BlockState states = null;
+        	for(Block block : e.blockList()){
+        		states = block.getState();
+        		break;
+        	}
+        	Location location = states.getLocation();
+        	int x = location.getBlockX();
+        	int y = location.getBlockY();
+        	int z = location.getBlockZ();
+
+        	double min = 1.79769313486231570E+308;
+        	Player min_player = null;
+        	for(Player player: Bukkit.getServer().getOnlinePlayers()){
+        		org.bukkit.Location location_p = player.getLocation();
+            	double distance = location.distance(location_p);
+            	if(distance < min){
+            		min = distance;
+            		min_player = player;
+            	}
+        	}
+        	if(min_player.hasPermission("mymaid.pex.default") || min_player.hasPermission("mymaid.pex.provisional")){
+        		e.setCancelled(true);
+        	}
     		if(tntexplode){
-        		BlockState states = null;
-            	for(Block block : e.blockList()){
-            		states = block.getState();
-            		break;
-            	}
-            	org.bukkit.Location location = states.getLocation();
-            	int x = location.getBlockX();
-            	int y = location.getBlockY();
-            	int z = location.getBlockZ();
-            	double min = 1.79769313486231570E+308;
-            	Player min_player = null;
-            	for(Player player: Bukkit.getServer().getOnlinePlayers()){
-            		org.bukkit.Location location_p = player.getLocation();
-                	double distance = location.distance(location_p);
-                	if(distance < min){
-                		min = distance;
-                		min_player = player;
-                	}
-            	}
             	if(min < 20 && min_player.hasPermission("pin_code_auth.joinmsg")){
             		// 無視
             	}else{
@@ -215,6 +319,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 			in.close();//InputStreamを閉じる
 			connect.disconnect();//サイトの接続を切断
 			System.out.println("[MyMaid] URLConnect End:"+address);
+			System.out.println(data);
 			return data;
 		}catch(Exception e){
 			//例外処理が発生したら、表示する
@@ -263,6 +368,18 @@ public class MyMaid extends JavaPlugin implements Listener {
 	        event.getPlayer().sendMessage("[Sign] " + ChatColor.GREEN + "看板を選択しました。[" + x + " " + y + " " + z + "]");
 	    }
 	}
+	@EventHandler
+	public void onHeadClick(PlayerInteractEvent event) {
+	    if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+	    if(event.getPlayer().getItemInHand().getType() != Material.STICK) return;
+	    Block clickedBlock = event.getClickedBlock();
+	    Material material = clickedBlock.getType();
+	    if (material == Material.SKULL) {
+	        Skull skull = (Skull) clickedBlock.getState();
+	        Player player = event.getPlayer();
+	        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw "+player.getName()+" [\"\",{\"text\":\"このユーザー「"+skull.getOwner()+"」のユーザーページを開く\",\"color\":\"aqua\",\"underlined\":true,\"clickEvent\":{\"action\":\"open_url\",\"value\":\"https://jaoafa.xyz/user/"+skull.getOwner()+"\"}}]");
+	    }
+	}
 
   	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
@@ -286,9 +403,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 
   		}
   		player.sendMessage("[AFK] " + ChatColor.GREEN + "AFK false");
-  		Bukkit.dispatchCommand(player.getPlayer(), "gamerule sendCommandFeedback false");
-		Bukkit.dispatchCommand(player.getPlayer(), "title " + player.getPlayer().getName() + " reset");
-		Bukkit.dispatchCommand(player.getPlayer(), "gamerule sendCommandFeedback true");
+  		//Bukkit.dispatchCommand(player.getPlayer(), "gamerule sendCommandFeedback false");
+		//Bukkit.dispatchCommand(player.getPlayer(), "title " + player.getPlayer().getName() + " reset");
+		//Bukkit.dispatchCommand(player.getPlayer(), "gamerule sendCommandFeedback true");
   		ItemStack[] is = player.getInventory().getArmorContents();
 		if(is[3].getType() == Material.ICE){
 			ItemStack[] after={

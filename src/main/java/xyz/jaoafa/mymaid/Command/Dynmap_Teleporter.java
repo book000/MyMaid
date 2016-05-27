@@ -16,10 +16,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Dynmap_Teleporter implements CommandExecutor {
+public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 	JavaPlugin plugin;
 	public Dynmap_Teleporter(JavaPlugin plugin) {
 		this.plugin = plugin;
@@ -188,7 +189,7 @@ public class Dynmap_Teleporter implements CommandExecutor {
         	}
         }
         //JavaPlugin#onTabComplete()を呼び出す
-        return onTabComplete(sender, command, alias, args);
+        return plugin.onTabComplete(sender, command, alias, args);
 	}
 	//InputStreamより１行だけ読む（読めなければnullを返す）
 	static String readString(InputStream in){

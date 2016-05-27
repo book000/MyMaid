@@ -8,47 +8,47 @@ website: https://jaoafa.xyz/
 default-permission: NOT_OP
 commands:
    jf:
-      description: jaoafa
+      description: Say jaoafa
       usage: /<command>
       permission: mymaid.jf
       permission-message: You dont have <permission>
    dt:
-      description: Town, City, Country Teleport Command.
-      usage: /<command> [name]
+      description: Teleport to dynmap location.
+      usage: /<command> [player] <location>
       permission: command_teleport.dt
       permission-message: You do not have permission to perform this command.
    g:
-      description: gamemode changed.
-      usage: /<command>
+      description: Change your gamemode
+      usage: /<command> <0|1|2|3>
       permission: mymaid.gamemode
       permission-message: You do not have permission to perform this command.
    chat:
-      description: chat gisou
-      usage: /<command> [Player] [Message]
+      description: Make chat with fake player
+      usage: /<command> <fake player> <message>
       permission: mymaid.chat
       permission-message: You do not have permission to perform this command.
    iphost:
-      description: ip to host name.
+      description: Find out host name from ip address
       usage: /<command>
       permission: mymaid.iphost
       permission-message: You do not have permission to perform this command.
    data:
-      description: Server data
+      description: Show Server data
       usage: /<command>
       permission: mymaid.data
       permission-message: You do not have permission to perform this command.
    tnt:
-      description: TNT Explode
+      description: TNT Explode is what(philosophical)
       usage: /<command>
       permission: mymaid.tnt
       permission-message: You do not have permission to perform this command.
    afk:
-      description: AFK
+      description: AFK is not AFK
       usage: /<command>
       permission: mymaid.afk
       permission-message: You do not have permission to perform this command.
    j2:
-      description: jaojao
+      description: Say jaojao
       usage: /<command>
       permission: mymaid.j2
       permission-message: You do not have permission to perform this command.
@@ -58,12 +58,46 @@ commands:
       permission: mymaid.vote
       permission-message: You do not have permission to perform this command.
    sign:
-      description: Sign Change
-      usage: /<command>
+      description: Change sentence of sign
+      usage: /<command> set <row number> <new message>
       permission: mymaid.sign
       permission-message: You do not have permission to perform this command.
    signlock:
-      description: Sign Lock
+      description: Lock the sign
       usage: /<command>
       permission: mymaid.signlock
+      permission-message: You do not have permission to perform this command.
+   save-world:
+      description: Save the world
+      usage: /<command>
+      permission: pin_code_auth.save-world
+      permission-message: You do not have permission to perform this command.
+   head:
+      description: Give player skull to you
+      usage: /<command> <player>
+      permission: mymaid.head
+      permission-message: You do not have permission to perform this command.
+   cmdb:
+      description: Give command block to you
+      usage: /<command>
+      permission: mymaid.cmdb
+      permission-message: You do not have permission to perform this command.
+   book:
+      description: Create command makes book
+      usage: /<command>
+      permission: mymaid.book
+      permission-message: You do not have permission to perform this command.
+   jail:
+      description: Put into eden of south
+      usage: |-
+             
+             /<command> add <player> - Put player into jail
+             /<command> remove <player> - Release player from jail
+             /<command> list - Show jailer list
+      permission: mymaid.jail
+      permission-message: You do not have permission to perform this command.
+   access:
+      description: User Access Data
+      usage: /<command> <player>
+      permission: mymaid.access
       permission-message: You do not have permission to perform this command.
