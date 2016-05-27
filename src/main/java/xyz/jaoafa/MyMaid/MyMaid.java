@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -104,10 +106,18 @@ public class MyMaid extends JavaPlugin implements Listener {
 		public void run() {
 			if(nextbakrender){
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");
+				Date Date = new Date();
+				SimpleDateFormat H = new SimpleDateFormat("H");
+				SimpleDateFormat m = new SimpleDateFormat("m");
+				SimpleDateFormat s = new SimpleDateFormat("s");
+				String Hs = H.format(Date);
+				String ms = m.format(Date);
+				String ss = s.format(Date);
+				String date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
 				for(Player play: Bukkit.getServer().getOnlinePlayers()) {
-					play.sendMessage("[MyMaid] " + ChatColor.GREEN +"あなたのユーザーページはこちらです。https://jaoafa.xyz/user/"+play.getName()+"");
+					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + "あなたのユーザーページはこちらです。https://jaoafa.xyz/user/"+play.getName()+"");
 				}
-				Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN +"自己紹介の変更はこちらより https://jaoafa.xyz/minecraftjp/login");
+				Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + "自己紹介の変更はこちらより https://jaoafa.xyz/minecraftjp/login");
 			}
 
 		}
