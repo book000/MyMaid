@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -16,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.CommandBlock;
 import org.bukkit.block.Sign;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
@@ -26,8 +29,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -46,11 +51,13 @@ import xyz.jaoafa.mymaid.Command.Access;
 import xyz.jaoafa.mymaid.Command.Book;
 import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Cmdb;
+import xyz.jaoafa.mymaid.Command.Cmdsearch;
 import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
 import xyz.jaoafa.mymaid.Command.Gamemode_Change;
 import xyz.jaoafa.mymaid.Command.Head;
 import xyz.jaoafa.mymaid.Command.Ip_To_Host;
+import xyz.jaoafa.mymaid.Command.Ja;
 import xyz.jaoafa.mymaid.Command.JaoJao;
 import xyz.jaoafa.mymaid.Command.Jf;
 import xyz.jaoafa.mymaid.Command.Prison;
@@ -63,7 +70,7 @@ import xyz.jaoafa.mymaid.EventHandler.PlayerCommand;
 public class MyMaid extends JavaPlugin implements Listener {
 	Boolean nextbakrender = false;
 	public static Boolean tntexplode = true;
-
+	public static Map<String,String> chatcolor = new HashMap<String,String>();
 	@Override
     public void onEnable() {
     	getLogger().info("(c) jao Minecraft Server MyMaid Project.");
@@ -93,6 +100,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("jail").setExecutor(new Prison(this));
 		getCommand("jail").setTabCompleter(new Prison(this));
 		getCommand("access").setExecutor(new Access(this));
+		getCommand("ja").setExecutor(new Ja(this));
+		getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
     }
 
     @Override
@@ -117,7 +126,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 				for(Player play: Bukkit.getServer().getOnlinePlayers()) {
 					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + "あなたのユーザーページはこちらです。https://jaoafa.xyz/user/"+play.getName()+"");
 				}
-				Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + "自己紹介の変更はこちらより https://jaoafa.xyz/minecraftjp/login");
+				tntexplode = true;
+				//Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + "自己紹介の変更はこちらより https://jaoafa.xyz/minecraftjp/login");
 			}
 
 		}
@@ -151,6 +161,17 @@ public class MyMaid extends JavaPlugin implements Listener {
   				player.teleport(prison);
   			}
   		}
+    }
+
+    @EventHandler
+    public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e){
+    	Player player = e.getPlayer();
+  		if(!Prison.prison.containsKey(player.getName())){
+  			return;
+  		}
+  		e.setCancelled(true);
+  		player.sendMessage("[JAIL] " + ChatColor.GREEN + "あなたはコマンドを実行できません。");
+  		getLogger().info("[JAIL] "+player.getName()+"==>あなたはコマンドを実行できません。");
     }
 
     @EventHandler
@@ -208,8 +229,69 @@ public class MyMaid extends JavaPlugin implements Listener {
   		}
   		e.setCancelled(true);
     }
+    @EventHandler
+    public void onBlockRedstoneEvent(BlockRedstoneEvent e){
+    	if(e.getOldCurrent() == 0 && e.getNewCurrent() > 0){
+    		if(e.getBlock().getType() == Material.COMMAND){
+        		CommandBlock cmdb = (CommandBlock)e.getBlock().getState();
+        		for(Player player: Bukkit.getServer().getOnlinePlayers()){
+        			if(Cmdsearch.start.containsKey(player.getName())){
+        				if(cmdb.getCommand().startsWith(Cmdsearch.start.get(player.getName()))){
+        					double min = 1.79769313486231570E+308;
+        		        	Player min_player = null;
+        					for(Player p: Bukkit.getServer().getOnlinePlayers()){
+        						Location location_p = p.getLocation();
+        		            	double distance = cmdb.getLocation().distance(location_p);
+        		            	if(distance < min){
+        		            		min = distance;
+        		            		min_player = p;
+        		            	}
+        		        	}
+        					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "Found Cmdb(start)");
+        					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "XYZ: " + cmdb.getX() + " " + cmdb.getY() + " " + cmdb.getZ());
+        					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "Near Player: " + min_player.getName() + " (" + min + "Block)");
+        				}
+    				}
+    				if(Cmdsearch.end.containsKey(player.getName())){
+    					if(cmdb.getCommand().endsWith(Cmdsearch.start.get(player.getName()))){
+        					double min = 1.79769313486231570E+308;
+        		        	Player min_player = null;
+        					for(Player p: Bukkit.getServer().getOnlinePlayers()){
+        						Location location_p = p.getLocation();
+        		            	double distance = cmdb.getLocation().distance(location_p);
+        		            	if(distance < min){
+        		            		min = distance;
+        		            		min_player = p;
+        		            	}
+        		        	}
+        					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "Found Cmdb(end)");
+        					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "XYZ: " + cmdb.getX() + " " + cmdb.getY() + " " + cmdb.getZ());
+        					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "Near Player: " + min_player.getName() + " (" + min + "Block)");
+        				}
+    				}
+    				if(Cmdsearch.in.containsKey(player.getName())){
+    					if(cmdb.getCommand().indexOf(Cmdsearch.start.get(player.getName())) != -1){
+        					double min = 1.79769313486231570E+308;
+        		        	Player min_player = null;
+        					for(Player p: Bukkit.getServer().getOnlinePlayers()){
+        						Location location_p = p.getLocation();
+        		            	double distance = cmdb.getLocation().distance(location_p);
+        		            	if(distance < min){
+        		            		min = distance;
+        		            		min_player = p;
+        		            	}
+        		        	}
+        					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "Found Cmdb(in)");
+        					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "XYZ: " + cmdb.getX() + " " + cmdb.getY() + " " + cmdb.getZ());
+        					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "Near Player: " + min_player + " (" + min + "Block)");
+        				}
+    				}
+            	}
+        	}
+    	}
+    }
 	BukkitTask task = null;
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
     public void onExplosion(EntityExplodeEvent e){
     	try {
     		BlockState states = null;
@@ -263,7 +345,6 @@ public class MyMaid extends JavaPlugin implements Listener {
         	}
     	}catch(Exception e1) {
     		tntexplode = false;
-    		Bukkit.getLogger().info(e1.getMessage());
     	}
 
     	return;
@@ -296,20 +377,38 @@ public class MyMaid extends JavaPlugin implements Listener {
         		if(args[1].equalsIgnoreCase("@e")){
         			player.sendMessage("[COMMAND] " + ChatColor.GREEN + "kill @eはサーバー内のすべてのエンティティが削除されてしまうので使用できません");
         			e.setCancelled(true);
+        			return;
         		}
         		if(args[1].equalsIgnoreCase("@a")){
         			player.sendMessage("[COMMAND] " + ChatColor.GREEN + "kill @aはサーバー内のすべてのプレイヤーが殺害されてしまうので使用できません");
         			e.setCancelled(true);
+        			return;
+        		}
+        		if(args[1].startsWith("@e")){
+        			if(player.hasPermission("mymaid.pex.provisional") || player.hasPermission("mymaid.pex.default")){
+        				player.sendMessage("[COMMAND] " + ChatColor.GREEN + "└( ・з・)┘");
+            			e.setCancelled(true);
+            			return;
+        			}
         		}
         	}
     		if(args[0].equalsIgnoreCase("/minecraft:kill")){
         		if(args[1].equalsIgnoreCase("@e")){
         			player.sendMessage("[COMMAND] " + ChatColor.GREEN + "kill @eはサーバー内のすべてのエンティティが削除されてしまうので使用できません");
         			e.setCancelled(true);
+        			return;
         		}
         		if(args[1].equalsIgnoreCase("@a")){
         			player.sendMessage("[COMMAND] " + ChatColor.GREEN + "kill @aはサーバー内のすべてのプレイヤーが殺害されてしまうので使用できません");
         			e.setCancelled(true);
+        			return;
+        		}
+        		if(args[1].startsWith("@e")){
+        			if(player.hasPermission("mymaid.pex.provisional") || player.hasPermission("mymaid.pex.default")){
+        				player.sendMessage("[COMMAND] " + ChatColor.GREEN + "└( ・з・)┘");
+            			e.setCancelled(true);
+            			return;
+        			}
         		}
         	}
     	}
@@ -391,19 +490,73 @@ public class MyMaid extends JavaPlugin implements Listener {
 	    }
 	}
 
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
+		String Msg = e.getPlayer().getName();
+		Date Date = new Date();
+		String message = e.getMessage();
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
+		if(e.getPlayer().hasPermission("mymaid.pex.limited")){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				e.setFormat(Msg);
+	  	}else if(Prison.prison.containsKey(e.getPlayer().getName())){
+			Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			e.setFormat(Msg);
+  		}else if(chatcolor.containsKey(e.getPlayer().getName())){
+	  		int i = Integer.parseInt(chatcolor.get(e.getPlayer().getName()));
+			if(i >= 0 && i <= 5){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.WHITE + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 6 && i <= 19){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_BLUE + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 20 && i <= 33){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.BLUE + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 34 && i <= 47){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.AQUA + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 48 && i <= 61){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_AQUA + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 62 && i <= 76){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_GREEN + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 77 && i <= 89){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.GREEN + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 90 && i <= 103){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.YELLOW + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 104 && i <= 117){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.GOLD + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 118 && i <= 131){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.RED + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 132 && i <= 145){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_RED + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 146 && i <= 159){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_PURPLE + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}else if(i >= 160){
+				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.LIGHT_PURPLE + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			}
+			e.setFormat(Msg);
+			//e.setCancelled(true);
+			//Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": " + message);
+		}else{
+			Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.GRAY + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			e.setFormat(Msg);
+		}
+	}
+
   	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
   		nextbakrender = true;
   		UUID uuid = event.getPlayer().getUniqueId();
-  		String result = url_access("http://toma.webcrow.jp/jao.php?file=joinvote.php&u="+uuid);
+  		String data = url_access("http://toma.webcrow.jp/jao.php?file=joinvote.php&u="+uuid);
+  		String[] arr = data.split("###", 0);
+  		String result = arr[0];
+  		chatcolor.put(event.getPlayer().getName(), arr[1]);
   		if(!result.equalsIgnoreCase("null")){
-  			event.setJoinMessage(ChatColor.YELLOW + event.getPlayer().getName() + ", " + ChatColor.YELLOW +result+" joined the game.");
+  			event.setJoinMessage(ChatColor.YELLOW + event.getPlayer().getName() + ChatColor.YELLOW + ", " + ChatColor.YELLOW +result+" joined the game.");
   		}
-
+  		if(event.getPlayer().hasPermission("mymaid.pex.limited")){
+  			event.setJoinMessage(ChatColor.RED + event.getPlayer().getName() + ChatColor.YELLOW + " joined the game.");
+		}
   	}
-
-  	@SuppressWarnings("deprecation")
-	@EventHandler(priority = EventPriority.HIGHEST)
+  	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuitGame(PlayerQuitEvent event){
   		Player player = event.getPlayer();
   		nextbakrender = false;

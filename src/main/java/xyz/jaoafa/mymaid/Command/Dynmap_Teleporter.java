@@ -86,15 +86,64 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				System.out.println(e);
 				sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
 			}
-		}else if(args.length == 2){
+		}else if(args.length >= 2){
 			String p;
 			p = args[0];
+			String text = "";
+			int c = 1;
+			while(args.length > c){
+				text += args[c];
+				if(args.length != (c+1)){
+					text+=" ";
+				}
+				c++;
+			}
 			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 				if(player.getName().equalsIgnoreCase(p)) {
-					if(Bukkit.dispatchCommand(player, "dt " + args[1])){
-						sender.sendMessage("[DT] " + ChatColor.GREEN + "正常に処理を実行しました。");
-					}else{
-						sender.sendMessage("[DT] " + ChatColor.GREEN + "エラーが発生しました。");
+					String location = text;
+					try {
+						location = codec.encode(location);
+					} catch (EncoderException e1) {
+
+					}
+					try{
+						URL url=new URL("http://toma.webcrow.jp/jaoget.php?location=" + location);
+						// URL接続
+						HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
+						connect.setRequestMethod("GET");//プロトコルの設定
+						InputStream in=connect.getInputStream();//ファイルを開く
+						String data;//ネットから読んだデータを保管する変数を宣言
+						if(location.equalsIgnoreCase("list")){
+							sender.sendMessage("[DT] " + ChatColor.GREEN + "----- Location List -----");
+							data = readString(in);//1行読み取り
+							while (data != null) {//読み取りが成功していれば
+								data = codec.decode(data, StandardCharsets.UTF_8.name());
+								sender.sendMessage("[DT] " + ChatColor.GREEN + data);
+								data = readString(in);//次を読み込む
+							}
+							sender.sendMessage("[DT] " + ChatColor.GREEN + "-------------------------");
+							return true;
+						}else{
+							data = readString(in);
+							if(data.equalsIgnoreCase("NOLOCATION")){
+								sender.sendMessage("[DT] " + ChatColor.GREEN + "その名前の場所は登録されていません。/dt listで場所を確認してください。");
+								return true;
+							}else{
+								String[] datas = data.split(",", 0);
+								String x = datas[0];
+								String y = datas[1];
+								String z = datas[2];
+								String world = datas[3];
+								Bukkit.dispatchCommand(player, "mvtp " + world);
+								Bukkit.dispatchCommand(player, "tp " + x + " " + y + " " + z);
+								return true;
+							}
+						}
+
+					}catch(Exception e){
+						//例外処理が発生したら、表示する
+						System.out.println(e);
+						sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
 					}
 					return true;
 				}

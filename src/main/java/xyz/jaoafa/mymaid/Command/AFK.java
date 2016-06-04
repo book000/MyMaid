@@ -23,7 +23,6 @@ public class AFK implements CommandExecutor{
 		this.plugin = plugin;
 	}
 	public static Map<String,BukkitTask> tnt = new HashMap<String,BukkitTask>();
-	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("[DT] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");

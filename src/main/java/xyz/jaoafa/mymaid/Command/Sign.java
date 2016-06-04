@@ -61,7 +61,10 @@ public class Sign implements CommandExecutor {
 			String text = "";
 			int c = 2;
 			while(args.length > c){
-				text += args[c]+" ";
+				text += args[c];
+				if(args.length != (c+1)){
+					text+=" ";
+				}
 				c++;
 			}
 	        sign.setLine(Integer.parseInt(args[1])-1, text);

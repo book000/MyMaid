@@ -38,6 +38,7 @@ public class Vote implements CommandExecutor {
 				String name = p.getName();
 				UUID uuid = p.getUniqueId();
 				String i = MyMaid.url_access("http://toma.webcrow.jp/jaovote.php?p="+name+"&u="+uuid);
+				MyMaid.chatcolor.put(name, i);
 				if(i.equalsIgnoreCase("3")){
 					if(p.hasPermission("mymaid.pex.default")){
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user "+p.getName()+" group set R");

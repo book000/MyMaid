@@ -14,9 +14,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.jaoafa.mymaid.MyMaid;
 
-public class Jf implements CommandExecutor {
+public class Ja implements CommandExecutor {
 	JavaPlugin plugin;
-	public Jf(JavaPlugin plugin) {
+	public Ja(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -32,7 +32,6 @@ public class Jf implements CommandExecutor {
 			return true;
 		}
 		final Player player = (Player) sender;
-
 		if(player.hasPermission("mymaid.pex.limited")){
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
 
@@ -67,7 +66,6 @@ public class Jf implements CommandExecutor {
 			}else if(i >= 160){
 				Msg = player.getName().replaceFirst(player.getName(), ChatColor.LIGHT_PURPLE + "■" + ChatColor.WHITE + player.getName());
 			}
-
 		}else{
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.GRAY + "■" + ChatColor.WHITE + player.getName());
 		}
@@ -80,12 +78,12 @@ public class Jf implements CommandExecutor {
 				public void run() {
 					Date Date = new Date();
 					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-					Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": afa");
+					Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": uwa");
 					cancel();
 				}
 			}.runTaskLater(plugin, 60);
 		}catch(Exception e){
-			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": afa");
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": uwa");
 		}
 
 		return true;

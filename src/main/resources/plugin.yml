@@ -11,7 +11,7 @@ commands:
       description: Say jaoafa
       usage: /<command>
       permission: mymaid.jf
-      permission-message: You dont have <permission>
+      permission-message: You do not have permission to perform this command.
    dt:
       description: Teleport to dynmap location.
       usage: /<command> [player] <location>
@@ -100,4 +100,19 @@ commands:
       description: User Access Data
       usage: /<command> <player>
       permission: mymaid.access
+      permission-message: You do not have permission to perform this command.
+   ja:
+      description: Say jaiuwa
+      usage: /<command>
+      permission: mymaid.ja
+      permission-message: You do not have permission to perform this command.
+   cmdsearch:
+      description: cmdblock search
+      usage: /<command>
+      permission: mymaid.cmdsearch
+      permission-message: You do not have permission to perform this command.
+   skk:
+      description: SiKaKu reload
+      usage: /<command>
+      permission: mymaid.skk
       permission-message: You do not have permission to perform this command.

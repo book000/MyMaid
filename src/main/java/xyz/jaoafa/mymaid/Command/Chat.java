@@ -50,7 +50,7 @@ public class Chat implements CommandExecutor {
 			ms = m.format(Date);
 			ss = s.format(Date);
 			date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
-			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.WHITE + args[0] +  ": " + text);
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GRAY + "■" + ChatColor.WHITE + args[0] +  ": " + text);
 		}else{
 			sender.sendMessage("[CHAT] " + ChatColor.GREEN + "このコマンドには2つ以上の引数が必要です。");
 		}

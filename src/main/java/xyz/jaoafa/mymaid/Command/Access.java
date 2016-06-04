@@ -20,7 +20,7 @@ public class Access implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length == 1){
 			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-				if(player.getName().equalsIgnoreCase(args[1])) {
+				if(player.getName().equalsIgnoreCase(args[0])) {
 					InetAddress ip = player.getAddress().getAddress();
 					String data = MyMaid.url_access("http://toma.webcrow.jp/jao.php?file=access.php&i="+ip);
 					if(data.equalsIgnoreCase("NO")){
