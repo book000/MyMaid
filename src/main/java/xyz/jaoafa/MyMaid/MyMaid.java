@@ -492,16 +492,16 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
-		String Msg = e.getPlayer().getName();
-		Date Date = new Date();
+		String Msg = e.getFormat();
 		String message = e.getMessage();
-		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-
+		Bukkit.broadcastMessage(message);
 		if(e.getPlayer().hasPermission("mymaid.pex.limited")){
 				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Bukkit.broadcastMessage(e.getFormat() + "=>" + Msg);
 				e.setFormat(Msg);
 	  	}else if(Prison.prison.containsKey(e.getPlayer().getName())){
 			Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			Bukkit.broadcastMessage(e.getFormat() + "=>" + Msg);
 			e.setFormat(Msg);
   		}else if(chatcolor.containsKey(e.getPlayer().getName())){
 	  		int i = Integer.parseInt(chatcolor.get(e.getPlayer().getName()));
@@ -534,11 +534,15 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 			e.setFormat(Msg);
 			//e.setCancelled(true);
-			//Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": " + message);
+			Bukkit.broadcastMessage(e.getFormat() + "=>" + Msg);
 		}else{
+
 			Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.GRAY + "■" + ChatColor.WHITE + e.getPlayer().getName());
+			Bukkit.broadcastMessage(e.getFormat() + "=>" + Msg);
 			e.setFormat(Msg);
 		}
+		message = e.getMessage();
+		Bukkit.broadcastMessage(message);
 	}
 
   	@EventHandler(priority = EventPriority.HIGHEST)
