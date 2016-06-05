@@ -4,6 +4,7 @@ version: 0.0.1
 description: General Plugin
 database: true
 author: mine_book000
+depend: [EEWAlert]
 website: https://jaoafa.xyz/
 default-permission: NOT_OP
 commands:

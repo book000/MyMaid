@@ -46,6 +46,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import com.ittekikun.plugin.eewalert.EEWReceiveEvent;
+
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Access;
 import xyz.jaoafa.mymaid.Command.Book;
@@ -143,6 +145,15 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 		}
 	}
+
+    @SuppressWarnings("deprecation")
+	public void onEEWReceiveEvent(EEWReceiveEvent e){
+    	//取得するもん取ってwebサーバーと連携
+    	String[] data = e.getRawArray();
+    	String result = url_access("http://toma.webcrow.jp/jao.php?file=data.php&u="+data);
+    	//result
+    }
+
 
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent e){

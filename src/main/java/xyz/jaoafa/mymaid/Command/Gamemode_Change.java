@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,7 +37,21 @@ public class Gamemode_Change implements CommandExecutor {
 			sender.sendMessage("[G] " + ChatColor.GREEN + "エラーが発生しました。1桁の半角数字を入力してください。");
 			return true;
 		}
-		Bukkit.dispatchCommand(sender, "gamemode " + args[0]);
+		Player player = (Player) sender;
+		if(args[0].equalsIgnoreCase("0")){
+			sender.sendMessage("[G] " + ChatColor.GREEN + player.getGameMode() + " => SURVIVAL");
+			player.setGameMode(GameMode.SURVIVAL);
+		}else if(args[0].equalsIgnoreCase("1")){
+			sender.sendMessage("[G] " + ChatColor.GREEN + player.getGameMode() + " => CREATIVE");
+			player.setGameMode(GameMode.CREATIVE);
+		}else if(args[0].equalsIgnoreCase("2")){
+			sender.sendMessage("[G] " + ChatColor.GREEN + player.getGameMode() + " => ADVENTURE");
+			player.setGameMode(GameMode.ADVENTURE);
+		}else if(args[0].equalsIgnoreCase("3")){
+			sender.sendMessage("[G] " + ChatColor.GREEN + player.getGameMode() + " => SPECTATOR");
+			player.setGameMode(GameMode.SPECTATOR);
+		}
+
 		return true;
 	}
 }
