@@ -61,6 +61,7 @@ import xyz.jaoafa.mymaid.Command.Ja;
 import xyz.jaoafa.mymaid.Command.JaoJao;
 import xyz.jaoafa.mymaid.Command.Jf;
 import xyz.jaoafa.mymaid.Command.Prison;
+import xyz.jaoafa.mymaid.Command.SSK;
 import xyz.jaoafa.mymaid.Command.SaveWorld;
 import xyz.jaoafa.mymaid.Command.SignLock;
 import xyz.jaoafa.mymaid.Command.TNTReload;
@@ -102,6 +103,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("access").setExecutor(new Access(this));
 		getCommand("ja").setExecutor(new Ja(this));
 		getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
+		getCommand("skk").setExecutor(new SSK(this));
     }
 
     @Override
@@ -493,56 +495,47 @@ public class MyMaid extends JavaPlugin implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
 		String Msg = e.getFormat();
-		String message = e.getMessage();
-		Bukkit.broadcastMessage(message);
 		if(e.getPlayer().hasPermission("mymaid.pex.limited")){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + e.getPlayer().getName());
-				Bukkit.broadcastMessage(e.getFormat() + "=>" + Msg);
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.BLACK + "■" + ChatColor.WHITE + "%1");
 				e.setFormat(Msg);
 	  	}else if(Prison.prison.containsKey(e.getPlayer().getName())){
-			Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + e.getPlayer().getName());
-			Bukkit.broadcastMessage(e.getFormat() + "=>" + Msg);
+			Msg = e.getFormat().replaceFirst("%1", ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + "%1");
 			e.setFormat(Msg);
   		}else if(chatcolor.containsKey(e.getPlayer().getName())){
 	  		int i = Integer.parseInt(chatcolor.get(e.getPlayer().getName()));
 			if(i >= 0 && i <= 5){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.WHITE + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.WHITE + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 6 && i <= 19){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_BLUE + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.DARK_BLUE + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 20 && i <= 33){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.BLUE + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.BLUE + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 34 && i <= 47){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.AQUA + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.AQUA + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 48 && i <= 61){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_AQUA + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.DARK_AQUA + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 62 && i <= 76){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_GREEN + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.DARK_GREEN + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 77 && i <= 89){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.GREEN + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.GREEN + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 90 && i <= 103){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.YELLOW + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.YELLOW + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 104 && i <= 117){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.GOLD + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.GOLD + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 118 && i <= 131){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.RED + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.RED + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 132 && i <= 145){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_RED + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.DARK_RED + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 146 && i <= 159){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.DARK_PURPLE + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.DARK_PURPLE + "■" + ChatColor.WHITE + "%1");
 			}else if(i >= 160){
-				Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.LIGHT_PURPLE + "■" + ChatColor.WHITE + e.getPlayer().getName());
+				Msg = e.getFormat().replaceFirst("%1", ChatColor.LIGHT_PURPLE + "■" + ChatColor.WHITE + "%1");
 			}
 			e.setFormat(Msg);
-			//e.setCancelled(true);
-			Bukkit.broadcastMessage(e.getFormat() + "=>" + Msg);
 		}else{
 
-			Msg = e.getPlayer().getName().replaceFirst(e.getPlayer().getName(), ChatColor.GRAY + "■" + ChatColor.WHITE + e.getPlayer().getName());
-			Bukkit.broadcastMessage(e.getFormat() + "=>" + Msg);
+			Msg = e.getFormat().replaceFirst("%1", ChatColor.GRAY + "■" + ChatColor.WHITE + "%1");
 			e.setFormat(Msg);
 		}
-		message = e.getMessage();
-		Bukkit.broadcastMessage(message);
 	}
 
   	@EventHandler(priority = EventPriority.HIGHEST)
