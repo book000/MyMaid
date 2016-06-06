@@ -204,6 +204,9 @@ public class MyMaid extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e){
     	Player player = e.getPlayer();
+    	if (!(player instanceof Player)) {
+			return;
+		}
   		if(!Prison.prison.containsKey(player.getName())){
   			return;
   		}
@@ -215,6 +218,9 @@ public class MyMaid extends JavaPlugin implements Listener {
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent e){
     	Player player = e.getPlayer();
+    	if (!(player instanceof Player)) {
+			return;
+		}
   		if(!Prison.prison.containsKey(player.getName())){
   			return;
   		}
@@ -229,6 +235,9 @@ public class MyMaid extends JavaPlugin implements Listener {
     @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent e){
     	Player player = e.getPlayer();
+    	if (!(player instanceof Player)) {
+			return;
+		}
   		if(!Prison.prison.containsKey(player.getName())){
   			return;
   		}
@@ -242,6 +251,9 @@ public class MyMaid extends JavaPlugin implements Listener {
     @EventHandler
     public void onBlockIgniteEvent(BlockIgniteEvent e){
     	Player player = e.getPlayer();
+    	if (!(player instanceof Player)) {
+			return;
+		}
   		if(!Prison.prison.containsKey(player.getName())){
   			return;
   		}
@@ -252,6 +264,9 @@ public class MyMaid extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerBucketEmptyEvent(PlayerBucketEmptyEvent e){
     	Player player = e.getPlayer();
+    	if (!(player instanceof Player)) {
+			return;
+		}
   		if(!Prison.prison.containsKey(player.getName())){
   			return;
   		}
@@ -262,6 +277,9 @@ public class MyMaid extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerPickupItemEvent(PlayerPickupItemEvent e){
     	Player player = e.getPlayer();
+    	if (!(player instanceof Player)) {
+			return;
+		}
   		if(!Prison.prison.containsKey(player.getName())){
   			return;
   		}
