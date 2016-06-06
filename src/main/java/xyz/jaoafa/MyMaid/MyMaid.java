@@ -152,6 +152,19 @@ public class MyMaid extends JavaPlugin implements Listener {
     	String[] data = e.getRawArray();
     	String result = url_access("http://toma.webcrow.jp/jao.php?file=data.php&u="+data);
     	//result
+    	if(result.equalsIgnoreCase("null")){
+    		return;
+    	}else if(result.equalsIgnoreCase("print")){
+    		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "------------ 地震速報 ------------");
+    		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "地震ID: " + data[5]);
+    		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "発生時刻/発表時刻: " + data[6] + "/" + data[2]);
+    		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "震源地(海陸判定): " + data[9] + " (" + data[13] + ")");
+    		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "最大震度(マグニチュード): " + data[12] + " (" + data[11] + "M)");
+    		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "震源の深さ: " + data[10] + "km");
+    		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "警報有無: " + data[14]);
+    		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "震源に近い住民の方は安全に確認して必要であれば避難して下さい。");
+    		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "----------------------------------");
+    	}
     }
 
 
