@@ -150,9 +150,20 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public void onEEWReceiveEvent(EEWReceiveEvent e){
     	//取得するもん取ってwebサーバーと連携
     	String[] data = e.getRawArray();
-    	String result = url_access("http://toma.webcrow.jp/jao.php?file=data.php&u="+data);
+    	String separator = ",";
+
+    	StringBuilder sb = new StringBuilder();
+    	for (String str : data) {
+    	    if (sb.length() > 0) {
+    	        sb.append(separator);
+    	    }
+    	    sb.append(str);
+    	}
+
+    	String result = url_access("http://toma.webcrow.jp/jao.php?file=data.php&u="+sb.toString());
     	//result
     	if(result.equalsIgnoreCase("null")){
+    		getLogger().info("[MyEEW] 地震情報を受信しましたが無視されました。");
     		return;
     	}else if(result.equalsIgnoreCase("print")){
     		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "------------ 地震速報 ------------");
@@ -164,6 +175,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "警報有無: " + data[14]);
     		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "震源に近い住民の方は安全に確認して必要であれば避難して下さい。");
     		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "----------------------------------");
+    		getLogger().info("[MyEEW] 地震情報を受信し、全プレイヤーに送信しました。。");
     	}
     }
 
