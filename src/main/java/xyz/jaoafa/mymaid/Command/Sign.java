@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Method;
 
 public class Sign implements CommandExecutor {
 	JavaPlugin plugin;
@@ -42,7 +42,7 @@ public class Sign implements CommandExecutor {
 		int x = sign.getX();
 		int y = sign.getY();
 		int z = sign.getZ();
-		String name = MyMaid.url_access("http://toma.webcrow.jp/jao.php?file=signlock.php&x="+x+"&y="+y+"&z="+z);
+		String name = Method.url_jaoplugin("signlock", "x="+x+"&y="+y+"&z="+z);
 		if(!name.equalsIgnoreCase("NOTFOUND")){
 			if(!name.equalsIgnoreCase(player.getName())){
 				sender.sendMessage("[Sign] " + ChatColor.GREEN + "この看板は" + name + "によってロックされています。");

@@ -12,6 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 
 public class Vote implements CommandExecutor {
@@ -37,7 +38,7 @@ public class Vote implements CommandExecutor {
 			if(p.getName().equalsIgnoreCase(args[0])) {
 				String name = p.getName();
 				UUID uuid = p.getUniqueId();
-				String i = MyMaid.url_access("http://toma.webcrow.jp/jaovote.php?p="+name+"&u="+uuid);
+				String i = Method.url_jaoplugin("vote", "p="+name+"&u="+uuid);
 				MyMaid.chatcolor.put(name, i);
 				if(i.equalsIgnoreCase("3")){
 					if(p.hasPermission("mymaid.pex.default")){

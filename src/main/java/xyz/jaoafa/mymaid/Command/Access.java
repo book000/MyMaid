@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Method;
 
 public class Access implements CommandExecutor {
 	JavaPlugin plugin;
@@ -22,7 +22,7 @@ public class Access implements CommandExecutor {
 			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 				if(player.getName().equalsIgnoreCase(args[0])) {
 					InetAddress ip = player.getAddress().getAddress();
-					String data = MyMaid.url_access("http://toma.webcrow.jp/jao.php?file=access.php&i="+ip);
+					String data = Method.url_jaoplugin("access", "i="+ip);
 					if(data.equalsIgnoreCase("NO")){
 						sender.sendMessage("[PCA] " + ChatColor.GREEN + "このユーザー「"+player.getName()+"」がアクセスしたページ:なし");
 					}else if(data.indexOf(",") == -1){

@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -44,7 +43,6 @@ public class Prison implements CommandExecutor, TabCompleter {
 				}
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(player.getName().equalsIgnoreCase(args[1])) {
-						UUID uuid = player.getUniqueId();
 						prison.put(player.getName(), false);
 						prison_block.put(player.getName(), false);
 						World World = Bukkit.getServer().getWorld("Jao_Afa");
