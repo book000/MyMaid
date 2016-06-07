@@ -10,7 +10,6 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Chat.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Head.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Vote.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynmap_Teleporter.java
-N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\TabComplete\TabComplete.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SaveWorld.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gamemode_Change.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Jf.java
@@ -21,5 +20,6 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\TNTReload.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Access.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdsearch.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ip_To_Host.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Method.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\AFK.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdb.java

@@ -143,9 +143,16 @@ public class MyMaid extends JavaPlugin implements Listener {
 	}
 
     @SuppressWarnings("deprecation")
+    @EventHandler
 	public void onEEWReceiveEvent(EEWReceiveEvent e){
     	//取得するもん取ってwebサーバーと連携
+    	// RTかどうか
+    	if(e.eew.isRetweet){
+    		getLogger().info("[MyEEW] 地震情報を受信しましたが無視されました。(RT)");
+    		return;
+    	}
     	String[] data = e.getRawArray();
+
     	String separator = ",";
 
     	StringBuilder sb = new StringBuilder();
@@ -156,10 +163,10 @@ public class MyMaid extends JavaPlugin implements Listener {
     	    sb.append(str);
     	}
 
-    	String result = Method.url_jaoplugin("data", "u=" + sb.toString());
+    	String result = Method.url_jaoplugin("eew", "u=" + sb.toString());
     	//result
     	if(result.equalsIgnoreCase("null")){
-    		getLogger().info("[MyEEW] 地震情報を受信しましたが無視されました。");
+    		getLogger().info("[MyEEW] 地震情報を受信しましたが無視されました。(NetworkReturn)");
     		return;
     	}else if(result.equalsIgnoreCase("print")){
     		Bukkit.broadcastMessage("[" + ChatColor.GOLD + "MyEEW" + ChatColor.RESET + "] " + ChatColor.RED + "------------ 地震速報 ------------");
