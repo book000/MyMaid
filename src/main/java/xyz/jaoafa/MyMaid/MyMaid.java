@@ -163,7 +163,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	    sb.append(str);
     	}
 
-    	String result = Method.url_jaoplugin("eew", "u=" + sb.toString());
+    	String result = Method.url_jaoplugin("eew", "u=" + sb.toString().replaceAll(" ", "_"));
     	//result
     	if(result.equalsIgnoreCase("null")){
     		getLogger().info("[MyEEW] 地震情報を受信しましたが無視されました。(NetworkReturn)");
