@@ -86,6 +86,8 @@ public class Jf implements CommandExecutor {
 			}.runTaskLater(plugin, 60);
 		}catch(Exception e){
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": afa");
+		}catch(java.lang.NoClassDefFoundError e){
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": afa");
 		}
 
 		return true;

@@ -71,7 +71,7 @@ public class Ja implements CommandExecutor {
 		}
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jao");
+		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jai");
 		try {
 			new BukkitRunnable() {
 				@Override
@@ -83,6 +83,8 @@ public class Ja implements CommandExecutor {
 				}
 			}.runTaskLater(plugin, 60);
 		}catch(Exception e){
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": uwa");
+		}catch(java.lang.NoClassDefFoundError e){
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": uwa");
 		}
 

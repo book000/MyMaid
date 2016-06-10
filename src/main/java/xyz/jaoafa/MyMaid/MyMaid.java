@@ -46,7 +46,6 @@ import com.ittekikun.plugin.eewalert.EEWReceiveEvent;
 
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Access;
-import xyz.jaoafa.mymaid.Command.Book;
 import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Cmdb;
 import xyz.jaoafa.mymaid.Command.Cmdsearch;
@@ -58,6 +57,7 @@ import xyz.jaoafa.mymaid.Command.Ip_To_Host;
 import xyz.jaoafa.mymaid.Command.Ja;
 import xyz.jaoafa.mymaid.Command.JaoJao;
 import xyz.jaoafa.mymaid.Command.Jf;
+import xyz.jaoafa.mymaid.Command.MakeCmd;
 import xyz.jaoafa.mymaid.Command.Prison;
 import xyz.jaoafa.mymaid.Command.SSK;
 import xyz.jaoafa.mymaid.Command.SaveWorld;
@@ -70,6 +70,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	Boolean nextbakrender = false;
 	public static Boolean tntexplode = true;
 	public static Map<String,String> chatcolor = new HashMap<String,String>();
+	public static TitleSender TitleSender;
 	@Override
     public void onEnable() {
     	getLogger().info("(c) jao Minecraft Server MyMaid Project.");
@@ -95,13 +96,15 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("save-world").setExecutor(new SaveWorld(this));
 		getCommand("head").setExecutor(new Head(this));
 		getCommand("cmdb").setExecutor(new Cmdb(this));
-		getCommand("book").setExecutor(new Book(this));
 		getCommand("jail").setExecutor(new Prison(this));
 		getCommand("jail").setTabCompleter(new Prison(this));
 		getCommand("access").setExecutor(new Access(this));
 		getCommand("ja").setExecutor(new Ja(this));
 		getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
 		getCommand("skk").setExecutor(new SSK(this));
+		getCommand("makecmd").setExecutor(new MakeCmd(this));
+
+		TitleSender = new TitleSender();
     }
 
     @Override
@@ -388,7 +391,7 @@ public class MyMaid extends JavaPlugin implements Listener {
             		}
             		String name = min_player.getName();
         			UUID uuid = min_player.getUniqueId();
-        			Method.url_jaoplugin("jaotnt", "p="+name+"&u="+uuid+"&x="+x+"&y="+y+"&z="+z);
+        			Method.url_jaoplugin("tnt", "p="+name+"&u="+uuid+"&x="+x+"&y="+y+"&z="+z);
 
             		task = new BukkitRunnable() {
                         @Override
@@ -574,9 +577,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
   		}
   		player.sendMessage("[AFK] " + ChatColor.GREEN + "AFK false");
-  		//Bukkit.dispatchCommand(player.getPlayer(), "gamerule sendCommandFeedback false");
-		//Bukkit.dispatchCommand(player.getPlayer(), "title " + player.getPlayer().getName() + " reset");
-		//Bukkit.dispatchCommand(player.getPlayer(), "gamerule sendCommandFeedback true");
+  		MyMaid.TitleSender.resetTitle(player);
   		ItemStack[] is = player.getInventory().getArmorContents();
 		if(is[3].getType() == Material.ICE){
 			ItemStack[] after={

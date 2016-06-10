@@ -13,12 +13,15 @@ import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import xyz.jaoafa.mymaid.MyMaid;
 
 public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 	JavaPlugin plugin;
@@ -42,6 +45,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			String location = args[0];
+			Player player = (Player) sender;
 			try {
 				location = codec.encode(location);
 			} catch (EncoderException e1) {
@@ -75,8 +79,10 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 						String y = datas[1];
 						String z = datas[2];
 						String world = datas[3];
-						Bukkit.dispatchCommand(sender, "mvtp " + world);
-						Bukkit.dispatchCommand(sender, "tp " + x + " " + y + " " + z);
+						MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
+						MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have teleported to " + location + "!");
+						Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
+						player.teleport(loc);
 						return true;
 					}
 				}
@@ -134,8 +140,10 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 								String y = datas[1];
 								String z = datas[2];
 								String world = datas[3];
-								Bukkit.dispatchCommand(player, "mvtp " + world);
-								Bukkit.dispatchCommand(player, "tp " + x + " " + y + " " + z);
+								MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
+								MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have teleported to " + location + "!");
+								Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
+								player.teleport(loc);
 								return true;
 							}
 						}

@@ -17,6 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import xyz.jaoafa.mymaid.MyMaid;
+
 public class AFK implements CommandExecutor{
 	JavaPlugin plugin;
 	public AFK(JavaPlugin plugin) {
@@ -45,10 +47,8 @@ public class AFK implements CommandExecutor{
 			}catch(Exception e){
 
 			}
-			Bukkit.dispatchCommand(sender, "gamerule sendCommandFeedback false");
-			Bukkit.dispatchCommand(sender, "title " + player.getName() + " reset");
+			MyMaid.TitleSender.resetTitle(player);
 			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + sender.getName() + " is now online!");
-			Bukkit.dispatchCommand(sender, "gamerule sendCommandFeedback true");
 		}else{
 			ItemStack[] after={
 					new ItemStack(is[0]),
@@ -64,6 +64,9 @@ public class AFK implements CommandExecutor{
 			}catch(Exception e){
 
 			}
+			MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
+			MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
+			MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 			try {
 				tnt.put(player.getName(), new BukkitRunnable() {
 					@Override
@@ -71,14 +74,11 @@ public class AFK implements CommandExecutor{
 						player.getWorld().playSound(player.getLocation(),Sound.EXPLODE,1,1);
 						player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
 					}
-				}.runTaskTimer(plugin, 0L, 5L)
-						);
+				}.runTaskTimer(plugin, 0L, 5L));
 			}catch(Exception e){
-				Bukkit.dispatchCommand(sender, "gamerule sendCommandFeedback false");
-				Bukkit.dispatchCommand(sender, "title " + player.getName() + " times 0 2147483647 0");
-				Bukkit.dispatchCommand(sender, "title " + player.getName() + " subtitle {text:\"When you are back, please enter the command '/afk'.\",color:blue,bold:true}");
-				Bukkit.dispatchCommand(sender, "title " + player.getName() + " title {text:\"AFK NOW!\",color:red,bold:true}");
-				Bukkit.dispatchCommand(sender, "gamerule sendCommandFeedback true");
+
+			}catch(java.lang.NoClassDefFoundError e){
+
 			}
 
 		}

@@ -83,11 +83,6 @@ commands:
       usage: /<command>
       permission: mymaid.cmdb
       permission-message: You do not have permission to perform this command.
-   book:
-      description: Create command makes book
-      usage: /<command>
-      permission: mymaid.book
-      permission-message: You do not have permission to perform this command.
    jail:
       description: Put into eden of south
       usage: |-
@@ -116,4 +111,9 @@ commands:
       description: SiKaKu reload
       usage: /<command>
       permission: mymaid.skk
+      permission-message: You do not have permission to perform this command.
+   makecmd:
+      description: Create command makes item
+      usage: /<command>
+      permission: mymaid.makecmd
       permission-message: You do not have permission to perform this command.
