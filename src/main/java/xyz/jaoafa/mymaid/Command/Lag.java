@@ -23,7 +23,7 @@ public class Lag implements CommandExecutor {
 		String start = arr[0];
 		String end = arr[1];
 		String lag = arr[2];
-		sender.sendMessage("[Lag] " + ChatColor.GREEN + "最新のラグ取得データ: " + lag + " (" + start + "～" + end + ")");
+		sender.sendMessage("[Lag] " + ChatColor.GREEN + "最新のラグデータ: " + lag + "秒 (" + start + "～" + end + ")");
 		return true;
 	}
 }

@@ -444,15 +444,7 @@ public class MyMaid extends JavaPlugin implements Listener {
             		String name = min_player.getName();
         			UUID uuid = min_player.getUniqueId();
         			Method.url_jaoplugin("tnt", "p="+name+"&u="+uuid+"&x="+x+"&y="+y+"&z="+z);
-
-            		task = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                        	tntexplode = true;
-                        	Bukkit.getLogger().info("TNT Exploded notice on");
-                            task.cancel();
-                        }
-                    }.runTaskLater(this, 1200);
+        			new TNT_Explode_Reset().runTaskLater(this, 1200L);
                     tntexplode = false;
                     Bukkit.getLogger().info("TNT Exploded notice off");
             	}
@@ -460,9 +452,16 @@ public class MyMaid extends JavaPlugin implements Listener {
     	}catch(Exception e1) {
     		tntexplode = false;
     	}
-
     	return;
     }
+	private class TNT_Explode_Reset extends BukkitRunnable{
+		@Override
+		public void run() {
+			tntexplode = true;
+        	Bukkit.getLogger().info("TNT Exploded notice on");
+		}
+
+	}
 	@EventHandler
 	public void onBreak(BlockBreakEvent e){
 		if(e.getBlock().getType() == Material.CROPS){
