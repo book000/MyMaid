@@ -72,7 +72,7 @@ public class Jf implements CommandExecutor {
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jao");
-		new jao_afa(Msg);
+		new jao_afa(Msg).runTaskLater(plugin, 60);
 		return true;
 	}
 	private class jao_afa extends BukkitRunnable{
