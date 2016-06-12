@@ -1,6 +1,7 @@
 package xyz.jaoafa.mymaid;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,6 +80,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new PlayerCommand(this), this);
     	new World_saver().runTaskLater(this, 36000L);
     	new Dynmap_Update_Render().runTaskLater(this, 36000L);
+    	new Lag_Counter(this).runTaskLater(this, 12000L);
 
 		getCommand("chat").setExecutor(new Chat(this));
 		getCommand("jf").setExecutor(new Jf(this));
@@ -135,7 +137,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		}
 	}
-
     private class Dynmap_Update_Render extends BukkitRunnable{
 		@Override
 		public void run() {
@@ -144,6 +145,49 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 		}
 	}
+    private class Lag_Counter extends BukkitRunnable{
+    	JavaPlugin plugin;
+    	public Lag_Counter(JavaPlugin plugin) {
+    		this.plugin = plugin;
+    	}
+		@Override
+		public void run() {
+			long start = System.currentTimeMillis();
+			new Lag_Counter_End(plugin, start).runTaskLater(plugin, 200L);
+		}
+	}
+    private class Lag_Counter_End extends BukkitRunnable{
+    	JavaPlugin plugin;
+    	long start;
+    	public Lag_Counter_End(JavaPlugin plugin, long start) {
+    		this.plugin = plugin;
+    		this.start = start;
+    	}
+		@Override
+		public void run() {
+			long end = System.currentTimeMillis();
+			String interval = format(start, end);
+			Calendar start_calendar = Calendar.getInstance();
+			Calendar end_calendar = Calendar.getInstance();
+			start_calendar.setTimeInMillis(start);
+			end_calendar.setTimeInMillis(end);
+			SimpleDateFormat sdf = new SimpleDateFormat("YYYY/mm/dd HH:mm:ss.SSS");
+			String start_ymdhis = sdf.format(start);
+			String end_ymdhis = sdf.format(end);
+			Method.url_jaoplugin("lag", "start=" + start_ymdhis + "&end=" + end_ymdhis + "&lag=" + interval);
+		}
+	}
+    private static String format(long startTime, long endTime) {
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        Calendar result = Calendar.getInstance();
+        start.setTimeInMillis(startTime);
+        end.setTimeInMillis(endTime);
+        long sa = end.getTimeInMillis() - start.getTimeInMillis() - result.getTimeZone().getRawOffset();
+        result.setTimeInMillis(sa);
+        SimpleDateFormat sdf = new SimpleDateFormat("ss.SSS");
+        return sdf.format(result.getTime());
+    }
 
     @SuppressWarnings("deprecation")
     @EventHandler
