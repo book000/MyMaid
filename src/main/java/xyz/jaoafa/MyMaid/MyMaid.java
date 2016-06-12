@@ -80,9 +80,9 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getLogger().info("Product by tomachi.");
     	getServer().getPluginManager().registerEvents(this, this);
     	getServer().getPluginManager().registerEvents(new PlayerCommand(this), this);
-    	new World_saver().runTaskLater(this, 36000L);
-    	new Dynmap_Update_Render().runTaskLater(this, 36000L);
-    	new Lag_Counter(this).runTaskLater(this, 12000L);
+    	new World_saver().runTaskTimer(this, 0L, 36000L);
+    	new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
+    	new Lag_Counter(this).runTaskTimer(this, 0L, 12000L);
 
 		getCommand("chat").setExecutor(new Chat(this));
 		getCommand("jf").setExecutor(new Jf(this));
