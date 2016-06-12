@@ -117,3 +117,8 @@ commands:
       usage: /<command>
       permission: mymaid.makecmd
       permission-message: You do not have permission to perform this command.
+   lag:
+      description: Last Lag data
+      usage: /<command>
+      permission: mymaid.lag
+      permission-message: You do not have permission to perform this command.

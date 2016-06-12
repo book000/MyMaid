@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -58,6 +59,7 @@ import xyz.jaoafa.mymaid.Command.Ip_To_Host;
 import xyz.jaoafa.mymaid.Command.Ja;
 import xyz.jaoafa.mymaid.Command.JaoJao;
 import xyz.jaoafa.mymaid.Command.Jf;
+import xyz.jaoafa.mymaid.Command.Lag;
 import xyz.jaoafa.mymaid.Command.MakeCmd;
 import xyz.jaoafa.mymaid.Command.Prison;
 import xyz.jaoafa.mymaid.Command.SSK;
@@ -105,6 +107,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
 		getCommand("skk").setExecutor(new SSK(this));
 		getCommand("makecmd").setExecutor(new MakeCmd(this));
+		getCommand("lag").setExecutor(new Lag(this));
 
 		TitleSender = new TitleSender();
     }
@@ -167,28 +170,33 @@ public class MyMaid extends JavaPlugin implements Listener {
 		public void run() {
 			long end = System.currentTimeMillis();
 			String interval = format(start, end);
-			Calendar start_calendar = Calendar.getInstance();
-			Calendar end_calendar = Calendar.getInstance();
+
+			Calendar start_calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+			Calendar end_calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
 			start_calendar.setTimeInMillis(start);
 			end_calendar.setTimeInMillis(end);
-			SimpleDateFormat sdf = new SimpleDateFormat("YYYY/mm/dd HH:mm:ss.SSS");
+			start_calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+			end_calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+			SimpleDateFormat sdf = new SimpleDateFormat("YYYY/MM/dd_HH:mm:ss.SSSSS");
 			String start_ymdhis = sdf.format(start);
 			String end_ymdhis = sdf.format(end);
-			Method.url_jaoplugin("lag", "start=" + start_ymdhis + "&end=" + end_ymdhis + "&lag=" + interval);
+			Method.url_jaoplugin("lag", "start=" + start_ymdhis + "&end=" + end_ymdhis + "&lag=" + String.format("%.5f", (Double.parseDouble(interval) - 10)));
 		}
 	}
     private static String format(long startTime, long endTime) {
-        Calendar start = Calendar.getInstance();
-        Calendar end = Calendar.getInstance();
-        Calendar result = Calendar.getInstance();
+        Calendar start = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+        Calendar end = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+        Calendar result = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
         start.setTimeInMillis(startTime);
         end.setTimeInMillis(endTime);
+        start.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+        end.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+        result.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
         long sa = end.getTimeInMillis() - start.getTimeInMillis() - result.getTimeZone().getRawOffset();
         result.setTimeInMillis(sa);
-        SimpleDateFormat sdf = new SimpleDateFormat("ss.SSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("ss.SSSSS");
         return sdf.format(result.getTime());
     }
-
     @SuppressWarnings("deprecation")
     @EventHandler
 	public void onEEWReceiveEvent(EEWReceiveEvent e){

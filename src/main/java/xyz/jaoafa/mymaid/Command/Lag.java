@@ -2,12 +2,13 @@ package xyz.jaoafa.mymaid.Command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
 
-public class Lag {
+public class Lag implements CommandExecutor {
 	JavaPlugin plugin;
 	public Lag(JavaPlugin plugin) {
 		this.plugin = plugin;
