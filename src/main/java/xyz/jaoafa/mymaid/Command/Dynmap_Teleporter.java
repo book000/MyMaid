@@ -80,9 +80,10 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 						String z = datas[2];
 						String world = datas[3];
 						MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
-						MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have teleported to " + location + "!");
+						MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
 						Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
 						player.teleport(loc);
+						Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にテレポートしました]");
 						return true;
 					}
 				}
@@ -141,9 +142,10 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 								String z = datas[2];
 								String world = datas[3];
 								MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
-								MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have teleported to " + location + "!");
+								MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
 								Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
 								player.teleport(loc);
+								Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にテレポートしました]");
 								return true;
 							}
 						}

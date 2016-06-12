@@ -23,7 +23,6 @@ public class Jf implements CommandExecutor {
 	/* onCommand jf
 	 * jao afaします。
 	 * /jf */
-	public String Msg = "";
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		// 変数定義
 		if (!(sender instanceof Player)) {
@@ -31,8 +30,8 @@ public class Jf implements CommandExecutor {
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
-		final Player player = (Player) sender;
-
+		Player player = (Player) sender;
+		String Msg = "";
 		if(player.hasPermission("mymaid.pex.limited")){
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
 
@@ -67,29 +66,26 @@ public class Jf implements CommandExecutor {
 			}else if(i >= 160){
 				Msg = player.getName().replaceFirst(player.getName(), ChatColor.LIGHT_PURPLE + "■" + ChatColor.WHITE + player.getName());
 			}
-
 		}else{
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.GRAY + "■" + ChatColor.WHITE + player.getName());
 		}
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jao");
-		try {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					Date Date = new Date();
-					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-					Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": afa");
-					cancel();
-				}
-			}.runTaskLater(plugin, 60);
-		}catch(Exception e){
-			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": afa");
-		}catch(java.lang.NoClassDefFoundError e){
-			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": afa");
-		}
-
+		new jao_afa(Msg);
 		return true;
+	}
+	private class jao_afa extends BukkitRunnable{
+		String Msg;
+		public jao_afa(String Msg) {
+			this.Msg = Msg;
+		}
+		@Override
+		public void run() {
+			Date Date = new Date();
+			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": afa");
+			cancel();
+		}
 	}
 }

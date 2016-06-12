@@ -23,7 +23,6 @@ public class Ja implements CommandExecutor {
 	/* onCommand jf
 	 * jao afaします。
 	 * /jf */
-	public String Msg = "";
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		// 変数定義
 		if (!(sender instanceof Player)) {
@@ -31,7 +30,8 @@ public class Ja implements CommandExecutor {
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
-		final Player player = (Player) sender;
+		Player player = (Player) sender;
+		String Msg = "";
 		if(player.hasPermission("mymaid.pex.limited")){
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
 
@@ -72,22 +72,21 @@ public class Ja implements CommandExecutor {
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jai");
-		try {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					Date Date = new Date();
-					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-					Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": uwa");
-					cancel();
-				}
-			}.runTaskLater(plugin, 60);
-		}catch(Exception e){
-			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": uwa");
-		}catch(java.lang.NoClassDefFoundError e){
-			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": uwa");
-		}
+		new jai_uwa(Msg).runTaskLater(plugin, 60);
 
 		return true;
+	}
+	private class jai_uwa extends BukkitRunnable{
+		String Msg;
+		public jai_uwa(String Msg) {
+			this.Msg = Msg;
+		}
+		@Override
+		public void run() {
+			Date Date = new Date();
+			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": uwa");
+			cancel();
+		}
 	}
 }
