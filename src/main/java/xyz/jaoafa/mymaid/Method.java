@@ -5,7 +5,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -72,4 +74,18 @@ public class Method {
 		String send = ChatColor.GRAY + "["+ date + "]" + ChatColor.WHITE + player +  ": " + text;
 		return send;
   	}
+	public static String format(long startTime, long endTime) {
+        Calendar start = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+        Calendar end = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+        Calendar result = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+        start.setTimeInMillis(startTime);
+        end.setTimeInMillis(endTime);
+        start.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+        end.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+        result.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+        long sa = end.getTimeInMillis() - start.getTimeInMillis() - result.getTimeZone().getRawOffset();
+        result.setTimeInMillis(sa);
+        SimpleDateFormat sdf = new SimpleDateFormat("ss.SSSSS");
+        return sdf.format(result.getTime());
+    }
 }

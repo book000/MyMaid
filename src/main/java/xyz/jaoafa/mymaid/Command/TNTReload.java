@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.EventHandler.OnExplosion;
 
 public class TNTReload implements CommandExecutor {
 
@@ -14,20 +14,16 @@ public class TNTReload implements CommandExecutor {
 	public TNTReload(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-
-	/* onCommand jf
-	 * jao afaします。
-	 * /jf */
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length == 1){
 			if(args[0].equalsIgnoreCase("true")){
-				MyMaid.tntexplode = true;
+				OnExplosion.tntexplode = true;
 				sender.sendMessage("[TNT] " + ChatColor.GREEN + "TNT Explode notice true");
 			}else if(args[0].equalsIgnoreCase("false")){
-				MyMaid.tntexplode = false;
+				OnExplosion.tntexplode = false;
 				sender.sendMessage("[TNT] " + ChatColor.GREEN + "TNT Explode notice false");
 			}else if(args[0].equalsIgnoreCase("now")){
-				if(MyMaid.tntexplode){
+				if(OnExplosion.tntexplode){
 					sender.sendMessage("[TNT] " + ChatColor.GREEN + "TNT Explode notice true now");
 				}else{
 					sender.sendMessage("[TNT] " + ChatColor.GREEN + "TNT Explode notice false now");
