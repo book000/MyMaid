@@ -67,21 +67,23 @@ public class AFK implements CommandExecutor{
 			MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 			MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
 			MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
-			try {
-				tnt.put(player.getName(), new BukkitRunnable() {
-					@Override
-					public void run() {
-						player.getWorld().playSound(player.getLocation(),Sound.EXPLODE,1,1);
-						player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
-					}
-				}.runTaskTimer(plugin, 0L, 5L));
-			}catch(Exception e){
-
-			}catch(java.lang.NoClassDefFoundError e){
-
-			}
+			tnt.put(player.getName(), new afking(plugin, player).runTaskTimer(plugin, 0L, 5L));
 
 		}
 		return true;
+	}
+	public class afking extends BukkitRunnable{
+		JavaPlugin plugin;
+		Player player;
+    	public afking(JavaPlugin plugin, Player player) {
+    		this.plugin = plugin;
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			player.getWorld().playSound(player.getLocation(),Sound.EXPLODE,1,1);
+			player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
+		}
+
 	}
 }
