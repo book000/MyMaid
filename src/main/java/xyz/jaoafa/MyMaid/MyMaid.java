@@ -29,6 +29,7 @@ import xyz.jaoafa.mymaid.Command.JaoJao;
 import xyz.jaoafa.mymaid.Command.Jf;
 import xyz.jaoafa.mymaid.Command.Lag;
 import xyz.jaoafa.mymaid.Command.MakeCmd;
+import xyz.jaoafa.mymaid.Command.MyMaid_NetworkApi;
 import xyz.jaoafa.mymaid.Command.Prison;
 import xyz.jaoafa.mymaid.Command.SSK;
 import xyz.jaoafa.mymaid.Command.SaveWorld;
@@ -48,6 +49,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnHeadClick;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBucketEmptyEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommand;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommandPreprocessEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnPlayerItemHeldEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerJoinEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerPickupItemEvent;
@@ -86,6 +88,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnQuitGame(this), this);
     	getServer().getPluginManager().registerEvents(new OnServerCommandEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnSignClick(this), this);
+    	getServer().getPluginManager().registerEvents(new OnPlayerItemHeldEvent(this), this);
 
     	//Task
     	new World_saver().runTaskTimer(this, 0L, 36000L);
@@ -117,6 +120,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("skk").setExecutor(new SSK(this));
 		getCommand("makecmd").setExecutor(new MakeCmd(this));
 		getCommand("lag").setExecutor(new Lag(this));
+		getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
 
 		TitleSender = new TitleSender();
     }

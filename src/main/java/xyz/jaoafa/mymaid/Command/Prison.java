@@ -28,52 +28,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 	public static Map<String,Boolean> prison = new HashMap<String,Boolean>();
 	public static Map<String,Boolean> prison_block = new HashMap<String,Boolean>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if(args.length == 3){
-			if(args[0].equalsIgnoreCase("add")){
-				if (sender instanceof ConsoleCommandSender) {
-					prison.put(args[1], false);
-					prison_block.put(args[1], false);
-					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-						if(!p.getName().equalsIgnoreCase(args[1])) {
-							p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
-						}
-					}
-					Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
-					return true;
-				}
-				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-					if(player.getName().equalsIgnoreCase(args[1])) {
-						prison.put(player.getName(), false);
-						prison_block.put(player.getName(), false);
-						World World = Bukkit.getServer().getWorld("Jao_Afa");
-						Location prison = new Location(World, 1767, 70, 1767);
-						player.teleport(prison);
-						Date Date = new Date();
-						SimpleDateFormat H = new SimpleDateFormat("H");
-						SimpleDateFormat m = new SimpleDateFormat("m");
-						SimpleDateFormat s = new SimpleDateFormat("s");
-						String Hs = H.format(Date);
-						String ms = m.format(Date);
-						String ss = s.format(Date);
-						String date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
-						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "やあ。" + player.getName() + "クン。どうも君はなにかをして南の楽園に来てしまったみたいなんだ");
-						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "話を聞けば、「" + args[2] + "」という理由でここにきたみたいだね。");
-						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "なにをしてしまったのか詳しい話は知らないけどさっき言ったような理由でここに来たんだと思うんだ。");
-						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "ちょっとやったことを反省してみるのもいいかもしれないね");
-						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
-						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-							if(!p.getName().equalsIgnoreCase(args[1])) {
-								p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
-							}
-						}
-						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
-						return true;
-					}
-				}
-			}else{
-				sender.sendMessage("[JAIL] " + ChatColor.GREEN + "引数はADDのみ有効です。");
-			}
-		}else if(args.length == 2){
+		if(args.length == 2){
 			if(args[0].equalsIgnoreCase("add")){
 				if (sender instanceof ConsoleCommandSender) {
 					prison.put(args[1], false);
@@ -140,11 +95,10 @@ public class Prison implements CommandExecutor, TabCompleter {
 
 						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "じゃあな");
 						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を牢獄リストから削除しました。");
-						return true;
+
 					}
 				}
-
-				sender.sendMessage("[JAIL] " + ChatColor.GREEN + "「" + args[1] + "」はみつかりません。");
+				return true;
 			}else{
 				sender.sendMessage("[JAIL] " + ChatColor.GREEN + "第1引数を確認してください");
 			}
@@ -266,6 +220,47 @@ public class Prison implements CommandExecutor, TabCompleter {
 								}
 							}
 							Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」がブロックを設置破壊できないよう設定しました。");
+							return true;
+						}
+					}
+				}else if(args[0].equalsIgnoreCase("add")){
+					if (sender instanceof ConsoleCommandSender) {
+						prison.put(args[1], false);
+						prison_block.put(args[1], false);
+						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+							if(!p.getName().equalsIgnoreCase(args[1])) {
+								p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
+							}
+						}
+						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
+						return true;
+					}
+					for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+						if(player.getName().equalsIgnoreCase(args[1])) {
+							prison.put(player.getName(), false);
+							prison_block.put(player.getName(), false);
+							World World = Bukkit.getServer().getWorld("Jao_Afa");
+							Location prison = new Location(World, 1767, 70, 1767);
+							player.teleport(prison);
+							Date Date = new Date();
+							SimpleDateFormat H = new SimpleDateFormat("H");
+							SimpleDateFormat m = new SimpleDateFormat("m");
+							SimpleDateFormat s = new SimpleDateFormat("s");
+							String Hs = H.format(Date);
+							String ms = m.format(Date);
+							String ss = s.format(Date);
+							String date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
+							player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "やあ。" + player.getName() + "クン。どうも君はなにかをして南の楽園に来てしまったみたいなんだ");
+							player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "話を聞けば、「" + args[2] + "」という理由でここにきたみたいだね。");
+							player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "なにをしてしまったのか詳しい話は知らないけどさっき言ったような理由でここに来たんだと思うんだ。");
+							player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "ちょっとやったことを反省してみるのもいいかもしれないね");
+							player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
+							for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+								if(!p.getName().equalsIgnoreCase(args[1])) {
+									p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
+								}
+							}
+							Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
 							return true;
 						}
 					}

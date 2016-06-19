@@ -58,8 +58,8 @@ public class OnExplosion implements Listener {
             		tntexplode = false;
             		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
             			if(p.hasPermission("pin_code_auth.joinmsg")) {
-            				p.sendMessage("[" + ChatColor.RED + "TNT" + ChatColor.WHITE + "] " + ChatColor.GREEN + min_player.getName() + "の近くの" + x + " " + y + " " + z + "地点にてTNTが爆発し、ブロックが破壊されました。確認して下さい。");
-            				Bukkit.getLogger().info(min_player.getName() + " near [" + x + " " + y + " " + z + "] TNTExploded.");
+            				p.sendMessage("[" + ChatColor.RED + "TNT" + ChatColor.WHITE + "] " + ChatColor.GREEN + min_player.getName() + "の近く(" + min + "block)の" + x + " " + y + " " + z + "地点にてTNTが爆発し、ブロックが破壊されました。確認して下さい。");
+            				Bukkit.getLogger().info(min_player.getName() + " near(" + min + "block) [" + x + " " + y + " " + z + "] TNTExploded.");
             			}
             		}
             		String name = min_player.getName();

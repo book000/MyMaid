@@ -122,3 +122,8 @@ commands:
       usage: /<command>
       permission: mymaid.lag
       permission-message: You do not have permission to perform this command.
+   mymaid_networkapi:
+      description: api(Rcon Only)
+      usage: /<command>
+      permission: mymaid.lag
+      permission-message: You do not have permission to perform this command.

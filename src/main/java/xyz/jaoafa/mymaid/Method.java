@@ -18,7 +18,7 @@ public class Method {
 		this.plugin = plugin;
 	}
 	public static String url_jaoplugin(String filename, String arg){
-		return url_access("http://toma.webcrow.jp/jao.php?file=" + filename + ".php&" + arg);
+		return url_access("http://nubesco.jaoafa.xyz/plugin/" + filename + ".php?" + arg);
 	}
 	public static String url_access(String address){
 		System.out.println("[MyMaid] URLConnect Start:"+address);
