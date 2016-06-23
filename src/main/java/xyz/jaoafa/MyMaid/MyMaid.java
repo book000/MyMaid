@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Access;
+import xyz.jaoafa.mymaid.Command.ArrowShotter;
 import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Cmdb;
 import xyz.jaoafa.mymaid.Command.Cmdsearch;
@@ -121,6 +122,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("makecmd").setExecutor(new MakeCmd(this));
 		getCommand("lag").setExecutor(new Lag(this));
 		getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
+		getCommand("as").setExecutor(new ArrowShotter(this));
 
 		TitleSender = new TitleSender();
     }

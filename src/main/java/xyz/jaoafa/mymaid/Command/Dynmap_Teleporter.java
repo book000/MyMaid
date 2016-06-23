@@ -79,6 +79,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 						String y = datas[1];
 						String z = datas[2];
 						String world = datas[3];
+						location = codec.decode(location, StandardCharsets.UTF_8.name());
 						MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
 						MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
 						Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
@@ -141,6 +142,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 								String y = datas[1];
 								String z = datas[2];
 								String world = datas[3];
+								location = codec.decode(location, StandardCharsets.UTF_8.name());
 								MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
 								MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
 								Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));

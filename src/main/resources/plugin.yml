@@ -127,3 +127,8 @@ commands:
       usage: /<command>
       permission: mymaid.lag
       permission-message: You do not have permission to perform this command.
+   as:
+      description: Arrow Shotter!
+      usage: /<command>
+      permission: mymaid.as
+      permission-message: You do not have permission to perform this command.
