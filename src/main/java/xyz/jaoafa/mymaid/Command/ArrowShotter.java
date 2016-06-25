@@ -15,6 +15,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 public class ArrowShotter implements CommandExecutor {
@@ -22,38 +23,46 @@ public class ArrowShotter implements CommandExecutor {
 	public ArrowShotter(JavaPlugin plugin){
 		this.plugin = plugin;
 	}
-	/**
-	 * 矢の発射回数
-	 */
 	private int amount;
-
-	/**
-	 * 角度の変更速度
-	 */
 	private int angleInterval;
-
-	/**
-	 * 1回ごとの発射数
-	 */
 	private int shot;
-
-	/**
-	 * 矢の発射角度
-	 */
 	private int angle=0;
-	/**
-	 * スキル処理
-	 */
+	private boolean now = false;
+	private BukkitTask task = null;
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
+		if(args.length == 1){
+			if(args[0].equalsIgnoreCase("stop")){
+				if(task == null){
+					sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "止まってました。");
+					now = false;
+					task = null;
+					return true;
+				}
+				task.cancel();
+				task = null;
+				now = false;
+				sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "停止しました。");
+				return true;
+			}
+		}
+		if(now){
+			sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "現在他のユーザーが実行しています。");
+			return true;
+		}
 		Player player = (Player) sender; //コマンド実行者を代入
 		int level = 30;
 		if(args.length == 1){
-			level = Integer.parseInt(args[0]);
+			try {
+				level = Integer.parseInt(args[0]);
+			} catch (NumberFormatException e) {
+				sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "数字にしてください。");
+		        return true;
+		    }
 		}
 		// 角度の変更速度はレベル10以下なら10度、それ以上は20度
 		angleInterval=level <= 10?10:20;
@@ -65,8 +74,8 @@ public class ArrowShotter implements CommandExecutor {
 		amount=(1 + level / 20) * 36;
 
 		player.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "ArrowShotterを起動しました。動かないでください。");
-
-		new Shoot(plugin, player).runTaskTimer(plugin, 0L,1L);
+		now = true;
+		task = new Shoot(plugin, player).runTaskTimer(plugin, 0L,1L);
 		return true;
 
 	}
@@ -119,7 +128,7 @@ public class ArrowShotter implements CommandExecutor {
 			}
 
 			// 7秒後に、ボスが射った矢をすべて消去する
-			new RemoveEntities(arrows).runTaskLater(plugin,7 * 20);
+			new RemoveEntities(arrows).runTaskLater(plugin,5 * 20);
 
 			// 射る回数をひとつ減らす
 			amount--;
@@ -127,7 +136,9 @@ public class ArrowShotter implements CommandExecutor {
 			// 射る回数がなくなったらスキル終了
 			if(amount == 0){
 				player.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "ArrowShotterを終了しました。");
+				now = false;
 				cancel();
+				task = null;
 			}
 		}
 	}
