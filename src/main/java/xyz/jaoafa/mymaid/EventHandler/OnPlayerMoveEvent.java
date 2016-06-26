@@ -32,9 +32,14 @@ public class OnPlayerMoveEvent implements Listener {
 	   		if(prison.distance(to) >= 150){
 	   			player.sendMessage("[PRISON] " + ChatColor.GREEN + "あなたは南の楽園から出られません！");
 	   			e.setCancelled(true);
-	   			if(prison.distance(to) >= 200){
+	   			try{
+	   				if(prison.distance(to) >= 200){
+		   				player.teleport(prison);
+		   			}
+	   			}catch(java.lang.IllegalArgumentException ex){
 	   				player.teleport(prison);
 	   			}
+
 	   		}
 	}
 }

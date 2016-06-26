@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
-import org.bukkit.block.CommandBlock;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -97,7 +96,7 @@ public class ArrowShotter implements CommandExecutor {
 				sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "現在他のユーザーが実行しています。");
 				return true;
 			}
-			CommandBlock cmdb = (CommandBlock) sender; //コマンド実行者を代入
+			BlockCommandSender cmdb = (BlockCommandSender) sender; //コマンド実行者を代入
 			int level = 30;
 			if(args.length == 1){
 				try {
@@ -190,14 +189,14 @@ public class ArrowShotter implements CommandExecutor {
 		}
 	}
 	public class ShootCmdb extends BukkitRunnable{
-		CommandBlock cmdb;
+		BlockCommandSender cmdb;
 		JavaPlugin plugin;
 		CommandSender sender;
 		/**
 		 * コンストラクタ
 		 * @param entities 消去対象のエンティティ
 		 */
-		public ShootCmdb(JavaPlugin plugin, CommandSender sender, CommandBlock cmdb){
+		public ShootCmdb(JavaPlugin plugin, CommandSender sender, BlockCommandSender cmdb){
 			this.plugin = plugin;
 			this.cmdb=cmdb;
 			this.sender=sender;
@@ -212,7 +211,7 @@ public class ArrowShotter implements CommandExecutor {
 			angle+=angleInterval;
 
 			// 矢を打つ方向にボスを向ける
-			Location loc = cmdb.getLocation();
+			Location loc = cmdb.getBlock().getLocation();
 			loc.setYaw(-angle);
 			//player.teleport(loc);
 
@@ -230,7 +229,7 @@ public class ArrowShotter implements CommandExecutor {
 				Vector v=new Vector(Math.sin(Math.toRadians(angle)),n / 10F,Math.cos(Math.toRadians(angle))).normalize();
 
 				// 矢を発射する
-				Arrow arrow = cmdb.getWorld().spawnArrow(loc.add(v),v,0.6F,12);
+				Arrow arrow = cmdb.getBlock().getWorld().spawnArrow(loc.add(v),v,0.6F,12);
 
 				// 矢の発射者を設定する
 				//arrow.setShooter(cmdb);
