@@ -41,7 +41,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 							p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を牢獄リストに追加しました。");
 						}
 					}
-					Method.url_jaoplugin("pban", "p="+args[1]+"&u=&b="+sendername+"&r=");
+					Method.url_jaoplugin("eban", "p="+args[1]+"&u=&b="+sendername+"&r=");
 					Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を牢獄リストに追加しました。");
 					return true;
 				}
@@ -70,7 +70,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 								p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を牢獄リストに追加しました。");
 							}
 						}
-						Method.url_jaoplugin("pban", "p="+args[1]+"&u="+player.getUniqueId()+"&b="+sendername+"&r=");
+						Method.url_jaoplugin("eban", "p="+args[1]+"&u="+player.getUniqueId()+"&b="+sendername+"&r=");
 						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を牢獄リストに追加しました。");
 						return true;
 					}
@@ -240,7 +240,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 							p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
 						}
 					}
-					Method.url_jaoplugin("pban", "p="+args[1]+"&u=&b="+sendername+"&r=");
+					Method.url_jaoplugin("eban", "p="+args[1]+"&u=&b="+sendername+"&r=");
 					Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
 					return true;
 				}
@@ -269,7 +269,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 								p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
 							}
 						}
-						Method.url_jaoplugin("pban", "p="+args[1]+"&u="+player.getUniqueId()+"&b="+sendername+"&r="+args[2]);
+						Method.url_jaoplugin("eban", "p="+args[1]+"&u="+player.getUniqueId()+"&b="+sendername+"&r="+args[2]);
 						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
 						return true;
 					}
