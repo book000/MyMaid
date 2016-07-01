@@ -132,3 +132,13 @@ commands:
       usage: /<command>
       permission: mymaid.as
       permission-message: You do not have permission to perform this command.
+   ruleload:
+      description: Console Only
+      usage: /<command>
+      permission: mymaid.ruleload
+      permission-message: You do not have permission to perform this command.
+   report:
+      description: Message Send to Staff.
+      usage: /<command>
+      permission: mymaid.report
+      permission-message: You do not have permission to perform this command.
