@@ -29,7 +29,41 @@ public class Prison implements CommandExecutor, TabCompleter {
 	}
 	public static Map<String,Boolean> prison = new HashMap<String,Boolean>();
 	public static Map<String,Boolean> prison_block = new HashMap<String,Boolean>();
+	public static Map<String,String> prison_lasttext = new HashMap<String,String>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		if(args.length >= 2){
+
+			if(args[0].equalsIgnoreCase("lasttext")){
+				if (!(sender instanceof Player)) {
+					sender.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤーから実行する必要があります。");
+				}
+				if(!prison.containsKey(sender.getName())){
+					sender.sendMessage("[JAIL] " + ChatColor.GREEN + "あなたは牢獄にいません。");
+		  			return true;
+		  		}
+				if(prison_lasttext.containsKey(sender.getName())){
+					sender.sendMessage("[JAIL] " + ChatColor.GREEN + "すでに残しています。");
+		  			return true;
+		  		}
+				String text = "";
+				String lasttext = "";
+				int c = 1;
+				while(args.length > c){
+					text += args[c];
+					lasttext += args[c];
+					if(args.length != (c+1)){
+						text+="_";
+						lasttext+=" ";
+					}
+					c++;
+				}
+				Method.url_jaoplugin("eban", "p="+sender.getName()+"&lasttext="+text);
+				prison_lasttext.put(sender.getName(), lasttext);
+				Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー「" + sender.getName() +"」が遺言を残しました。遺言:「" + lasttext +"」");
+				return true;
+			}
+
+		}
 		if(args.length == 2){
 			if(args[0].equalsIgnoreCase("add")){
 				String sendername = sender.getName();
@@ -88,6 +122,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 				}
 				prison.remove(args[1]);
 				prison_block.remove(args[1]);
+				prison_lasttext.remove(args[1]);
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(player.getName().equalsIgnoreCase(args[1])) {
 						Date Date = new Date();

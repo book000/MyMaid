@@ -24,6 +24,15 @@ public class OnPlayerCommandPreprocessEvent implements Listener {
   		if(!Prison.prison.containsKey(player.getName())){
   			return;
   		}
+  		String command = e.getMessage();
+    	String[] args = command.split(" ", 0);
+    	if(args.length >= 2){
+    		if(args[0].equalsIgnoreCase("/jail")){
+    			if(args[1].equalsIgnoreCase("lasttext")){
+    				return;
+    			}
+    		}
+		}
   		e.setCancelled(true);
   		player.sendMessage("[JAIL] " + ChatColor.GREEN + "あなたはコマンドを実行できません。");
   		Bukkit.getLogger().info("[JAIL] "+player.getName()+"==>あなたはコマンドを実行できません。");
