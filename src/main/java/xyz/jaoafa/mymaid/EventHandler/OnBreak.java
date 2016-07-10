@@ -15,6 +15,9 @@ public class OnBreak implements Listener {
 	}
 	@EventHandler
 	public void onBreak(BlockBreakEvent e){
+		if(e.getBlock().getWorld().getName().equalsIgnoreCase("Summer2016")){
+			return;
+		}
 		if(e.getBlock().getType() == Material.CROPS){
 			Crops block = (Crops)e.getBlock().getState().getData();
 			if(block.getState() == CropState.RIPE){

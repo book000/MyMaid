@@ -38,6 +38,8 @@ public class OnJoin implements Listener {
 				}
 			}
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + player.getName() + " group set D");
+		}else{
+			return;
 		}
 
 		String data = Method.url_access("http://nubesco.jaoafa.xyz/plugin/access.php?i="+ip);

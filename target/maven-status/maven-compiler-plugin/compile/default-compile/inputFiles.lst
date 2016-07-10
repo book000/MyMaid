@@ -16,6 +16,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerJoinEvent.
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SSK.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockRedstoneEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Prison.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Explode.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynmap_Teleporter.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBucketEmptyEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnQuitGame.java

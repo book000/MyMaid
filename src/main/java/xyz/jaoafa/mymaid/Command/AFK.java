@@ -27,7 +27,7 @@ public class AFK implements CommandExecutor{
 	public static Map<String,BukkitTask> tnt = new HashMap<String,BukkitTask>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("[DT] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+			sender.sendMessage("[AFK] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}

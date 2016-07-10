@@ -22,6 +22,7 @@ import xyz.jaoafa.mymaid.Command.Cmdb;
 import xyz.jaoafa.mymaid.Command.Cmdsearch;
 import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
+import xyz.jaoafa.mymaid.Command.Explode;
 import xyz.jaoafa.mymaid.Command.Gamemode_Change;
 import xyz.jaoafa.mymaid.Command.Head;
 import xyz.jaoafa.mymaid.Command.Ip_To_Host;
@@ -105,6 +106,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("jf").setExecutor(new Jf(this));
 		getCommand("dt").setExecutor(new Dynmap_Teleporter(this));
 		getCommand("dt").setTabCompleter(new Dynmap_Teleporter(this));
+		getCommand("explode").setExecutor(new Explode(this));
 		getCommand("g").setExecutor(new Gamemode_Change(this));
 		getCommand("iphost").setExecutor(new Ip_To_Host(this));
 		getCommand("data").setExecutor(new Data(this));

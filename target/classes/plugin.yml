@@ -142,3 +142,8 @@ commands:
       usage: /<command>
       permission: mymaid.report
       permission-message: You do not have permission to perform this command.
+   explode:
+      description: Explode Off OR On
+      usage: /<command> X Y Z R
+      permission: mymaid.explode
+      permission-message: You do not have permission to perform this command.
