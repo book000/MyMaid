@@ -54,6 +54,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnJoin;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBucketEmptyEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommand;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommandPreprocessEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnPlayerInteractEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerItemHeldEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerJoinEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveEvent;
@@ -88,6 +89,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnPlayerBucketEmptyEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerCommand(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerCommandPreprocessEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnPlayerInteractEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerMoveEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerPickupItemEvent(this), this);

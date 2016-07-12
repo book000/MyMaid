@@ -90,7 +90,7 @@ public class OnExplosion implements Listener {
 		}
 		return;
 	}
-	private class TNT_Explode_Reset extends BukkitRunnable {
+	public static class TNT_Explode_Reset extends BukkitRunnable {
 		JavaPlugin plugin;
 		public TNT_Explode_Reset(JavaPlugin plugin) {
 			this.plugin = plugin;
