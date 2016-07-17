@@ -20,8 +20,8 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Prison.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Explode.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynmap_Teleporter.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBucketEmptyEvent.java
-N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnQuitGame.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SaveWorld.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnQuitGame.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gamemode_Change.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MakeCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveEvent.java
@@ -49,5 +49,6 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatE
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Chat.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Report.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\TitleSender.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\E.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Method.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\AFK.java
