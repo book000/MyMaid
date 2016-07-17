@@ -25,12 +25,12 @@ public class OnPlayerInteractEvent implements Listener {
 	public OnPlayerInteractEvent(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler
 	public void onPlayerInteractEvent(PlayerInteractEvent e){
 		if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-	    Block clickedBlock = e.getClickedBlock();
-	    Material material = clickedBlock.getType();
-	    if (material == Material.BED) {
+		Block clickedBlock = e.getClickedBlock();
+		Material material = clickedBlock.getType();
+	    if (material == Material.BED_BLOCK) {
 	        Player player = e.getPlayer();
 	        Location location = clickedBlock.getLocation();
 	        if(location.getWorld().getEnvironment() == Environment.NORMAL){
@@ -47,12 +47,13 @@ public class OnPlayerInteractEvent implements Listener {
 					continue;
 				}
 				if(distance < explode.getValue()){
+					clickedBlock.breakNaturally();
 					e.setCancelled(true);
 					return;
 				}
 			}
-
 			if(player.hasPermission("mymaid.pex.default") || player.hasPermission("mymaid.pex.provisional")){
+				clickedBlock.breakNaturally();
 				e.setCancelled(true);
 				return;
 			}
@@ -64,9 +65,9 @@ public class OnPlayerInteractEvent implements Listener {
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 						if(p.hasPermission("pin_code_auth.joinmsg")) {
 							p.sendMessage("[" + ChatColor.RED + "TNT(BED)" + ChatColor.WHITE + "] " + ChatColor.GREEN + player.getName() + "の近くの" + x + " " + y + " " + z + "地点["+location.getWorld().getName()+"]にてTNT(BED)が爆発し、ブロックが破壊されました。確認して下さい。");
-							Bukkit.getLogger().info(player.getName() + " near [" + x + " " + y + " " + z + " "+location.getWorld().getName()+"] TNT(BED)Exploded.");
 						}
 					}
+					Bukkit.getLogger().info(player.getName() + " near [" + x + " " + y + " " + z + " "+location.getWorld().getName()+"] TNT(BED)Exploded.");
 					String name = player.getName();
 					UUID uuid = player.getUniqueId();
 					Method.url_jaoplugin("tnt", "p="+name+"&u="+uuid+"&x="+x+"&y="+y+"&z="+z+"&w="+location.getWorld().getName());

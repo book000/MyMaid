@@ -74,9 +74,9 @@ public class OnExplosion implements Listener {
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 						if(p.hasPermission("pin_code_auth.joinmsg")) {
 							p.sendMessage("[" + ChatColor.RED + "TNT" + ChatColor.WHITE + "] " + ChatColor.GREEN + min_player.getName() + "の近く(" + min + "block)の" + x + " " + y + " " + z + "地点["+location.getWorld().getName()+"]にてTNTが爆発し、ブロックが破壊されました。確認して下さい。");
-							Bukkit.getLogger().info(min_player.getName() + " near(" + min + "block) [" + x + " " + y + " " + z + " "+location.getWorld().getName()+"] TNTExploded.");
 						}
 					}
+					Bukkit.getLogger().info(min_player.getName() + " near(" + min + "block) [" + x + " " + y + " " + z + " "+location.getWorld().getName()+"] TNTExploded.");
 					String name = min_player.getName();
 					UUID uuid = min_player.getUniqueId();
 					Method.url_jaoplugin("tnt", "p="+name+"&u="+uuid+"&x="+x+"&y="+y+"&z="+z+"&w="+location.getWorld().getName());
