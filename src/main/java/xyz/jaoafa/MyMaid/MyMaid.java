@@ -5,10 +5,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TimeZone;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -69,6 +71,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 	public static Map<String,String> chatcolor = new HashMap<String,String>();
 	public static TitleSender TitleSender;
+	FileConfiguration conf;
 	@Override
     public void onEnable() {
     	getLogger().info("(c) jao Minecraft Server MyMaid Project.");
@@ -136,12 +139,48 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
 		getCommand("as").setExecutor(new ArrowShotter(this));
 
+		conf = getConfig();
+
+		if(conf.contains("prison")){
+			//Prison.prison = (Map<String,Boolean>) conf.getConfigurationSection("prison").getKeys(false);
+			Map<String, Object> pl = conf.getConfigurationSection("prison").getValues(true);
+			for(Entry<String, Object> p: pl.entrySet()){
+				Prison.prison.put(p.getKey(), (Boolean) p.getValue());
+			}
+ 		}else{
+ 			Prison.prison = new HashMap<String,Boolean>();
+ 			conf.set("prison",Prison.prison);
+ 		}
+		if(conf.contains("prison_block")){
+			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
+			Map<String, Object> pl = conf.getConfigurationSection("prison_block").getValues(true);
+			for(Entry<String, Object> p: pl.entrySet()){
+				Prison.prison_block.put(p.getKey(), (Boolean) p.getValue());
+			}
+ 		}else{
+ 			Prison.prison_block = new HashMap<String,Boolean>();
+ 			conf.set("prison_block",Prison.prison_block);
+ 		}
+		if(conf.contains("prison_lasttext")){
+			Map<String, Object> pl = conf.getConfigurationSection("prison_lasttext").getValues(true);
+			for(Entry<String, Object> p: pl.entrySet()){
+				Prison.prison_lasttext.put(p.getKey(), p.getValue().toString());
+			}
+			Prison.prison_lasttext = null;
+ 		}else{
+ 			Prison.prison_lasttext = new HashMap<String,String>();
+ 			conf.set("prison_lasttext",Prison.prison_lasttext);
+ 		}
+
 		TitleSender = new TitleSender();
     }
 
     @Override
     public void onDisable() {
-
+    	conf.set("prison",Prison.prison);
+		conf.set("prison_block",Prison.prison_block);
+		conf.set("prison_lasttext",Prison.prison_lasttext);
+    	saveConfig();
     }
 
 

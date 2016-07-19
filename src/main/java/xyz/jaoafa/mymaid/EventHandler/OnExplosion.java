@@ -28,28 +28,35 @@ public class OnExplosion implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onEntityExplodeEvent(EntityExplodeEvent e){
-		BlockState states = null;
-		for(Block block : e.blockList()){
-			states = block.getState();
-			break;
-		}
-		Location location = states.getLocation();
-		int x = location.getBlockX();
-		int y = location.getBlockY();
-		int z = location.getBlockZ();
-		for(Map.Entry<Location, Integer> explode : Explode.explode.entrySet()) {
-			double distance;
-			try {
-				distance = location.distance(explode.getKey());
-			}catch(Exception e1) {
-				continue;
+		Location location;
+		try{
+			BlockState states = null;
+			for(Block block : e.blockList()){
+				states = block.getState();
+				break;
 			}
-			if(distance < explode.getValue()){
-				e.setCancelled(true);
-				return;
-			}
+			location = states.getLocation();
+		}catch(java.lang.NullPointerException e1) {
+			tntexplode = false;
+			return;
 		}
 		try{
+			int x = location.getBlockX();
+			int y = location.getBlockY();
+			int z = location.getBlockZ();
+			for(Map.Entry<Location, Integer> explode : Explode.explode.entrySet()) {
+				double distance;
+				try {
+					distance = location.distance(explode.getKey());
+				}catch(Exception e1) {
+					continue;
+				}
+				if(distance < explode.getValue()){
+					e.setCancelled(true);
+					return;
+				}
+			}
+
 			double min = 1.79769313486231570E+308;
 			Player min_player = null;
 			for(Player player: Bukkit.getServer().getOnlinePlayers()){
@@ -86,7 +93,7 @@ public class OnExplosion implements Listener {
 					Bukkit.getLogger().info("TNT Exploded notice off");
 				}
 			}
-		}catch(Exception e1) {
+		}catch(java.lang.NullPointerException e1) {
 			tntexplode = false;
 			new TNT_Explode_Reset(plugin).runTaskLater(plugin, 1200L);
 		}

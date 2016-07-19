@@ -16,7 +16,7 @@ public class E implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if (!(sender instanceof Player)) {
+		if (sender instanceof Player) {
 			Player player = (Player)sender;
 			World World = player.getWorld();
 			Location location = player.getLocation();
@@ -26,8 +26,9 @@ public class E implements CommandExecutor {
 			Location tnt = new Location(World, x, y, z);
 			Explode.explode.put(tnt, 100);
 			sender.sendMessage("[E] " + ChatColor.GREEN + "一時的にここから100ブロック範囲内の爆発を無効化しました。解除するには/explodeコマンドを使用してください。");
+			return true;
 		}
-		if (!(sender instanceof BlockCommandSender)) {
+		if (sender instanceof BlockCommandSender) {
 			BlockCommandSender cmb = (BlockCommandSender)sender;
 			World World = cmb.getBlock().getWorld();
 			Location location = cmb.getBlock().getLocation();
@@ -37,8 +38,9 @@ public class E implements CommandExecutor {
 			Location tnt = new Location(World, x, y, z);
 			Explode.explode.put(tnt, 100);
 			sender.sendMessage("[E] " + ChatColor.GREEN + "一時的にここから100ブロック範囲内の爆発を無効化しました。解除するには/explodeコマンドを使用してください。");
+			return true;
 		}
-
-		return false;
+		sender.sendMessage("[E] " + ChatColor.GREEN + "プレイヤーかコマンドブロックから実行してください");
+		return true;
 	}
 }
