@@ -1,4 +1,5 @@
 # MyMaid
+[![Build Status](https://travis-ci.org/book000/MyMaid.svg?branch=master)](https://travis-ci.org/book000/MyMaid)
 [jaoafaServer](https://jaoafa.xyz/)  
 ここでは、MyMaidプラグインのソースコードを公開していますが、Jao鯖専用プラグインにつき無断使用を禁止します。
 
