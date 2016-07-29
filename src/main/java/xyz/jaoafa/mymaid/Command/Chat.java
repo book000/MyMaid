@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.Method;
+
 public class Chat implements CommandExecutor {
 	JavaPlugin plugin;
 	public Chat(JavaPlugin plugin) {
@@ -32,7 +34,7 @@ public class Chat implements CommandExecutor {
 		if(args.length >= 2){
 			for(Player pl: Bukkit.getServer().getOnlinePlayers()) {
 				if(pl.getName().equalsIgnoreCase(args[0])) {
-					sender.sendMessage("[CHAT] " + ChatColor.GREEN + "オンラインユーザーを話者に指定できません。");
+					Method.SendMessage(sender, cmd, "オンラインユーザーを話者に指定できません。");
 					return true;
 				}
 			}
@@ -52,7 +54,7 @@ public class Chat implements CommandExecutor {
 			date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GRAY + "■" + ChatColor.WHITE + args[0] +  ": " + text);
 		}else{
-			sender.sendMessage("[CHAT] " + ChatColor.GREEN + "このコマンドには2つ以上の引数が必要です。");
+			Method.SendMessage(sender, cmd, "このコマンドには2つ以上の引数が必要です。");
 		}
 		return true;
 	}

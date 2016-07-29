@@ -1,6 +1,5 @@
 package xyz.jaoafa.mymaid.Command;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
@@ -9,6 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import xyz.jaoafa.mymaid.Method;
 
 public class E implements CommandExecutor {
 	JavaPlugin plugin;
@@ -25,7 +26,7 @@ public class E implements CommandExecutor {
 			int z = location.getBlockZ();
 			Location tnt = new Location(World, x, y, z);
 			Explode.explode.put(tnt, 100);
-			sender.sendMessage("[E] " + ChatColor.GREEN + "一時的にここから100ブロック範囲内の爆発を無効化しました。解除するには/explodeコマンドを使用してください。");
+			Method.SendMessage(sender, cmd, "一時的にここから100ブロック範囲内の爆発を無効化しました。解除するには/explodeコマンドを使用してください。");
 			return true;
 		}
 		if (sender instanceof BlockCommandSender) {
@@ -37,10 +38,10 @@ public class E implements CommandExecutor {
 			int z = location.getBlockZ();
 			Location tnt = new Location(World, x, y, z);
 			Explode.explode.put(tnt, 100);
-			sender.sendMessage("[E] " + ChatColor.GREEN + "一時的にここから100ブロック範囲内の爆発を無効化しました。解除するには/explodeコマンドを使用してください。");
+			Method.SendMessage(sender, cmd, "一時的にここから100ブロック範囲内の爆発を無効化しました。解除するには/explodeコマンドを使用してください。");
 			return true;
 		}
-		sender.sendMessage("[E] " + ChatColor.GREEN + "プレイヤーかコマンドブロックから実行してください");
+		Method.SendMessage(sender, cmd, "プレイヤーかコマンドブロックから実行してください");
 		return true;
 	}
 }

@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 
 public class Ja implements CommandExecutor {
@@ -26,7 +27,7 @@ public class Ja implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		// 変数定義
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("[JF] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}

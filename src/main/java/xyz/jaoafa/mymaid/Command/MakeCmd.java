@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,6 +18,8 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.Method;
+
 public class MakeCmd implements CommandExecutor {
 	JavaPlugin plugin;
 	public MakeCmd(JavaPlugin plugin) {
@@ -27,13 +28,13 @@ public class MakeCmd implements CommandExecutor {
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("[MakeCmd] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
 		Player player = (Player) sender; //コマンド実行者を代入
 		if(player.getItemInHand().getType() == Material.AIR){
-			player.sendMessage("[MakeCmd] " + ChatColor.GREEN + "アイテムを持っていません。");
+			Method.SendMessage(sender, cmd, "アイテムを持っていません。");
 			return true;
 		}
 
@@ -237,9 +238,9 @@ public class MakeCmd implements CommandExecutor {
 			}
 			command += "}";
 		}else{
-			player.sendMessage("[MakeCmd] " + ChatColor.GREEN + "そのアイテムは現在対応していません。");
-			player.sendMessage("[MakeCmd] " + ChatColor.GREEN + "必要であれば以下のデバックデータを撮影し、プラグイン管理者までお問い合わせください。");
-			player.sendMessage("[MakeCmd] " + ChatColor.GREEN + "Debug HandMaterial:「" + handtype + "」");
+			Method.SendMessage(sender, cmd, "そのアイテムは現在対応していません。");
+			Method.SendMessage(sender, cmd, "必要であれば以下のデバックデータを撮影し、プラグイン管理者までお問い合わせください。");
+			Method.SendMessage(sender, cmd, "Debug HandMaterial:「" + handtype + "」");
 			return true;
 		}
 
@@ -253,12 +254,12 @@ public class MakeCmd implements CommandExecutor {
 
 	    	  filewriter.close();
 	    }catch(IOException e){
-	    	player.sendMessage("[MakeCmd] " + ChatColor.GREEN + "保存できませんでした。");
+	    	Method.SendMessage(sender, cmd, "保存できませんでした。");
 	    	System.out.println(e);
 
 	    	  return true;
 	    }
-	    player.sendMessage("[MakeCmd] " + ChatColor.GREEN + "保存しました。ファイル名: 「" + plugin.getDataFolder() + File.separator + uuid + "-" + handtype + ".txt」");
+		Method.SendMessage(sender, cmd, "保存しました。ファイル名: 「" + plugin.getDataFolder() + File.separator + uuid + "-" + handtype + ".txt」");
 		return true;
 	}
 }

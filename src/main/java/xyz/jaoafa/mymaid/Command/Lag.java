@@ -1,6 +1,5 @@
 package xyz.jaoafa.mymaid.Command;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +22,7 @@ public class Lag implements CommandExecutor {
 		String start = arr[0];
 		String end = arr[1];
 		String lag = arr[2];
-		sender.sendMessage("[Lag] " + ChatColor.GREEN + "最新のラグデータ: " + lag + "秒 (" + start + "～" + end + ")");
+		Method.SendMessage(sender, cmd, "最新のラグデータ: " + lag + "秒 (" + start + "～" + end + ")");
 		return true;
 	}
 }

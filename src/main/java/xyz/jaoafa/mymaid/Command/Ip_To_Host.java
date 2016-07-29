@@ -9,11 +9,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.net.URLCodec;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import xyz.jaoafa.mymaid.Method;
 
 public class Ip_To_Host implements CommandExecutor {
 	JavaPlugin plugin;
@@ -27,14 +28,14 @@ public class Ip_To_Host implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 
     		if(args.length == 0){
-				sender.sendMessage("[IPHOST] " + ChatColor.GREEN + "このコマンドは1つの引数が必要です。");
+    			Method.SendMessage(sender, cmd, "このコマンドは1つの引数が必要です。");
 				return false;
     		}
     		String regex = "^([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)$"; //正規表現
 			Pattern p = Pattern.compile(regex);
 			Matcher m = p.matcher(args[0]);
 			if (!m.find()){
-				sender.sendMessage("[IPHOST] " + ChatColor.GREEN + "エラーが発生しました。IPアドレスを入力してください");
+				Method.SendMessage(sender, cmd, "エラーが発生しました。IPアドレスを入力してください");
 				return true;
 			}
 			try{
@@ -47,23 +48,23 @@ public class Ip_To_Host implements CommandExecutor {
 				data = readString(in);
 
 				if(data == null){
-					sender.sendMessage("エラーが発生しました。");
+					Method.SendMessage(sender, cmd, "エラーが発生しました。");
 					return true;
 				}
 				if(data.equalsIgnoreCase("Err")){
-					sender.sendMessage("[IPHOST] " + ChatColor.GREEN + "エラーが発生しました。ホストが取得できなかったか、処理に失敗した可能性があります。");
+					Method.SendMessage(sender, cmd, "エラーが発生しました。ホストが取得できなかったか、処理に失敗した可能性があります。");
 					return true;
 				}
 				String[] datas = data.split("###", 0);
 				URLCodec codec = new URLCodec();
 				String country = codec.decode(datas[0], StandardCharsets.UTF_8.name());
-				sender.sendMessage("[IPHOST] " + ChatColor.GREEN + "IPアドレス:「" + args[0] + "」のホスト名は「" + datas[1] + "」(" + country + ")です。");
+				Method.SendMessage(sender, cmd, "IPアドレス:「" + args[0] + "」のホスト名は「" + datas[1] + "」(" + country + ")です。");
 				return true;
 
 			}catch(Exception e){
 				//例外処理が発生したら、表示する
 				System.out.println(e);
-				sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+				Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
 				return true;
 			}
 	}

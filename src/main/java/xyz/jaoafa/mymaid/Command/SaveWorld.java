@@ -6,6 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.Method;
+
 public class SaveWorld implements CommandExecutor {
 	JavaPlugin plugin;
 	public SaveWorld(JavaPlugin plugin) {
@@ -16,10 +18,10 @@ public class SaveWorld implements CommandExecutor {
 		boolean str;
 		str = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");
 		if(str){
-			sender.sendMessage("ワールドセーブに成功しました。");
+			Method.SendMessage(sender, cmd, "ワールドセーブに成功しました。");
 			return true;
 		}else{
-			sender.sendMessage("ワールドセーブに失敗しました。");
+			Method.SendMessage(sender, cmd, "ワールドセーブに失敗しました。");
 			return true;
 		}
 	}

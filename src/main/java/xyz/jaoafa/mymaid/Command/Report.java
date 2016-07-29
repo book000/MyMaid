@@ -3,7 +3,6 @@ package xyz.jaoafa.mymaid.Command;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,7 +18,7 @@ public class Report implements CommandExecutor {
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("[Report] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
@@ -37,7 +36,7 @@ public class Report implements CommandExecutor {
 				c++;
 			}
 			Method.url_jaoplugin("report", "p="+name+"&u="+uuid+"&t="+text);
-			sender.sendMessage("[Report] " + ChatColor.GREEN + "送信しました。");
+			Method.SendMessage(sender, cmd, "送信しました。");
 			return true;
 		}
 		return true;

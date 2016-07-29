@@ -28,7 +28,7 @@ public class Vote implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		// 変数定義
 		if (!(sender instanceof ConsoleCommandSender)) {
-			sender.sendMessage("[Vote] " + ChatColor.GREEN + "You do not have permission to perform this command.");
+			Method.SendMessage(sender, cmd, "You do not have permission to perform this command.");
 			return true;
 		}
 		if(args.length != 1){

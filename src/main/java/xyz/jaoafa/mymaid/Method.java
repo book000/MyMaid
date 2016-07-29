@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Method {
@@ -88,4 +90,7 @@ public class Method {
         SimpleDateFormat sdf = new SimpleDateFormat("ss.SSSSS");
         return sdf.format(result.getTime());
     }
+	public static void SendMessage(CommandSender sender, Command cmd, String text) {
+		sender.sendMessage("[" + cmd.getName().toUpperCase() +"] " + ChatColor.GREEN + text);
+	}
 }

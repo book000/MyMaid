@@ -24,7 +24,7 @@ public class SSK implements CommandExecutor {
 	  		String data = Method.url_jaoplugin("joinvote", "u="+uuid);
 	  		String[] arr = data.split("###", 0);
 	  		MyMaid.chatcolor.put(player.getName(), arr[1]);
-	  		sender.sendMessage(player.getName()+"'s SKK -> "+arr[1]);
+	  		Method.SendMessage(sender, cmd, player.getName()+"'s SKK -> "+arr[1]);
 		}else if(args.length == 1){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(p.getName().equalsIgnoreCase(args[0])){
@@ -32,7 +32,7 @@ public class SSK implements CommandExecutor {
 			  		String data = Method.url_jaoplugin("joinvote", "u="+uuid);
 			  		String[] arr = data.split("###", 0);
 			  		MyMaid.chatcolor.put(p.getName(), arr[1]);
-			  		sender.sendMessage(p.getName()+"'s SKK -> "+arr[1]);
+			  		Method.SendMessage(sender, cmd, p.getName()+"'s SKK -> "+arr[1]);
 				}
     		}
 

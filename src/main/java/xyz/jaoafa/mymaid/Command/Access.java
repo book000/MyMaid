@@ -3,7 +3,6 @@ package xyz.jaoafa.mymaid.Command;
 import java.net.InetAddress;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,33 +23,30 @@ public class Access implements CommandExecutor {
 					InetAddress ip = player.getAddress().getAddress();
 					String data = Method.url_jaoplugin("access", "i="+ip);
 					if(data.equalsIgnoreCase("NO")){
-						sender.sendMessage("[PCA] " + ChatColor.GREEN + "このユーザー「"+player.getName()+"」がアクセスしたページ:なし");
+						Method.SendMessage(sender, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:なし");
+						return true;
 					}else if(data.indexOf(",") == -1){
-						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-							if(p.hasPermission("pin_code_auth.joinmsg")) {
-								p.sendMessage("[PCA] " + ChatColor.GREEN + "このユーザー「"+player.getName()+"」がアクセスしたページ:"+data+"");
-							}
-						}
+						Method.SendMessage(sender, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:"+data+"");
 						Bukkit.getLogger().info("このユーザーがアクセスしたページ:"+data+"");
+						return true;
 					}else{
 						String[] access = data.split(",", 0);
 						String accesstext = "";
 						for (String one: access){
 							accesstext += "「"+one+"」";
 						}
-						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-							if(p.hasPermission("pin_code_auth.joinmsg")) {
-								p.sendMessage("[PCA] " + ChatColor.GREEN + "このユーザー「"+player.getName()+"」がアクセスしたページ:"+accesstext+"など");
-							}
-						}
+						Method.SendMessage(sender, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:"+accesstext+"など");
 						Bukkit.getLogger().info("このユーザーがアクセスしたページ:"+accesstext+"など");
+						return true;
 					}
 				}
+				Method.SendMessage(sender, cmd, "ユーザーが見つかりませんでした。");
+				return true;
 			}
-
-
+		}else{
+			Method.SendMessage(sender, cmd, "引数が適していません。");
+			return true;
 		}
-
-		return true;
+		return false;
 	}
 }

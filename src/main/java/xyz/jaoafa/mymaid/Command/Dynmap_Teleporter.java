@@ -21,6 +21,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 
 public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
@@ -35,12 +36,12 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 	    URLCodec codec = new URLCodec();
 		if(args.length == 0){
-			sender.sendMessage("[DT] " + ChatColor.GREEN + "このコマンドは1つまたは2つの引数が必要です。");
+			Method.SendMessage(sender, cmd, "このコマンドは1つまたは2つの引数が必要です。");
 			return false;
 		}else if(args.length == 1){
 			// コマンド実行者がプレイヤーかどうか
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("[DT] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+				Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 				Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 				return true;
 			}
@@ -59,19 +60,19 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				InputStream in=connect.getInputStream();//ファイルを開く
 				String data;//ネットから読んだデータを保管する変数を宣言
 				if(location.equalsIgnoreCase("list")){
-					sender.sendMessage("[DT] " + ChatColor.GREEN + "----- Location List -----");
+					Method.SendMessage(sender, cmd, "----- Location List -----");
 					data = readString(in);//1行読み取り
 					while (data != null) {//読み取りが成功していれば
 						data = codec.decode(data, StandardCharsets.UTF_8.name());
-						sender.sendMessage("[DT] " + ChatColor.GREEN + data);
+						Method.SendMessage(sender, cmd, data);
 						data = readString(in);//次を読み込む
 					}
-					sender.sendMessage("[DT] " + ChatColor.GREEN + "-------------------------");
+					Method.SendMessage(sender, cmd, "-------------------------");
 					return true;
 				}else{
 					data = readString(in);
 					if(data.equalsIgnoreCase("NOLOCATION")){
-						sender.sendMessage("[DT] " + ChatColor.GREEN + "その名前の場所は登録されていません。/dt listで場所を確認してください。");
+						Method.SendMessage(sender, cmd, "その名前の場所は登録されていません。/dt listで場所を確認してください。");
 						return true;
 					}else{
 						String[] datas = data.split(",", 0);
@@ -91,8 +92,8 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 
 			}catch(Exception e){
 				//例外処理が発生したら、表示する
-				System.out.println(e);
-				sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+				e.printStackTrace();
+				Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
 			}
 		}else if(args.length >= 2){
 			String p;
@@ -122,19 +123,19 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 						InputStream in=connect.getInputStream();//ファイルを開く
 						String data;//ネットから読んだデータを保管する変数を宣言
 						if(location.equalsIgnoreCase("list")){
-							sender.sendMessage("[DT] " + ChatColor.GREEN + "----- Location List -----");
+							Method.SendMessage(sender, cmd, "----- Location List -----");
 							data = readString(in);//1行読み取り
 							while (data != null) {//読み取りが成功していれば
 								data = codec.decode(data, StandardCharsets.UTF_8.name());
-								sender.sendMessage("[DT] " + ChatColor.GREEN + data);
+								Method.SendMessage(sender, cmd, data);
 								data = readString(in);//次を読み込む
 							}
-							sender.sendMessage("[DT] " + ChatColor.GREEN + "-------------------------");
+							Method.SendMessage(sender, cmd, "-------------------------");
 							return true;
 						}else{
 							data = readString(in);
 							if(data.equalsIgnoreCase("NOLOCATION")){
-								sender.sendMessage("[DT] " + ChatColor.GREEN + "その名前の場所は登録されていません。/dt listで場所を確認してください。");
+								Method.SendMessage(sender, cmd, "その名前の場所は登録されていません。/dt listで場所を確認してください。");
 								return true;
 							}else{
 								String[] datas = data.split(",", 0);
@@ -155,12 +156,12 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 					}catch(Exception e){
 						//例外処理が発生したら、表示する
 						System.out.println(e);
-						sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+						Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
 					}
 					return true;
 				}
 			}
-			sender.sendMessage("[DT] " + ChatColor.GREEN + "ユーザーが見つかりません");
+			Method.SendMessage(sender, cmd, "ユーザーが見つかりません");
 			return true;
 		}
 		return false;
@@ -168,7 +169,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 
 	String[] datas;
     URLCodec codec = new URLCodec();
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
 		if (args.length == 2) {
             if (args[1].length() == 0) { // /testまで
             	try{
@@ -192,7 +193,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				}catch(Exception e){
 					//例外処理が発生したら、表示する
 					System.out.println(e);
-					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+					Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
 				}
             } else{
             	try{
@@ -217,11 +218,11 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				}catch(Exception e){
 					//例外処理が発生したら、表示する
 					System.out.println(e);
-					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+					Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
 				}
             }
         }else if(args.length == 1){
-        	if (args[0].length() != 0 && command.getName().equalsIgnoreCase("dt")) {
+        	if (args[0].length() != 0 && cmd.getName().equalsIgnoreCase("dt")) {
         		try{
 					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[0]);
 					// URL接続
@@ -244,13 +245,13 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				}catch(Exception e){
 					//例外処理が発生したら、表示する
 					System.out.println(e);
-					sender.sendMessage("エラーが発生しました。詳しくはサーバーログを確認してください。");
+					Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
 
 				}
         	}
         }
         //JavaPlugin#onTabComplete()を呼び出す
-        return plugin.onTabComplete(sender, command, alias, args);
+        return plugin.onTabComplete(sender, cmd, alias, args);
 	}
 	//InputStreamより１行だけ読む（読めなければnullを返す）
 	static String readString(InputStream in){

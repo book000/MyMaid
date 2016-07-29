@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 
 public class AFK implements CommandExecutor{
@@ -27,7 +28,7 @@ public class AFK implements CommandExecutor{
 	public static Map<String,BukkitTask> tnt = new HashMap<String,BukkitTask>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("[AFK] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
@@ -41,7 +42,7 @@ public class AFK implements CommandExecutor{
 					new ItemStack(Material.AIR)};
 			player.getInventory().setArmorContents(after);
 			player.updateInventory();
-			sender.sendMessage("[AFK] " + ChatColor.GREEN + "AFK false");
+			Method.SendMessage(sender, cmd, "AFK false");
 			try {
 				tnt.get(player.getName()).cancel();
 			}catch(Exception e){
@@ -57,7 +58,7 @@ public class AFK implements CommandExecutor{
 					new ItemStack(Material.ICE)};
 			player.getInventory().setArmorContents(after);
 			player.updateInventory();
-			sender.sendMessage("[AFK] " + ChatColor.GREEN + "AFK true");
+			Method.SendMessage(sender, cmd, "AFK true");
 			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
 			try {
 			tnt.get(player.getName()).cancel();

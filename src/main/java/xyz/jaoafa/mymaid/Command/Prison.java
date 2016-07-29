@@ -35,14 +35,14 @@ public class Prison implements CommandExecutor, TabCompleter {
 
 			if(args[0].equalsIgnoreCase("lasttext")){
 				if (!(sender instanceof Player)) {
-					sender.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤーから実行する必要があります。");
+					Method.SendMessage(sender, cmd, "プレイヤーから実行する必要があります。");
 				}
 				if(!prison.containsKey(sender.getName())){
-					sender.sendMessage("[JAIL] " + ChatColor.GREEN + "あなたは牢獄にいません。");
+					Method.SendMessage(sender, cmd, "あなたは牢獄にいません。");
 		  			return true;
 		  		}
 				if(prison_lasttext.containsKey(sender.getName())){
-					sender.sendMessage("[JAIL] " + ChatColor.GREEN + "すでに残しています。");
+					Method.SendMessage(sender, cmd, "すでに残しています。");
 		  			return true;
 		  		}
 				String text = "";
@@ -53,11 +53,11 @@ public class Prison implements CommandExecutor, TabCompleter {
 					lasttext += args[c];
 					if(args.length != (c+1)){
 						text+="_";
-						lasttext+=" ";
+						lasttext += " ";
 					}
 					c++;
 				}
-				Method.url_jaoplugin("eban", "p="+sender.getName()+"&lasttext="+text);
+				Method.url_jaoplugin("eban", "p=" + sender.getName() + "&lasttext=" + text);
 				prison_lasttext.put(sender.getName(), lasttext);
 				Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー「" + sender.getName() +"」が遺言を残しました。遺言:「" + lasttext +"」");
 				return true;
@@ -72,7 +72,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 					prison_block.put(args[1], false);
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 						if(!p.getName().equalsIgnoreCase(args[1])) {
-							p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を牢獄リストに追加しました。");
+							Method.SendMessage(p, cmd, "プレイヤー:「" + args[1] + "」を牢獄リストに追加しました。");
 						}
 					}
 					Method.url_jaoplugin("eban", "p="+args[1]+"&u=&b="+sendername+"&r=");
@@ -101,7 +101,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 							if(!p.getName().equalsIgnoreCase(args[1])) {
-								p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を牢獄リストに追加しました。");
+								Method.SendMessage(p, cmd, "プレイヤー:「" + player.getName() + "」を牢獄リストに追加しました。");
 							}
 						}
 						Method.url_jaoplugin("eban", "p="+args[1]+"&u="+player.getUniqueId()+"&b="+sendername+"&r=");
@@ -109,15 +109,15 @@ public class Prison implements CommandExecutor, TabCompleter {
 						return true;
 					}
 				}
-				sender.sendMessage("[JAIL] " + ChatColor.GREEN + "「" + args[1] + "」はみつかりません。");
+				Method.SendMessage(sender, cmd, "「" + args[1] + "」はみつかりません。");
 			}else if(args[0].equalsIgnoreCase("remove")){
 				if(!prison.containsKey(args[1])){
-					sender.sendMessage("[JAIL] " + ChatColor.GREEN + "「" + args[1] + "」は牢獄リストにありません。");
+					Method.SendMessage(sender, cmd, "「" + args[1] + "」は牢獄リストにありません。");
 		  			return true;
 		  		}
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 					if(!p.getName().equalsIgnoreCase(args[1])) {
-						p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を牢獄リストから削除しました。");
+						Method.SendMessage(p, cmd, "プレイヤー:「" + args[1] + "」を牢獄リストから削除しました。");
 					}
 				}
 				prison.remove(args[1]);
@@ -141,7 +141,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 				}
 				return true;
 			}else{
-				sender.sendMessage("[JAIL] " + ChatColor.GREEN + "第1引数を確認してください");
+				Method.SendMessage(sender, cmd, "第1引数を確認してください");
 			}
 
 		}else if(args.length == 3){
@@ -149,13 +149,13 @@ public class Prison implements CommandExecutor, TabCompleter {
 				if(args[2].equalsIgnoreCase("true")){
 					if (sender instanceof ConsoleCommandSender) {
 						if(!prison.containsKey(args[1])){
-							sender.sendMessage("[JAIL] " + ChatColor.GREEN + "「" + args[1] + "」は牢獄リストにありません。");
+							Method.SendMessage(sender, cmd, "「" + args[1] + "」は牢獄リストにありません。");
 				  			return true;
 				  		}
 						prison.put(args[1], true);
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 							if(!p.getName().equalsIgnoreCase(args[1])) {
-								p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を範囲外に移動できるよう設定しました。");
+								Method.SendMessage(p, cmd, "プレイヤー:「" + args[1] + "」を範囲外に移動できるよう設定しました。");
 							}
 						}
 						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" +args[1] + "」を範囲外に移動できるよう設定しました。");
@@ -164,13 +164,13 @@ public class Prison implements CommandExecutor, TabCompleter {
 					for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 						if(player.getName().equalsIgnoreCase(args[1])) {
 							if(!prison.containsKey(player.getName())){
-								sender.sendMessage("[JAIL] " + ChatColor.GREEN + "「" + args[1] + "」は牢獄リストにありません。");
+								Method.SendMessage(sender, cmd, "「" + args[1] + "」は牢獄リストにありません。");
 					  			return true;
 					  		}
 							prison.put(player.getName(), true);
 							for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 								if(!p.getName().equalsIgnoreCase(args[1])) {
-									p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を範囲外に移動できるよう設定しました。");
+									Method.SendMessage(p, cmd, "プレイヤー:「" + player.getName() + "」を範囲外に移動できるよう設定しました。");
 								}
 							}
 							Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を範囲外に移動できるよう設定しました。");
@@ -180,13 +180,13 @@ public class Prison implements CommandExecutor, TabCompleter {
 				}else if(args[2].equalsIgnoreCase("false")){
 					if (sender instanceof ConsoleCommandSender) {
 						if(!prison.containsKey(args[1])){
-							sender.sendMessage("[JAIL] " + ChatColor.GREEN + "「" + args[1] + "」は牢獄リストにありません。");
+							Method.SendMessage(sender, cmd, "「" + args[1] + "」は牢獄リストにありません。");
 				  			return true;
 				  		}
 						prison.put(args[1], false);
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 							if(!p.getName().equalsIgnoreCase(args[1])) {
-								p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を範囲外に移動できないよう設定しました。");
+								Method.SendMessage(p, cmd, "プレイヤー:「" + args[1] + "」を範囲外に移動できないよう設定しました。");
 							}
 						}
 						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を範囲外に移動できないよう設定しました。");
@@ -195,13 +195,13 @@ public class Prison implements CommandExecutor, TabCompleter {
 					for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 						if(player.getName().equalsIgnoreCase(args[1])) {
 							if(!prison.containsKey(player.getName())){
-								sender.sendMessage("[JAIL] " + ChatColor.GREEN + "「" + args[1] + "」は牢獄リストにありません。");
+								Method.SendMessage(sender, cmd, "「" + args[1] + "」は牢獄リストにありません。");
 					  			return true;
 					  		}
 							prison.put(player.getName(), false);
 							for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 								if(!p.getName().equalsIgnoreCase(args[1])) {
-									p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を範囲外に移動できないよう設定しました。");
+									Method.SendMessage(p, cmd, "プレイヤー:「" + player.getName() + "」を範囲外に移動できないよう設定しました。");
 								}
 							}
 							Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を範囲外に移動できないよう設定しました。");
@@ -215,7 +215,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 						prison_block.put(args[1], true);
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 							if(!p.getName().equalsIgnoreCase(args[1])) {
-								p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」がブロックを設置破壊できるよう設定しました。");
+								Method.SendMessage(p, cmd, "プレイヤー:「" + args[1] + "」がブロックを設置破壊できるよう設定しました。");
 							}
 						}
 						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」がブロックを設置破壊できるよう設定しました。");
@@ -224,13 +224,13 @@ public class Prison implements CommandExecutor, TabCompleter {
 					for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 						if(player.getName().equalsIgnoreCase(args[1])) {
 							if(!prison.containsKey(player.getName())){
-								sender.sendMessage("[JAIL] " + ChatColor.GREEN + "「" + args[1] + "」は牢獄リストにありません。");
+								Method.SendMessage(sender, cmd, "「" + args[1] + "」は牢獄リストにありません。");
 					  			return true;
 					  		}
 							prison_block.put(player.getName(), true);
 							for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 								if(!p.getName().equalsIgnoreCase(args[1])) {
-									p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」がブロックを設置破壊できるよう設定しました。");
+									Method.SendMessage(p, cmd, "プレイヤー:「" + player.getName() + "」がブロックを設置破壊できるよう設定しました。");
 								}
 							}
 							Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」がブロックを設置破壊できるよう設定しました。");
@@ -242,7 +242,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 						prison_block.put(args[1], false);
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 							if(!p.getName().equalsIgnoreCase(args[1])) {
-								p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」がブロックを設置破壊できないよう設定しました。");
+								Method.SendMessage(p, cmd, "プレイヤー:「" + args[1] + "」がブロックを設置破壊できないよう設定しました。");
 							}
 						}
 						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」がブロックを設置破壊できないよう設定しました。");
@@ -251,13 +251,13 @@ public class Prison implements CommandExecutor, TabCompleter {
 					for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 						if(player.getName().equalsIgnoreCase(args[1])) {
 							if(!prison.containsKey(player.getName())){
-								sender.sendMessage("[JAIL] " + ChatColor.GREEN + "「" + args[1] + "」は牢獄リストにありません。");
+								Method.SendMessage(sender, cmd, "「" + args[1] + "」は牢獄リストにありません。");
 					  			return true;
 					  		}
 							prison_block.put(player.getName(), false);
 							for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 								if(!p.getName().equalsIgnoreCase(args[1])) {
-									p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」がブロックを設置破壊できないよう設定しました。");
+									Method.SendMessage(p, cmd, "プレイヤー:「" + player.getName() + "」がブロックを設置破壊できないよう設定しました。");
 								}
 							}
 							Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」がブロックを設置破壊できないよう設定しました。");
@@ -272,7 +272,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 					prison_block.put(args[1], false);
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 						if(!p.getName().equalsIgnoreCase(args[1])) {
-							p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
+							Method.SendMessage(p, cmd, "プレイヤー:「" + args[1] + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
 						}
 					}
 					Method.url_jaoplugin("eban", "p="+args[1]+"&u=&b="+sendername+"&r=" + args[2]);
@@ -301,7 +301,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 							if(!p.getName().equalsIgnoreCase(args[1])) {
-								p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
+								Method.SendMessage(p, cmd, "プレイヤー:「" + player.getName() + "」を「" + args[2] + "」という理由で牢獄リストに追加しました。");
 							}
 						}
 						Method.url_jaoplugin("eban", "p="+args[1]+"&u="+player.getUniqueId()+"&b="+sendername+"&r="+args[2]);
@@ -312,7 +312,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 			}
 		}else if(args.length == 1){
 			if(args[0].equalsIgnoreCase("list")){
-				sender.sendMessage("[JAIL] " + ChatColor.GREEN + "------ 牢獄リスト ------");
+				Method.SendMessage(sender, cmd, "------ 牢獄リスト ------");
 				for(Map.Entry<String, Boolean> data : prison.entrySet()){
 					String text;
 					if(data.getValue()){
@@ -326,11 +326,11 @@ public class Prison implements CommandExecutor, TabCompleter {
 					}else{
 						text += "設置破壊不許可";
 					}
-					sender.sendMessage("[JAIL] " + ChatColor.GREEN + data.getKey() + " " + text);
+					Method.SendMessage(sender, cmd, data.getKey() + " " + text);
 				}
-				sender.sendMessage("[JAIL] " + ChatColor.GREEN + "------------------------");
+				Method.SendMessage(sender, cmd, "------------------------");
 			}else{
-				sender.sendMessage("[JAIL] " + ChatColor.GREEN + "引数が足りないか多すぎます。");
+				Method.SendMessage(sender, cmd, "引数が足りないか多すぎます。");
 			}
 		}
 		return true;

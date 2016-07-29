@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -12,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import xyz.jaoafa.mymaid.Method;
 
 public class Explode implements CommandExecutor {
 	JavaPlugin plugin;
@@ -21,8 +22,8 @@ public class Explode implements CommandExecutor {
 	public static Map<Location,Integer> explode = new HashMap<Location,Integer>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length == 0){
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "----- Explodeoff List -----");
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "World X Y Z R");
+			Method.SendMessage(sender, cmd, "----- Explodeoff List -----");
+			Method.SendMessage(sender, cmd, "World X Y Z R");
 			for(Map.Entry<Location, Integer> e : explode.entrySet()) {
 				Location location = e.getKey();
 				Integer r = e.getValue();
@@ -31,18 +32,18 @@ public class Explode implements CommandExecutor {
 				int y = location.getBlockY();
 				int z = location.getBlockZ();
 
-				sender.sendMessage("[Explode] " + ChatColor.GREEN + world + " " + x + " " + y + " " + z + " " + r);
+				Method.SendMessage(sender, cmd, world + " " + x + " " + y + " " + z + " " + r);
 			}
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "World X Y Z R");
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "---------------------------");
+			Method.SendMessage(sender, cmd, "World X Y Z R");
+			Method.SendMessage(sender, cmd, "---------------------------");
 			return true;
 		}
 		if(args.length > 5 && args.length < 4){
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "引数が多すぎるか足りません");
+			Method.SendMessage(sender, cmd, "引数が多すぎるか足りません");
 			return true;
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
@@ -55,7 +56,7 @@ public class Explode implements CommandExecutor {
 			try{
 				x = Integer.parseInt(args[0]);
 			} catch (NumberFormatException nfe) {
-				sender.sendMessage("[Explode] " + ChatColor.GREEN + "数値を指定してください。(X)");
+				Method.SendMessage(sender, cmd, "数値を指定してください。(X)");
 				return true;
 			}
 		}
@@ -66,7 +67,7 @@ public class Explode implements CommandExecutor {
 			try{
 				y = Integer.parseInt(args[1]);
 			} catch (NumberFormatException nfe) {
-				sender.sendMessage("[Explode] " + ChatColor.GREEN + "数値を指定してください。(Y)");
+				Method.SendMessage(sender, cmd, "数値を指定してください。(Y)");
 				return true;
 			}
 		}
@@ -77,7 +78,7 @@ public class Explode implements CommandExecutor {
 			try{
 				z = Integer.parseInt(args[2]);
 			} catch (NumberFormatException nfe) {
-				sender.sendMessage("[Explode] " + ChatColor.GREEN + "数値を指定してください。(Z)");
+				Method.SendMessage(sender, cmd, "数値を指定してください。(Z)");
 				return true;
 			}
 		}
@@ -86,7 +87,7 @@ public class Explode implements CommandExecutor {
 			try{
 				r = Integer.parseInt(args[3]);
 			} catch (NumberFormatException nfe) {
-				sender.sendMessage("[Explode] " + ChatColor.GREEN + "数値を指定してください。(R)");
+				Method.SendMessage(sender, cmd, "数値を指定してください。(R)");
 				return true;
 			}
 		}
@@ -101,23 +102,23 @@ public class Explode implements CommandExecutor {
 		Location tnt = new Location(World, x, y, z);
 		if(onoff.equalsIgnoreCase("on")){
 			explode.put(tnt, r);
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "爆発を無効化しました。");
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "World:「" + World.getName() + "」");
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "XYZ:「" + x + " " + y + " " + z + "」");
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "R(範囲):「" + r + "block」");
+			Method.SendMessage(sender, cmd, "爆発を無効化しました。");
+			Method.SendMessage(sender, cmd, "World:「" + World.getName() + "」");
+			Method.SendMessage(sender, cmd, "XYZ:「" + x + " " + y + " " + z + "」");
+			Method.SendMessage(sender, cmd, "R(範囲):「" + r + "block」");
 			return true;
 		}else if(onoff.equalsIgnoreCase("off")){
 			if(explode.containsKey(tnt)){
 				explode.remove(tnt);
-				sender.sendMessage("[Explode] " + ChatColor.GREEN + "爆発を有効化しました。");
-				sender.sendMessage("[Explode] " + ChatColor.GREEN + "World:「" + World.getName() + "」");
-				sender.sendMessage("[Explode] " + ChatColor.GREEN + "XYZ:「" + x + " " + y + " " + z + "」");
-				sender.sendMessage("[Explode] " + ChatColor.GREEN + "R(範囲):「" + r + "block」");
+				Method.SendMessage(sender, cmd, "爆発を有効化しました。");
+				Method.SendMessage(sender, cmd, "World:「" + World.getName() + "」");
+				Method.SendMessage(sender, cmd, "XYZ:「" + x + " " + y + " " + z + "」");
+				Method.SendMessage(sender, cmd, "R(範囲):「" + r + "block」");
 			}else{
-				sender.sendMessage("[Explode] " + ChatColor.GREEN + "爆発を有効化できませんでした。既に有効化されています。");
+				Method.SendMessage(sender, cmd, "爆発を有効化できませんでした。既に有効化されています。");
 			}
 		}else{
-			sender.sendMessage("[Explode] " + ChatColor.GREEN + "onもしくはoffを指定してください。");
+			Method.SendMessage(sender, cmd, "onもしくはoffを指定してください。");
 			return true;
 		}
 		return true;

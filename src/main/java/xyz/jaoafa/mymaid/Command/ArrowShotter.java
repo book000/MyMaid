@@ -19,6 +19,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import xyz.jaoafa.mymaid.Method;
+
 public class ArrowShotter implements CommandExecutor {
 	JavaPlugin plugin;
 	public ArrowShotter(JavaPlugin plugin){
@@ -35,7 +37,7 @@ public class ArrowShotter implements CommandExecutor {
 			if(args.length == 1){
 				if(args[0].equalsIgnoreCase("stop")){
 					if(task == null){
-						sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "止まってました。");
+						Method.SendMessage(sender, cmd, "止まってました。");
 						now = false;
 						task = null;
 						return true;
@@ -43,12 +45,12 @@ public class ArrowShotter implements CommandExecutor {
 					task.cancel();
 					task = null;
 					now = false;
-					sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "停止しました。");
+					Method.SendMessage(sender, cmd, "停止しました。");
 					return true;
 				}
 			}
 			if(now){
-				sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "現在他のユーザーが実行しています。");
+				Method.SendMessage(sender, cmd, "現在他のユーザーが実行しています。");
 				return true;
 			}
 			Player player = (Player) sender; //コマンド実行者を代入
@@ -57,7 +59,7 @@ public class ArrowShotter implements CommandExecutor {
 				try {
 					level = Integer.parseInt(args[0]);
 				} catch (NumberFormatException e) {
-					sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "数字にしてください。");
+					Method.SendMessage(sender, cmd, "数字にしてください。");
 			        return true;
 			    }
 			}
@@ -70,7 +72,7 @@ public class ArrowShotter implements CommandExecutor {
 			// 矢の発射回数（本数ではない）は（1+レベル÷20回）×36回
 			amount=(1 + level / 20) * 36;
 
-			player.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "ArrowShotterを起動しました。動かないでください。");
+			Method.SendMessage(sender, cmd, "ArrowShotterを起動しました。");
 			now = true;
 			task = new Shoot(plugin, player).runTaskTimer(plugin, 0L,1L);
 			return true;
@@ -80,7 +82,7 @@ public class ArrowShotter implements CommandExecutor {
 			if(args.length == 1){
 				if(args[0].equalsIgnoreCase("stop")){
 					if(task == null){
-						sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "止まってました。");
+						Method.SendMessage(sender, cmd, "止まってました。");
 						now = false;
 						task = null;
 						return true;
@@ -88,12 +90,12 @@ public class ArrowShotter implements CommandExecutor {
 					task.cancel();
 					task = null;
 					now = false;
-					sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "停止しました。");
+					Method.SendMessage(sender, cmd, "停止しました。");
 					return true;
 				}
 			}
 			if(now){
-				sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "現在他のユーザーが実行しています。");
+				Method.SendMessage(sender, cmd, "現在他のユーザーが実行しています。");
 				return true;
 			}
 			BlockCommandSender cmdb = (BlockCommandSender) sender; //コマンド実行者を代入
@@ -102,7 +104,7 @@ public class ArrowShotter implements CommandExecutor {
 				try {
 					level = Integer.parseInt(args[0]);
 				} catch (NumberFormatException e) {
-					sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "数字にしてください。");
+					Method.SendMessage(sender, cmd, "数字にしてください。");
 			        return true;
 			    }
 			}
@@ -115,13 +117,13 @@ public class ArrowShotter implements CommandExecutor {
 			// 矢の発射回数（本数ではない）は（1+レベル÷20回）×36回
 			amount=(1 + level / 20) * 36;
 
-			sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "ArrowShotterを起動しました。動かないでください。");
+			Method.SendMessage(sender, cmd, "ArrowShotterを起動しました。");
 			now = true;
 			task = new ShootCmdb(plugin, sender, cmdb).runTaskTimer(plugin, 0L,1L);
 			return true;
 		}
 
-		sender.sendMessage("[ARROWSHOTTER] " + ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
+		Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 		Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 		return true;
 	}
@@ -134,7 +136,7 @@ public class ArrowShotter implements CommandExecutor {
 		 */
 		public Shoot(JavaPlugin plugin, Player player){
 			this.plugin = plugin;
-			this.player=player;
+			this.player = player;
 		}
 
 		@Override
@@ -198,8 +200,8 @@ public class ArrowShotter implements CommandExecutor {
 		 */
 		public ShootCmdb(JavaPlugin plugin, CommandSender sender, BlockCommandSender cmdb){
 			this.plugin = plugin;
-			this.cmdb=cmdb;
-			this.sender=sender;
+			this.cmdb = cmdb;
+			this.sender = sender;
 		}
 
 		@Override
@@ -217,7 +219,7 @@ public class ArrowShotter implements CommandExecutor {
 
 			// 矢の発射の基点を計算する
 			// モンスターの座標は足元の座標なので、だいたい腕のあたりから矢が出るよう高さを調整する
-			loc.add(0,1.3f,0);
+			loc.add(0.5f,1.3f,0.5f);
 
 			// 矢の発射音を再生
 			loc.getWorld().playEffect(loc,Effect.BOW_FIRE,0,angle);

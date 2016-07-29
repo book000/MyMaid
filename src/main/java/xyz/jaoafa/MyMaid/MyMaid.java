@@ -35,15 +35,18 @@ import xyz.jaoafa.mymaid.Command.Jf;
 import xyz.jaoafa.mymaid.Command.Lag;
 import xyz.jaoafa.mymaid.Command.MakeCmd;
 import xyz.jaoafa.mymaid.Command.MyMaid_NetworkApi;
+import xyz.jaoafa.mymaid.Command.Pexup;
 import xyz.jaoafa.mymaid.Command.Prison;
 import xyz.jaoafa.mymaid.Command.Report;
 import xyz.jaoafa.mymaid.Command.RuleLoad;
 import xyz.jaoafa.mymaid.Command.SSK;
 import xyz.jaoafa.mymaid.Command.SaveWorld;
 import xyz.jaoafa.mymaid.Command.SignLock;
+import xyz.jaoafa.mymaid.Command.Spawn;
 import xyz.jaoafa.mymaid.Command.TNTReload;
 import xyz.jaoafa.mymaid.Command.Vote;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerChatEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockBreakEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockIgniteEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockPlaceEvent;
@@ -74,12 +77,89 @@ public class MyMaid extends JavaPlugin implements Listener {
 	FileConfiguration conf;
 	@Override
     public void onEnable() {
+		getLogger().info("--------------------------------------------------");
     	getLogger().info("(c) jao Minecraft Server MyMaid Project.");
     	getLogger().info("Product by tomachi.");
 
+    	Load_Plugin("EEWAlert");
+    	Load_Plugin("PermissionsEx");
+
+		Import_Listener();
+    	Import_Task();
+    	Import_Command_Executor();
+    	Load_Config();
+    	getLogger().info("--------------------------------------------------");
+
+		TitleSender = new TitleSender();
+    }
+
+    @Override
+    public void onDisable() {
+    	conf.set("prison",Prison.prison);
+		conf.set("prison_block",Prison.prison_block);
+		conf.set("prison_lasttext",Prison.prison_lasttext);
+    	saveConfig();
+    }
+
+    private void Load_Plugin(String PluginName){
+    	if(getServer().getPluginManager().isPluginEnabled(PluginName)){
+    		getLogger().info("MyMaid Success(LOADED: " + PluginName);
+    		getLogger().info("Using " + PluginName);
+		}else{
+			getLogger().warning("MyMaid ERR(NOTLOADED: " + PluginName);
+			getLogger().info("Disable MyMaid...");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
+    }
+    private void Import_Command_Executor(){
+    	//Command Executor
+    	getCommand("access").setExecutor(new Access(this));
+    	getCommand("afk").setExecutor(new AFK(this));
+    	getCommand("as").setExecutor(new ArrowShotter(this));
+    	getCommand("chat").setExecutor(new Chat(this));
+    	getCommand("cmdb").setExecutor(new Cmdb(this));
+    	getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
+    	getCommand("data").setExecutor(new Data(this));
+    	getCommand("dt").setExecutor(new Dynmap_Teleporter(this));
+    	getCommand("dt").setTabCompleter(new Dynmap_Teleporter(this));
+    	getCommand("e").setExecutor(new E(this));
+    	getCommand("explode").setExecutor(new Explode(this));
+    	getCommand("g").setExecutor(new Gamemode_Change(this));
+    	getCommand("head").setExecutor(new Head(this));
+    	getCommand("iphost").setExecutor(new Ip_To_Host(this));
+    	getCommand("ja").setExecutor(new Ja(this));
+    	getCommand("j2").setExecutor(new JaoJao(this));
+    	getCommand("jf").setExecutor(new Jf(this));
+    	getCommand("lag").setExecutor(new Lag(this));
+    	getCommand("makecmd").setExecutor(new MakeCmd(this));
+    	getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
+    	getCommand("pexup").setExecutor(new Pexup(this));
+    	getCommand("player").setExecutor(new xyz.jaoafa.mymaid.Command.Player(this));
+    	getCommand("jail").setExecutor(new Prison(this));
+    	getCommand("jail").setTabCompleter(new Prison(this));
+    	getCommand("report").setExecutor(new Report(this));
+    	getCommand("ruleload").setExecutor(new RuleLoad(this));
+    	getCommand("save-world").setExecutor(new SaveWorld(this));
+    	getCommand("sign").setExecutor(new xyz.jaoafa.mymaid.Command.Sign(this));
+    	getCommand("signlock").setExecutor(new SignLock(this));
+    	getCommand("spawn").setExecutor(new Spawn(this));
+    	getCommand("skk").setExecutor(new SSK(this));
+    	getCommand("tnt").setExecutor(new TNTReload(this));
+    	getCommand("vote").setExecutor(new Vote(this));
+
+    }
+    private void Import_Task(){
+    	//Task
+    	new World_saver().runTaskTimer(this, 0L, 36000L);
+    	new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
+    	new Lag_Counter(this).runTaskTimer(this, 0L, 6000L);
+    }
+    private void Import_Listener(){
     	//Listener
     	getServer().getPluginManager().registerEvents(this, this);
     	getServer().getPluginManager().registerEvents(new OnAsyncPlayerChatEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnAsyncPlayerPreLoginEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnBlockBreakEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnBlockIgniteEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnBlockPlaceEvent(this), this);
@@ -94,52 +174,16 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnPlayerCommand(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerCommandPreprocessEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerInteractEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnPlayerItemHeldEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerMoveEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerPickupItemEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnQuitGame(this), this);
     	getServer().getPluginManager().registerEvents(new OnServerCommandEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnSignClick(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerItemHeldEvent(this), this);
-
-    	//Task
-    	new World_saver().runTaskTimer(this, 0L, 36000L);
-    	new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
-    	new Lag_Counter(this).runTaskTimer(this, 0L, 6000L);
-
-    	//Command Executor
-		getCommand("chat").setExecutor(new Chat(this));
-		getCommand("jf").setExecutor(new Jf(this));
-		getCommand("dt").setExecutor(new Dynmap_Teleporter(this));
-		getCommand("dt").setTabCompleter(new Dynmap_Teleporter(this));
-		getCommand("explode").setExecutor(new Explode(this));
-		getCommand("g").setExecutor(new Gamemode_Change(this));
-		getCommand("e").setExecutor(new E(this));
-		getCommand("iphost").setExecutor(new Ip_To_Host(this));
-		getCommand("data").setExecutor(new Data(this));
-		getCommand("tnt").setExecutor(new TNTReload(this));
-		getCommand("afk").setExecutor(new AFK(this));
-		getCommand("j2").setExecutor(new JaoJao(this));
-		getCommand("vote").setExecutor(new Vote(this));
-		getCommand("sign").setExecutor(new xyz.jaoafa.mymaid.Command.Sign(this));
-		getCommand("signlock").setExecutor(new SignLock(this));
-		getCommand("save-world").setExecutor(new SaveWorld(this));
-		getCommand("head").setExecutor(new Head(this));
-		getCommand("cmdb").setExecutor(new Cmdb(this));
-		getCommand("jail").setExecutor(new Prison(this));
-		getCommand("jail").setTabCompleter(new Prison(this));
-		getCommand("report").setExecutor(new Report(this));
-		getCommand("ruleload").setExecutor(new RuleLoad(this));
-		getCommand("access").setExecutor(new Access(this));
-		getCommand("ja").setExecutor(new Ja(this));
-		getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
-		getCommand("skk").setExecutor(new SSK(this));
-		getCommand("makecmd").setExecutor(new MakeCmd(this));
-		getCommand("lag").setExecutor(new Lag(this));
-		getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
-		getCommand("as").setExecutor(new ArrowShotter(this));
-
-		conf = getConfig();
+    }
+    private void Load_Config(){
+    	conf = getConfig();
 
 		if(conf.contains("prison")){
 			//Prison.prison = (Map<String,Boolean>) conf.getConfigurationSection("prison").getKeys(false);
@@ -171,18 +215,7 @@ public class MyMaid extends JavaPlugin implements Listener {
  			Prison.prison_lasttext = new HashMap<String,String>();
  			conf.set("prison_lasttext",Prison.prison_lasttext);
  		}
-
-		TitleSender = new TitleSender();
     }
-
-    @Override
-    public void onDisable() {
-    	conf.set("prison",Prison.prison);
-		conf.set("prison_block",Prison.prison_block);
-		conf.set("prison_lasttext",Prison.prison_lasttext);
-    	saveConfig();
-    }
-
 
     private class World_saver extends BukkitRunnable{
 		@Override

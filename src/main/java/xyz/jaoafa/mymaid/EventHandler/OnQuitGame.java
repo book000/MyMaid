@@ -1,7 +1,9 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -48,5 +50,15 @@ public class OnQuitGame implements Listener {
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.WHITE + "jaotan: 現在『" + (Bukkit.getServer().getOnlinePlayers().size() - 1) + "人』がログインしています");
+		InetAddress ip = player.getAddress().getAddress();
+		String name = player.getName();
+		UUID uuid = player.getUniqueId();
+		String host = player.getAddress().getHostName();
+		Bukkit.getLogger().info("------------------------------------------");
+		Bukkit.getLogger().info("Player:"+name+" Log out.");
+		Bukkit.getLogger().info("PlayerUUID:"+uuid);
+		Bukkit.getLogger().info("PlayerIP:"+ip);
+		Bukkit.getLogger().info("PlayerHost:"+host);
+		Bukkit.getLogger().info("------------------------------------------");
   	}
 }

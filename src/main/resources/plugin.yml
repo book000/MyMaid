@@ -4,7 +4,7 @@ version: 0.0.1
 description: General Plugin
 database: true
 author: mine_book000
-depend: [EEWAlert]
+softdepend: [EEWAlert, PermissionEx]
 website: https://jaoafa.xyz/
 default-permission: NOT_OP
 commands:
@@ -151,4 +151,24 @@ commands:
       description: Explode Off
       usage: /<command>
       permission: mymaid.e
+      permission-message: You do not have permission to perform this command.
+   player:
+      description: Player Permission
+      usage: /<command> [player]
+      permission: mymaid.player
+      permission-message: You do not have permission to perform this command.
+   spawn:
+      description: Spawn Teleport
+      usage: /<command>
+      permission: mymaid.spawn
+      permission-message: You do not have permission to perform this command.
+   pexup:
+      description: Permission Up
+      usage: /<command>
+      permission: mymaid.pexup
+      permission-message: You do not have permission to perform this command.
+   pin:
+      description: To authenticate the PIN code generated on the Web.
+      usage: /<command> [code]
+      permission: mymaid.pin
       permission-message: You do not have permission to perform this command.

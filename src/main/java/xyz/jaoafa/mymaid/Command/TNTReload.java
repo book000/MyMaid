@@ -1,11 +1,11 @@
 package xyz.jaoafa.mymaid.Command;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.EventHandler.OnExplosion;
 
 public class TNTReload implements CommandExecutor {
@@ -18,23 +18,23 @@ public class TNTReload implements CommandExecutor {
 		if(args.length == 1){
 			if(args[0].equalsIgnoreCase("true")){
 				OnExplosion.tntexplode = true;
-				sender.sendMessage("[TNT] " + ChatColor.GREEN + "TNT Explode notice true");
+				Method.SendMessage(sender, cmd, "TNT Explode notice true");
 			}else if(args[0].equalsIgnoreCase("false")){
 				OnExplosion.tntexplode = false;
-				sender.sendMessage("[TNT] " + ChatColor.GREEN + "TNT Explode notice false");
+				Method.SendMessage(sender, cmd, "TNT Explode notice false");
 			}else if(args[0].equalsIgnoreCase("now")){
 				if(OnExplosion.tntexplode){
-					sender.sendMessage("[TNT] " + ChatColor.GREEN + "TNT Explode notice true now");
+					Method.SendMessage(sender, cmd, "TNT Explode notice true now");
 				}else{
-					sender.sendMessage("[TNT] " + ChatColor.GREEN + "TNT Explode notice false now");
+					Method.SendMessage(sender, cmd, "TNT Explode notice false now");
 				}
 
 			}else{
-				sender.sendMessage("[TNT] " + ChatColor.GREEN + "true or false plz");
+				Method.SendMessage(sender, cmd, "true or false plz");
 			}
 			return true;
 		}else{
-			sender.sendMessage("[TNT] " + ChatColor.GREEN + "このコマンドは1つの引数が必要です。");
+			Method.SendMessage(sender, cmd, "このコマンドは1つの引数が必要です。");
 			return true;
 		}
 	}

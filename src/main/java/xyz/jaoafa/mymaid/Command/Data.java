@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import xyz.jaoafa.mymaid.Method;
 
 public class Data implements CommandExecutor {
 	JavaPlugin plugin;
@@ -32,10 +33,10 @@ public class Data implements CommandExecutor {
 		int sec = cal.get(Calendar.SECOND);
 		int msec = cal.get(Calendar.MILLISECOND);
 
-		sender.sendMessage("[DATA] " + ChatColor.GREEN + "uptime: " + year + "/" + month + "/" + day + " " + hour + ":" + min + ":" + sec + "." + msec);
-		sender.sendMessage("[DATA] " + ChatColor.GREEN + "Runtimemax : " + (Runtime.getRuntime().maxMemory() / 1024 / 1024));
-		sender.sendMessage("[DATA] " + ChatColor.GREEN + "Runtimetotal: " + (Runtime.getRuntime().totalMemory() / 1024 / 1024));
-		sender.sendMessage("[DATA] " + ChatColor.GREEN + "Runtimefree: " + (Runtime.getRuntime().freeMemory() / 1024 / 1024));
+		Method.SendMessage(sender, cmd, "uptime: " + year + "/" + month + "/" + day + " " + hour + ":" + min + ":" + sec + "." + msec);
+		Method.SendMessage(sender, cmd, "Runtimemax : " + (Runtime.getRuntime().maxMemory() / 1024 / 1024));
+		Method.SendMessage(sender, cmd, "Runtimetotal: " + (Runtime.getRuntime().totalMemory() / 1024 / 1024));
+		Method.SendMessage(sender, cmd, "Runtimefree: " + (Runtime.getRuntime().freeMemory() / 1024 / 1024));
 		List<World> worlds = Bukkit.getServer().getWorlds();
 		for (World w : worlds)
 		{
@@ -68,11 +69,10 @@ public class Data implements CommandExecutor {
 			catch (java.lang.ClassCastException ex)
 			{
 				Bukkit.getLogger().log(Level.SEVERE, "Corrupted chunk data on world " + w, ex);
+				Method.SendMessage(sender, cmd, "Corrupted chunk data on world " + w + "(" + ex.getMessage() + ")");
 			}
-			sender.sendMessage("[DATA] " + ChatColor.GREEN + "World: " + Name + "(" + worldType + ") LoadedChunk: " + w.getLoadedChunks().length + " Size: " + w.getEntities().size() + " tileEntity: " + tileEntities);
+			Method.SendMessage(sender, cmd, "World: " + Name + "(" + worldType + ") LoadedChunk: " + w.getLoadedChunks().length + " Size: " + w.getEntities().size() + " tileEntity: " + tileEntities);
 		}
-
-
 		return true;
 	}
 }
