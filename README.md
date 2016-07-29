@@ -1,8 +1,8 @@
 # MyMaid
-[![Build Status](https://travis-ci.org/book000/MyMaid.svg?branch=master)](https://travis-ci.org/book000/MyMaid)]()
-[![Support jdk](https://img.shields.io/badge/Support%20jdk-openjdk7-yellow.svg)]()
-[![Author](https://img.shields.io/badge/Author%20MinecraftID-mine__book000-orange.svg)]()
-[![License](https://img.shields.io/badge/license-None-yellow.svg)]()  
+[![Build Status](https://travis-ci.org/book000/MyMaid.svg?branch=master)](https://travis-ci.org/book000/MyMaid)]
+[![Support jdk](https://img.shields.io/badge/Support%20jdk-openjdk7-yellow.svg)](https://img.shields.io)
+[![Author](https://img.shields.io/badge/Author%20MinecraftID-mine__book000-orange.svg)](https://img.shields.io)
+[![License](https://img.shields.io/badge/license-None-yellow.svg)](https://img.shields.io)  
 [jaoafaServer](https://jaoafa.xyz/)  
 ここでは、MyMaidプラグインのソースコードを公開していますが、Jao鯖専用プラグインにつき無断使用を禁止します。
 
