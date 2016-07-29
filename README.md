@@ -1,5 +1,6 @@
 # MyMaid
-[![Build Status](https://travis-ci.org/book000/MyMaid.svg?branch=master)](https://travis-ci.org/book000/MyMaid)
+[![Build Status](https://travis-ci.org/book000/MyMaid.svg?branch=master)](https://travis-ci.org/book000/MyMaid)]()
+[![Support jdk](https://img.shields.io/badge/Support%20jdk-openjdk7-yellow.svg)]()
 [![Author](https://img.shields.io/badge/Author%20MinecraftID-mine__book000-orange.svg)]()
 [![License](https://img.shields.io/badge/license-None-yellow.svg)]()  
 [jaoafaServer](https://jaoafa.xyz/)  
