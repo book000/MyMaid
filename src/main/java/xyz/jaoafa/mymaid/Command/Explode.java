@@ -23,9 +23,9 @@ public class Explode implements CommandExecutor {
 		if(args.length == 0){
 			sender.sendMessage("[Explode] " + ChatColor.GREEN + "----- Explodeoff List -----");
 			sender.sendMessage("[Explode] " + ChatColor.GREEN + "World X Y Z R");
-			for(Map.Entry<Location, Integer> explode : explode.entrySet()) {
-				Location location = explode.getKey();
-				int r = explode.getValue();
+			for(Map.Entry<Location, Integer> e : explode.entrySet()) {
+				Location location = e.getKey();
+				Integer r = e.getValue();
 				String world = location.getWorld().getName();
 				int x = location.getBlockX();
 				int y = location.getBlockY();
