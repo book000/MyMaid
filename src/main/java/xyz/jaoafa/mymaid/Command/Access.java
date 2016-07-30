@@ -40,13 +40,12 @@ public class Access implements CommandExecutor {
 						return true;
 					}
 				}
-				Method.SendMessage(sender, cmd, "ユーザーが見つかりませんでした。");
-				return true;
 			}
+			Method.SendMessage(sender, cmd, "ユーザーが見つかりませんでした。");
+			return true;
 		}else{
 			Method.SendMessage(sender, cmd, "引数が適していません。");
 			return true;
 		}
-		return false;
 	}
 }
