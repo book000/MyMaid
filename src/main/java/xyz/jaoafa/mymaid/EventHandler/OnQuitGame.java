@@ -29,6 +29,7 @@ public class OnQuitGame implements Listener {
   		Player player = event.getPlayer();
   		if((Bukkit.getServer().getOnlinePlayers().size() - 1) == 0 && MyMaid.nextbakrender){
   			MyMaid.nextbakrender = false;
+  			OnExplosion.tntexplode = true;
   		}
   		try {
   			AFK.tnt.get(player.getName()).cancel();
