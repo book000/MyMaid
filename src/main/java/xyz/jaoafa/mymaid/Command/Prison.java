@@ -88,17 +88,11 @@ public class Prison implements CommandExecutor, TabCompleter {
 						Location prison = new Location(World, 1767, 70, 1767);
 						player.teleport(prison);
 						Date Date = new Date();
-						SimpleDateFormat H = new SimpleDateFormat("H");
-						SimpleDateFormat m = new SimpleDateFormat("m");
-						SimpleDateFormat s = new SimpleDateFormat("s");
-						String Hs = H.format(Date);
-						String ms = m.format(Date);
-						String ss = s.format(Date);
-						String date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
-						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "やあ。" + player.getName() + "クン。どうも君はなにかをして南の楽園に来てしまったみたいなんだ");
-						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "なにをしてしまったのは知らないけどなにかをしたからここに来たんだと思うんだ。");
-						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "ちょっとやったことを反省してみるのもいいかもしれないね");
-						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
+						SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+						player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "やあ。" + player.getName() + "クン。どうも君はなにかをして南の楽園に来てしまったみたいなんだ");
+						player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "なにをしてしまったのは知らないけどなにかをしたからここに来たんだと思うんだ。");
+						player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "ちょっとやったことを反省してみるのもいいかもしれないね");
+						player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 							if(!p.getName().equalsIgnoreCase(args[1])) {
 								Method.SendMessage(p, cmd, "プレイヤー:「" + player.getName() + "」を牢獄リストに追加しました。");
@@ -126,15 +120,9 @@ public class Prison implements CommandExecutor, TabCompleter {
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(player.getName().equalsIgnoreCase(args[1])) {
 						Date Date = new Date();
-						SimpleDateFormat H = new SimpleDateFormat("H");
-						SimpleDateFormat m = new SimpleDateFormat("m");
-						SimpleDateFormat s = new SimpleDateFormat("s");
-						String Hs = H.format(Date);
-						String ms = m.format(Date);
-						String ss = s.format(Date);
-						String date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
+						SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
-						player.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "じゃあな");
+						player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "jaotan" + ChatColor.WHITE +  ": " + "じゃあな");
 						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + args[1] + "」を牢獄リストから削除しました。");
 
 					}

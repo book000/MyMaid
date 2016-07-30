@@ -3,6 +3,8 @@ package xyz.jaoafa.mymaid.EventHandler;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.codec.DecoderException;
@@ -22,6 +24,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 	public OnAsyncPlayerPreLoginEvent(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+	public static Map<String,Boolean> LD = new HashMap<String,Boolean>();
 	@EventHandler
 	public void onJoin(AsyncPlayerPreLoginEvent e){
 		String name = e.getName();
@@ -71,6 +74,11 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 				}
 			}
 			return;
+		}
+		if(arr[4] == "L"){
+			LD.put(name, false);
+		}else{
+			LD.put(name, true);
 		}
 
 

@@ -1,6 +1,5 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,7 +73,6 @@ public class Pin {
 			Bukkit.getLogger().info("ERROR! コードが誤っています。Input PIN:\"" + pin.trim() + "\" NetWork PIN:\"" + code.trim() + "\"");
 			return true;
 		}else{
-			InetSocketAddress ip = player.getAddress();
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(!p.hasPermission("pin_code_auth.pin")){
 					p.sendMessage("[PCA] " + ChatColor.GREEN + player.getName() + "さんがPINコード認証を通過しました。");
