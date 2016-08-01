@@ -19,7 +19,7 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 	public MyMaid_NetworkApi(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		/*
 		if (!(sender instanceof RemoteConsoleCommandSender)) {
@@ -43,6 +43,7 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			Inventory enderinvenory = player.getEnderChest();
 			double foodlevel = player.getFoodLevel();
 			String world = player.getWorld().getName();
+			ItemStack[] armor = player.getInventory().getArmorContents();
 
 			JSONObject invobj = new JSONObject();
 			ItemStack[] is = inventory.getContents();
@@ -51,6 +52,8 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			{
 				JSONObject invitemobj = new JSONObject();
 				try{
+					invitemobj.put("id", is[n].getTypeId());
+					invitemobj.put("damage", is[n].getDurability());
 					invitemobj.put("amount", is[n].getAmount());
 					invitemobj.put("item", is[n].getType().name());
 					invitemobj.put("name", is[n].getItemMeta().getDisplayName());
@@ -69,6 +72,31 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 				invobj.put(n, invitemobj);
 			}
 
+			JSONObject armorobj = new JSONObject();
+
+			for(int n=0; n != armor.length; n++)
+			{
+				JSONObject invitemobj = new JSONObject();
+				try{
+					invitemobj.put("id", armor[n].getTypeId());
+					invitemobj.put("damage", armor[n].getDurability());
+					invitemobj.put("amount", armor[n].getAmount());
+					invitemobj.put("item", armor[n].getType().name());
+					invitemobj.put("name", armor[n].getItemMeta().getDisplayName());
+					invitemobj.put("lore", armor[n].getItemMeta().hasLore());
+					invitemobj.put("maxstack", armor[n].getMaxStackSize());
+					JSONObject enchant = new JSONObject();
+					Map<Enchantment, Integer> enchantMap = armor[n].getEnchantments();
+					for(Map.Entry<Enchantment, Integer> e : enchantMap.entrySet()) {
+					    enchant.put(e.getKey().getName(), e.getValue());
+					}
+					invitemobj.put("enchant", enchant);
+				}catch(java.lang.NullPointerException e){
+
+				}
+				armorobj.put(n, invitemobj);
+			}
+
 			JSONObject endinvobj = new JSONObject();
 			is = enderinvenory.getContents();
 
@@ -76,6 +104,8 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			{
 				JSONObject invitemobj = new JSONObject();
 				try{
+					invitemobj.put("id", is[n].getTypeId());
+					invitemobj.put("damage", is[n].getDurability());
 					invitemobj.put("amount", is[n].getAmount());
 					invitemobj.put("item", is[n].getType().name());
 					invitemobj.put("name", is[n].getItemMeta().getDisplayName());
@@ -105,6 +135,7 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			obj.put("eyez", eye.getZ());
 			obj.put("exp", exp);
 			obj.put("gamemode", gamemode.name());
+			obj.put("armor", armorobj);
 			obj.put("inventory", invobj);
 			obj.put("enderinvenory", endinvobj);
 			obj.put("foodlevel", foodlevel);
