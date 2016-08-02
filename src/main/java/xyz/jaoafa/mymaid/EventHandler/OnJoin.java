@@ -85,6 +85,20 @@ public class OnJoin implements Listener {
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "https://jaoafa.xyz/rule");
 		if(OnAsyncPlayerPreLoginEvent.LD.containsKey(player.getName())){
 			if(OnAsyncPlayerPreLoginEvent.LD.get(player.getName())){
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(p).inGroup("Limited")){
+						return;
+					}
+					if(PermissionsEx.getUser(p).inGroup("Provisional")){
+						return;
+					}
+					if(PermissionsEx.getUser(p).inGroup("Default")){
+						return;
+					}
+					if(PermissionsEx.getUser(p).inGroup("Ban")){
+						return;
+					}
+				}
 				Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
 				for(String group : groups){
 					if(PermissionsEx.getUser(player).inGroup(group)){
