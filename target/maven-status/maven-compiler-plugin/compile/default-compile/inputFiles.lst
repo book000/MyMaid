@@ -49,10 +49,12 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerCommand.ja
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Chat.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Pexup.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnInventoryClickEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Report.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Player.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Pin.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\TitleSender.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerCommandSendAdmin.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\E.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Method.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\AFK.java
