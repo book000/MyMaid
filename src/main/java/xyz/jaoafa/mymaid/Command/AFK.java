@@ -73,7 +73,7 @@ public class AFK implements CommandExecutor{
 		}
 		return true;
 	}
-	public class afking extends BukkitRunnable{
+	static public class afking extends BukkitRunnable{
 		JavaPlugin plugin;
 		Player player;
     	public afking(JavaPlugin plugin, Player player) {

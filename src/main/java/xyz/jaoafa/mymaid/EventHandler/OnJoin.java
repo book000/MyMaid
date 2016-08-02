@@ -98,6 +98,9 @@ public class OnJoin implements Listener {
 					if(PermissionsEx.getUser(p).inGroup("Ban")){
 						return;
 					}
+					if(AFK.tnt.containsKey(p.getName())){
+						return;
+					}
 				}
 				Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
 				for(String group : groups){

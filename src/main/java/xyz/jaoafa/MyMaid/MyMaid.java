@@ -10,13 +10,16 @@ import java.util.TimeZone;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.jaoafa.mymaid.Command.AFK;
+import xyz.jaoafa.mymaid.Command.AFK.afking;
 import xyz.jaoafa.mymaid.Command.Access;
 import xyz.jaoafa.mymaid.Command.ArrowShotter;
 import xyz.jaoafa.mymaid.Command.Chat;
@@ -156,6 +159,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	new World_saver().runTaskTimer(this, 0L, 36000L);
     	new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
     	new Lag_Counter(this).runTaskTimer(this, 0L, 6000L);
+    	new AFKChecker(this).runTaskTimer(this, 0L, 1200L);
     }
     private void Import_Listener(){
     	//Listener
@@ -281,6 +285,41 @@ public class MyMaid extends JavaPlugin implements Listener {
 			String start_ymdhis = sdf.format(start);
 			String end_ymdhis = sdf.format(end);
 			Method.url_jaoplugin("lag", "start=" + start_ymdhis + "&end=" + end_ymdhis + "&lag=" + String.format("%.5f", (Double.parseDouble(interval) - 10)));
+		}
+	}
+    public static Map<String,Long> afktime = new HashMap<String,Long>();
+    private class AFKChecker extends BukkitRunnable{
+    	JavaPlugin plugin;
+    	public AFKChecker(JavaPlugin plugin) {
+    		this.plugin = plugin;
+    	}
+		@Override
+		public void run() {
+			if(nextbakrender){
+				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+					if(AFK.tnt.containsKey(player.getName())){
+						return;
+					}
+					long nowtime = System.currentTimeMillis();
+					long lastmovetime = afktime.get(player.getName());
+					long sa = nowtime - lastmovetime;
+					if(sa >= 180000){
+						ItemStack[] is = player.getInventory().getArmorContents();
+						ItemStack[] after={
+								new ItemStack(is[0]),
+								new ItemStack(is[1]),
+								new ItemStack(is[2]),
+								new ItemStack(Material.ICE)};
+						player.getInventory().setArmorContents(after);
+						player.updateInventory();
+						Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
+						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
+						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
+						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
+						AFK.tnt.put(player.getName(), new afking(plugin, player).runTaskTimer(plugin, 0L, 5L));
+					}
+				}
+			}
 		}
 	}
 }
