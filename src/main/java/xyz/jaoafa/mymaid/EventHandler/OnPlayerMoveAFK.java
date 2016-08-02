@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
 
-public class OnPlayerMoveAFK {
+public class OnPlayerMoveAFK implements Listener {
 	JavaPlugin plugin;
 	public OnPlayerMoveAFK(JavaPlugin plugin) {
 		this.plugin = plugin;

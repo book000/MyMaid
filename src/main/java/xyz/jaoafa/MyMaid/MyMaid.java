@@ -68,6 +68,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommandSendAdmin;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerInteractEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerItemHeldEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerJoinEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveAFK;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerPickupItemEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnQuitGame;
@@ -184,6 +185,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnPlayerInteractEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerItemHeldEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnPlayerMoveAFK(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerMoveEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerPickupItemEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnQuitGame(this), this);
@@ -298,6 +300,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 			if(nextbakrender){
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(AFK.tnt.containsKey(player.getName())){
+						return;
+					}
+					if(afktime.containsKey(player.getName())){
 						return;
 					}
 					long nowtime = System.currentTimeMillis();
