@@ -33,8 +33,8 @@ public class OnPlayerCommandSendAdmin implements Listener {
 			}
 		}
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-			if(PermissionsEx.getUser(p).inGroup("Admin") && player.getName().equals(p.getName())){
-				p.sendMessage("(" + groupname +") " + player.getName() + ": " + ChatColor.YELLOW + command);
+			if(PermissionsEx.getUser(p).inGroup("Admin") && (!player.getName().equals(p.getName()))){
+				p.sendMessage(ChatColor.GRAY + "(" + groupname +") " + player.getName() + ": " + ChatColor.YELLOW + command);
 			}
 		}
 	}

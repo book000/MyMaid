@@ -302,7 +302,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 					if(AFK.tnt.containsKey(player.getName())){
 						return;
 					}
-					if(afktime.containsKey(player.getName())){
+					if(!afktime.containsKey(player.getName())){
 						return;
 					}
 					long nowtime = System.currentTimeMillis();
