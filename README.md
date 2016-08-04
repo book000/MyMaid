@@ -13,6 +13,9 @@
 **使い易さ**や**効率**を重視しています。使用頻度があまりにも少ないと思われる機能については削除する場合がございます。  
 当プラグインへの新機能提案は[新機能の提案について – MyMaid](https://jaoafa.xyz/contact/plugins/mymaid/new)よりどうぞ。
 
+## 更新履歴
+更新履歴はこのGitHubレポジトリの[コミット履歴](https://github.com/book000/MyMaid/commits/master)を見ることによって確認できます。
+
 ## 公式Twitter
 commit時等にTwitterに投稿される機能を見つけたので、前々に使っていたアカウントを切り替え、MyMaid公式垢として成り立たせました。  
 Twitterはこちら。[@MyMaid_jMS](https://twitter.com/MyMaid_jMS)
