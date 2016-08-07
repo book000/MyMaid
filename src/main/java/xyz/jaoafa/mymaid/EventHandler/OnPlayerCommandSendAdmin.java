@@ -29,7 +29,6 @@ public class OnPlayerCommandSendAdmin implements Listener {
 		for(String group : groups){
 			if(PermissionsEx.getUser(player).inGroup(group)){
 				groupname = group;
-				break;
 			}
 		}
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {

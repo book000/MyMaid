@@ -2,8 +2,6 @@ package xyz.jaoafa.mymaid.Command;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,14 +37,7 @@ public class Ip_To_Host implements CommandExecutor {
 				return true;
 			}
 			try{
-				URL url=new URL("http://toma.webcrow.jp/jaoiphost.php?i=" + args[0]);
-				// URL接続
-				HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-				connect.setRequestMethod("GET");//プロトコルの設定
-				InputStream in=connect.getInputStream();//ファイルを開く
-				String data;//ネットから読んだデータを保管する変数を宣言
-				data = readString(in);
-
+				String data = Method.url_jaoplugin("iphost", "i=" + args[0]);
 				if(data == null){
 					Method.SendMessage(sender, cmd, "エラーが発生しました。");
 					return true;
