@@ -31,6 +31,8 @@ import xyz.jaoafa.mymaid.Command.E;
 import xyz.jaoafa.mymaid.Command.Explode;
 import xyz.jaoafa.mymaid.Command.Gamemode_Change;
 import xyz.jaoafa.mymaid.Command.Head;
+import xyz.jaoafa.mymaid.Command.Inv;
+import xyz.jaoafa.mymaid.Command.InvEnder;
 import xyz.jaoafa.mymaid.Command.Ip_To_Host;
 import xyz.jaoafa.mymaid.Command.Ja;
 import xyz.jaoafa.mymaid.Command.JaoJao;
@@ -133,6 +135,8 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("explode").setExecutor(new Explode(this));
     	getCommand("g").setExecutor(new Gamemode_Change(this));
     	getCommand("head").setExecutor(new Head(this));
+    	getCommand("inv").setExecutor(new Inv(this));
+    	getCommand("invender").setExecutor(new InvEnder(this));
     	getCommand("iphost").setExecutor(new Ip_To_Host(this));
     	getCommand("ja").setExecutor(new Ja(this));
     	getCommand("j2").setExecutor(new JaoJao(this));

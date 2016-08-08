@@ -44,11 +44,13 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockBreakEvent.
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerPickupItemEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerItemHeldEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Access.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvEnder.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnHeadClick.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockIgniteEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerCommand.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Chat.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Inv.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Pexup.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnInventoryClickEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Report.java

@@ -172,3 +172,13 @@ commands:
       usage: /<command> [code]
       permission: mymaid.pin
       permission-message: You do not have permission to perform this command.
+   inv:
+      description: Player Inventory Show
+      usage: /<command> [Player]
+      permission: mymaid.inv
+      permission-message: You do not have permission to perform this command.
+   invender:
+      description: Player Inventory Enderchest Show
+      usage: /<command> [Player]
+      permission: mymaid.invender
+      permission-message: You do not have permission to perform this command.
