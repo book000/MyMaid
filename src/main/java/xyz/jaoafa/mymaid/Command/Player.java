@@ -18,7 +18,7 @@ public class Player implements CommandExecutor {
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length == 0){
-			if (!(sender instanceof Player)) {
+			if (!(sender instanceof org.bukkit.entity.Player)) {
 				Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 				Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 				return true;
@@ -35,7 +35,7 @@ public class Player implements CommandExecutor {
 			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
 			for(String group : groups){
 				if(PermissionsEx.getUser(p).inGroup(group)){
-					Method.SendMessage(sender, cmd, "You Permission group \"" + group +"\"");
+					Method.SendMessage(sender, cmd, p + " Permission group \"" + group +"\"");
 				}
 			}
 		}else{

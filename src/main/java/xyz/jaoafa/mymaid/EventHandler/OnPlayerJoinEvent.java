@@ -43,7 +43,7 @@ public class OnPlayerJoinEvent implements Listener {
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.WHITE + "jaotan: 現在『" + Bukkit.getServer().getOnlinePlayers().size() + "人』がログインしています");
 		Player player = event.getPlayer();
-		new TabListSKKReloader(plugin, player).runTaskLater(plugin, 10L);
+		new TabListSKKReloader(plugin, player).runTaskLater(plugin, 20L);
 
   	}
 	private class TabListSKKReloader extends BukkitRunnable{

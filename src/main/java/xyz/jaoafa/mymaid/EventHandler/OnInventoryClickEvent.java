@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 
+import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.Command.Prison;
 
 public class OnInventoryClickEvent implements Listener {
@@ -108,6 +109,7 @@ public class OnInventoryClickEvent implements Listener {
 					p.sendMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「jaoium所有」という理由で牢獄リストに追加しました。");
 				}
 			}
+			Method.url_jaoplugin("eban", "p="+player.getName()+"&u="+player.getUniqueId()+"&b=jaotan&r=jaoium所有");
 			Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「jaoium所有」という理由で牢獄リストに追加しました。");
 		}
 	}

@@ -41,6 +41,7 @@ import xyz.jaoafa.mymaid.Command.Lag;
 import xyz.jaoafa.mymaid.Command.MakeCmd;
 import xyz.jaoafa.mymaid.Command.MyMaid_NetworkApi;
 import xyz.jaoafa.mymaid.Command.Pexup;
+import xyz.jaoafa.mymaid.Command.Pin;
 import xyz.jaoafa.mymaid.Command.Prison;
 import xyz.jaoafa.mymaid.Command.Report;
 import xyz.jaoafa.mymaid.Command.RuleLoad;
@@ -49,6 +50,7 @@ import xyz.jaoafa.mymaid.Command.SaveWorld;
 import xyz.jaoafa.mymaid.Command.SignLock;
 import xyz.jaoafa.mymaid.Command.Spawn;
 import xyz.jaoafa.mymaid.Command.TNTReload;
+import xyz.jaoafa.mymaid.Command.Unko;
 import xyz.jaoafa.mymaid.Command.Vote;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerChatEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
@@ -145,6 +147,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("makecmd").setExecutor(new MakeCmd(this));
     	getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
     	getCommand("pexup").setExecutor(new Pexup(this));
+    	getCommand("pin").setExecutor(new Pin(this));
     	getCommand("player").setExecutor(new xyz.jaoafa.mymaid.Command.Player(this));
     	getCommand("jail").setExecutor(new Prison(this));
     	getCommand("jail").setTabCompleter(new Prison(this));
@@ -156,6 +159,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("spawn").setExecutor(new Spawn(this));
     	getCommand("skk").setExecutor(new SSK(this));
     	getCommand("tnt").setExecutor(new TNTReload(this));
+    	getCommand("unko").setExecutor(new Unko(this));
     	getCommand("vote").setExecutor(new Vote(this));
 
     }
