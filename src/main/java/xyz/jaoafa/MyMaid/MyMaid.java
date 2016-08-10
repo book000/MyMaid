@@ -30,6 +30,7 @@ import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
 import xyz.jaoafa.mymaid.Command.E;
 import xyz.jaoafa.mymaid.Command.Explode;
 import xyz.jaoafa.mymaid.Command.Gamemode_Change;
+import xyz.jaoafa.mymaid.Command.Guard;
 import xyz.jaoafa.mymaid.Command.Head;
 import xyz.jaoafa.mymaid.Command.Inv;
 import xyz.jaoafa.mymaid.Command.InvEnder;
@@ -93,6 +94,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
     	Load_Plugin("EEWAlert");
     	Load_Plugin("PermissionsEx");
+    	Load_Plugin("WorldEdit");
 
 		Import_Listener();
     	Import_Task();
@@ -136,6 +138,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("e").setExecutor(new E(this));
     	getCommand("explode").setExecutor(new Explode(this));
     	getCommand("g").setExecutor(new Gamemode_Change(this));
+    	getCommand("guard").setExecutor(new Guard(this));
     	getCommand("head").setExecutor(new Head(this));
     	getCommand("inv").setExecutor(new Inv(this));
     	getCommand("invender").setExecutor(new InvEnder(this));

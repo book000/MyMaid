@@ -187,3 +187,8 @@ commands:
       usage: /<command> [Player]
       permission: mymaid.invender
       permission-message: You do not have permission to perform this command.
+   guard:
+      description: guard
+      usage: /<command>
+      permission: mymaid.guard
+      permission-message: You do not have permission to perform this command.

@@ -34,6 +34,11 @@
     	<id>pex-repo</id>
     	<url>http://pex-repo.aoeu.xyz</url>
     </repository>
+    <!-- WorldEdit(WE) -->
+    <repository>
+    	<id>sk89q-repo</id>
+    	<url>https://maven.sk89q.com/repo/</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -68,6 +73,12 @@
     	<groupId>ru.tehkode</groupId>
     	<artifactId>PermissionsEx</artifactId>
     	<version>1.23.1</version>
+    </dependency>
+    <!-- WorldEdit(WE) -->
+	<dependency>
+    	<groupId>com.sk89q.worldedit</groupId>
+    	<artifactId>worldedit-bukkit</artifactId>
+    	<version>6.1</version>
     </dependency>
   </dependencies>
   <url>http://jaoafa.xyz/</url>

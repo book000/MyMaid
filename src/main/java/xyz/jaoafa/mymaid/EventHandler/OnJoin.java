@@ -87,19 +87,21 @@ public class OnJoin implements Listener {
 			if(OnAsyncPlayerPreLoginEvent.LD.get(player.getName())){
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 					if(PermissionsEx.getUser(p).inGroup("Limited")){
-						return;
+						continue;
 					}
 					if(PermissionsEx.getUser(p).inGroup("Provisional")){
-						return;
+						continue;
 					}
 					if(PermissionsEx.getUser(p).inGroup("Default")){
-						return;
+						if(!PermissionsEx.getUser(p).inGroup("Regular")){
+							continue;
+						}
 					}
 					if(PermissionsEx.getUser(p).inGroup("Ban")){
-						return;
+						continue;
 					}
 					if(AFK.tnt.containsKey(p.getName())){
-						return;
+						continue;
 					}
 				}
 				Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
