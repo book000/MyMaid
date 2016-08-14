@@ -117,10 +117,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 
     private void Load_Plugin(String PluginName){
     	if(getServer().getPluginManager().isPluginEnabled(PluginName)){
-    		getLogger().info("MyMaid Success(LOADED: " + PluginName);
+    		getLogger().info("MyMaid Success(LOADED: " + PluginName + ")");
     		getLogger().info("Using " + PluginName);
 		}else{
-			getLogger().warning("MyMaid ERR(NOTLOADED: " + PluginName);
+			getLogger().warning("MyMaid ERR(NOTLOADED: " + PluginName + ")");
 			getLogger().info("Disable MyMaid...");
 			getServer().getPluginManager().disablePlugin(this);
 			return;

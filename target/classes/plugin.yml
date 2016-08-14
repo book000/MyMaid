@@ -185,7 +185,7 @@ commands:
    unko:
       description: unko?
       usage: /<command> [Player]
-      permission: mymaid.invender
+      permission: mymaid.unko
       permission-message: You do not have permission to perform this command.
    guard:
       description: guard
