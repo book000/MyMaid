@@ -33,8 +33,9 @@ public class InvLoad implements CommandExecutor {
 				ItemStack[] armor = InvSave.Savearmor.get(player.getName());
 				Location bed = InvSave.Savebed.get(player.getName());
 
-				player.getInventory().setContents(pi.getContents());
-				player.getInventory().setArmorContents(armor);
+				player.getInventory().clear();
+				if(pi.getSize() != 0) player.getInventory().setContents(pi.getContents());
+				if(armor.length != 0) player.getInventory().setArmorContents(armor);
 				player.setBedSpawnLocation(bed, true);
 				player.updateInventory();
 
