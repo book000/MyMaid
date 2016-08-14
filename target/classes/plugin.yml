@@ -192,3 +192,13 @@ commands:
       usage: /<command>
       permission: mymaid.guard
       permission-message: You do not have permission to perform this command.
+   invsave:
+      description: Inventory Save
+      usage: /<command>
+      permission: mymaid.invsave
+      permission-message: You do not have permission to perform this command.
+   invload:
+      description: Inventory Load
+      usage: /<command>
+      permission: mymaid.load
+      permission-message: You do not have permission to perform this command.

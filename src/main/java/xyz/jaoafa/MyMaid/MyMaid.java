@@ -34,6 +34,8 @@ import xyz.jaoafa.mymaid.Command.Guard;
 import xyz.jaoafa.mymaid.Command.Head;
 import xyz.jaoafa.mymaid.Command.Inv;
 import xyz.jaoafa.mymaid.Command.InvEnder;
+import xyz.jaoafa.mymaid.Command.InvLoad;
+import xyz.jaoafa.mymaid.Command.InvSave;
 import xyz.jaoafa.mymaid.Command.Ip_To_Host;
 import xyz.jaoafa.mymaid.Command.Ja;
 import xyz.jaoafa.mymaid.Command.JaoJao;
@@ -141,6 +143,8 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("guard").setExecutor(new Guard(this));
     	getCommand("head").setExecutor(new Head(this));
     	getCommand("inv").setExecutor(new Inv(this));
+    	getCommand("invsave").setExecutor(new InvSave(this));
+    	getCommand("invload").setExecutor(new InvLoad(this));
     	getCommand("invender").setExecutor(new InvEnder(this));
     	getCommand("iphost").setExecutor(new Ip_To_Host(this));
     	getCommand("ja").setExecutor(new Ja(this));
