@@ -265,7 +265,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 		@Override
 		public void run() {
 			if(nextbakrender){
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "dynmap updaterender Jao_Afa 0 0");
+				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "dynmap updaterender Jao_Afa " + player.getLocation().getBlockX() + " " + player.getLocation().getBlockZ() );
+				}
 			}
 		}
 	}
@@ -315,10 +317,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 			if(nextbakrender){
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(AFK.tnt.containsKey(player.getName())){
-						return;
+						continue;
 					}
 					if(!afktime.containsKey(player.getName())){
-						return;
+						continue;
 					}
 					long nowtime = System.currentTimeMillis();
 					long lastmovetime = afktime.get(player.getName());

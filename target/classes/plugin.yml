@@ -202,3 +202,13 @@ commands:
       usage: /<command>
       permission: mymaid.load
       permission-message: You do not have permission to perform this command.
+   var:
+      description: Var Set
+      usage: /<command>
+      permission: mymaid.var
+      permission-message: You do not have permission to perform this command.
+   varcmd:
+      description: VarIn Cmd Run
+      usage: /<command>
+      permission: mymaid.varcmd
+      permission-message: You do not have permission to perform this command.

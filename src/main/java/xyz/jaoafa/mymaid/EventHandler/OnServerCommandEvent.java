@@ -13,6 +13,7 @@ public class OnServerCommandEvent implements Listener {
 	}
 	@EventHandler
     public void onServerCommandEvent(ServerCommandEvent e){
+
     	Bukkit.getLogger().info("[ConsoleCMD] " + e.getCommand());
     }
 }
