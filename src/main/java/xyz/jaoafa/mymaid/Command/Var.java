@@ -23,8 +23,9 @@ public class Var implements CommandExecutor, TabCompleter {
 	}
 	public static Map<String, String> var = new HashMap<String, String>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if(args.length < 2){
+		if(args.length < 1){
 			Method.SendMessage(sender, cmd, "引数が適切ではありません。");
+			return true;
 		}
 		if(args[0].equalsIgnoreCase("text")){
 			//Text(/var text var text)
@@ -38,7 +39,16 @@ public class Var implements CommandExecutor, TabCompleter {
 	        	Method.SendMessage(sender, cmd, "変数は英数字のみ許可しています。");
 	        	return true;
 	        }
-			var.put(args[1], args[2]);
+	        String text = "";
+			int c = 2;
+			while(args.length > c){
+				text += args[c];
+				if(args.length != (c+1)){
+					text += " ";
+				}
+				c++;
+			}
+			var.put(args[1], text);
 			Method.SendMessage(sender, cmd, "変数「" + args[1] + "」に「" + args[2] + "」を入力しました。");
 			return true;
 		}else if(args[0].equalsIgnoreCase("plus")){
@@ -153,16 +163,47 @@ public class Var implements CommandExecutor, TabCompleter {
 			List<MetadataValue> meta = cmdb.getMetadata("LastOutput");
 			Method.SendMessage(sender, cmd, ""+meta);
 */
+		}else if(args[0].equalsIgnoreCase("equal")){
+			//Equal(/var equal var var)
+			if(args.length < 3){
+				Method.SendMessage(sender, cmd, "引数が適切ではありません。");
+			}
+			if(!var.containsKey(args[1])){
+				Method.SendMessage(sender, cmd, "変数「" + args[1] + "」は定義されていません。");
+				return true;
+			}
+			if(!var.containsKey(args[2])){
+				Method.SendMessage(sender, cmd, "変数「" + args[2] + "」は定義されていません。");
+				return true;
+			}
+			if(var.get(args[1]).equals(var.get(args[2]))){
+				Method.SendMessage(sender, cmd, "結果は「True」です。");
+				return true;
+			}else{
+				Method.SendMessage(sender, cmd, "結果は「False」です。");
+				return true;
+			}
+		}else if(args[0].equalsIgnoreCase("list")){
+			Method.SendMessage(sender, cmd, "現在定義されている変数");
+			Method.SendMessage(sender, cmd, "-------------------------");
+			for(Map.Entry<String, String> e : Var.var.entrySet()) {
+				Method.SendMessage(sender, cmd, "$" + e.getKey() + "=>" + e.getValue());
+			}
+			Method.SendMessage(sender, cmd, "-------------------------");
+			return true;
+		}else{
+			Method.SendMessage(sender, cmd, "未実装(?)");
+			return true;
 		}
-		Method.SendMessage(sender, cmd, "未実装(?)");
-		return true;
+		return false;
+
 	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
             if (args[0].length() == 0) {
-                return Arrays.asList("text", "plus", "minus", "block");
+                return Arrays.asList("text", "plus", "minus", "block", "equal", "list");
             } else {
                 //入力されている文字列と先頭一致
                 if ("text".startsWith(args[0])) {
@@ -173,6 +214,10 @@ public class Var implements CommandExecutor, TabCompleter {
                     return Collections.singletonList("minus");
                 } else if ("block".startsWith(args[0])) {
                     return Collections.singletonList("block");
+                } else if ("equal".startsWith(args[0])) {
+                    return Collections.singletonList("equal");
+                } else if ("list".startsWith(args[0])) {
+                    return Collections.singletonList("list");
                 }
             }
         }
