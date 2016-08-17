@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -82,7 +81,7 @@ public class AFK implements CommandExecutor{
     	}
 		@Override
 		public void run() {
-			player.getWorld().playSound(player.getLocation(),Sound.EXPLODE,1,1);
+			//player.getWorld().playSound(player.getLocation(),Sound.EXPLODE,1,1);
 			player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
 		}
 

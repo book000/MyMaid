@@ -1,17 +1,22 @@
 package xyz.jaoafa.mymaid.Command;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
 
-public class Var {
+public class Var implements CommandExecutor, TabCompleter {
 	JavaPlugin plugin;
 	public Var(JavaPlugin plugin) {
 		this.plugin = plugin;
@@ -25,6 +30,7 @@ public class Var {
 			//Text(/var text var text)
 			if(args.length != 3){
 				Method.SendMessage(sender, cmd, "引数が適切ではありません。");
+				return true;
 			}
 			Pattern p = Pattern.compile("^[0-9a-zA-Z]+$");
 	        Matcher m = p.matcher(args[1]);
@@ -35,11 +41,72 @@ public class Var {
 			var.put(args[1], args[2]);
 			Method.SendMessage(sender, cmd, "変数「" + args[1] + "」に「" + args[2] + "」を入力しました。");
 			return true;
+		}else if(args[0].equalsIgnoreCase("plus")){
+			//Plus(/var plus var var)
+			if(args.length < 3){
+				Method.SendMessage(sender, cmd, "引数が適切ではありません。");
+			}
+			if(!var.containsKey(args[1])){
+				Method.SendMessage(sender, cmd, "変数「" + args[1] + "」は定義されていません。");
+				return true;
+			}
+			if(!var.containsKey(args[2])){
+				Method.SendMessage(sender, cmd, "変数「" + args[2] + "」は定義されていません。");
+				return true;
+			}
+			int var1;
+			try{
+				var1 = Integer.parseInt(var.get(args[1]));
+			} catch (NumberFormatException nfe) {
+				Method.SendMessage(sender, cmd, "変数「" + args[1] + "」は数字ではないため加算先にできません。");
+				return true;
+			}
+			int var2;
+			try{
+				var2 = Integer.parseInt(var.get(args[2]));
+			} catch (NumberFormatException nfe) {
+				Method.SendMessage(sender, cmd, "変数「" + args[2] + "」は数字ではないため加算元にできません。");
+				return true;
+			}
+			int newvar = var1 + var2;
+			var.put(args[1], newvar+"");
+			Method.SendMessage(sender, cmd, "変数「" + args[1] + "」と変数「" + args[2] + "」を加算し、変数「" + args[1] + "」に入力しました。(回答:" + newvar +")");
+			return true;
+		}else if(args[0].equalsIgnoreCase("minus")){
+			//Plus(/var plus var var)
+			if(args.length < 3){
+				Method.SendMessage(sender, cmd, "引数が適切ではありません。");
+			}
+			if(!var.containsKey(args[1])){
+				Method.SendMessage(sender, cmd, "変数「" + args[1] + "」は定義されていません。");
+				return true;
+			}
+			if(!var.containsKey(args[2])){
+				Method.SendMessage(sender, cmd, "変数「" + args[2] + "」は定義されていません。");
+				return true;
+			}
+			int var1;
+			try{
+				var1 = Integer.parseInt(var.get(args[1]));
+			} catch (NumberFormatException nfe) {
+				Method.SendMessage(sender, cmd, "変数「" + args[1] + "」は数字ではないため減算元にできません。");
+				return true;
+			}
+			int var2;
+			try{
+				var2 = Integer.parseInt(var.get(args[2]));
+			} catch (NumberFormatException nfe) {
+				Method.SendMessage(sender, cmd, "変数「" + args[2] + "」は数字ではないため減算値にできません。");
+				return true;
+			}
+			int newvar = var1 - var2;
+			var.put(args[1], newvar+"");
+			Method.SendMessage(sender, cmd, "変数「" + args[1] + "」から変数「" + args[2] + "」を減算し、変数「" + args[1] + "」に入力しました。(回答:" + newvar +")");
+			return true;
 		}else if(args[0].equalsIgnoreCase("block")){
 			//Block(/var block var x y z)
 			Method.SendMessage(sender, cmd, "未実装");
-			return true;
-			/*
+/*
 			if(args.length != 5){
 				Method.SendMessage(sender, cmd, "引数が適切ではありません。");
 			}
@@ -83,10 +150,33 @@ public class Var {
 			}
 			CommandBlock cmdb = (CommandBlock) cmdb_loc.getBlock().getState();
 			// Todo コマンドブロックの実行結果取得方法
-
-			*/
+			List<MetadataValue> meta = cmdb.getMetadata("LastOutput");
+			Method.SendMessage(sender, cmd, ""+meta);
+*/
 		}
 		Method.SendMessage(sender, cmd, "未実装(?)");
 		return true;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (args.length == 1) {
+            if (args[0].length() == 0) {
+                return Arrays.asList("text", "plus", "minus", "block");
+            } else {
+                //入力されている文字列と先頭一致
+                if ("text".startsWith(args[0])) {
+                    return Collections.singletonList("text");
+                } else if ("plus".startsWith(args[0])) {
+                    return Collections.singletonList("plus");
+                } else if ("minus".startsWith(args[0])) {
+                    return Collections.singletonList("minus");
+                } else if ("block".startsWith(args[0])) {
+                    return Collections.singletonList("block");
+                }
+            }
+        }
+      //JavaPlugin#onTabComplete()を呼び出す
+        return plugin.onTabComplete(sender, command, alias, args);
 	}
 }

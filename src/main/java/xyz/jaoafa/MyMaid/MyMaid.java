@@ -54,6 +54,8 @@ import xyz.jaoafa.mymaid.Command.SignLock;
 import xyz.jaoafa.mymaid.Command.Spawn;
 import xyz.jaoafa.mymaid.Command.TNTReload;
 import xyz.jaoafa.mymaid.Command.Unko;
+import xyz.jaoafa.mymaid.Command.Var;
+import xyz.jaoafa.mymaid.Command.VarCmd;
 import xyz.jaoafa.mymaid.Command.Vote;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerChatEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
@@ -167,6 +169,9 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("skk").setExecutor(new SSK(this));
     	getCommand("tnt").setExecutor(new TNTReload(this));
     	getCommand("unko").setExecutor(new Unko(this));
+    	getCommand("var").setExecutor(new Var(this));
+    	getCommand("var").setTabCompleter(new Var(this));
+    	getCommand("varcmd").setExecutor(new VarCmd(this));
     	getCommand("vote").setExecutor(new Vote(this));
 
     }
