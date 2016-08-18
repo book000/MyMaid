@@ -1,11 +1,18 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.Prison;
@@ -15,8 +22,24 @@ public class OnAsyncPlayerChatEvent implements Listener {
 	public OnAsyncPlayerChatEvent(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+	public static Map<String,Integer> dotto = new HashMap<String,Integer>();
+	public static Map<String,BukkitTask> dottotask = new HashMap<String,BukkitTask>();
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
+		if(e.getMessage().equals(".")){
+			if(!dottotask.containsKey(e.getPlayer().getName())){
+				dotto.put(e.getPlayer().getName(), 1);
+				dottotask.put(e.getPlayer().getName(), new dot(plugin, e.getPlayer()).runTaskLater(plugin, 20L));
+			}else{
+				dotto.put(e.getPlayer().getName(), dotto.get(e.getPlayer().getName()) + 1);
+			}
+			//e.setMessage(dotto.get(e.getPlayer().getName())+"");
+		}else{
+			if(dottotask.containsKey(e.getPlayer().getName())){
+				dottotask.get(e.getPlayer().getName()).cancel();
+				dottotask.remove(e.getPlayer().getName());
+			}
+		}
 		String Msg = e.getFormat();
 		if(e.getPlayer().hasPermission("mymaid.pex.limited")){
 				Msg = e.getFormat().replaceFirst("%1", ChatColor.BLACK + "■" + ChatColor.WHITE + "%1");
@@ -59,5 +82,23 @@ public class OnAsyncPlayerChatEvent implements Listener {
 			Msg = e.getFormat().replaceFirst("%1", ChatColor.GRAY + "■" + ChatColor.WHITE + "%1");
 			e.setFormat(Msg);
 		}
+	}
+	private class dot extends BukkitRunnable{
+		Player player;
+    	public dot(JavaPlugin plugin, Player player) {
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			if(dotto.containsKey(player.getName())){
+				int dot = dotto.get(player.getName());
+				if(dot != 1){
+					dotto.remove(player.getName());
+					dottotask.remove(player.getName());
+					Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "'s DOTTO COUNTER: " + dot + "/1s");
+				}
+			}
+		}
+
 	}
 }

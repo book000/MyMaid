@@ -70,7 +70,7 @@ public class Method {
 		}
 	}
 	public static String chatmaker(String player, String text){
-  		Date Date = new Date();;
+  		Date Date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		String date = sdf.format(Date);
 		String send = ChatColor.GRAY + "["+ date + "]" + ChatColor.WHITE + player +  ": " + text;

@@ -60,7 +60,7 @@ public class AFK implements CommandExecutor{
 			Method.SendMessage(sender, cmd, "AFK true");
 			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
 			try {
-			tnt.get(player.getName()).cancel();
+				tnt.get(player.getName()).cancel();
 			}catch(Exception e){
 
 			}
