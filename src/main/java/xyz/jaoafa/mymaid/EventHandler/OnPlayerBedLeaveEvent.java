@@ -17,6 +17,6 @@ public class OnPlayerBedLeaveEvent implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerBedLeaveEvent(PlayerBedLeaveEvent event) {
 		Player player = event.getPlayer();
-		DOT.bed.put(player.getName(), false);
+		DOT.bed.remove(player.getName());
 	}
 }

@@ -4,7 +4,7 @@ version: 0.0.1
 description: General Plugin
 database: true
 author: mine_book000
-softdepend: [EEWAlert, PermissionEx]
+softdepend: [EEWAlert, PermissionsEx, WorldEdit, LunaChat]
 website: https://jaoafa.xyz/
 default-permission: NOT_OP
 commands:

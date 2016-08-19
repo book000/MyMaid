@@ -62,15 +62,17 @@ public class OnAsyncPlayerChatEvent implements Listener {
 				}
 			}
 		}else{
-			if(DOT.bed.containsKey(e.getPlayer().getName())){
-				e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
-			}else{
-				if(DOT.run.containsKey(e.getPlayer().getName())){
-					if(DOT.unsuccess.containsKey(e.getPlayer().getName())){
+			if(DOT.run.containsKey(e.getPlayer().getName())){
+				if(DOT.bed.containsKey(e.getPlayer().getName())){
+					e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
+				}else{
 						DOT.unsuccess.put(e.getPlayer().getName(), DOT.unsuccess.get(e.getPlayer().getName()) + 1);
-					}else{
-						DOT.unsuccess.put(e.getPlayer().getName(), 1);
-					}
+				}
+			}else{
+				if(DOT.bed.containsKey(e.getPlayer().getName())){
+					e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
+				}else{
+					DOT.unsuccess.put(e.getPlayer().getName(), 1);
 				}
 			}
 		}
