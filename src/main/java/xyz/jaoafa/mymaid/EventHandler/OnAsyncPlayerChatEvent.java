@@ -1,5 +1,6 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import com.github.ucchyocean.lc.LunaChatAPI;
+import com.github.ucchyocean.lc.channel.Channel;
+import com.github.ucchyocean.lc.channel.ChannelPlayer;
+
+import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Prison;
 
 public class OnAsyncPlayerChatEvent implements Listener {
@@ -27,17 +34,60 @@ public class OnAsyncPlayerChatEvent implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
 		if(e.getMessage().equals(".")){
-			if(!dottotask.containsKey(e.getPlayer().getName())){
-				dotto.put(e.getPlayer().getName(), 1);
-				dottotask.put(e.getPlayer().getName(), new dot(plugin, e.getPlayer()).runTaskLater(plugin, 20L));
+			if(DOT.bed.containsKey(e.getPlayer().getName())){
+				e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
 			}else{
-				dotto.put(e.getPlayer().getName(), dotto.get(e.getPlayer().getName()) + 1);
+				if(!DOT.run.containsKey(e.getPlayer().getName())){
+					if(DOT.runwait.containsKey(e.getPlayer().getName())){
+						e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ピリオド計測開始っ");
+						DOT.runwait.remove(e.getPlayer().getName());
+						DOT.dotcount_stop.put(e.getPlayer().getName(), true);
+						DOT.run.put(e.getPlayer().getName(), new dot_60s(plugin, e.getPlayer(), MyMaid.lunachatapi).runTaskLater(plugin, 1200L));
+						DOT.success.put(e.getPlayer().getName(), 1);
+						DOT.unsuccess.put(e.getPlayer().getName(), 0);
+						Collection<Channel> channels = MyMaid.lunachatapi.getChannels();
+						boolean chan = true;
+						for(Channel channel: channels){
+							if(channel.getName().equals("_DOT_")){
+								chan = false;
+							}
+						}
+						if(chan){
+							MyMaid.lunachatapi.createChannel("_DOT_");
+						}
+						MyMaid.lunachatapi.getChannel("_DOT_").addMember(ChannelPlayer.getChannelPlayer(e.getPlayer().getName()));
+					}
+				}else{
+					DOT.success.put(e.getPlayer().getName(), DOT.success.get(e.getPlayer().getName()) + 1);
+				}
 			}
-			//e.setMessage(dotto.get(e.getPlayer().getName())+"");
 		}else{
-			if(dottotask.containsKey(e.getPlayer().getName())){
-				dottotask.get(e.getPlayer().getName()).cancel();
-				dottotask.remove(e.getPlayer().getName());
+			if(DOT.bed.containsKey(e.getPlayer().getName())){
+				e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
+			}else{
+				if(DOT.run.containsKey(e.getPlayer().getName())){
+					if(DOT.unsuccess.containsKey(e.getPlayer().getName())){
+						DOT.unsuccess.put(e.getPlayer().getName(), DOT.unsuccess.get(e.getPlayer().getName()) + 1);
+					}else{
+						DOT.unsuccess.put(e.getPlayer().getName(), 1);
+					}
+				}
+			}
+		}
+		if(!DOT.dotcount_stop.containsKey(e.getPlayer().getName())){
+			if(e.getMessage().equals(".")){
+				if(!dottotask.containsKey(e.getPlayer().getName())){
+					dotto.put(e.getPlayer().getName(), 1);
+					dottotask.put(e.getPlayer().getName(), new dot(plugin, e.getPlayer()).runTaskLater(plugin, 20L));
+				}else{
+					dotto.put(e.getPlayer().getName(), dotto.get(e.getPlayer().getName()) + 1);
+				}
+				//e.setMessage(dotto.get(e.getPlayer().getName())+"");
+			}else{
+				if(dottotask.containsKey(e.getPlayer().getName())){
+					dottotask.get(e.getPlayer().getName()).cancel();
+					dottotask.remove(e.getPlayer().getName());
+				}
 			}
 		}
 		String Msg = e.getFormat();
@@ -96,8 +146,48 @@ public class OnAsyncPlayerChatEvent implements Listener {
 					dotto.remove(player.getName());
 					dottotask.remove(player.getName());
 					Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "'s DOTTO COUNTER: " + dot + "/1s");
+				}else{
+					dotto.remove(player.getName());
+					dottotask.remove(player.getName());
 				}
 			}
+		}
+
+	}
+	private class dot_60s extends BukkitRunnable{
+		Player player;
+		LunaChatAPI lunachatapi;
+    	public dot_60s(JavaPlugin plugin, Player player, LunaChatAPI lunachatapi) {
+    		this.player = player;
+    		this.lunachatapi = lunachatapi;
+    	}
+		@Override
+		public void run() {
+			//Bukkit.broadcastMessage(DOT.success.toString() + DOT.unsuccess.toString());
+			int success;
+			if(DOT.success.containsKey(player.getName())){
+				success = DOT.success.get(player.getName());
+			}else{
+				success = 0;
+			}
+			int unsuccess;
+			if(DOT.unsuccess.containsKey(player.getName())){
+				try{
+					unsuccess = DOT.unsuccess.get(player.getName());
+				}catch(NullPointerException e){
+					unsuccess = 0;
+				}
+			}else{
+				unsuccess = 0;
+			}
+			Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決の結果: 成功回数" + success + " 失敗回数" + unsuccess);
+			DOT.run.get(player.getName()).cancel();
+			DOT.run.remove(player.getName());
+			DOT.dotcount_stop.remove(player.getName());
+			DOT.success.remove(player.getName());
+			DOT.unsuccess.remove(player.getName());
+			lunachatapi.getChannel("_DOT_").removeMember(ChannelPlayer.getChannelPlayer(player.getName()));
+			Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess);
 		}
 
 	}

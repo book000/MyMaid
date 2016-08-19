@@ -18,6 +18,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.github.ucchyocean.lc.LunaChat;
+import com.github.ucchyocean.lc.LunaChatAPI;
+
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.AFK.afking;
 import xyz.jaoafa.mymaid.Command.Access;
@@ -25,6 +28,7 @@ import xyz.jaoafa.mymaid.Command.ArrowShotter;
 import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Cmdb;
 import xyz.jaoafa.mymaid.Command.Cmdsearch;
+import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Ded;
 import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
@@ -71,6 +75,8 @@ import xyz.jaoafa.mymaid.EventHandler.OnFrom;
 import xyz.jaoafa.mymaid.EventHandler.OnHeadClick;
 import xyz.jaoafa.mymaid.EventHandler.OnInventoryClickEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnJoin;
+import xyz.jaoafa.mymaid.EventHandler.OnPlayerBedEnterEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnPlayerBedLeaveEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBucketEmptyEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommand;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommandPreprocessEvent;
@@ -92,6 +98,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public static Map<String,String> chatcolor = new HashMap<String,String>();
 	public static TitleSender TitleSender;
 	FileConfiguration conf;
+	public static LunaChatAPI lunachatapi;
+	public static LunaChat lunachat;
 	@Override
     public void onEnable() {
 		getLogger().info("--------------------------------------------------");
@@ -101,6 +109,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	Load_Plugin("EEWAlert");
     	Load_Plugin("PermissionsEx");
     	Load_Plugin("WorldEdit");
+    	Load_Plugin("LunaChat");
 
 		Import_Listener();
     	Import_Task();
@@ -109,6 +118,9 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getLogger().info("--------------------------------------------------");
 
 		TitleSender = new TitleSender();
+
+		lunachat = (LunaChat)getServer().getPluginManager().getPlugin("LunaChat");
+	    lunachatapi = lunachat.getLunaChatAPI();
     }
 
     @Override
@@ -140,6 +152,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
     	getCommand("data").setExecutor(new Data(this));
     	getCommand("ded").setExecutor(new Ded(this));
+    	getCommand(".").setExecutor(new DOT(this));
     	getCommand("dt").setExecutor(new Dynmap_Teleporter(this));
     	getCommand("dt").setTabCompleter(new Dynmap_Teleporter(this));
     	getCommand("e").setExecutor(new E(this));
@@ -201,6 +214,8 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnHeadClick(this), this);
     	getServer().getPluginManager().registerEvents(new OnInventoryClickEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnJoin(this), this);
+    	getServer().getPluginManager().registerEvents(new OnPlayerBedEnterEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnPlayerBedLeaveEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerBucketEmptyEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerCommand(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerCommandPreprocessEvent(this), this);

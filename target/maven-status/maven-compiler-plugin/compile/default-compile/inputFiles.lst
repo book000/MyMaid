@@ -28,6 +28,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gamemode_Change.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MakeCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveAFK.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBedEnterEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Unko.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\TNTReload.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MyMaid_NetworkApi.java
@@ -57,9 +58,11 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockIgniteEvent
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvLoad.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerCommand.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DOT.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Chat.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Inv.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Pexup.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBedLeaveEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnInventoryClickEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Report.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Pin.java

@@ -217,3 +217,8 @@ commands:
       usage: /<command>
       permission: mymaid.ded
       permission-message: You do not have permission to perform this command.
+   .:
+      description: .
+      usage: /<command>
+      permission: mymaid.dot
+      permission-message: You do not have permission to perform this command.
