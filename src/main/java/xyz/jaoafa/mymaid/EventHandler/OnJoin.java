@@ -114,7 +114,7 @@ public class OnJoin implements Listener {
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 					if(!AFK.tnt.containsKey(p.getName())){
 						MyMaid.TitleSender.setTime_second(p, 2, 5, 2);
-						MyMaid.TitleSender.sendTitle(p, "", ChatColor.GOLD + "jaotan" + ChatColor.WHITE + " によって " + ChatColor.BLUE + player.getName() + " がDefault権限に引き上げられました！");
+						MyMaid.TitleSender.sendTitle(p, "", ChatColor.GOLD + "jaotan" + ChatColor.WHITE + " によって " + ChatColor.BLUE + player.getName() + ChatColor.WHITE + " がDefault権限に引き上げられました！");
 					}
 				}
 

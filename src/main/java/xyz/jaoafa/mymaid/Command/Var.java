@@ -86,6 +86,7 @@ public class Var implements CommandExecutor, TabCompleter {
 			//Plus(/var plus var var)
 			if(args.length < 3){
 				Method.SendMessage(sender, cmd, "引数が適切ではありません。");
+				return true;
 			}
 			if(!var.containsKey(args[1])){
 				Method.SendMessage(sender, cmd, "変数「" + args[1] + "」は定義されていません。");

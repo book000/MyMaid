@@ -31,6 +31,7 @@ import xyz.jaoafa.mymaid.Command.Cmdsearch;
 import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Ded;
+import xyz.jaoafa.mymaid.Command.DedMsg;
 import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
 import xyz.jaoafa.mymaid.Command.E;
 import xyz.jaoafa.mymaid.Command.Explode;
@@ -127,7 +128,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     public void onDisable() {
     	conf.set("prison",Prison.prison);
 		conf.set("prison_block",Prison.prison_block);
-		conf.set("prison_lasttext",Prison.prison_lasttext);
+		conf.set("prison_lasttext",Prison.jail_lasttext);
     	saveConfig();
     }
 
@@ -152,6 +153,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
     	getCommand("data").setExecutor(new Data(this));
     	getCommand("ded").setExecutor(new Ded(this));
+    	getCommand("dedmsg").setExecutor(new DedMsg(this));
     	getCommand(".").setExecutor(new DOT(this));
     	getCommand("dt").setExecutor(new Dynmap_Teleporter(this));
     	getCommand("dt").setTabCompleter(new Dynmap_Teleporter(this));
@@ -257,12 +259,12 @@ public class MyMaid extends JavaPlugin implements Listener {
 		if(conf.contains("prison_lasttext")){
 			Map<String, Object> pl = conf.getConfigurationSection("prison_lasttext").getValues(true);
 			for(Entry<String, Object> p: pl.entrySet()){
-				Prison.prison_lasttext.put(p.getKey(), p.getValue().toString());
+				Prison.jail_lasttext.put(p.getKey(), p.getValue().toString());
 			}
-			Prison.prison_lasttext = null;
+			Prison.jail_lasttext = null;
  		}else{
- 			Prison.prison_lasttext = new HashMap<String,String>();
- 			conf.set("prison_lasttext",Prison.prison_lasttext);
+ 			Prison.jail_lasttext = new HashMap<String,String>();
+ 			conf.set("prison_lasttext",Prison.jail_lasttext);
  		}
     }
 

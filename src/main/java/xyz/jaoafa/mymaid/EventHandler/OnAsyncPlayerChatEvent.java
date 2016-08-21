@@ -55,7 +55,11 @@ public class OnAsyncPlayerChatEvent implements Listener {
 						if(chan){
 							MyMaid.lunachatapi.createChannel("_DOT_");
 						}
+						if(MyMaid.lunachatapi.getChannel("_DOT_").isBroadcastChannel()){
+							MyMaid.lunachatapi.getChannel("_DOT_").setBroadcast(false);
+						}
 						MyMaid.lunachatapi.getChannel("_DOT_").addMember(ChannelPlayer.getChannelPlayer(e.getPlayer().getName()));
+						MyMaid.lunachatapi.setDefaultChannel(e.getPlayer().getName(), "_DOT_");
 					}
 				}else{
 					DOT.success.put(e.getPlayer().getName(), DOT.success.get(e.getPlayer().getName()) + 1);
