@@ -36,13 +36,15 @@ public class OnAsyncPlayerChatEvent implements Listener {
 		if(e.getMessage().equals(".")){
 			if(DOT.bed.containsKey(e.getPlayer().getName())){
 				e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
+				e.setCancelled(true);
 			}else{
 				if(!DOT.run.containsKey(e.getPlayer().getName())){
 					if(DOT.runwait.containsKey(e.getPlayer().getName())){
-						e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ピリオド計測開始っ");
+						int section = DOT.runwait.get(e.getPlayer().getName());
+						e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ピリオド計測開始っ(" +  section + "部門)");
 						DOT.runwait.remove(e.getPlayer().getName());
 						DOT.dotcount_stop.put(e.getPlayer().getName(), true);
-						DOT.run.put(e.getPlayer().getName(), new dot_60s(plugin, e.getPlayer(), MyMaid.lunachatapi).runTaskLater(plugin, 1200L));
+						DOT.run.put(e.getPlayer().getName(), new dot_section(plugin, e.getPlayer(), MyMaid.lunachatapi, section).runTaskLater(plugin, section * 20));
 						DOT.success.put(e.getPlayer().getName(), 1);
 						DOT.unsuccess.put(e.getPlayer().getName(), 0);
 						Collection<Channel> channels = MyMaid.lunachatapi.getChannels();
@@ -69,12 +71,14 @@ public class OnAsyncPlayerChatEvent implements Listener {
 			if(DOT.run.containsKey(e.getPlayer().getName())){
 				if(DOT.bed.containsKey(e.getPlayer().getName())){
 					e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
+					e.setCancelled(true);
 				}else{
 						DOT.unsuccess.put(e.getPlayer().getName(), DOT.unsuccess.get(e.getPlayer().getName()) + 1);
 				}
 			}else{
 				if(DOT.bed.containsKey(e.getPlayer().getName())){
 					e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
+					e.setCancelled(true);
 				}else{
 					DOT.unsuccess.put(e.getPlayer().getName(), 1);
 				}
@@ -160,12 +164,14 @@ public class OnAsyncPlayerChatEvent implements Listener {
 		}
 
 	}
-	private class dot_60s extends BukkitRunnable{
+	private class dot_section extends BukkitRunnable{
 		Player player;
 		LunaChatAPI lunachatapi;
-    	public dot_60s(JavaPlugin plugin, Player player, LunaChatAPI lunachatapi) {
+		int section;
+    	public dot_section(JavaPlugin plugin, Player player, LunaChatAPI lunachatapi, int section) {
     		this.player = player;
     		this.lunachatapi = lunachatapi;
+    		this.section = section;
     	}
 		@Override
 		public void run() {
@@ -186,15 +192,14 @@ public class OnAsyncPlayerChatEvent implements Listener {
 			}else{
 				unsuccess = 0;
 			}
-			Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決の結果: 成功回数" + success + " 失敗回数" + unsuccess);
 			DOT.run.get(player.getName()).cancel();
 			DOT.run.remove(player.getName());
 			DOT.dotcount_stop.remove(player.getName());
 			DOT.success.remove(player.getName());
 			DOT.unsuccess.remove(player.getName());
 			lunachatapi.getChannel("_DOT_").removeMember(ChannelPlayer.getChannelPlayer(player.getName()));
-			Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess);
+			String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
+			Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
 		}
-
 	}
 }

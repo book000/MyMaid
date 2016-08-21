@@ -10,6 +10,7 @@ import java.util.TimeZone;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -346,6 +347,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 						continue;
 					}
 					if(!afktime.containsKey(player.getName())){
+						continue;
+					}
+					if(player.getGameMode() == GameMode.SPECTATOR){
 						continue;
 					}
 					long nowtime = System.currentTimeMillis();

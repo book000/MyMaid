@@ -19,7 +19,7 @@ public class DOT implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	//連投待機中か
-	public static Map<String, Boolean> runwait = new HashMap<String, Boolean>();
+	public static Map<String, Integer> runwait = new HashMap<String, Integer>();
 	//連投実行中か
 	public static Map<String, BukkitTask> run = new HashMap<String, BukkitTask>();
 	//ベットで寝ているか
@@ -49,8 +49,21 @@ public class DOT implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "ピリオド対決準備中だゾ！次に「.」を打った瞬間から開始だゾ！");
 			return true;
 		}
-		Method.SendMessage(sender, cmd, "ピリオド対決を開始します。次に「.」を打った瞬間から60秒間計測します。");
-		runwait.put(player.getName(), true);
+		int section = 60;
+		if(args.length == 1){
+			if(args[0].equalsIgnoreCase("10")){
+				section = 10;
+			}else if(args[0].equalsIgnoreCase("60")){
+				section = 60;
+			}else if(args[0].equalsIgnoreCase("300")){
+				section = 300;
+			}else{
+				Method.SendMessage(sender, cmd, "ピリオド対決は10秒、60秒、300秒から選択できます。");
+				return true;
+			}
+		}
+		Method.SendMessage(sender, cmd, "ピリオド対決を開始します。次に「.」を打った瞬間から" + section + "秒間計測します。");
+		runwait.put(player.getName(), section);
 		return true;
 	}
 }
