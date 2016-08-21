@@ -110,7 +110,7 @@ public class DedMsg implements CommandExecutor {
 				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 				obj.put(sdf1.format(new Date()), loclist);
 
-				Method.SendMessage(sender, cmd, obj.toJSONString());
+				//Method.SendMessage(sender, cmd, obj.toJSONString());
 
 			} catch (IncompleteRegionException ex) {
 				Method.SendMessage(sender, cmd, "範囲を2つ指定してください。");
