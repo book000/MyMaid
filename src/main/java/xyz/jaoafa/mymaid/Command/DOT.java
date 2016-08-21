@@ -20,6 +20,8 @@ public class DOT implements CommandExecutor {
 	}
 	//連投待機中か
 	public static Map<String, Integer> runwait = new HashMap<String, Integer>();
+	//かな変換
+	public static Map<String, Boolean> kana = new HashMap<String, Boolean>();
 	//連投実行中か
 	public static Map<String, BukkitTask> run = new HashMap<String, BukkitTask>();
 	//ベットで寝ているか
@@ -63,6 +65,7 @@ public class DOT implements CommandExecutor {
 			}
 		}
 		Method.SendMessage(sender, cmd, "ピリオド対決を開始します。次に「.」を打った瞬間から" + section + "秒間計測します。");
+		Method.SendMessage(sender, cmd, "正確にピリオド判定を行うため、かなローマ字変換をオフにして(/jp off)ご利用ください。");
 		runwait.put(player.getName(), section);
 		return true;
 	}

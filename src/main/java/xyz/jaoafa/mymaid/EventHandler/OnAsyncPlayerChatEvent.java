@@ -62,6 +62,8 @@ public class OnAsyncPlayerChatEvent implements Listener {
 						}
 						MyMaid.lunachatapi.getChannel("_DOT_").addMember(ChannelPlayer.getChannelPlayer(e.getPlayer().getName()));
 						MyMaid.lunachatapi.setDefaultChannel(e.getPlayer().getName(), "_DOT_");
+						DOT.kana.put(e.getPlayer().getName(), MyMaid.lunachatapi.isPlayerJapanize(e.getPlayer().getName()));
+						MyMaid.lunachatapi.setPlayersJapanize(e.getPlayer().getName(), false);
 					}
 				}else{
 					DOT.success.put(e.getPlayer().getName(), DOT.success.get(e.getPlayer().getName()) + 1);
@@ -200,6 +202,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 			lunachatapi.getChannel("_DOT_").removeMember(ChannelPlayer.getChannelPlayer(player.getName()));
 			String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
 			Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			MyMaid.lunachatapi.setPlayersJapanize(player.getName(), DOT.kana.get(player.getName()));
 		}
 	}
 }

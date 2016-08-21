@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
@@ -12,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -240,8 +242,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 		if(conf.contains("prison")){
 			//Prison.prison = (Map<String,Boolean>) conf.getConfigurationSection("prison").getKeys(false);
 			Map<String, Object> pl = conf.getConfigurationSection("prison").getValues(true);
-			for(Entry<String, Object> p: pl.entrySet()){
-				Prison.prison.put(p.getKey(), (Boolean) p.getValue());
+			if(pl.size() != 0){
+				for(Entry<String, Object> p: pl.entrySet()){
+					Prison.prison.put(p.getKey(), (Boolean) p.getValue());
+				}
 			}
  		}else{
  			Prison.prison = new HashMap<String,Boolean>();
@@ -250,8 +254,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 		if(conf.contains("prison_block")){
 			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 			Map<String, Object> pl = conf.getConfigurationSection("prison_block").getValues(true);
-			for(Entry<String, Object> p: pl.entrySet()){
-				Prison.prison_block.put(p.getKey(), (Boolean) p.getValue());
+			if(pl.size() != 0){
+				for(Entry<String, Object> p: pl.entrySet()){
+					Prison.prison_block.put(p.getKey(), (Boolean) p.getValue());
+				}
 			}
  		}else{
  			Prison.prison_block = new HashMap<String,Boolean>();
@@ -259,10 +265,11 @@ public class MyMaid extends JavaPlugin implements Listener {
  		}
 		if(conf.contains("prison_lasttext")){
 			Map<String, Object> pl = conf.getConfigurationSection("prison_lasttext").getValues(true);
-			for(Entry<String, Object> p: pl.entrySet()){
-				Prison.jail_lasttext.put(p.getKey(), p.getValue().toString());
+			if(pl.size() != 0){
+				for(Entry<String, Object> p: pl.entrySet()){
+					Prison.jail_lasttext.put(p.getKey(), p.getValue().toString());
+				}
 			}
-			Prison.jail_lasttext = null;
  		}else{
  			Prison.jail_lasttext = new HashMap<String,String>();
  			conf.set("prison_lasttext",Prison.jail_lasttext);
@@ -273,18 +280,20 @@ public class MyMaid extends JavaPlugin implements Listener {
 		@Override
 		public void run() {
 			if(nextbakrender){
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");
-				Date Date = new Date();
-				SimpleDateFormat H = new SimpleDateFormat("H");
-				SimpleDateFormat m = new SimpleDateFormat("m");
-				SimpleDateFormat s = new SimpleDateFormat("s");
-				String Hs = H.format(Date);
-				String ms = m.format(Date);
-				String ss = s.format(Date);
-				String date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
-				for(Player play: Bukkit.getServer().getOnlinePlayers()) {
-					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + "あなたのユーザーページはこちらです。https://jaoafa.xyz/user/"+play.getName()+"");
+				List<World> worlds = Bukkit.getServer().getWorlds();
+				for (World w : worlds)
+				{
+					w.save();
 				}
+				String message = "あなたのユーザーページはこちらです。https://jaoafa.xyz/user/%player%";
+				String date = new SimpleDateFormat("HH:mm:ss").format(new Date());
+				for(Player play: Bukkit.getServer().getOnlinePlayers()) {
+					message = message.replaceAll("%player%", play.getName());
+					message = message.replaceAll("%uuid%", play.getUniqueId()+"");
+					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + message);
+				}
+				Bukkit.broadcastMessage("今流行りのピリオド連投対決はコマンド「/.」を使用することで楽しめます！詳しくは https://jaoafa.xyz/blog/tomachi/period_match で！");
+
 			}
 		}
 	}
