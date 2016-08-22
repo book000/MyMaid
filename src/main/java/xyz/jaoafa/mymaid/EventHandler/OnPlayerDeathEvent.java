@@ -61,41 +61,23 @@ public class OnPlayerDeathEvent implements Listener {
 		}
 		String message = "";
 		Boolean boo = false;
-		for(Entry<String, ?> one : (Set<Map.Entry<String,?>>) obj.entrySet()){
-
-			for(Entry<String, ?> data : (Set<Map.Entry<String, ?>>) ((JSONObject) one.getValue()).entrySet()){
-				if(data.getKey().equals("message")){
-					message = (String)data.getValue();
-					if(boo){
-						break;
-					}else{
-						continue;
-					}
-				}
-				JSONObject arr;
-				try {
-					arr = (JSONObject) parser.parse(data.getValue().toString());
-				} catch (ParseException e1) {
-					continue;
-				}
-				int x = new Integer(arr.get("x").toString());
-				int y = new Integer(arr.get("y").toString());
-				int z = new Integer(arr.get("z").toString());
-				if(loc.getWorld().getName().equals(((String)arr.get("world")))){
-					try{
-						if(loc.getBlockX() == x){
-							if(loc.getBlockY() == y){
-								if(loc.getBlockZ() == z){
-									//Bukkit.broadcastMessage("ok?");
-									boo = true;
-								}
-							}
-						}
-					}catch(ClassCastException cce){
-						continue;
+		for(Entry<String, JSONObject> one : (Set<Map.Entry<String,JSONObject>>) obj.entrySet()){
+			int x1 = Integer.parseInt(String.valueOf(one.getValue().get("x1")));
+			int x2 = Integer.parseInt(String.valueOf(one.getValue().get("x2")));
+			int y1 = Integer.parseInt(String.valueOf(one.getValue().get("y1")));
+			int y2 = Integer.parseInt(String.valueOf(one.getValue().get("y2")));
+			int z1 = Integer.parseInt(String.valueOf(one.getValue().get("z1")));
+			int z2 = Integer.parseInt(String.valueOf(one.getValue().get("z2")));
+			if(x1 <= loc.getBlockX() && x2 >= loc.getBlockX()){
+				if(y1 <= loc.getBlockY() && y2 >= loc.getBlockY()){
+					if(z1 <= loc.getBlockZ() && z2 >= loc.getBlockZ()){
+						boo = true;
+						message = (String) one.getValue().get("message");
 					}
 				}
 			}
+
+
 		}
 		if(boo){
 			e.setDeathMessage(message.replaceAll("%player%", player.getName()));

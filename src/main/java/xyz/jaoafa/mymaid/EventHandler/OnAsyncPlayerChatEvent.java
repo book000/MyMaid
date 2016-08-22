@@ -158,6 +158,25 @@ public class OnAsyncPlayerChatEvent implements Listener {
 					dotto.remove(player.getName());
 					dottotask.remove(player.getName());
 					Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "'s DOTTO COUNTER: " + dot + "/1s");
+					if(dotto.get(player.getName()) >= 10){
+						Collection<Channel> channels = MyMaid.lunachatapi.getChannels();
+						boolean chan = true;
+						for(Channel channel: channels){
+							if(channel.getName().equals("_CHAT_JAIL_")){
+								chan = false;
+							}
+						}
+						if(chan){
+							MyMaid.lunachatapi.createChannel("_CHAT_JAIL_");
+						}
+						if(MyMaid.lunachatapi.getChannel("_CHAT_JAIL_").isBroadcastChannel()){
+							MyMaid.lunachatapi.getChannel("_CHAT_JAIL_").setBroadcast(false);
+						}
+						MyMaid.lunachatapi.getChannel("_CHAT_JAIL_").addMember(ChannelPlayer.getChannelPlayer(player.getName()));
+						MyMaid.lunachatapi.setDefaultChannel(player.getName(), "_CHAT_JAIL_");
+						DOT.dotcount_stop.put(player.getName(), true);
+						Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "はチャットスパムとして判定されましたので隔離チャンネルに移動しました。");
+					}
 				}else{
 					dotto.remove(player.getName());
 					dottotask.remove(player.getName());

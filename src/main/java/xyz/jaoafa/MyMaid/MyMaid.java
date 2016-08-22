@@ -79,6 +79,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnFrom;
 import xyz.jaoafa.mymaid.EventHandler.OnHeadClick;
 import xyz.jaoafa.mymaid.EventHandler.OnInventoryClickEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnJoin;
+import xyz.jaoafa.mymaid.EventHandler.OnLunaChatChannelMemberChangedEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBedEnterEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBedLeaveEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBucketEmptyEvent;
@@ -219,6 +220,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnHeadClick(this), this);
     	getServer().getPluginManager().registerEvents(new OnInventoryClickEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnJoin(this), this);
+    	getServer().getPluginManager().registerEvents(new OnLunaChatChannelMemberChangedEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerBedEnterEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerBedLeaveEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerBucketEmptyEvent(this), this);

@@ -33,10 +33,10 @@ public class Var implements CommandExecutor, TabCompleter {
 				Method.SendMessage(sender, cmd, "引数が適切ではありません。");
 				return true;
 			}
-			Pattern p = Pattern.compile("^[0-9a-zA-Z]+$");
+			Pattern p = Pattern.compile("^[a-zA-Z0-9_]+$");
 	        Matcher m = p.matcher(args[1]);
 	        if(!m.find()){
-	        	Method.SendMessage(sender, cmd, "変数は英数字のみ許可しています。");
+	        	Method.SendMessage(sender, cmd, "変数は英数字記号のみ許可しています。");
 	        	return true;
 	        }
 	        String text = "";

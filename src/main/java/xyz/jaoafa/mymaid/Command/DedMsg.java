@@ -38,6 +38,14 @@ public class DedMsg implements CommandExecutor {
 	public DedMsg(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+	/*
+	 * pos1が127,67,996でpos2が136,74,987だとして！！！！
+	 * とりあえず大小揃えて127,67,987と136,74,996みたいに大きい小さい揃えて！！！
+	 * プレイヤーのxは127以上136以下か！！！
+	 * プレイヤーのyは67以上74以下か！！！
+	 * プレイヤーのzは987以上996以下か！！！
+	 * ぜんぶ真なら範囲内！！！
+	 */
 	public static Map<Location,String> dedmsg = new HashMap<Location,String>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
@@ -128,23 +136,39 @@ public class DedMsg implements CommandExecutor {
 			} catch (ParseException e1) {
 				obj = new JSONObject();
 			}
-
 			JSONObject loclist = new JSONObject();
-			int i = 0;
-			for(int x = x1; x <= x2; x++){
-				for(int y = y1; y <= y2; y++){
-					for(int z = z1; z <= z2; z++){
-						JSONObject xyz = new JSONObject();
-						xyz.put("world", world.getName());
-						xyz.put("x", x);
-						xyz.put("y", y);
-						xyz.put("z", z);
-						loclist.put(i, xyz);
-						i++;
-					}
-				}
-			}
 			loclist.put("message", message);
+			loclist.put("world", world.getName());
+			int a, b;
+			if(x1 < x2){
+			    a = x1;
+			    b = x2;
+			}else{
+			    a = x2;
+			    b = x1;
+			}
+			loclist.put("x1", a);
+			loclist.put("x2", b);
+
+			if(y1 < y2){
+			    a = y1;
+			    b = y2;
+			}else{
+			    a = y2;
+			    b = y1;
+			}
+			loclist.put("y1", a);
+			loclist.put("y2", b);
+
+			if(z1 < z2){
+			    a = z1;
+			    b = z2;
+			}else{
+			    a = z2;
+			    b = z1;
+			}
+			loclist.put("z1", a);
+			loclist.put("z2", b);
 			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 			obj.put(sdf1.format(new Date()), loclist);
 			try{
