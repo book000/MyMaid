@@ -227,3 +227,8 @@ commands:
       usage: /<command>
       permission: mymaid.dedmsg
       permission-message: You do not have permission to perform this command.
+   dynamic:
+      description: dynamic teleport
+      usage: /<command>
+      permission: mymaid.dynamic
+      permission-message: You do not have permission to perform this command.

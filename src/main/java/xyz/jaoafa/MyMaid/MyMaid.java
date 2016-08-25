@@ -35,6 +35,7 @@ import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Ded;
 import xyz.jaoafa.mymaid.Command.DedMsg;
+import xyz.jaoafa.mymaid.Command.Dynamic;
 import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
 import xyz.jaoafa.mymaid.Command.E;
 import xyz.jaoafa.mymaid.Command.Explode;
@@ -159,6 +160,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("ded").setExecutor(new Ded(this));
     	getCommand("dedmsg").setExecutor(new DedMsg(this));
     	getCommand(".").setExecutor(new DOT(this));
+    	getCommand("dynamic").setExecutor(new Dynamic(this));
     	getCommand("dt").setExecutor(new Dynmap_Teleporter(this));
     	getCommand("dt").setTabCompleter(new Dynmap_Teleporter(this));
     	getCommand("e").setExecutor(new E(this));
@@ -287,14 +289,11 @@ public class MyMaid extends JavaPlugin implements Listener {
 				{
 					w.save();
 				}
-				String message = "あなたのユーザーページはこちらです。https://jaoafa.xyz/user/%player%";
 				String date = new SimpleDateFormat("HH:mm:ss").format(new Date());
 				for(Player play: Bukkit.getServer().getOnlinePlayers()) {
-					message = message.replaceAll("%player%", play.getName());
-					message = message.replaceAll("%uuid%", play.getUniqueId()+"");
-					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + message);
+					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": あなたのユーザーページはこちらです。https://jaoafa.xyz/user/" + play.getName());
 				}
-				Bukkit.broadcastMessage("今流行りのピリオド連投対決はコマンド「/.」を使用することで楽しめます！詳しくは https://jaoafa.xyz/blog/tomachi/period_match で！");
+				//Bukkit.broadcastMessage("今流行りのピリオド連投対決はコマンド「/.」を使用することで楽しめます！詳しくは https://jaoafa.xyz/blog/tomachi/period_match で！");
 
 			}
 		}

@@ -23,6 +23,7 @@ public class OnBlockRedstoneEvent implements Listener {
     	if(e.getOldCurrent() == 0 && e.getNewCurrent() > 0){
     		if(e.getBlock().getType() == Material.COMMAND){
         		CommandBlock cmdb = (CommandBlock)e.getBlock().getState();
+        		cmdb.getCommand();
         		for(Player player: Bukkit.getServer().getOnlinePlayers()){
         			if(Cmdsearch.start.containsKey(player.getName())){
         				if(cmdb.getCommand().startsWith(Cmdsearch.start.get(player.getName()))){

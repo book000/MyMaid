@@ -7,19 +7,23 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
@@ -30,9 +34,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 		this.plugin = plugin;
 	}
 
-	/* onCommand dt
-	 * DynmapのMarkerにテレポートします
-	 * /dt <Player> [markername] */
+	public static Map<String,Boolean> dynamic = new HashMap<String,Boolean>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 	    URLCodec codec = new URLCodec();
 		if(args.length == 0){
@@ -81,12 +83,19 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 						String z = datas[2];
 						String world = datas[3];
 						location = codec.decode(location, StandardCharsets.UTF_8.name());
-						MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
-						MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
-						Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
-						player.teleport(loc);
-						Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
-						return true;
+						if(dynamic.containsKey(player.getName())){
+							player.setFlying(true);
+							Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
+							new upteleport(plugin, player, 60, location, loc).runTaskTimer(plugin, 0, 1);
+							return true;
+						}else{
+							MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
+							MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
+							Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
+							player.teleport(loc);
+							Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
+							return true;
+						}
 					}
 				}
 
@@ -144,12 +153,19 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 								String z = datas[2];
 								String world = datas[3];
 								location = codec.decode(location, StandardCharsets.UTF_8.name());
-								MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
-								MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
-								Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
-								player.teleport(loc);
-								Bukkit.broadcastMessage(ChatColor.GRAY + "[" + sender.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
-								return true;
+								if(dynamic.containsKey(player.getName()) && player.getName().equals(sender.getName())){
+									player.setFlying(true);
+									Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
+									new upteleport(plugin, player, 60, location, loc).runTaskTimer(plugin, 0, 1);
+									return true;
+								}else{
+									MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
+									MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
+									Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
+									player.teleport(loc);
+									Bukkit.broadcastMessage(ChatColor.GRAY + "[" + sender.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
+									return true;
+								}
 							}
 						}
 
@@ -274,6 +290,59 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 			//Errが出たら、表示してnull値を返す
 			System.out.println("Err="+e);
 			return null;
+		}
+	}
+	private class upteleport extends BukkitRunnable{
+		JavaPlugin plugin;
+		Player player;
+		int count;
+		String location;
+		Location loc;
+    	public upteleport(JavaPlugin plugin, Player player, int count, String location, Location loc) {
+    		this.plugin = plugin;
+    		this.player = player;
+    		this.count = count;
+    		this.location = location;
+    		this.loc = loc;
+    	}
+		@Override
+		public void run() {
+			if (count > 0) {
+	            player.teleport(player.getLocation().add(0, 0.1, 0));
+	            count--;
+	        }else{
+	        	new teleportwait(plugin, player, 3, location, loc).runTaskTimer(plugin, 20, 20);
+	            cancel();
+	        }
+		}
+	}
+	private class teleportwait extends BukkitRunnable{
+		Player player;
+		int count;
+		String location;
+		Location loc;
+    	public teleportwait(JavaPlugin plugin, Player player, int count, String location, Location loc) {
+    		this.player = player;
+    		this.count = count;
+    		this.location = location;
+    		this.loc = loc;
+    	}
+		@Override
+		public void run() {
+			if (count > 0) {
+	            player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
+	            count--;
+	            if(count == 0){
+	            	player.playSound(player.getLocation(), Sound.PORTAL_TRAVEL, 1, 1);
+	            	player.playSound(player.getLocation(), Sound.PORTAL_TRAVEL, 1, 1);
+	            }
+	        }else{
+	        	player.teleport(loc);
+	        	MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
+				MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
+				Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
+	            cancel();
+	        }
 		}
 	}
 }
