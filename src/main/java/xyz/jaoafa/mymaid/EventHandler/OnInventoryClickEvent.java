@@ -85,7 +85,8 @@ public class OnInventoryClickEvent implements Listener {
 		}
 		if(potionflag){
 			Bukkit.broadcastMessage("[jaoium_Checker] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」からjaoiumと同等の性能を持つアイテムが検出されました。");
-
+			player.getInventory().clear();
+			player.getEnderChest().clear();
 			Prison.prison.put(player.getName(), false);
 			Prison.prison_block.put(player.getName(), false);
 			World World = Bukkit.getServer().getWorld("Jao_Afa");

@@ -158,7 +158,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 					dotto.remove(player.getName());
 					dottotask.remove(player.getName());
 					Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "'s DOTTO COUNTER: " + dot + "/1s");
-					if(dotto.get(player.getName()) >= 10){
+					if(dotto.containsKey(player.getName()) && dotto.get(player.getName()) >= 10){
 						Collection<Channel> channels = MyMaid.lunachatapi.getChannels();
 						boolean chan = true;
 						for(Channel channel: channels){

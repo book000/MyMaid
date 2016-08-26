@@ -18,6 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
+import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
 
 public class OnQuitGame implements Listener {
 	JavaPlugin plugin;
@@ -48,6 +49,8 @@ public class OnQuitGame implements Listener {
 			player.getInventory().setArmorContents(after);
 			player.updateInventory();
 		}
+		Dynmap_Teleporter.dynamic_teleporter.get(player.getName()).cancel();
+		Dynmap_Teleporter.dynamic_teleporter.remove(player.getName());
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.WHITE + "jaotan: 現在『" + (Bukkit.getServer().getOnlinePlayers().size() - 1) + "人』がログインしています");

@@ -24,6 +24,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
@@ -35,6 +36,9 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 	}
 
 	public static Map<String,Boolean> dynamic = new HashMap<String,Boolean>();
+	public static Map<String,BukkitTask> dynamic_teleporter = new HashMap<String,BukkitTask>();
+	private BukkitTask task = null;
+	private int taskcount = 0;
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 	    URLCodec codec = new URLCodec();
 		if(args.length == 0){
@@ -84,10 +88,19 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 						String world = datas[3];
 						location = codec.decode(location, StandardCharsets.UTF_8.name());
 						if(dynamic.containsKey(player.getName())){
-							player.setFlying(true);
-							Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
-							new upteleport(plugin, player, 60, location, loc).runTaskTimer(plugin, 0, 1);
-							return true;
+							if(dynamic_teleporter.containsKey(player.getName())){
+								Method.SendMessage(sender, cmd, "ダイナミックテレポート失敗	: 現在テレポート中です。");
+								return true;
+							}else if(task != null){
+								Method.SendMessage(sender, cmd, "ダイナミックテレポート失敗	: 現在他の方がテレポート中です。");
+								return true;
+							}else{
+								Method.SendMessage(sender, cmd, "ダイナミックテレポートしています…");
+								player.setFlying(true);
+								Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
+								dynamic_teleporter.put(player.getName(), new upteleport(plugin, player, location, loc).runTaskTimer(plugin, 0, 5));
+								return true;
+							}
 						}else{
 							MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
 							MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
@@ -153,17 +166,22 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 								String z = datas[2];
 								String world = datas[3];
 								location = codec.decode(location, StandardCharsets.UTF_8.name());
-								if(dynamic.containsKey(player.getName()) && player.getName().equals(sender.getName())){
-									player.setFlying(true);
-									Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
-									new upteleport(plugin, player, 60, location, loc).runTaskTimer(plugin, 0, 1);
-									return true;
+								if(dynamic.containsKey(player.getName())){
+									if(dynamic_teleporter.containsKey(player.getName())){
+										Method.SendMessage(sender, cmd, "ダイナミックテレポート失敗	: 現在テレポート中です。");
+									}else{
+										Method.SendMessage(sender, cmd, "ダイナミックテレポートしています…");
+										player.setFlying(true);
+										Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
+										dynamic_teleporter.put(player.getName(), new upteleport(plugin, player, location, loc).runTaskTimer(plugin, 0, 1));
+										return true;
+									}
 								}else{
 									MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
 									MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
 									Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
 									player.teleport(loc);
-									Bukkit.broadcastMessage(ChatColor.GRAY + "[" + sender.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
+									Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
 									return true;
 								}
 							}
@@ -292,57 +310,82 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 			return null;
 		}
 	}
-	private class upteleport extends BukkitRunnable{
-		JavaPlugin plugin;
-		Player player;
-		int count;
-		String location;
-		Location loc;
-    	public upteleport(JavaPlugin plugin, Player player, int count, String location, Location loc) {
-    		this.plugin = plugin;
-    		this.player = player;
-    		this.count = count;
-    		this.location = location;
-    		this.loc = loc;
-    	}
-		@Override
-		public void run() {
-			if (count > 0) {
-	            player.teleport(player.getLocation().add(0, 0.1, 0));
-	            count--;
-	        }else{
-	        	new teleportwait(plugin, player, 3, location, loc).runTaskTimer(plugin, 20, 20);
-	            cancel();
-	        }
+	private Location getTeleportToLoc(Player player, Location loc, Location toloc, String location){
+		if(loc.getBlockX() > toloc.getBlockX()) {
+			//現在位置よりも行きたい方向はX:-1
+			loc.add(-1, 0, 0);
+		}else if(loc.getBlockX() < toloc.getBlockX()) {
+			//現在位置よりも行きたい方向はX:+1
+			loc.add(1, 0, 0);
+		}else if(loc.getBlockY() > toloc.getBlockY()) {
+			//現在位置よりも行きたい方向はY:-1
+			loc.add(0, -1, 0);
+		}else if(loc.getBlockY() < toloc.getBlockY()){
+			//現在位置よりも行きたい方向はY:+1
+			loc.add(0, 1, 0);
+		}else if(loc.getBlockZ() > toloc.getBlockZ()){
+			//現在位置よりも行きたい方向はZ:-1
+			loc.add(0, 0, -1);
+		}else if(loc.getBlockZ() < toloc.getBlockZ()) {
+			//現在位置よりも行きたい方向はZ:+1
+			loc.add(0, 0, 1);
+		}else{
+			return null;
+		}
+		if (!loc.getBlock().getType().isSolid() && !loc.clone().add(0, 1, 0).getBlock().getType().isSolid()){
+			player.teleport(loc);
+			return loc;
+		}else{
+			loc.add(0, 1, 0);
+			if(taskcount > 4){
+				player.sendMessage("[DT] " + ChatColor.GREEN + "ダイナミックテレポート失敗	: 不明なエラー");
+				task.cancel();
+				task = null;
+				return null;
+			}
+			taskcount++;
+			return getTeleportToLoc(player, loc, toloc, location);
 		}
 	}
-	private class teleportwait extends BukkitRunnable{
+	private class upteleport extends BukkitRunnable{
 		Player player;
-		int count;
 		String location;
-		Location loc;
-    	public teleportwait(JavaPlugin plugin, Player player, int count, String location, Location loc) {
+		Location toloc;
+    	public upteleport(JavaPlugin plugin, Player player, String location, Location toloc) {
     		this.player = player;
-    		this.count = count;
     		this.location = location;
-    		this.loc = loc;
+    		this.toloc = toloc;
     	}
 		@Override
 		public void run() {
-			if (count > 0) {
-	            player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
-	            count--;
-	            if(count == 0){
-	            	player.playSound(player.getLocation(), Sound.PORTAL_TRAVEL, 1, 1);
-	            	player.playSound(player.getLocation(), Sound.PORTAL_TRAVEL, 1, 1);
-	            }
-	        }else{
-	        	player.teleport(loc);
-	        	MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
-				MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
-				Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
-	            cancel();
-	        }
+			task = new teleport(plugin, player, location, toloc).runTaskTimer(plugin, 0, 5);
+		}
+	}
+	private class teleport extends BukkitRunnable{
+		Player player;
+		String location;
+		Location toloc;
+    	public teleport(JavaPlugin plugin, Player player, String location, Location toloc) {
+    		this.player = player;
+    		this.location = location;
+    		this.toloc = toloc;
+    	}
+		@Override
+		public void run() {
+			Location loc = player.getLocation();
+			if((loc = getTeleportToLoc(player, loc, toloc, location)) == null){
+				if(dynamic_teleporter.containsKey(player.getName())){
+					player.playSound(player.getLocation(), Sound.ANVIL_USE, 1, 1);
+		        	MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
+					MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
+					Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
+					dynamic_teleporter.get(player.getName()).cancel();
+					dynamic_teleporter.remove(player.getName());
+				}
+			}else{
+				cancel();
+			}
+
 		}
 	}
 }
