@@ -13,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
@@ -83,8 +84,18 @@ public class OnJoin implements Listener {
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "こんにちは！" + player.getName() + "さん！jao Minecraft Serverにようこそ！");
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "ルールはご覧になりましたか？もしご覧になられていない場合は以下リンクからご覧ください。");
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "https://jaoafa.xyz/rule");
-		if(OnAsyncPlayerPreLoginEvent.LD.containsKey(player.getName())){
-			if(OnAsyncPlayerPreLoginEvent.LD.get(player.getName())){
+		new netaccess(plugin, player).runTaskAsynchronously(plugin);
+	}
+	private class netaccess extends BukkitRunnable{
+		Player player;
+    	public netaccess(JavaPlugin plugin, Player player) {
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			String re = Method.url_jaoplugin("mcbanscheck", "p="+player.getName());
+			if(re.equalsIgnoreCase("D")){
+				Boolean check = true;
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 					if(PermissionsEx.getUser(p).inGroup("Limited")){
 						continue;
@@ -103,6 +114,10 @@ public class OnJoin implements Listener {
 					if(AFK.tnt.containsKey(p.getName())){
 						continue;
 					}
+					check = false;
+				}
+				if(check){
+					return;
 				}
 				Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
 				for(String group : groups){
@@ -117,7 +132,6 @@ public class OnJoin implements Listener {
 						MyMaid.TitleSender.sendTitle(p, "", ChatColor.GOLD + "jaotan" + ChatColor.WHITE + " によって " + ChatColor.BLUE + player.getName() + ChatColor.WHITE + " がDefault権限に引き上げられました！");
 					}
 				}
-
 			}
 		}
 	}

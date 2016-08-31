@@ -198,8 +198,8 @@ public class Unko implements CommandExecutor {
 		@Override
 		public void run() {
 			player.teleport(to);
-			player.getWorld().playSound(to.getLocation(), Sound.GHAST_SCREAM,10,1);
-			player.getWorld().playEffect(to.getLocation(), Effect.HEART, 0);
+			player.getWorld().playSound(to.getLocation().add(0, 2, 0), Sound.GHAST_SCREAM,10,1);
+			player.getWorld().playEffect(to.getLocation().add(0, 2, 0), Effect.HEART, 0);
 		}
 	}
 }

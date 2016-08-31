@@ -28,6 +28,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gamemode_Change.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MakeCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveAFK.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerKickEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBedEnterEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Unko.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\TNTReload.java
@@ -52,6 +53,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedMsg.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Sign.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Spawn.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockBreakEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnMyMaidJoinLeftChatCmdLogs.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerPickupItemEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerItemHeldEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Access.java

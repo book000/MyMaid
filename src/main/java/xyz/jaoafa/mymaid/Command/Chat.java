@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.EventHandler.OnMyMaidJoinLeftChatCmdLogs;
 
 public class Chat implements CommandExecutor {
 	JavaPlugin plugin;
@@ -52,6 +53,7 @@ public class Chat implements CommandExecutor {
 			ms = m.format(Date);
 			ss = s.format(Date);
 			date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
+			OnMyMaidJoinLeftChatCmdLogs.log(plugin, "chat", args[0], text);
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GRAY + "■" + ChatColor.WHITE + args[0] +  ": " + text);
 		}else{
 			Method.SendMessage(sender, cmd, "このコマンドには2つ以上の引数が必要です。");

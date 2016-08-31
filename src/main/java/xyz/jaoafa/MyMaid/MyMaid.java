@@ -81,6 +81,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnHeadClick;
 import xyz.jaoafa.mymaid.EventHandler.OnInventoryClickEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnJoin;
 import xyz.jaoafa.mymaid.EventHandler.OnLunaChatChannelMemberChangedEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnMyMaidJoinLeftChatCmdLogs;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBedEnterEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBedLeaveEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBucketEmptyEvent;
@@ -91,6 +92,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnPlayerDeathEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerInteractEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerItemHeldEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerJoinEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnPlayerKickEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveAFK;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerPickupItemEvent;
@@ -116,6 +118,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	Load_Plugin("PermissionsEx");
     	Load_Plugin("WorldEdit");
     	Load_Plugin("LunaChat");
+    	Load_Plugin("CoreProtect");
 
 		Import_Listener();
     	Import_Task();
@@ -127,6 +130,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		lunachat = (LunaChat)getServer().getPluginManager().getPlugin("LunaChat");
 	    lunachatapi = lunachat.getLunaChatAPI();
+
+
     }
 
     @Override
@@ -223,6 +228,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnInventoryClickEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnJoin(this), this);
     	getServer().getPluginManager().registerEvents(new OnLunaChatChannelMemberChangedEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnMyMaidJoinLeftChatCmdLogs(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerBedEnterEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerBedLeaveEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerBucketEmptyEvent(this), this);
@@ -233,6 +239,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnPlayerInteractEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerItemHeldEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnPlayerKickEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerMoveAFK(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerMoveEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerPickupItemEvent(this), this);

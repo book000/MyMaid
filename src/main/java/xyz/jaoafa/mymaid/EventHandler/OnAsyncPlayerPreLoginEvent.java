@@ -75,11 +75,6 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			}
 			return;
 		}
-		if(arr[4].equalsIgnoreCase("L")){
-			LD.put(name, false);
-		}else{
-			LD.put(name, true);
-		}
 
 
 		Bukkit.getLogger().info("------------------------------------------");
