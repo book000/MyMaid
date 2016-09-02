@@ -68,6 +68,10 @@ public class Prison implements CommandExecutor, TabCompleter {
 			if(args[0].equalsIgnoreCase("add")){
 				String sendername = sender.getName();
 				if (sender instanceof ConsoleCommandSender) {
+					if(prison.containsKey(args[1])){
+						Method.SendMessage(sender, cmd, "すでに牢獄にいます。");
+			  			return true;
+			  		}
 					prison.put(args[1], false);
 					prison_block.put(args[1], false);
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
@@ -82,6 +86,10 @@ public class Prison implements CommandExecutor, TabCompleter {
 
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(player.getName().equalsIgnoreCase(args[1])) {
+						if(prison.containsKey(args[1])){
+							Method.SendMessage(sender, cmd, "すでに牢獄にいます。");
+				  			return true;
+				  		}
 						prison.put(player.getName(), false);
 						prison_block.put(player.getName(), false);
 						World World = Bukkit.getServer().getWorld("Jao_Afa");
@@ -256,6 +264,10 @@ public class Prison implements CommandExecutor, TabCompleter {
 			}else if(args[0].equalsIgnoreCase("add")){
 				String sendername = sender.getName();
 				if (sender instanceof ConsoleCommandSender) {
+					if(prison.containsKey(args[1])){
+						Method.SendMessage(sender, cmd, "すでに牢獄にいます。");
+			  			return true;
+			  		}
 					prison.put(args[1], false);
 					prison_block.put(args[1], false);
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
@@ -269,6 +281,10 @@ public class Prison implements CommandExecutor, TabCompleter {
 				}
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(player.getName().equalsIgnoreCase(args[1])) {
+						if(prison.containsKey(args[1])){
+							Method.SendMessage(sender, cmd, "すでに牢獄にいます。");
+				  			return true;
+				  		}
 						prison.put(player.getName(), false);
 						prison_block.put(player.getName(), false);
 						World World = Bukkit.getServer().getWorld("Jao_Afa");

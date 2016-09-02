@@ -57,7 +57,7 @@ public class OnQuitGame implements Listener {
 		String name = player.getName();
 		UUID uuid = player.getUniqueId();
 		String host = player.getAddress().getHostName();
-		Bukkit.broadcastMessage(player.getPlayerTime()+"");
+		//Bukkit.broadcastMessage(player.getPlayerTime()+"");
 		Bukkit.getLogger().info("------------------------------------------");
 		Bukkit.getLogger().info("Player:"+name+" Log out.");
 		Bukkit.getLogger().info("PlayerUUID:"+uuid);

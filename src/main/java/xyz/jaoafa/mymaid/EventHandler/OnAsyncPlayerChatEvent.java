@@ -31,6 +31,9 @@ public class OnAsyncPlayerChatEvent implements Listener {
 	}
 	public static Map<String,Integer> dotto = new HashMap<String,Integer>();
 	public static Map<String,BukkitTask> dottotask = new HashMap<String,BukkitTask>();
+
+	public static Map<String,Integer> doom = new HashMap<String,Integer>();
+	public static Map<String,BukkitTask> doomtask = new HashMap<String,BukkitTask>();
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
 		if(e.getMessage().equals(".")){
@@ -102,6 +105,14 @@ public class OnAsyncPlayerChatEvent implements Listener {
 				}
 			}
 		}
+		if(!DOT.dotcount_stop.containsKey(e.getPlayer().getName())){
+			if(!doomtask.containsKey(e.getPlayer().getName())){
+				doom.put(e.getPlayer().getName(), 1);
+				doomtask.put(e.getPlayer().getName(), new doom(plugin, e.getPlayer()).runTaskLater(plugin, 20L));
+			}else{
+				doom.put(e.getPlayer().getName(), doom.get(e.getPlayer().getName()) + 1);
+			}
+		}
 		String Msg = e.getFormat();
 		if(e.getPlayer().hasPermission("mymaid.pex.limited")){
 				Msg = e.getFormat().replaceFirst("%1", ChatColor.BLACK + "■" + ChatColor.WHITE + "%1");
@@ -158,6 +169,27 @@ public class OnAsyncPlayerChatEvent implements Listener {
 					dotto.remove(player.getName());
 					dottotask.remove(player.getName());
 					Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "'s DOTTO COUNTER: " + dot + "/1s");
+				}else{
+					dotto.remove(player.getName());
+					dottotask.remove(player.getName());
+				}
+			}
+		}
+
+	}
+
+	private class doom extends BukkitRunnable{
+		Player player;
+    	public doom(JavaPlugin plugin, Player player) {
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			if(doom.containsKey(player.getName())){
+				int dot = doom.get(player.getName());
+				if(dot != 1){
+					doom.remove(player.getName());
+					doomtask.remove(player.getName());
 					if(dot >= 10){
 						Collection<Channel> channels = MyMaid.lunachatapi.getChannels();
 						boolean chan = true;
@@ -175,16 +207,17 @@ public class OnAsyncPlayerChatEvent implements Listener {
 						MyMaid.lunachatapi.getChannel("_CHAT_JAIL_").addMember(ChannelPlayer.getChannelPlayer(player.getName()));
 						MyMaid.lunachatapi.setDefaultChannel(player.getName(), "_CHAT_JAIL_");
 						DOT.dotcount_stop.put(player.getName(), true);
-						Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "はチャットスパムとして判定されましたので隔離チャンネルに移動しました。");
+						Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "はチャットスパムとして判定されましたので隔離チャンネルに移動しました。(" + dot + "/1s)");
 					}
 				}else{
-					dotto.remove(player.getName());
-					dottotask.remove(player.getName());
+					doom.remove(player.getName());
+					doomtask.remove(player.getName());
 				}
 			}
 		}
 
 	}
+
 	private class dot_section extends BukkitRunnable{
 		Player player;
 		LunaChatAPI lunachatapi;

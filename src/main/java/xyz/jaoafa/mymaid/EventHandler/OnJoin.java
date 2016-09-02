@@ -30,7 +30,7 @@ public class OnJoin implements Listener {
 		Player player = event.getPlayer(); // Joinしたプレイヤー
 		InetAddress ip = player.getAddress().getAddress();
 		if(player.hasPermission("mymaid.pex.limited")){
-			Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Limited");
+			new netaccess_sinki(plugin, player).runTaskAsynchronously(plugin);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(p.hasPermission("pin_code_auth.joinmsg")) {
 					p.sendMessage("[PCA] " + ChatColor.GREEN + "新規ちゃん(通過無)だよ！やったね☆");
@@ -85,6 +85,17 @@ public class OnJoin implements Listener {
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "ルールはご覧になりましたか？もしご覧になられていない場合は以下リンクからご覧ください。");
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "https://jaoafa.xyz/rule");
 		new netaccess(plugin, player).runTaskAsynchronously(plugin);
+	}
+	private class netaccess_sinki extends BukkitRunnable{
+		Player player;
+    	public netaccess_sinki(JavaPlugin plugin, Player player) {
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Limited");
+		}
+
 	}
 	private class netaccess extends BukkitRunnable{
 		Player player;

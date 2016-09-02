@@ -23,6 +23,7 @@ public class Access implements CommandExecutor {
 				if(player.getName().equalsIgnoreCase(args[0])) {
 					InetAddress ip = player.getAddress().getAddress();
 					new netaccess(plugin, player, cmd, ip).runTaskAsynchronously(plugin);
+					return true;
 				}
 			}
 			Method.SendMessage(sender, cmd, "ユーザーが見つかりませんでした。");
