@@ -44,7 +44,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 				if(!DOT.run.containsKey(e.getPlayer().getName())){
 					if(DOT.runwait.containsKey(e.getPlayer().getName())){
 						int section = DOT.runwait.get(e.getPlayer().getName());
-						e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ピリオド計測開始っ(" +  section + "部門)");
+						e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ピリオド計測開始っ(" +  section + "秒部門)");
 						DOT.runwait.remove(e.getPlayer().getName());
 						DOT.dotcount_stop.put(e.getPlayer().getName(), true);
 						DOT.run.put(e.getPlayer().getName(), new dot_section(plugin, e.getPlayer(), MyMaid.lunachatapi, section).runTaskLater(plugin, section * 20));
@@ -81,12 +81,14 @@ public class OnAsyncPlayerChatEvent implements Listener {
 						DOT.unsuccess.put(e.getPlayer().getName(), DOT.unsuccess.get(e.getPlayer().getName()) + 1);
 				}
 			}else{
+				/*
 				if(DOT.bed.containsKey(e.getPlayer().getName())){
 					e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
 					e.setCancelled(true);
 				}else{
 					DOT.unsuccess.put(e.getPlayer().getName(), 1);
 				}
+				*/
 			}
 		}
 		if(!DOT.dotcount_stop.containsKey(e.getPlayer().getName())){
@@ -252,8 +254,19 @@ public class OnAsyncPlayerChatEvent implements Listener {
 			DOT.success.remove(player.getName());
 			DOT.unsuccess.remove(player.getName());
 			lunachatapi.getChannel("_DOT_").removeMember(ChannelPlayer.getChannelPlayer(player.getName()));
-			String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
-			Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			if(section == 10){
+				String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			}else if(section == 60){
+				String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			}else if(section == 300){
+				String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			}else{
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒例外部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(部門外のためrankingなし)");
+			}
+
 			MyMaid.lunachatapi.setPlayersJapanize(player.getName(), DOT.kana.get(player.getName()));
 		}
 	}

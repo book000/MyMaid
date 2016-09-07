@@ -85,7 +85,7 @@ public class Pin implements CommandExecutor {
 					PermissionsEx.getUser(player).removeGroup(group);
 				}
 			}
-			PermissionsEx.getUser(player).addGroup("Regular");
+			PermissionsEx.getUser(player).addGroup("Default");
 			sender.sendMessage("[PCA] " + ChatColor.GREEN + "登録しました。当鯖にお越しいただきありがとうございます。");
 			sender.sendMessage("[PCA] " + ChatColor.GREEN + "是非当鯖の宣伝をよろしくおねがいします！");
 			sender.sendMessage("[PCA] " + ChatColor.GREEN + "minecraft.jpで投票する: https://minecraft.jp/servers/jaoafa.xyz");

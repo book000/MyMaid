@@ -67,6 +67,7 @@ import xyz.jaoafa.mymaid.Command.Unko;
 import xyz.jaoafa.mymaid.Command.Var;
 import xyz.jaoafa.mymaid.Command.VarCmd;
 import xyz.jaoafa.mymaid.Command.Vote;
+import xyz.jaoafa.mymaid.Command.Where;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerChatEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockBreakEvent;
@@ -81,6 +82,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnHeadClick;
 import xyz.jaoafa.mymaid.EventHandler.OnInventoryClickEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnJoin;
 import xyz.jaoafa.mymaid.EventHandler.OnLunaChatChannelMemberChangedEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnMyMaidCommandblockLogs;
 import xyz.jaoafa.mymaid.EventHandler.OnMyMaidJoinLeftChatCmdLogs;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBedEnterEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBedLeaveEvent;
@@ -202,7 +204,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("var").setTabCompleter(new Var(this));
     	getCommand("varcmd").setExecutor(new VarCmd(this));
     	getCommand("vote").setExecutor(new Vote(this));
-
+    	getCommand("where").setExecutor(new Where(this));
     }
     private void Import_Task(){
     	//Task
@@ -228,6 +230,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnInventoryClickEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnJoin(this), this);
     	getServer().getPluginManager().registerEvents(new OnLunaChatChannelMemberChangedEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnMyMaidCommandblockLogs(this), this);
     	getServer().getPluginManager().registerEvents(new OnMyMaidJoinLeftChatCmdLogs(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerBedEnterEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerBedLeaveEvent(this), this);
@@ -328,6 +331,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 		}
 	}
+    public static double lag = new Double(0);
     private class Lag_Counter_End extends BukkitRunnable{
     	long start;
     	public Lag_Counter_End(JavaPlugin plugin, long start) {
@@ -347,6 +351,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYY/MM/dd_HH:mm:ss.SSSSS");
 			String start_ymdhis = sdf.format(start);
 			String end_ymdhis = sdf.format(end);
+
+			lag = Double.parseDouble(interval);
+
 			Method.url_jaoplugin("lag", "start=" + start_ymdhis + "&end=" + end_ymdhis + "&lag=" + String.format("%.5f", (Double.parseDouble(interval) - 10)));
 		}
 	}

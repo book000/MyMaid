@@ -232,3 +232,8 @@ commands:
       usage: /<command>
       permission: mymaid.dynamic
       permission-message: You do not have permission to perform this command.
+   where:
+      description: where
+      usage: /<command>
+      permission: mymaid.where
+      permission-message: You do not have permission to perform this command.
