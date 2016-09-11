@@ -92,8 +92,6 @@ public class Where implements CommandExecutor {
 						}
 					}
 				}
-
-
 			}
 			if(boo){
 				Method.SendMessage(sender, cmd, "この土地は「" + location + "」という名で「" + user + "」の所有地です。");

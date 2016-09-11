@@ -237,3 +237,8 @@ commands:
       usage: /<command>
       permission: mymaid.where
       permission-message: You do not have permission to perform this command.
+   eye:
+      description: Eye
+      usage: /<command>
+      permission: mymaid.eye
+      permission-message: You do not have permission to perform this command.

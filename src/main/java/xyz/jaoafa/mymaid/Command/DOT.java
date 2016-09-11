@@ -12,7 +12,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import xyz.jaoafa.mymaid.Method;
-import xyz.jaoafa.mymaid.MyMaid;
 
 public class DOT implements CommandExecutor {
 	JavaPlugin plugin;
@@ -52,11 +51,13 @@ public class DOT implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "ピリオド対決準備中だゾ！次に「.」を打った瞬間から開始だゾ！");
 			return true;
 		}
-		Double a = new Double(0.1);
-		if(a.compareTo(MyMaid.lag) == -1){
+		/*
+		int lag = (int) MyMaid.lag;
+		if(lag > 1){
 			Method.SendMessage(sender, cmd, "ピリオド対決を開始できません。ラグが激しすぎます。");
 			return true;
 		}
+		*/
 		int section = 60;
 		Boolean sectionout = false;
 		if(args.length == 1){

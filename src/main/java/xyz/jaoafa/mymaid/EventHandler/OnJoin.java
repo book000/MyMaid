@@ -30,22 +30,11 @@ public class OnJoin implements Listener {
 		Player player = event.getPlayer(); // Joinしたプレイヤー
 		InetAddress ip = player.getAddress().getAddress();
 		if(player.hasPermission("mymaid.pex.limited")){
-			new netaccess_sinki(plugin, player).runTaskAsynchronously(plugin);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(p.hasPermission("pin_code_auth.joinmsg")) {
-					p.sendMessage("[PCA] " + ChatColor.GREEN + "新規ちゃん(通過無)だよ！やったね☆");
+					p.sendMessage("[PCA] " + ChatColor.GREEN + "新規ちゃんだよ！やったね☆");
 				}
 			}
-			/*
-		}else if(player.hasPermission("mymaid.pex.provisional")){
-			Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Provisional");
-			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(p.hasPermission("pin_code_auth.joinmsg")) {
-					p.sendMessage("[PCA] " + ChatColor.GREEN + "新規ちゃん(通過有)だよ！やったね☆");
-				}
-			}
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + player.getName() + " group set D");
-			*/
 		}else{
 			return;
 		}
@@ -86,17 +75,6 @@ public class OnJoin implements Listener {
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "https://jaoafa.xyz/rule");
 		new netaccess(plugin, player).runTaskAsynchronously(plugin);
 	}
-	private class netaccess_sinki extends BukkitRunnable{
-		Player player;
-    	public netaccess_sinki(JavaPlugin plugin, Player player) {
-    		this.player = player;
-    	}
-		@Override
-		public void run() {
-			Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Limited");
-		}
-
-	}
 	private class netaccess extends BukkitRunnable{
 		Player player;
     	public netaccess(JavaPlugin plugin, Player player) {
@@ -128,7 +106,10 @@ public class OnJoin implements Listener {
 					check = false;
 				}
 				if(check){
+					Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Limited");
 					return;
+				}else{
+					Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Default");
 				}
 				Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
 				for(String group : groups){

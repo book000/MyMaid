@@ -39,6 +39,9 @@ public class OnMyMaidCommandblockLogs implements Listener {
 					Location location_p = p.getLocation();
 	            	double distance = cmdb.getLocation().distance(location_p);
 	            	if(distance < min){
+	            		if(!p.getWorld().getName().equals(cmdb.getWorld().getName())){
+	            			continue;
+	            		}
 	            		min = distance;
 	            		min_player = p;
 	            	}

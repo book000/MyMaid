@@ -39,6 +39,7 @@ import xyz.jaoafa.mymaid.Command.Dynamic;
 import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
 import xyz.jaoafa.mymaid.Command.E;
 import xyz.jaoafa.mymaid.Command.Explode;
+import xyz.jaoafa.mymaid.Command.Eye;
 import xyz.jaoafa.mymaid.Command.Gamemode_Change;
 import xyz.jaoafa.mymaid.Command.Guard;
 import xyz.jaoafa.mymaid.Command.Head;
@@ -68,6 +69,8 @@ import xyz.jaoafa.mymaid.Command.Var;
 import xyz.jaoafa.mymaid.Command.VarCmd;
 import xyz.jaoafa.mymaid.Command.Vote;
 import xyz.jaoafa.mymaid.Command.Where;
+import xyz.jaoafa.mymaid.EventHandler.EyeMove;
+import xyz.jaoafa.mymaid.EventHandler.MoveLocationName;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerChatEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockBreakEvent;
@@ -135,7 +138,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 
     }
-
     @Override
     public void onDisable() {
     	conf.set("prison",Prison.prison);
@@ -172,6 +174,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("dt").setTabCompleter(new Dynmap_Teleporter(this));
     	getCommand("e").setExecutor(new E(this));
     	getCommand("explode").setExecutor(new Explode(this));
+    	getCommand("eye").setExecutor(new Eye(this));
     	getCommand("g").setExecutor(new Gamemode_Change(this));
     	getCommand("guard").setExecutor(new Guard(this));
     	getCommand("head").setExecutor(new Head(this));
@@ -216,6 +219,8 @@ public class MyMaid extends JavaPlugin implements Listener {
     private void Import_Listener(){
     	//Listener
     	getServer().getPluginManager().registerEvents(this, this);
+    	getServer().getPluginManager().registerEvents(new EyeMove(this), this);
+    	getServer().getPluginManager().registerEvents(new MoveLocationName(this), this);
     	getServer().getPluginManager().registerEvents(new OnAsyncPlayerChatEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnAsyncPlayerPreLoginEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnBlockBreakEvent(this), this);

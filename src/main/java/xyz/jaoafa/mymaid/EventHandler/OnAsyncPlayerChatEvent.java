@@ -78,7 +78,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 					e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
 					e.setCancelled(true);
 				}else{
-						DOT.unsuccess.put(e.getPlayer().getName(), DOT.unsuccess.get(e.getPlayer().getName()) + 1);
+					DOT.unsuccess.put(e.getPlayer().getName(), DOT.unsuccess.get(e.getPlayer().getName()) + 1);
 				}
 			}else{
 				/*
