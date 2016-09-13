@@ -1,5 +1,10 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -10,15 +15,15 @@ public class MoveLocationName implements Listener {
 	public MoveLocationName(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+	public static Map<String, String> moveloc = new HashMap<String, String>();
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent e){
-		/*
+
 		Player player = e.getPlayer();
 		Location loc = player.getLocation();
-		new messageset(plugin, player, loc).runTaskAsynchronously(plugin);
-		*/
+		//new messageset(plugin, player, loc).runTaskAsynchronously(plugin);
 	}
-/*
+	/*
 	private class messageset extends BukkitRunnable{
 		JavaPlugin plugin;
 		Player player;
@@ -46,14 +51,17 @@ public class MoveLocationName implements Listener {
 				br.close();
 			}catch(FileNotFoundException e1){
 				System.out.println(e1);
+				return;
 			}catch(IOException e1){
 				System.out.println(e1);
+				return;
 			}
-			JSONObject obj;
+			JSONObject obj = null;
 			try {
 				obj = (JSONObject) parser.parse(json);
-			} catch (ParseException e1) {
-				obj = new JSONObject();
+			} catch (org.json.simple.parser.ParseException e) {
+				e.printStackTrace();
+				return;
 			}
 			String location = "";
 			String user = "";
@@ -76,39 +84,60 @@ public class MoveLocationName implements Listener {
 				}
 			}
 			if(boo){
+				if(moveloc.containsKey(player.getName())){
+					if(moveloc.get(player.getName()).equalsIgnoreCase(location)){
+						return;
+					}
+				}
+				moveloc.put(player.getName(), location);
+
 				Scoreboard sb = player.getScoreboard();
-				Objective object = sb.getObjective("jao");
+				Objective object = sb.getObjective("jao" + player.getName());
 				if ( object == null ) {
-				    object = sb.registerNewObjective("jao", "dummy");
+				    object = sb.registerNewObjective("jao" + player.getName(), "dummy");
 				}else{
-					object.unregister();
-					object = sb.registerNewObjective("jao", "dummy");
+					try{
+						object.unregister();
+						object = sb.registerNewObjective("jao" + player.getName(), "dummy");
+					}catch(java.lang.IllegalArgumentException e){
+						return;
+					}
 				}
 				object.setDisplaySlot(DisplaySlot.SIDEBAR);
 				object.setDisplayName("jao Minecraft Server");
 
 				object.getScore("Location:").setScore(4);
-				object.getScore(" ").setScore(3);
-				object.getScore("    " + location).setScore(2);
+				object.getScore("    " + location).setScore(3);
 				object.getScore("Author:").setScore(1);
 				object.getScore("    " + user).setScore(0);
 			}else{
+				if(moveloc.containsKey(player.getName())){
+					if(moveloc.get(player.getName()).equalsIgnoreCase("なし")){
+						return;
+					}
+				}
+				moveloc.put(player.getName(), "なし");
+
 				Scoreboard sb = player.getScoreboard();
-				Objective object = sb.getObjective("jao");
+				Objective object = sb.getObjective("jao" + player.getName());
 				if ( object == null ) {
-				    object = sb.registerNewObjective("jao", "dummy");
+				    object = sb.registerNewObjective("jao" + player.getName(), "dummy");
 				}else{
 					object.unregister();
-					object = sb.registerNewObjective("jao", "dummy");
+					try{
+						object = sb.registerNewObjective("jao" + player.getName(), "dummy");
+					}catch(java.lang.IllegalArgumentException e){
+						return;
+					}
 				}
+
 				object.setDisplaySlot(DisplaySlot.SIDEBAR);
 				object.setDisplayName("jao Minecraft Server");
 
 				object.getScore("Location:").setScore(4);
-				object.getScore(" ").setScore(3);
-				object.getScore("    ").setScore(2);
+				object.getScore("    土地情報なし").setScore(3);
 				object.getScore("Author:").setScore(1);
-				object.getScore("    ").setScore(0);
+				object.getScore("    プレイヤー情報なし").setScore(0);
 			}
 		}
 	}

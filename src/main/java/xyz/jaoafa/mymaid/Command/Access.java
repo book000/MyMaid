@@ -19,10 +19,11 @@ public class Access implements CommandExecutor {
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length == 1){
+			Player cmdplayer = (Player) sender;
 			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 				if(player.getName().equalsIgnoreCase(args[0])) {
 					InetAddress ip = player.getAddress().getAddress();
-					new netaccess(plugin, player, cmd, ip).runTaskAsynchronously(plugin);
+					new netaccess(plugin, player, cmd, ip, cmdplayer).runTaskAsynchronously(plugin);
 					return true;
 				}
 			}
@@ -37,19 +38,21 @@ public class Access implements CommandExecutor {
 		Player player;
 		Command cmd;
 		InetAddress ip;
-    	public netaccess(JavaPlugin plugin, Player player, Command cmd, InetAddress ip) {
+		Player cmdplayer;
+    	public netaccess(JavaPlugin plugin, Player player, Command cmd, InetAddress ip, Player cmdplayer) {
     		this.player = player;
     		this.cmd = cmd;
     		this.ip = ip;
+    		this.cmdplayer = cmdplayer;
     	}
 		@Override
 		public void run() {
 			String data = Method.url_jaoplugin("access", "i="+ip);
 			if(data.equalsIgnoreCase("NO")){
-				Method.SendMessage(player, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:なし");
+				Method.SendMessage(cmdplayer, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:なし");
 				return;
 			}else if(data.indexOf(",") == -1){
-				Method.SendMessage(player, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:"+data+"");
+				Method.SendMessage(cmdplayer, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:"+data+"");
 				Bukkit.getLogger().info("このユーザーがアクセスしたページ:"+data+"");
 				return;
 			}else{
@@ -58,7 +61,7 @@ public class Access implements CommandExecutor {
 				for (String one: access){
 					accesstext += "「"+one+"」";
 				}
-				Method.SendMessage(player, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:"+accesstext+"など");
+				Method.SendMessage(cmdplayer, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:"+accesstext+"など");
 				Bukkit.getLogger().info("このユーザーがアクセスしたページ:"+accesstext+"など");
 				return;
 			}
