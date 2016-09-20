@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.jaoafa.mymaid.Method;
 
@@ -75,7 +76,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			}
 			return;
 		}
-
+		new netaccess(plugin, name, uuid, ip, host).runTaskAsynchronously(plugin);
 
 		Bukkit.getLogger().info("------------------------------------------");
 		Bukkit.getLogger().info("Player:"+name+" Log in.");
@@ -84,5 +85,20 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 		Bukkit.getLogger().info("PlayerHost:"+host);
 		Bukkit.getLogger().info("------------------------------------------");
 	}
-
+	private class netaccess extends BukkitRunnable{
+		String player;
+		UUID uuid;
+		InetAddress ip;
+		String host;
+    	public netaccess(JavaPlugin plugin, String player, UUID uuid, InetAddress ip, String host) {
+    		this.player = player;
+    		this.uuid = uuid;
+    		this.ip = ip;
+    		this.host = host;
+    	}
+		@Override
+		public void run() {
+			Method.url_jaoplugin("mccheck_anotherlogin", "p=" + player + "&u=" + uuid + "&i=" + ip + "&host=" + host);
+		}
+	}
 }

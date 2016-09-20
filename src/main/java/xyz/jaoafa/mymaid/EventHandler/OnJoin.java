@@ -124,6 +124,9 @@ public class OnJoin implements Listener {
 						MyMaid.TitleSender.sendTitle(p, "", ChatColor.GOLD + "jaotan" + ChatColor.WHITE + " によって " + ChatColor.BLUE + player.getName() + ChatColor.WHITE + " がDefault権限に引き上げられました！");
 					}
 				}
+			}else{
+				Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Limited");
+				return;
 			}
 		}
 	}

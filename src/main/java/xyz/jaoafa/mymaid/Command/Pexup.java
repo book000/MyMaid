@@ -49,6 +49,14 @@ public class Pexup implements CommandExecutor {
 		PermissionsEx.getUser(p).getPlayer().setOp(true);
 		Method.SendMessage(sender, cmd, "ユーザー「"+p+"」をRegular権限に引き上げました。");
 		Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + "「" + player.getName() + "」によってユーザー「" + p + "」が常連になりました。");
+		for(Player pl: Bukkit.getServer().getOnlinePlayers()) {
+			if(p.equalsIgnoreCase(pl.getName())){
+				pl.sendMessage("[MyMaid] " + ChatColor.GREEN + "常連権限への昇格、おめでとうごさいます。");
+				pl.sendMessage("[MyMaid] " + ChatColor.GREEN + "常連権限としてサーバーで活動する際の説明を記載しました。ぜひご覧ください。");
+				pl.sendMessage("[MyMaid] " + ChatColor.GREEN + "https://jaoafa.xyz/rule/regular_getplayer");
+				return true;
+			}
+		}
 		return true;
 	}
 }

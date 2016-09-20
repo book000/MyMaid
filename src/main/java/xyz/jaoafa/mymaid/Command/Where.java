@@ -393,11 +393,11 @@ public class Where implements CommandExecutor {
 					if(y1 <= loc.getBlockY() && y2 >= loc.getBlockY()){
 						if(z1 <= loc.getBlockZ() && z2 >= loc.getBlockZ()){
 							boo = true;
-							if(location.equals((String) one.getValue().get("location"))){
-								boo_name = true;
-							}
 						}
 					}
+				}
+				if(location.equals((String) one.getValue().get("location"))){
+					boo_name = true;
 				}
 			}
 			if(boo){

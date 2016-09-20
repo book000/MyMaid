@@ -40,7 +40,7 @@ public class EyeMove implements Listener {
 			Eye.eyelist.remove(eyeplayer);
 			return;
 		}
-		Vector vector = new Vector(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
+		Vector vector = eye.getLocation().toVector().subtract(player.getLocation().toVector());
 		eye.getEyeLocation().setDirection(vector);
 	}
 }

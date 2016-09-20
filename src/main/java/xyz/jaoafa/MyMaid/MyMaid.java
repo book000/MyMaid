@@ -69,6 +69,7 @@ import xyz.jaoafa.mymaid.Command.Var;
 import xyz.jaoafa.mymaid.Command.VarCmd;
 import xyz.jaoafa.mymaid.Command.Vote;
 import xyz.jaoafa.mymaid.Command.Where;
+import xyz.jaoafa.mymaid.EventHandler.DefaultCheck;
 import xyz.jaoafa.mymaid.EventHandler.EyeMove;
 import xyz.jaoafa.mymaid.EventHandler.MoveLocationName;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerChatEvent;
@@ -219,6 +220,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     private void Import_Listener(){
     	//Listener
     	getServer().getPluginManager().registerEvents(this, this);
+    	getServer().getPluginManager().registerEvents(new DefaultCheck(this), this);
     	getServer().getPluginManager().registerEvents(new EyeMove(this), this);
     	getServer().getPluginManager().registerEvents(new MoveLocationName(this), this);
     	getServer().getPluginManager().registerEvents(new OnAsyncPlayerChatEvent(this), this);

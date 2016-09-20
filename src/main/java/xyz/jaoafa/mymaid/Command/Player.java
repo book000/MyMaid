@@ -40,6 +40,11 @@ public class Player implements CommandExecutor {
 			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
 			for(String group : groups){
 				if(PermissionsEx.getUser(p).inGroup(group)){
+					if(PermissionsEx.getUser(p).inGroup("Default")){
+						if(PermissionsEx.getUser(p).inGroup("Regular")){
+							continue;
+						}
+					}
 					Method.SendMessage(sender, cmd, p + " Permission group \"" + group +"\"");
 				}
 			}
