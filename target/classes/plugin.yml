@@ -16,7 +16,7 @@ commands:
    dt:
       description: Teleport to dynmap location.
       usage: /<command> [player] <location>
-      permission: command_teleport.dt
+      permission: mymaid.dt
       permission-message: You do not have permission to perform this command.
    g:
       description: Change your gamemode

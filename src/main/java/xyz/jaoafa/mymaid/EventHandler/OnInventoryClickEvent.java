@@ -59,29 +59,31 @@ public class OnInventoryClickEvent implements Listener {
 		if(potionflag){
 			inventory.clear();
 		}
-		is = clickedinventory.getContents();
-		Boolean clickedpotionflag = false;
-		for(int n=0; n != is.length; n++)
-		{
-			if(is[n] == null){
-				continue;
-			}
-			ItemStack hand = is[n];
-			if(hand.getType() == Material.POTION){
-				PotionMeta potion = (PotionMeta) hand.getItemMeta();
-				for (PotionEffect po : potion.getCustomEffects()) {
-					if(Prison.prison.containsKey(player.getName())){
-						return;
-					}
-					if(po.getAmplifier() == 29){
-						potionflag = true;
-						clickedpotionflag = true;
+		if(clickedinventory != null) {
+			is = clickedinventory.getContents();
+			Boolean clickedpotionflag = false;
+			for(int n=0; n != is.length; n++)
+			{
+				if(is[n] == null){
+					continue;
+				}
+				ItemStack hand = is[n];
+				if(hand.getType() == Material.POTION){
+					PotionMeta potion = (PotionMeta) hand.getItemMeta();
+					for (PotionEffect po : potion.getCustomEffects()) {
+						if(Prison.prison.containsKey(player.getName())){
+							return;
+						}
+						if(po.getAmplifier() == 29){
+							potionflag = true;
+							clickedpotionflag = true;
+						}
 					}
 				}
 			}
-		}
-		if(clickedpotionflag){
-			clickedinventory.clear();
+			if(clickedpotionflag){
+				clickedinventory.clear();
+			}
 		}
 		if(potionflag){
 			Bukkit.broadcastMessage("[jaoium_Checker] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」からjaoiumと同等の性能を持つアイテムが検出されました。");

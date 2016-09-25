@@ -29,7 +29,8 @@ public class Player implements CommandExecutor {
 				if(PermissionsEx.getUser(player).inGroup(group)){
 					if(PermissionsEx.getUser(player).inGroup("Default")){
 						if(PermissionsEx.getUser(player).inGroup("Regular")){
-							continue;
+							Method.SendMessage(player, cmd, "You Permission group \"" + group +"\"");
+							return true;
 						}
 					}
 					Method.SendMessage(player, cmd, "You Permission group \"" + group +"\"");
@@ -42,7 +43,8 @@ public class Player implements CommandExecutor {
 				if(PermissionsEx.getUser(p).inGroup(group)){
 					if(PermissionsEx.getUser(p).inGroup("Default")){
 						if(PermissionsEx.getUser(p).inGroup("Regular")){
-							continue;
+							Method.SendMessage(sender, cmd, p + " Permission group \"" + group +"\"");
+							return true;
 						}
 					}
 					Method.SendMessage(sender, cmd, p + " Permission group \"" + group +"\"");
