@@ -105,6 +105,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnPlayerPickupItemEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnQuitGame;
 import xyz.jaoafa.mymaid.EventHandler.OnServerCommandEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnSignClick;
+import xyz.jaoafa.mymaid.EventHandler.OnVotifierEvent;
 
 public class MyMaid extends JavaPlugin implements Listener {
 	public static Boolean nextbakrender = false;
@@ -125,6 +126,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	Load_Plugin("WorldEdit");
     	Load_Plugin("LunaChat");
     	Load_Plugin("CoreProtect");
+    	Load_Plugin("Votifier");
 
 		Import_Listener();
     	Import_Task();
@@ -256,6 +258,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnQuitGame(this), this);
     	getServer().getPluginManager().registerEvents(new OnServerCommandEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnSignClick(this), this);
+    	getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
     }
     private void Load_Config(){
     	conf = getConfig();

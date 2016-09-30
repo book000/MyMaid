@@ -37,7 +37,13 @@ public class OnMyMaidCommandblockLogs implements Listener {
 	        	Player min_player = null;
 				for(Player p: Bukkit.getServer().getOnlinePlayers()){
 					Location location_p = p.getLocation();
-	            	double distance = cmdb.getLocation().distance(location_p);
+					double distance;
+					try{
+						distance = cmdb.getLocation().distance(location_p);
+					}catch(java.lang.IllegalArgumentException e){
+						distance = -1;
+					}
+
 	            	if(distance < min){
 	            		if(!p.getWorld().getName().equals(cmdb.getWorld().getName())){
 	            			continue;

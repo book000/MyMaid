@@ -40,6 +40,7 @@ public class Chat implements CommandExecutor {
 				}
 			}
 			ChatColor color;
+			Boolean chatcolor = true;
 			if(args[args.length-1].equalsIgnoreCase("color:" + "AQUA")){
 				color = ChatColor.AQUA;
 			}else if(args[args.length-1].equalsIgnoreCase("color:" + "BLACK")){
@@ -72,12 +73,18 @@ public class Chat implements CommandExecutor {
 				color = ChatColor.YELLOW;
 			}else{
 				color = ChatColor.GRAY;
+				chatcolor = false;
 			}
 			String text = "";
 			int c = 1;
 			while(args.length > c){
+				if((args.length-1) == c && chatcolor){
+					Bukkit.broadcastMessage(args[c]);
+					break;
+				}
 				text += args[c]+" ";
 				c++;
+
 			}
 			if(args[0].equalsIgnoreCase("jaotan")){
 				color = ChatColor.GOLD;
