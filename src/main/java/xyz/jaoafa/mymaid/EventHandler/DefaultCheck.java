@@ -81,6 +81,30 @@ public class DefaultCheck implements Listener {
 					item += ", WATER";
 				}
 			}
+			if(hand.getType() == Material.FLINT_AND_STEEL){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "FLINT_AND_STEEL";
+				}else{
+					item += ", FLINT_AND_STEEL";
+				}
+			}
+			if(hand.getType() == Material.FIRE){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "FIRE";
+				}else{
+					item += ", FIRE";
+				}
+			}
+			if(hand.getType() == Material.FIREBALL){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "FIREBALL";
+				}else{
+					item += ", FIREBALL";
+				}
+			}
 		}
 		if(flag){
 			if(!PermissionsEx.getUser(player).inGroup("Default")){
@@ -141,6 +165,30 @@ public class DefaultCheck implements Listener {
 					item = "WATER";
 				}else{
 					item += ", WATER";
+				}
+			}
+			if(hand.getType() == Material.FLINT_AND_STEEL){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "FLINT_AND_STEEL";
+				}else{
+					item += ", FLINT_AND_STEEL";
+				}
+			}
+			if(hand.getType() == Material.FIRE){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "FIRE";
+				}else{
+					item += ", FIRE";
+				}
+			}
+			if(hand.getType() == Material.FIREBALL){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "FIREBALL";
+				}else{
+					item += ", FIREBALL";
 				}
 			}
 			if(flag){

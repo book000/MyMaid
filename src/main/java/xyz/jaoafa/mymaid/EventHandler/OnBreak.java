@@ -2,6 +2,7 @@ package xyz.jaoafa.mymaid.EventHandler;
 
 import org.bukkit.CropState;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -16,6 +17,10 @@ public class OnBreak implements Listener {
 	@EventHandler
 	public void onBreak(BlockBreakEvent e){
 		if(e.getBlock().getWorld().getName().equalsIgnoreCase("Summer2016")){
+			return;
+		}
+		Player player = e.getPlayer();
+    	if (!(player instanceof Player)) {
 			return;
 		}
 		if(e.getBlock().getType() == Material.CROPS){

@@ -39,11 +39,48 @@ public class Chat implements CommandExecutor {
 					return true;
 				}
 			}
+			ChatColor color;
+			if(args[args.length-1].equalsIgnoreCase("color:" + "AQUA")){
+				color = ChatColor.AQUA;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "BLACK")){
+				color = ChatColor.BLACK;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "BLUE")){
+				color = ChatColor.BLUE;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "DARK_AQUA")){
+				color = ChatColor.DARK_AQUA;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "DARK_BLUE")){
+				color = ChatColor.DARK_BLUE;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "DARK_GRAY")){
+				color = ChatColor.DARK_GRAY;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "DARK_GREEN")){
+				color = ChatColor.DARK_GREEN;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "DARK_PURPLE")){
+				color = ChatColor.DARK_PURPLE;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "DARK_RED")){
+				color = ChatColor.DARK_RED;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "GOLD")){
+				color = ChatColor.GOLD;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "GREEN")){
+				color = ChatColor.GREEN;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "LIGHT_PURPLE")){
+				color = ChatColor.LIGHT_PURPLE;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "RED")){
+				color = ChatColor.RED;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "WHITE")){
+				color = ChatColor.WHITE;
+			}else if(args[args.length-1].equalsIgnoreCase("color:" + "YELLOW")){
+				color = ChatColor.YELLOW;
+			}else{
+				color = ChatColor.GRAY;
+			}
 			String text = "";
 			int c = 1;
 			while(args.length > c){
 				text += args[c]+" ";
 				c++;
+			}
+			if(args[0].equalsIgnoreCase("jaotan")){
+				color = ChatColor.GOLD;
 			}
 			Date = new Date();
 			H = new SimpleDateFormat("H");
@@ -54,7 +91,7 @@ public class Chat implements CommandExecutor {
 			ss = s.format(Date);
 			date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
 			OnMyMaidJoinLeftChatCmdLogs.log(plugin, "chat", args[0], text);
-			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GRAY + "■" + ChatColor.WHITE + args[0] +  ": " + text);
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + color + "■" + ChatColor.WHITE + args[0] +  ": " + text);
 		}else{
 			Method.SendMessage(sender, cmd, "このコマンドには2つ以上の引数が必要です。");
 		}

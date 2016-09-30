@@ -45,6 +45,12 @@
       <name>ucchy github repository</name>
       <url>https://raw.github.com/ucchyocean/mvn-repo/master</url>
     </repository>
+    <!-- Votifier -->
+    <repository>
+      <id>sl-repo</id>
+      <name>Sacred Labyrinth Repository for Votifier</name>
+      <url>http://repo.howaner.de/</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -100,6 +106,12 @@
         <systemPath>${basedir}/lib/CoreProtect.jar</systemPath>
         <scope>system</scope>
 	</dependency>
+	<!-- Votifier -->
+	<dependency>
+      <groupId>com.vexsoftware</groupId>
+      <artifactId>votifier</artifactId>
+      <version>1.9</version>
+    </dependency>
   </dependencies>
   <url>http://jaoafa.xyz/</url>
 </project>
