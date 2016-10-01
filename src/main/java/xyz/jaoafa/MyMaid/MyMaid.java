@@ -74,6 +74,7 @@ import xyz.jaoafa.mymaid.EventHandler.EyeMove;
 import xyz.jaoafa.mymaid.EventHandler.MoveLocationName;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerChatEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnBannedEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockBreakEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockIgniteEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockPlaceEvent;
@@ -127,6 +128,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	Load_Plugin("LunaChat");
     	Load_Plugin("CoreProtect");
     	Load_Plugin("Votifier");
+    	Load_Plugin("MCBans");
 
 		Import_Listener();
     	Import_Task();
@@ -227,6 +229,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new MoveLocationName(this), this);
     	getServer().getPluginManager().registerEvents(new OnAsyncPlayerChatEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnAsyncPlayerPreLoginEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnBannedEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnBlockBreakEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnBlockIgniteEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnBlockPlaceEvent(this), this);

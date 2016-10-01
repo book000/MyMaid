@@ -18,6 +18,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 
 public class OnAsyncPlayerPreLoginEvent implements Listener {
@@ -34,34 +35,30 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 		String host = e.getAddress().getHostName();
 		String data = Method.url_access("http://nubesco.jaoafa.xyz/plugin/login.php?p="+name+"&u="+uuid+"&i="+ip+"&h="+host);
 		String[] arr = data.split("###", 0);
-		if(!(arr[1].equalsIgnoreCase("NOSUB"))){
-			if(!(arr[0].equalsIgnoreCase("SUCCESS"))){
-				e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "Detect SubAccount.");
-				Bukkit.getLogger().info(e.getName()+":Connection to server failed!(Detect SubAccount.)");
-				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(p.hasPermission("pin_code_auth.joinmsg")) {
-						p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>複垢(" + arr[0] + ")");
-					}
-				}
-				return;
-			}
-		}
-		if(arr[1].equalsIgnoreCase("BANNED")){
-			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "[PBan] " + arr[2]);
-			Bukkit.getLogger().info(e.getName()+":Connection to server failed!([PBan] " + arr[2] + ")");
+		if(arr[0].equalsIgnoreCase("subaccount")){
+			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "Detect SubAccount.");
+			Bukkit.getLogger().info(e.getName()+":Connection to server failed!(Detect SubAccount.)");
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(p.hasPermission("pin_code_auth.joinmsg")) {
-					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>[PBan] " + arr[2]);
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>複垢(" + arr[1] + ")");
 				}
 			}
 			return;
-		}
-		URLCodec codec = new URLCodec();
-		String country = null;
-		if(!arr[3].equalsIgnoreCase("OK")){
+		}else if(arr[0].equalsIgnoreCase("pban")){
+			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "[PBan] " + arr[2]);
+			Bukkit.getLogger().info(e.getName()+":Connection to server failed!([PBan] " + arr[2] + ")");
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>複垢(" + arr[1] + ")");
+				}
+			}
+			return;
+		}else if(arr[0].equalsIgnoreCase("countoryout")){
+			URLCodec codec = new URLCodec();
+			String country = null;
 			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "Connection to server failed");
 			try {
-				country = codec.decode(arr[3], StandardCharsets.UTF_8.name());
+				country = codec.decode(arr[1], StandardCharsets.UTF_8.name());
 			} catch (UnsupportedEncodingException e1) {
 				// TODO 自動生成された catch ブロック
 				Bukkit.getLogger().info("err");
@@ -70,12 +67,22 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			}
 			Bukkit.getLogger().info(e.getName()+":Connection to server failed!(Login Country OUT "+country+")");
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(p.hasPermission("pin_code_auth.joinmsg")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>許可されていない地域からのアクセス("+country+")");
 				}
 			}
 			return;
+		}else if(arr[0].equalsIgnoreCase("mcbans_reputation")){
+			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "Connection to server failed...");
+			Bukkit.getLogger().info(e.getName()+":Connection to server failed!(mcbans_reputation)");
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>鯖指定評価値下回り(" + arr[1] + ")");
+				}
+			}
+			return;
 		}
+
 		new netaccess(plugin, name, uuid, ip, host).runTaskAsynchronously(plugin);
 
 		Bukkit.getLogger().info("------------------------------------------");

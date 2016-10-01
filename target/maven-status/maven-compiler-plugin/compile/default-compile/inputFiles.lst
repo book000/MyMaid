@@ -39,13 +39,14 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\TNTReload.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MyMaid_NetworkApi.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockPlaceEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ip_To_Host.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBannedEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnLunaChatChannelMemberChangedEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnServerCommandEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\JaoJao.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvSave.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnExplosion.java
-N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnMyMaidCommandblockLogs.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Lag.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnMyMaidCommandblockLogs.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\VarCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ded.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerDeathEvent.java

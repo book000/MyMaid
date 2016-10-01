@@ -79,7 +79,6 @@ public class Chat implements CommandExecutor {
 			int c = 1;
 			while(args.length > c){
 				if((args.length-1) == c && chatcolor){
-					Bukkit.broadcastMessage(args[c]);
 					break;
 				}
 				text += args[c]+" ";
