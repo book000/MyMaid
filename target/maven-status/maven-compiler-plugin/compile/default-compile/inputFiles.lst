@@ -73,6 +73,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DOT.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Chat.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Where.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Inv.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerGameModeChangeEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Pexup.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBedLeaveEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnInventoryClickEvent.java

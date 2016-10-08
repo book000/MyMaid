@@ -96,6 +96,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommand;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommandPreprocessEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommandSendAdmin;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerDeathEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnPlayerGameModeChangeEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerInteractEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerItemHeldEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerJoinEvent;
@@ -251,6 +252,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnPlayerCommandPreprocessEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerCommandSendAdmin(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerDeathEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnPlayerGameModeChangeEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerInteractEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerItemHeldEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);

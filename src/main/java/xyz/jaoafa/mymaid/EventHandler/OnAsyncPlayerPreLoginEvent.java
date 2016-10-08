@@ -45,8 +45,8 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			}
 			return;
 		}else if(arr[0].equalsIgnoreCase("pban")){
-			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "[PBan] " + arr[2]);
-			Bukkit.getLogger().info(e.getName()+":Connection to server failed!([PBan] " + arr[2] + ")");
+			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "[PBan] " + arr[1]);
+			Bukkit.getLogger().info(e.getName()+":Connection to server failed!([PBan] " + arr[1] + ")");
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>複垢(" + arr[1] + ")");
@@ -56,7 +56,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 		}else if(arr[0].equalsIgnoreCase("countoryout")){
 			URLCodec codec = new URLCodec();
 			String country = null;
-			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "Connection to server failed");
+			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "Region Error");
 			try {
 				country = codec.decode(arr[1], StandardCharsets.UTF_8.name());
 			} catch (UnsupportedEncodingException e1) {
@@ -65,7 +65,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			} catch (DecoderException e1) {
 				Bukkit.getLogger().info("err");
 			}
-			Bukkit.getLogger().info(e.getName()+":Connection to server failed!(Login Country OUT "+country+")");
+			Bukkit.getLogger().info(e.getName()+":Connection to server failed!(Region Error "+country+")");
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>許可されていない地域からのアクセス("+country+")");
@@ -73,7 +73,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			}
 			return;
 		}else if(arr[0].equalsIgnoreCase("mcbans_reputation")){
-			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "Connection to server failed...");
+			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "Your MCBans Reputation is below this servers threshold!　(あなたのMCBansにおける評価値はこのサーバーが指定する評価値を下回っています。)");
 			Bukkit.getLogger().info(e.getName()+":Connection to server failed!(mcbans_reputation)");
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin")) {
