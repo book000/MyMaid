@@ -219,7 +219,7 @@ public class DefaultCheck implements Listener {
 				if(PermissionsEx.getUser(p).inGroup("Admin")){
 					p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」がアイテム「" + item + "」を設置しました。");
 					p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "すぐにテレポートせず、様子を見てください。スペクテイターモードで確認するのもアリです。");
-					}
+				}
 			}
 		}
 	}
@@ -230,6 +230,9 @@ public class DefaultCheck implements Listener {
 		}
 		Player damager = (Player) event.getDamager(); //殴った人
 		Entity entity = event.getEntity(); //殴られたエンティティ
+		if(!PermissionsEx.getUser(damager).inGroup("Default")){
+			return;
+		}
 		if(entity.getType() == EntityType.WOLF){
 			Wolf wolf = (Wolf)entity;
 			AnimalTamer tamer = wolf.getOwner();
@@ -292,6 +295,7 @@ public class DefaultCheck implements Listener {
 	}
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBurnEvent(BlockBurnEvent event) {
+
 		event.setCancelled(true);
 	}
 
