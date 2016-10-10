@@ -90,6 +90,7 @@ public class OnVotifierEvent implements Listener {
 				}
 	        }
 	        Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + "プレイヤー「" + name + "」が投票をしました！(現在の投票数:" + i + "回)");
+	        Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + "投票をよろしくお願いします！ https://bitly.com/jfvote");
 		}
 	}
 }

@@ -38,7 +38,11 @@ public class DefaultCheck implements Listener {
 		if (!(event.getWhoClicked() instanceof Player)) {
 			return;
 		}
+
 		Player player = (Player) event.getWhoClicked();
+		if(PermissionsEx.getUser(player).inGroup("Regular")){
+			return;
+		}
 		Inventory inventory = event.getInventory();
 		ItemStack[] is = inventory.getContents();
 		Boolean flag = false;
@@ -115,7 +119,7 @@ public class DefaultCheck implements Listener {
 				}
 			}
 			if(flag){
-				if(!PermissionsEx.getUser(player).inGroup("Default")){
+				if(!(PermissionsEx.getUser(player).inGroup("Default") || PermissionsEx.getUser(player).inGroup("QPPE"))){
 					return;
 				}
 				if(PermissionsEx.getUser(player).inGroup("Regular")){
@@ -206,7 +210,10 @@ public class DefaultCheck implements Listener {
 			}
 		}
 		if(flag){
-			if(!PermissionsEx.getUser(player).inGroup("Default")){
+			if(!(PermissionsEx.getUser(player).inGroup("Default") || PermissionsEx.getUser(player).inGroup("QPPE"))){
+				return;
+			}
+			if(PermissionsEx.getUser(player).inGroup("Regular")){
 				return;
 			}
 			if(def.containsKey(player.getName())){
@@ -230,7 +237,10 @@ public class DefaultCheck implements Listener {
 		}
 		Player damager = (Player) event.getDamager(); //殴った人
 		Entity entity = event.getEntity(); //殴られたエンティティ
-		if(!PermissionsEx.getUser(damager).inGroup("Default")){
+		if(!(PermissionsEx.getUser(damager).inGroup("Default") || PermissionsEx.getUser(damager).inGroup("QPPE"))){
+			return;
+		}
+		if(PermissionsEx.getUser(damager).inGroup("Regular")){
 			return;
 		}
 		if(entity.getType() == EntityType.WOLF){
@@ -295,7 +305,6 @@ public class DefaultCheck implements Listener {
 	}
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBurnEvent(BlockBurnEvent event) {
-
 		event.setCancelled(true);
 	}
 
