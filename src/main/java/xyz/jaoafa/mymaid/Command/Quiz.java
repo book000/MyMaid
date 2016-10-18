@@ -2,7 +2,6 @@ package xyz.jaoafa.mymaid.Command;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,8 +49,14 @@ public class Quiz implements CommandExecutor {
 						questions += ", ";
 					}
 				}
-				Random rnd = new Random();
-				int qid = Integer.parseInt("" +  rnd.nextInt(9) + rnd.nextInt(9) + rnd.nextInt(9) + rnd.nextInt(9) + rnd.nextInt(9));
+				int qid;
+				while(true){
+					qid = (int)(Math.random() * 99999 + 10000);
+					if(!quiz.containsKey(qid)){
+						break;
+					}
+				}
+
 				quiz.put(qid, data);
 				answer.put(qid, answers);
 				answered.put(qid, new HashMap<String, Boolean>());
@@ -118,6 +123,9 @@ public class Quiz implements CommandExecutor {
 					}
 					c++;
 				}
+				quiz.remove(qid);
+				Quiz.answer.remove(qid);
+				answered.remove(qid);
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "クイズ「" + question + "(クイズID:" + qid + ")」の解答が発表されました。");
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "答えは" + aid + "の「" + answer + "」でした。");
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "回答 " + answers);

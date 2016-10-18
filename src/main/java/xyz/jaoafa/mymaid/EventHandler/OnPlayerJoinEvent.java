@@ -56,9 +56,6 @@ public class OnPlayerJoinEvent implements Listener {
 		}else if(MyMaid.maxplayer == (Bukkit.getServer().getOnlinePlayers().size()+1)){
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 最高ログイン人数突破まであと2人です。");
 			Method.url_jaoplugin("max", "c=2&w");
-		}else if(MyMaid.maxplayer == (Bukkit.getServer().getOnlinePlayers().size()+2)){
-			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 最高ログイン人数突破まであと3人です。");
-			Method.url_jaoplugin("max", "c=3&w");
 		}
 
 		for(Player player: Bukkit.getServer().getOnlinePlayers()) {

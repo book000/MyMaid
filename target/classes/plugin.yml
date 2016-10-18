@@ -6,7 +6,6 @@ database: true
 author: mine_book000
 softdepend: [EEWAlert, PermissionsEx, WorldEdit, LunaChat, CoreProtect, Votifier, MCBans]
 website: https://jaoafa.xyz/
-default-permission: NOT_OP
 commands:
    jf:
       description: Say jaoafa

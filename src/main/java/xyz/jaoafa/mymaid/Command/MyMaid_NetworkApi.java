@@ -1,6 +1,8 @@
 package xyz.jaoafa.mymaid.Command;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +34,7 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			return true;
 		}
 		*/
-		if(args.length != 2){
+		if(args.length <= 2){
 			sender.sendMessage("args err");
 		}
 		if(args[0].equalsIgnoreCase("server/user")){
@@ -149,13 +151,38 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 		}else if(args[0].equalsIgnoreCase("server/blookup")){
 			List<String[]> lookup = CoreProtect.getInstance().getAPI().performLookup(Integer.MAX_VALUE, Arrays.asList(args[1]), null, null, null, null, 0, null);
 			  if (lookup != null){
+				  String data = "";
+				  int count = 1;
 			    for (String[] value : lookup){
 			      ParseResult result = CoreProtect.getInstance().getAPI().parseResult(value);
 			      int x = result.getX();
 			      int y = result.getY();
 			      int z = result.getZ();
-			      //...
+			      String action = result.getActionString();
+			      String type = ""+result.getType();
+			      String rollbacked;
+			      if(result.isRolledBack()){
+			    	  rollbacked = "ロールバック済み";
+			      }else{
+			    	  rollbacked = "未ロールバック";
+			      }
+			      String world = result.worldName();
+
+			      Date date = new Date(Long.parseLong(""+result.getTime()) * 1000);
+			      SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+			      String player = result.getPlayer();
+			      String loc = x + " " + y + " " + z + " - " + world;
+
+			      data += sdf.format(date) + " - " + player + " " + action + " " + type + " (" + rollbacked +") - (" + loc + ")\n";
+			      if(count > 20){
+			    	  break;
+			      }
+			      count++;
 			    }
+			    sender.sendMessage(data);
+			  }else{
+				  sender.sendMessage("情報無し");
 			  }
 		}
 		return true;
