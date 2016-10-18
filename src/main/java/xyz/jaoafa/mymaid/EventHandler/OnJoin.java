@@ -82,6 +82,21 @@ public class OnJoin implements Listener {
     	}
 		@Override
 		public void run() {
+			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
+			String pex = "";
+			for(String group : groups){
+				if(PermissionsEx.getUser(player).inGroup(group)){
+					if(PermissionsEx.getUser(player).inGroup("Default")){
+						if(PermissionsEx.getUser(player).inGroup("Regular")){
+							pex = "Regular";
+						}
+					}else{
+						pex = group;
+					}
+				}
+			}
+
+			Method.url_jaoplugin("pex", "p="+player.getName()+"&u="+player.getUniqueId()+"&pex="+pex);
 			String re = Method.url_jaoplugin("mcbanscheck", "p="+player.getName());
 			if(re.equalsIgnoreCase("D")){
 				Boolean check = true;
@@ -111,7 +126,7 @@ public class OnJoin implements Listener {
 				}else{
 					Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Default");
 				}
-				Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
+				groups = PermissionsEx.getPermissionManager().getGroupNames();
 				for(String group : groups){
 					if(PermissionsEx.getUser(player).inGroup(group)){
 						PermissionsEx.getUser(player).removeGroup(group);

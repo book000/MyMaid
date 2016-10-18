@@ -242,3 +242,8 @@ commands:
       usage: /<command>
       permission: mymaid.eye
       permission-message: You do not have permission to perform this command.
+   quiz:
+      description: Quiz
+      usage: /<command>
+      permission: mymaid.quiz
+      permission-message: You do not have permission to perform this command.

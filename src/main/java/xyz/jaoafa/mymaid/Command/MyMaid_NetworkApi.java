@@ -1,5 +1,7 @@
 package xyz.jaoafa.mymaid.Command;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.GameMode;
@@ -13,6 +15,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONObject;
+
+import net.coreprotect.CoreProtect;
+import net.coreprotect.CoreProtectAPI.ParseResult;
 
 public class MyMaid_NetworkApi implements CommandExecutor {
 	JavaPlugin plugin;
@@ -141,6 +146,17 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			obj.put("foodlevel", foodlevel);
 			obj.put("world", world);
 			sender.sendMessage(obj.toJSONString());
+		}else if(args[0].equalsIgnoreCase("server/blookup")){
+			List<String[]> lookup = CoreProtect.getInstance().getAPI().performLookup(Integer.MAX_VALUE, Arrays.asList(args[1]), null, null, null, null, 0, null);
+			  if (lookup != null){
+			    for (String[] value : lookup){
+			      ParseResult result = CoreProtect.getInstance().getAPI().parseResult(value);
+			      int x = result.getX();
+			      int y = result.getY();
+			      int z = result.getZ();
+			      //...
+			    }
+			  }
 		}
 		return true;
 	}

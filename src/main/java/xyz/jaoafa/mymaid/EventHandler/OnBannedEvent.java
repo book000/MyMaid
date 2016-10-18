@@ -22,7 +22,7 @@ public class OnBannedEvent implements Listener {
 		String reason = event.getReason();
 
 		if(event.isGlobalBan()){
-			Bukkit.broadcastMessage("[BANDATA] " + ChatColor.GREEN + "プレイヤー「" + player + "」がプレイヤー「" + sender +"」によっGBanされました。");
+			Bukkit.broadcastMessage("[BANDATA] " + ChatColor.GREEN + "プレイヤー「" + player + "」がプレイヤー「" + sender +"」によってGBanされました。");
 			Bukkit.broadcastMessage("[BANDATA] " + ChatColor.GREEN + "理由「" + reason + "」");
 			Method.url_jaoplugin("ban", "p="+player+"&b="+sender+"&t=gban&r="+reason);
 		}else if(event.isLocalBan()){

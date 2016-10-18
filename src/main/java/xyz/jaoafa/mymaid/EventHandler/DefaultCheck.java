@@ -126,7 +126,7 @@ public class DefaultCheck implements Listener {
 					return;
 				}
 				if(def.containsKey(player.getName())){
-					if(!def.get(player.getName()).equalsIgnoreCase(item)){
+					if(def.get(player.getName()).equalsIgnoreCase(item)){
 						return;
 					}
 				}

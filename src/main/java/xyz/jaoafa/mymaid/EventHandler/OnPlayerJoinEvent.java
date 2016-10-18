@@ -41,7 +41,26 @@ public class OnPlayerJoinEvent implements Listener {
 		}
   		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.WHITE + "jaotan: 現在『" + Bukkit.getServer().getOnlinePlayers().size() + "人』がログインしています");
+		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 現在『" + Bukkit.getServer().getOnlinePlayers().size() + "人』がログインしています。");
+		if((MyMaid.maxplayer+1) == Bukkit.getServer().getOnlinePlayers().size()){
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 最高ログイン人数を突破しました！おめでとうございます！前回のログイン人数突破は「" + MyMaid.maxplayertime + "」でした！");
+			SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			MyMaid.maxplayer = Bukkit.getServer().getOnlinePlayers().size();
+			MyMaid.maxplayertime = date.format(Date);
+			plugin.getConfig().set("maxplayer", MyMaid.maxplayer);
+			plugin.getConfig().set("maxplayertime", MyMaid.maxplayertime);
+			Method.url_jaoplugin("max", "c=" + MyMaid.maxplayer);
+		}else if(MyMaid.maxplayer == Bukkit.getServer().getOnlinePlayers().size()){
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 最高ログイン人数突破まであと1人です。");
+			Method.url_jaoplugin("max", "c=1&w");
+		}else if(MyMaid.maxplayer == (Bukkit.getServer().getOnlinePlayers().size()+1)){
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 最高ログイン人数突破まであと2人です。");
+			Method.url_jaoplugin("max", "c=2&w");
+		}else if(MyMaid.maxplayer == (Bukkit.getServer().getOnlinePlayers().size()+2)){
+			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 最高ログイン人数突破まであと3人です。");
+			Method.url_jaoplugin("max", "c=3&w");
+		}
+
 		for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 			new TabListSKKReloader(plugin, player).runTaskLater(plugin, 20L);
 		}

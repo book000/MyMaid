@@ -2,6 +2,7 @@ package xyz.jaoafa.mymaid.EventHandler;
 
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,7 +16,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
 
@@ -52,7 +56,7 @@ public class OnQuitGame implements Listener {
 		//Dynmap_Teleporter.dynamic_teleporter.remove(player.getName());
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.WHITE + "jaotan: 現在『" + (Bukkit.getServer().getOnlinePlayers().size() - 1) + "人』がログインしています");
+		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 現在『" + (Bukkit.getServer().getOnlinePlayers().size() - 1) + "人』がログインしています");
 		InetAddress ip = player.getAddress().getAddress();
 		String name = player.getName();
 		UUID uuid = player.getUniqueId();
@@ -64,5 +68,29 @@ public class OnQuitGame implements Listener {
 		Bukkit.getLogger().info("PlayerIP:"+ip);
 		Bukkit.getLogger().info("PlayerHost:"+host);
 		Bukkit.getLogger().info("------------------------------------------");
+		new netaccess(plugin, player).runTaskAsynchronously(plugin);
   	}
+	private class netaccess extends BukkitRunnable{
+		Player player;
+    	public netaccess(JavaPlugin plugin, Player player) {
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
+			String pex = "";
+			for(String group : groups){
+				if(PermissionsEx.getUser(player).inGroup(group)){
+					if(PermissionsEx.getUser(player).inGroup("Default")){
+						if(PermissionsEx.getUser(player).inGroup("Regular")){
+							pex = "Regular";
+						}
+					}else{
+						pex = group;
+					}
+				}
+			}
+			Method.url_jaoplugin("pex", "p="+player.getName()+"&u="+player.getUniqueId()+"&pex="+pex);
+		}
+	}
 }

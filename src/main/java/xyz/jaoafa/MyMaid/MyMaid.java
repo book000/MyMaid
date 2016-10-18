@@ -57,6 +57,7 @@ import xyz.jaoafa.mymaid.Command.MyMaid_NetworkApi;
 import xyz.jaoafa.mymaid.Command.Pexup;
 import xyz.jaoafa.mymaid.Command.Pin;
 import xyz.jaoafa.mymaid.Command.Prison;
+import xyz.jaoafa.mymaid.Command.Quiz;
 import xyz.jaoafa.mymaid.Command.Report;
 import xyz.jaoafa.mymaid.Command.RuleLoad;
 import xyz.jaoafa.mymaid.Command.SSK;
@@ -117,6 +118,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 	FileConfiguration conf;
 	public static LunaChatAPI lunachatapi;
 	public static LunaChat lunachat;
+	public static int maxplayer;
+	public static String maxplayertime;
 	@Override
     public void onEnable() {
 		getLogger().info("--------------------------------------------------");
@@ -149,6 +152,9 @@ public class MyMaid extends JavaPlugin implements Listener {
     	conf.set("prison",Prison.prison);
 		conf.set("prison_block",Prison.prison_block);
 		conf.set("prison_lasttext",Prison.jail_lasttext);
+		conf.set("var",Var.var);
+		conf.set("maxplayer",maxplayer);
+		conf.set("maxplayertime",maxplayertime);
     	saveConfig();
     }
 
@@ -200,6 +206,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("player").setExecutor(new xyz.jaoafa.mymaid.Command.Player(this));
     	getCommand("jail").setExecutor(new Prison(this));
     	getCommand("jail").setTabCompleter(new Prison(this));
+    	getCommand("quiz").setExecutor(new Quiz(this));
     	getCommand("report").setExecutor(new Report(this));
     	getCommand("ruleload").setExecutor(new RuleLoad(this));
     	getCommand("save-world").setExecutor(new SaveWorld(this));
@@ -302,6 +309,28 @@ public class MyMaid extends JavaPlugin implements Listener {
  		}else{
  			Prison.jail_lasttext = new HashMap<String,String>();
  			conf.set("prison_lasttext",Prison.jail_lasttext);
+ 		}
+		if(conf.contains("var")){
+			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
+			Map<String, Object> var = conf.getConfigurationSection("var").getValues(true);
+			if(var.size() != 0){
+				for(Entry<String, Object> p: var.entrySet()){
+					Var.var.put(p.getKey(), (String) p.getValue());
+				}
+			}
+ 		}else{
+ 			Var.var = new HashMap<String, String>();
+ 			conf.set("var",Var.var);
+ 		}
+		if(conf.contains("maxplayer")){
+			maxplayer = conf.getInt("maxplayer");
+ 		}else{
+ 			maxplayer = 0;
+ 		}
+		if(conf.contains("maxplayertime")){
+			maxplayertime = conf.getString("maxplayertime");
+ 		}else{
+ 			maxplayertime = "無し";
  		}
     }
 

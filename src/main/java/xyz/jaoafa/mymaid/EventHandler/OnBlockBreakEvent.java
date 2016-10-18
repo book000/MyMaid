@@ -23,6 +23,12 @@ public class OnBlockBreakEvent implements Listener {
     	if (!(player instanceof Player)) {
 			return;
 		}
+    	if(PermissionsEx.getUser(player).inGroup("QPPE")){
+    		if(e.getBlock().getType() == Material.COMMAND){
+				player.sendMessage("[COMMANDCHECK] " + ChatColor.GREEN + "QPPE権限ではコマンドブロックを破壊することができません。");
+				e.setCancelled(true);
+			}
+		}
     	if(PermissionsEx.getUser(player).inGroup("Default")){
 			if(!PermissionsEx.getUser(player).inGroup("Regular")){
 				if(e.getBlock().getType() == Material.COMMAND){

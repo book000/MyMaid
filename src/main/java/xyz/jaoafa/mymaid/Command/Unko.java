@@ -176,7 +176,12 @@ public class Unko implements CommandExecutor {
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": "+text);
 
 		for(Player to: Bukkit.getServer().getOnlinePlayers()) {
-			new Unko_Unko(plugin, player, to).runTaskLater(plugin, (20 * count));
+			try{
+				new Unko_Unko(plugin, player, to).runTaskLater(plugin, (20 * count));
+			}catch(java.lang.NoClassDefFoundError e){
+				player.getWorld().playSound(to.getLocation().add(0, 2, 0), Sound.GHAST_SCREAM,10,1);
+				player.getWorld().playEffect(to.getLocation().add(0, 2, 0), Effect.HEART, 0);
+			}
 			count++;
 		}
 		return true;
