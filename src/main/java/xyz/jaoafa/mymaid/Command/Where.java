@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -31,6 +32,7 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.regions.CuboidRegionSelector;
 import com.sk89q.worldedit.regions.RegionSelector;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 
 @SuppressWarnings("deprecation")
@@ -121,11 +123,31 @@ public class Where implements CommandExecutor {
 					Method.SendMessage(sender, cmd, "WorldEditの選択範囲を立方体にしてください。");
 					return true;
 				}else{
-					new messageset(plugin, sender, cmd, location, regionSelector).runTask(plugin);
+					try{
+						new messageset(plugin, sender, cmd, location, regionSelector).runTask(plugin);
+					}catch(java.lang.NoClassDefFoundError e){
+						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+							if(PermissionsEx.getUser(p).inGroup("Admin")) {
+								p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+								p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+							}
+						}
+					}
+
 					return true;
 				}
 			}else if(args[0].equalsIgnoreCase("delete")){
-				new messagedel(plugin, sender, cmd, args[1]).runTask(plugin);
+				try{
+					new messagedel(plugin, sender, cmd, args[1]).runTask(plugin);
+				}catch(java.lang.NoClassDefFoundError e){
+					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+						if(PermissionsEx.getUser(p).inGroup("Admin")) {
+							p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+							p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+						}
+					}
+				}
+
 				return true;
 			}
 		}else if(args.length == 3){
@@ -146,7 +168,17 @@ public class Where implements CommandExecutor {
 					Method.SendMessage(sender, cmd, "WorldEditの選択範囲を立方体にしてください。");
 					return true;
 				}else{
-					new messagesetdisc(plugin, sender, cmd, location, regionSelector, discription).runTask(plugin);
+					try{
+						new messagesetdisc(plugin, sender, cmd, location, regionSelector, discription).runTask(plugin);
+					}catch(java.lang.NoClassDefFoundError e){
+						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+							if(PermissionsEx.getUser(p).inGroup("Admin")) {
+								p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+								p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+							}
+						}
+					}
+
 					return true;
 				}
 			}

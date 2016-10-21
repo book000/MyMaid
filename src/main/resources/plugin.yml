@@ -246,3 +246,13 @@ commands:
       usage: /<command>
       permission: mymaid.quiz
       permission-message: You do not have permission to perform this command.
+   dc:
+      description: Dynmap Compass
+      usage: /<command>
+      permission: mymaid.dc
+      permission-message: You do not have permission to perform this command.
+   ck:
+      description: ck
+      usage: /<command>
+      permission: mymaid.ck
+      permission-message: You do not have permission to perform this command.

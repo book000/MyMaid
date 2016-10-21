@@ -73,7 +73,16 @@ public class OnJoin implements Listener {
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "こんにちは！" + player.getName() + "さん！jao Minecraft Serverにようこそ！");
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "ルールはご覧になりましたか？もしご覧になられていない場合は以下リンクからご覧ください。");
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "https://jaoafa.xyz/rule");
-		new netaccess(plugin, player).runTaskAsynchronously(plugin);
+		try{
+			new netaccess(plugin, player).runTaskAsynchronously(plugin);
+		}catch(java.lang.NoClassDefFoundError e){
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+				}
+			}
+		}
 	}
 	private class netaccess extends BukkitRunnable{
 		Player player;

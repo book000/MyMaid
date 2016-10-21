@@ -68,7 +68,16 @@ public class OnQuitGame implements Listener {
 		Bukkit.getLogger().info("PlayerIP:"+ip);
 		Bukkit.getLogger().info("PlayerHost:"+host);
 		Bukkit.getLogger().info("------------------------------------------");
-		new netaccess(plugin, player).runTaskAsynchronously(plugin);
+		try{
+			new netaccess(plugin, player).runTaskAsynchronously(plugin);
+		}catch(java.lang.NoClassDefFoundError e){
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+				}
+			}
+		}
   	}
 	private class netaccess extends BukkitRunnable{
 		Player player;

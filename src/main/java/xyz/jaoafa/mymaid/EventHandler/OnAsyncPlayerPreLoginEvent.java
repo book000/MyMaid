@@ -82,8 +82,17 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			}
 			return;
 		}
+		try{
+			new netaccess(plugin, name, uuid, ip, host).runTaskAsynchronously(plugin);
+		}catch(java.lang.NoClassDefFoundError ex){
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + ex.getMessage());
+				}
+			}
+		}
 
-		new netaccess(plugin, name, uuid, ip, host).runTaskAsynchronously(plugin);
 
 		Bukkit.getLogger().info("------------------------------------------");
 		Bukkit.getLogger().info("Player:"+name+" Log in.");

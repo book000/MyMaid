@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -30,6 +31,7 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.regions.CuboidRegionSelector;
 import com.sk89q.worldedit.regions.RegionSelector;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 
 @SuppressWarnings("deprecation")
@@ -67,7 +69,17 @@ public class DedMsg implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "WorldEditの選択範囲を立方体にしてください。");
 			return true;
 		}else{
-			new messageset(plugin, sender, cmd, message, regionSelector).runTask(plugin);
+			try{
+				new messageset(plugin, sender, cmd, message, regionSelector).runTask(plugin);
+			}catch(java.lang.NoClassDefFoundError e){
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(p).inGroup("Admin")) {
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+					}
+				}
+			}
+
 			return true;
 		}
 	}

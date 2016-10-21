@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.CommandBlock;
@@ -75,7 +76,7 @@ public class OnMyMaidCommandblockLogs implements Listener {
     }
     @SuppressWarnings("unchecked")
     void log(final JavaPlugin plugin, final String command, final Player player, final double distance, final int x, final int y, final int z) {
-    	new BukkitRunnable() {
+    	try{new BukkitRunnable() {
     		@Override
     		public void run() {
     			JSONObject obj = new JSONObject();
@@ -123,5 +124,14 @@ public class OnMyMaidCommandblockLogs implements Listener {
                 	}
                 }
     		}.runTaskAsynchronously(plugin);
+		}catch(java.lang.NoClassDefFoundError e){
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+				}
+			}
+		}
+
     }
 }

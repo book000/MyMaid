@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.Prison;
@@ -26,8 +27,16 @@ public class OnVotifierEvent implements Listener {
     public void onVotifierEvent(VotifierEvent event) {
 
         Vote vote = event.getVote();
-        new votifier(plugin, vote).runTaskAsynchronously(plugin);
-
+        try{
+        	new votifier(plugin, vote).runTaskAsynchronously(plugin);
+		}catch(java.lang.NoClassDefFoundError e){
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+				}
+			}
+		}
     }
 
 	private class votifier extends BukkitRunnable{

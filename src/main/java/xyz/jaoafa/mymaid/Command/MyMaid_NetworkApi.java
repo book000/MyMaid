@@ -16,10 +16,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.json.simple.JSONObject;
 
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI.ParseResult;
+import xyz.jaoafa.mymaid.Method;
 
 public class MyMaid_NetworkApi implements CommandExecutor {
 	JavaPlugin plugin;
@@ -34,7 +36,7 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			return true;
 		}
 		*/
-		if(args.length <= 2){
+		if(args.length != 2){
 			sender.sendMessage("args err");
 		}
 		if(args[0].equalsIgnoreCase("server/user")){
@@ -149,7 +151,18 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			obj.put("world", world);
 			sender.sendMessage(obj.toJSONString());
 		}else if(args[0].equalsIgnoreCase("server/blookup")){
-			List<String[]> lookup = CoreProtect.getInstance().getAPI().performLookup(Integer.MAX_VALUE, Arrays.asList(args[1]), null, null, null, null, 0, null);
+			new cp(args[1]).runTaskAsynchronously(plugin);
+		}
+		return true;
+	}
+	private class cp extends BukkitRunnable{
+		String player;
+    	public cp(String player) {
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			List<String[]> lookup = CoreProtect.getInstance().getAPI().performLookup(Integer.MAX_VALUE, Arrays.asList(player), null, null, null, null, 0, null);
 			  if (lookup != null){
 				  String data = "";
 				  int count = 1;
@@ -180,11 +193,10 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			      }
 			      count++;
 			    }
-			    sender.sendMessage(data);
+			    Method.url_jaoplugin("dissend", "t=" + data);
 			  }else{
-				  sender.sendMessage("情報無し");
+				  Method.url_jaoplugin("dissend", "t=情報無し");
 			  }
 		}
-		return true;
 	}
 }

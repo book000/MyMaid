@@ -67,9 +67,9 @@ public class Quiz implements CommandExecutor {
 				return true;
 			}else{
 				Method.SendMessage(sender, cmd, "--- Quiz Help ---");
-				Method.SendMessage(sender, cmd, "/quiz q [Question] [Answer...]: クイズを作成します。");
-				Method.SendMessage(sender, cmd, "/quiz a [QuestionID] [AnswerID]: クイズの回答を発表します。");
-				Method.SendMessage(sender, cmd, "/quiz [QuestionID] [AnswerID]: クイズに答えます。");
+				Method.SendMessage(sender, cmd, "/quiz q <Question> <Answer...>: クイズを作成します。");
+				Method.SendMessage(sender, cmd, "/quiz a <QuestionID> <AnswerID>: クイズの回答を発表します。");
+				Method.SendMessage(sender, cmd, "/quiz <QuestionID> <AnswerID>: クイズに答えます。");
 				return true;
 			}
 		}else if(args.length == 3){
@@ -132,9 +132,9 @@ public class Quiz implements CommandExecutor {
 				return true;
 			}else{
 				Method.SendMessage(sender, cmd, "--- Quiz Help ---");
-				Method.SendMessage(sender, cmd, "/quiz q [Question] [Answer...]: クイズを作成します。");
-				Method.SendMessage(sender, cmd, "/quiz a [QuestionID] [AnswerID]: クイズの回答を発表します。");
-				Method.SendMessage(sender, cmd, "/quiz [QuestionID] [AnswerID]: クイズに答えます。");
+				Method.SendMessage(sender, cmd, "/quiz q <Question> <Answer...>: クイズを作成します。");
+				Method.SendMessage(sender, cmd, "/quiz a <QuestionID> <AnswerID>: クイズの回答を発表します。");
+				Method.SendMessage(sender, cmd, "/quiz <QuestionID> <AnswerID>: クイズに答えます。");
 				return true;
 			}
 		}else if(args.length == 2){
@@ -181,9 +181,9 @@ public class Quiz implements CommandExecutor {
 			return true;
 		}else{
 			Method.SendMessage(sender, cmd, "--- Quiz Help ---");
-			Method.SendMessage(sender, cmd, "/quiz q [Question] [Answer...]: クイズを作成します。");
-			Method.SendMessage(sender, cmd, "/quiz a [QuestionID] [AnswerID]: クイズの回答を発表します。");
-			Method.SendMessage(sender, cmd, "/quiz [QuestionID] [AnswerID]: クイズに答えます。");
+			Method.SendMessage(sender, cmd, "/quiz q <Question> <Answer...>: クイズを作成します。");
+			Method.SendMessage(sender, cmd, "/quiz a <QuestionID> <AnswerID>: クイズの回答を発表します。");
+			Method.SendMessage(sender, cmd, "/quiz <QuestionID> <AnswerID>: クイズに答えます。");
 			return true;
 		}
 	}
