@@ -84,6 +84,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnBlockPlaceEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockRedstoneEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBreak;
 import xyz.jaoafa.mymaid.EventHandler.OnEEWReceiveEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnEntityChangeBlockEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnExplosion;
 import xyz.jaoafa.mymaid.EventHandler.OnFrom;
 import xyz.jaoafa.mymaid.EventHandler.OnHeadClick;
@@ -249,6 +250,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnBlockRedstoneEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnBreak(this), this);
     	getServer().getPluginManager().registerEvents(new OnEEWReceiveEvent(this), this);
+    	getServer().getPluginManager().registerEvents(new OnEntityChangeBlockEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnExplosion(this), this);
     	getServer().getPluginManager().registerEvents(new OnFrom(this), this);
     	getServer().getPluginManager().registerEvents(new OnHeadClick(this), this);
