@@ -2,6 +2,7 @@ package xyz.jaoafa.mymaid.EventHandler;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
@@ -22,6 +23,8 @@ public class OnEntityChangeBlockEvent implements Listener {
 			return;
 		}else if(type == EntityType.VILLAGER){
 			return;
+		}else if(type == EntityType.FALLING_BLOCK){
+			return;
 		}
 		e.setCancelled(true);
 	}
@@ -32,6 +35,9 @@ public class OnEntityChangeBlockEvent implements Listener {
 			return;
 		}
 		if ((entity instanceof Player)) {
+			return;
+		}
+		if ((entity instanceof  FallingBlock)) {
 			return;
 		}
 		e.setCancelled(true);
