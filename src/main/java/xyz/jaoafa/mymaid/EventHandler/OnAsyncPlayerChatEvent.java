@@ -21,6 +21,7 @@ import com.github.ucchyocean.lc.channel.ChannelPlayer;
 
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Command.Color;
 import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Prison;
 
@@ -121,6 +122,9 @@ public class OnAsyncPlayerChatEvent implements Listener {
 				e.setFormat(Msg);
 	  	}else if(Prison.prison.containsKey(e.getPlayer().getName())){
 			Msg = e.getFormat().replaceFirst("%1", ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + "%1");
+			e.setFormat(Msg);
+	  	}else if(Color.color.containsKey(e.getPlayer().getName())){
+			Msg = e.getFormat().replaceFirst("%1", Color.color.get(e.getPlayer().getName()) + "■" + ChatColor.WHITE + "%1");
 			e.setFormat(Msg);
   		}else if(MyMaid.chatcolor.containsKey(e.getPlayer().getName())){
 	  		int i = Integer.parseInt(MyMaid.chatcolor.get(e.getPlayer().getName()));

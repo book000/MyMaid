@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.Pointjao;
 
 public class Sign implements CommandExecutor {
 	JavaPlugin plugin;
@@ -31,6 +32,7 @@ public class Sign implements CommandExecutor {
 			return true;
 		}
 		Player player = (Player) sender;
+
 		org.bukkit.block.Sign sign;
 		try {
 			sign = signlist.get(player.getName());
@@ -56,6 +58,12 @@ public class Sign implements CommandExecutor {
 				Method.SendMessage(sender, cmd, "エラーが発生しました。看板の行番号:1～4を入力してください。");
 				return true;
 			}
+			int use = 10;
+			if(!Pointjao.hasjao(player, use)){
+			 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+			 	 return true;
+			}
+			Pointjao.usejao(player, use);
 
 			String text = "";
 			int c = 2;

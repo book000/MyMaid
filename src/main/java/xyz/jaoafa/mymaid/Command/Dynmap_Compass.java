@@ -23,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.Pointjao;
 
 public class Dynmap_Compass implements CommandExecutor, TabCompleter {
 	JavaPlugin plugin;
@@ -77,6 +78,12 @@ public class Dynmap_Compass implements CommandExecutor, TabCompleter {
 
 						Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
 						loc.add(0.5f,0f,0.5f);
+						int use = 10;
+						if(!Pointjao.hasjao(player, use)){
+						 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+						 	 return true;
+						}
+						Pointjao.usejao(player, use);
 						dcdata.put(player.getName(), location);
 						player.setCompassTarget(loc);
 						Method.SendMessage(sender, cmd, "コンパスの方向をDynmapのマーカー地点「" + location + "」にセットしました。");

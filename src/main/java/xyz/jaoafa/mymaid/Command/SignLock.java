@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.Pointjao;
 
 public class SignLock implements CommandExecutor {
 	JavaPlugin plugin;
@@ -36,6 +37,12 @@ public class SignLock implements CommandExecutor {
 			if(result.equalsIgnoreCase("Err")){
 				Method.SendMessage(sender, cmd, "ロック出来ませんでした。");
 			}else{
+				int use = 15;
+				if(!Pointjao.hasjao(player, use)){
+				 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+				 	 return true;
+				}
+				Pointjao.usejao(player, use);
 				Method.SendMessage(sender, cmd, "ロックしました。");
 			}
 		}else if(args.length == 1){
@@ -44,6 +51,12 @@ public class SignLock implements CommandExecutor {
 				if(result.equalsIgnoreCase("Err")){
 					Method.SendMessage(sender, cmd, "ロック解除出来ませんでした。");
 				}else{
+					int use = 15;
+					if(!Pointjao.hasjao(player, use)){
+					 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+					 	 return true;
+					}
+					Pointjao.usejao(player, use);
 					Method.SendMessage(sender, cmd, "ロック解除しました。");
 				}
 			}else{

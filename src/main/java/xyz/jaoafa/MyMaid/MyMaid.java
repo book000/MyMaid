@@ -2,6 +2,7 @@ package xyz.jaoafa.mymaid;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Ck;
 import xyz.jaoafa.mymaid.Command.Cmdb;
 import xyz.jaoafa.mymaid.Command.Cmdsearch;
+import xyz.jaoafa.mymaid.Command.Color;
 import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Ded;
@@ -43,6 +45,7 @@ import xyz.jaoafa.mymaid.Command.E;
 import xyz.jaoafa.mymaid.Command.Explode;
 import xyz.jaoafa.mymaid.Command.Eye;
 import xyz.jaoafa.mymaid.Command.Gamemode_Change;
+import xyz.jaoafa.mymaid.Command.Gettissue;
 import xyz.jaoafa.mymaid.Command.Guard;
 import xyz.jaoafa.mymaid.Command.Head;
 import xyz.jaoafa.mymaid.Command.Inv;
@@ -51,6 +54,7 @@ import xyz.jaoafa.mymaid.Command.InvLoad;
 import xyz.jaoafa.mymaid.Command.InvSave;
 import xyz.jaoafa.mymaid.Command.Ip_To_Host;
 import xyz.jaoafa.mymaid.Command.Ja;
+import xyz.jaoafa.mymaid.Command.Jao;
 import xyz.jaoafa.mymaid.Command.JaoJao;
 import xyz.jaoafa.mymaid.Command.Jf;
 import xyz.jaoafa.mymaid.Command.Lag;
@@ -118,7 +122,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 	public static Map<String,String> chatcolor = new HashMap<String,String>();
 	public static TitleSender TitleSender;
-	FileConfiguration conf;
+	public static FileConfiguration conf;
 	public static LunaChatAPI lunachatapi;
 	public static LunaChat lunachat;
 	public static int maxplayer;
@@ -156,6 +160,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		conf.set("prison_block",Prison.prison_block);
 		conf.set("prison_lasttext",Prison.jail_lasttext);
 		conf.set("var",Var.var);
+		conf.set("color",Color.color);
+		conf.set("jao",Pointjao.jao);
 		conf.set("maxplayer",maxplayer);
 		conf.set("maxplayertime",maxplayertime);
     	saveConfig();
@@ -181,6 +187,8 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("ck").setExecutor(new Ck(this));
     	getCommand("cmdb").setExecutor(new Cmdb(this));
     	getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
+    	getCommand("color").setExecutor(new Color(this));
+    	getCommand("color").setTabCompleter(new Color(this));
     	getCommand("data").setExecutor(new Data(this));
     	getCommand("ded").setExecutor(new Ded(this));
     	getCommand("dedmsg").setExecutor(new DedMsg(this));
@@ -194,6 +202,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("explode").setExecutor(new Explode(this));
     	getCommand("eye").setExecutor(new Eye(this));
     	getCommand("g").setExecutor(new Gamemode_Change(this));
+    	getCommand("gettissue").setExecutor(new Gettissue(this));
     	getCommand("guard").setExecutor(new Guard(this));
     	getCommand("head").setExecutor(new Head(this));
     	getCommand("inv").setExecutor(new Inv(this));
@@ -202,6 +211,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("invender").setExecutor(new InvEnder(this));
     	getCommand("iphost").setExecutor(new Ip_To_Host(this));
     	getCommand("ja").setExecutor(new Ja(this));
+    	getCommand("jao").setExecutor(new Jao(this));
     	getCommand("j2").setExecutor(new JaoJao(this));
     	getCommand("jf").setExecutor(new Jf(this));
     	getCommand("lag").setExecutor(new Lag(this));
@@ -329,6 +339,69 @@ public class MyMaid extends JavaPlugin implements Listener {
  			Var.var = new HashMap<String, String>();
  			conf.set("var",Var.var);
  		}
+		if(conf.contains("jao")){
+			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
+			Map<String, Object> jao = conf.getConfigurationSection("jao").getValues(true);
+			if(jao.size() != 0){
+				for(Entry<String, Object> p: jao.entrySet()){
+					Pointjao.jao.put(p.getKey(), (Integer) p.getValue());
+				}
+			}
+ 		}else{
+ 			Pointjao.jao = new HashMap<String, Integer>();
+ 			conf.set("jao",Pointjao.jao);
+ 		}
+		if(conf.contains("color")){
+			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
+			Map<String, Object> color = conf.getConfigurationSection("color").getValues(true);
+			if(color.size() != 0){
+				for(Entry<String, Object> p: color.entrySet()){
+					String colorstring = (String) p.getValue();
+					if(!colorstring.equalsIgnoreCase("null")){
+						ChatColor chatcolor;
+						if(colorstring.equalsIgnoreCase("AQUA")){
+							chatcolor = ChatColor.AQUA;
+						}else if(colorstring.equalsIgnoreCase("BLACK")){
+							chatcolor = ChatColor.BLACK;
+						}else if(colorstring.equalsIgnoreCase("BLUE")){
+							chatcolor = ChatColor.BLUE;
+						}else if(colorstring.equalsIgnoreCase("DARK_AQUA")){
+							chatcolor = ChatColor.DARK_AQUA;
+						}else if(colorstring.equalsIgnoreCase("DARK_BLUE")){
+							chatcolor = ChatColor.DARK_BLUE;
+						}else if(colorstring.equalsIgnoreCase("DARK_GRAY")){
+							chatcolor = ChatColor.DARK_GRAY;
+						}else if(colorstring.equalsIgnoreCase("DARK_GREEN")){
+							chatcolor = ChatColor.DARK_GREEN;
+						}else if(colorstring.equalsIgnoreCase("DARK_PURPLE")){
+							chatcolor = ChatColor.DARK_PURPLE;
+						}else if(colorstring.equalsIgnoreCase("DARK_RED")){
+							chatcolor = ChatColor.DARK_RED;
+						}else if(colorstring.equalsIgnoreCase("GOLD")){
+							chatcolor = ChatColor.GOLD;
+						}else if(colorstring.equalsIgnoreCase("GREEN")){
+							chatcolor = ChatColor.GREEN;
+						}else if(colorstring.equalsIgnoreCase("LIGHT_PURPLE")){
+							chatcolor = ChatColor.LIGHT_PURPLE;
+						}else if(colorstring.equalsIgnoreCase("RED")){
+							chatcolor = ChatColor.RED;
+						}else if(colorstring.equalsIgnoreCase("WHITE")){
+							chatcolor = ChatColor.WHITE;
+						}else if(colorstring.equalsIgnoreCase("YELLOW")){
+							chatcolor = ChatColor.YELLOW;
+						}else if(colorstring.equalsIgnoreCase("GRAY")){
+							chatcolor = ChatColor.GRAY;
+						}else{
+							chatcolor = null;
+						}
+						Color.color.put(p.getKey(), chatcolor);
+					}
+				}
+			}
+ 		}else{
+ 			Color.color = new HashMap<String, ChatColor>();
+ 			conf.set("color",Color.color);
+ 		}
 		if(conf.contains("maxplayer")){
 			maxplayer = conf.getInt("maxplayer");
  		}else{
@@ -350,9 +423,14 @@ public class MyMaid extends JavaPlugin implements Listener {
 				{
 					w.save();
 				}
+
+				List<String> list = getConfig().getStringList("messages");
+				Collections.shuffle(list);
+				String message = list.get(0);
 				String date = new SimpleDateFormat("HH:mm:ss").format(new Date());
 				for(Player play: Bukkit.getServer().getOnlinePlayers()) {
-					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": あなたのユーザーページはこちらです。https://jaoafa.xyz/user/" + play.getName());
+					String msg = message.replaceAll("%player%", play.getName());
+					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + msg);
 				}
 				//Bukkit.broadcastMessage("今流行りのピリオド連投対決はコマンド「/.」を使用することで楽しめます！詳しくは https://jaoafa.xyz/blog/tomachi/period_match で！");
 

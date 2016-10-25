@@ -16,6 +16,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Pointjao;
+import xyz.jaoafa.mymaid.Command.Color;
 import xyz.jaoafa.mymaid.Command.Prison;
 
 public class OnPlayerJoinEvent implements Listener {
@@ -33,6 +35,11 @@ public class OnPlayerJoinEvent implements Listener {
   		String[] arr = data.split("###", 0);
   		String result = arr[0];
   		MyMaid.chatcolor.put(event.getPlayer().getName(), arr[1]);
+  		if(Integer.parseInt(arr[1]) < 200){
+  			if(Color.color.containsKey(event.getPlayer().getName())){
+  				Color.color.remove(event.getPlayer().getName());
+  			}
+  		}
   		if(!result.equalsIgnoreCase("null")){
   			event.setJoinMessage(ChatColor.YELLOW + event.getPlayer().getName() + ChatColor.YELLOW + ", " + ChatColor.YELLOW +result+" joined the game.");
   		}
@@ -44,6 +51,9 @@ public class OnPlayerJoinEvent implements Listener {
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 現在『" + Bukkit.getServer().getOnlinePlayers().size() + "人』がログインしています。");
 		if((MyMaid.maxplayer+1) == Bukkit.getServer().getOnlinePlayers().size()){
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 最高ログイン人数を突破しました！おめでとうございます！前回のログイン人数突破は「" + MyMaid.maxplayertime + "」でした！");
+			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+				Pointjao.addjao(player, 30);
+			}
 			SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			MyMaid.maxplayer = Bukkit.getServer().getOnlinePlayers().size();
 			MyMaid.maxplayertime = date.format(Date);
@@ -74,6 +84,8 @@ public class OnPlayerJoinEvent implements Listener {
 				player.setPlayerListName(ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
 			}else if(Prison.prison.containsKey(player.getName())){
 				player.setPlayerListName(ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + player.getName());
+			}else if(Color.color.containsKey(player.getName())){
+				player.setPlayerListName(Color.color.get(player.getName()) + "■" + ChatColor.WHITE + player.getName());
 			}else if(MyMaid.chatcolor.containsKey(player.getName())){
 				int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));
 				if(i >= 0 && i <= 5){

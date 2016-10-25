@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.Pointjao;
 
 public class DOT implements CommandExecutor {
 	JavaPlugin plugin;
@@ -77,6 +78,14 @@ public class DOT implements CommandExecutor {
 				}
 			}
 		}
+
+		int use = 5;
+		if(!Pointjao.hasjao(player, use)){
+		 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+		 	 return true;
+		}
+		Pointjao.usejao(player, use);
+
 		Method.SendMessage(sender, cmd, "ピリオド対決を開始します。次に「.」を打った瞬間から" + section + "秒間計測します。");
 		Method.SendMessage(sender, cmd, "正確にピリオド判定を行うため、かなローマ字変換をオフにして(/jp off)ご利用ください。");
 		if(sectionout){

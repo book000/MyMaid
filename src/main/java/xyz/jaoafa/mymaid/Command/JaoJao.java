@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Pointjao;
 
 public class JaoJao implements CommandExecutor {
 	JavaPlugin plugin;
@@ -31,12 +32,22 @@ public class JaoJao implements CommandExecutor {
 			return true;
 		}
 		Player player = (Player) sender;
+
+		int use = 1;
+		if(!Pointjao.hasjao(player, use)){
+		 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+		 	 return true;
+		}
+		Pointjao.usejao(player, use);
+
 		String Msg = "";
 		if(player.hasPermission("mymaid.pex.limited")){
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
 
 		}else if(Prison.prison.containsKey(player.getName())){
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + player.getName());
+		}else if(Color.color.containsKey(player.getName())){
+			Msg = player.getName().replaceFirst(player.getName(), Color.color.get(player.getName()) + "■" + ChatColor.WHITE + player.getName());
 		}else if(MyMaid.chatcolor.containsKey(player.getName())){
 			int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));
 			if(i >= 0 && i <= 5){

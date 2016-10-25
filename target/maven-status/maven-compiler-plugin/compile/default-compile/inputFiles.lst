@@ -5,6 +5,8 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Var.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Data.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnJoin.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\MyMaid.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Jao.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gettissue.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnSignClick.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Vote.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBreak.java
@@ -20,8 +22,8 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\RuleLoad.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SignLock.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SSK.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerJoinEvent.java
-N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Prison.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockRedstoneEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Prison.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Explode.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\DefaultCheck.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynmap_Teleporter.java
@@ -58,6 +60,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Head.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\ArrowShotter.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Guard.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynamic.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Color.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Jf.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedMsg.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Sign.java
@@ -76,6 +79,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatE
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DOT.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Chat.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Where.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Pointjao.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Inv.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerGameModeChangeEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Pexup.java

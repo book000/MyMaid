@@ -256,3 +256,18 @@ commands:
       usage: /<command>
       permission: mymaid.ck
       permission-message: You do not have permission to perform this command.
+   color:
+      description: SKK Color Change
+      usage: /<command>
+      permission: mymaid.color
+      permission-message: You do not have permission to perform this command.
+   gettissue:
+      description: Get TissueMan
+      usage: /<command>
+      permission: mymaid.gettissue
+      permission-message: You do not have permission to perform this command.
+   jao:
+      description: jao Point Check
+      usage: /<command>
+      permission: mymaid.jao
+      permission-message: You do not have permission to perform this command.

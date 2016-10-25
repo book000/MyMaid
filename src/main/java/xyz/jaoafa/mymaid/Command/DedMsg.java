@@ -33,6 +33,7 @@ import com.sk89q.worldedit.regions.RegionSelector;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.Pointjao;
 
 @SuppressWarnings("deprecation")
 public class DedMsg implements CommandExecutor {
@@ -70,6 +71,11 @@ public class DedMsg implements CommandExecutor {
 			return true;
 		}else{
 			try{
+				int use = 20;
+				if(!Pointjao.hasjao(player, use)){
+				 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+				 	 return true;
+				}
 				new messageset(plugin, sender, cmd, message, regionSelector).runTask(plugin);
 			}catch(java.lang.NoClassDefFoundError e){
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
@@ -196,6 +202,11 @@ public class DedMsg implements CommandExecutor {
 		    	System.out.println(e);
 				return;
 		    }
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				int use = 20;
+				Pointjao.usejao(player, use);
+			}
 			Method.SendMessage(sender, cmd, "設定しました。");
 			return;
 		}

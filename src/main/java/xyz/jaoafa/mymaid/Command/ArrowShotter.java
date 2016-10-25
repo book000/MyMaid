@@ -20,6 +20,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.Pointjao;
 
 public class ArrowShotter implements CommandExecutor {
 	JavaPlugin plugin;
@@ -71,6 +72,13 @@ public class ArrowShotter implements CommandExecutor {
 
 			// 矢の発射回数（本数ではない）は（1+レベル÷20回）×36回
 			amount=(1 + level / 20) * 36;
+
+			int use = 20;
+			if(!Pointjao.hasjao(player, use)){
+			 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+			 	 return true;
+			}
+			Pointjao.usejao(player, use);
 
 			Method.SendMessage(sender, cmd, "ArrowShotterを起動しました。");
 			now = true;

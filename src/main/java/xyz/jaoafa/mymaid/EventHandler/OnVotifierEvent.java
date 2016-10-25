@@ -16,6 +16,7 @@ import com.vexsoftware.votifier.model.VotifierEvent;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Pointjao;
 import xyz.jaoafa.mymaid.Command.Prison;
 
 public class OnVotifierEvent implements Listener {
@@ -61,6 +62,7 @@ public class OnVotifierEvent implements Listener {
 
 	        	UUID uuid = player.getUniqueId();
 	        	i = Method.url_jaoplugin("vote", "p="+name+"&u="+uuid);
+	        	Pointjao.addjao(player, 20);
 	        	if(player.hasPermission("mymaid.pex.limited")){
 					player.setPlayerListName(ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
 				}else if(Prison.prison.containsKey(player.getName())){

@@ -2,17 +2,17 @@ package xyz.jaoafa.mymaid.Command;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.Pointjao;
 
 public class Quiz implements CommandExecutor {
 	JavaPlugin plugin;
@@ -56,6 +56,15 @@ public class Quiz implements CommandExecutor {
 						break;
 					}
 				}
+				if (sender instanceof Player) {
+					Player player = (Player) sender;
+					int use = 20;
+					if(!Pointjao.hasjao(player, use)){
+					 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+					 	 return true;
+					}
+					Pointjao.usejao(player, use);
+				}
 
 				quiz.put(qid, data);
 				answer.put(qid, answers);
@@ -75,6 +84,7 @@ public class Quiz implements CommandExecutor {
 		}else if(args.length == 3){
 			if(args[0].equalsIgnoreCase("a")){
 				// Answer
+				/*
 				String regex = "^[0-9][0-9][0-9][0-9][0-9]$"; //正規表現
 				Pattern p = Pattern.compile(regex);
 				Matcher m = p.matcher(args[1]);
@@ -82,6 +92,7 @@ public class Quiz implements CommandExecutor {
 					sender.sendMessage("[QUIZ] " + ChatColor.GREEN + "クイズID(5桁の半角数字)を入力してください。");
 					return true;
 				}
+				*/
 				int qid;
 				int aid;
 				try{
@@ -138,6 +149,7 @@ public class Quiz implements CommandExecutor {
 				return true;
 			}
 		}else if(args.length == 2){
+			/*
 			String regex = "^[0-9][0-9][0-9][0-9][0-9]$"; //正規表現
 			Pattern p = Pattern.compile(regex);
 			Matcher m = p.matcher(args[0]);
@@ -145,6 +157,7 @@ public class Quiz implements CommandExecutor {
 				sender.sendMessage("[QUIZ] " + ChatColor.GREEN + "クイズID(5桁の半角数字)を入力してください。");
 				return true;
 			}
+			*/
 			int qid;
 			int aid;
 			try{

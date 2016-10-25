@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Pointjao;
 
 
 public class Unko implements CommandExecutor {
@@ -132,6 +133,13 @@ public class Unko implements CommandExecutor {
 		chattext.add("サーセンシャープ");
 		int ran = rnd.nextInt(chattext.size());
 		String text = chattext.get(ran-1) + "[No." + ran + "]";
+
+		int use = 15;
+		if(!Pointjao.hasjao(player, use)){
+		 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+		 	 return true;
+		}
+		Pointjao.usejao(player, use);
 
 		String Msg = "";
 		if(player.hasPermission("mymaid.pex.limited")){
