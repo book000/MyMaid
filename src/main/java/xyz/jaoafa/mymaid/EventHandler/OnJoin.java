@@ -38,7 +38,6 @@ public class OnJoin implements Listener {
 		}else{
 			return;
 		}
-
 		String data = Method.url_access("http://nubesco.jaoafa.xyz/plugin/access.php?i="+ip);
 		if(data.equalsIgnoreCase("NO")){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {

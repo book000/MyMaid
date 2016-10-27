@@ -20,7 +20,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
-import xyz.jaoafa.mymaid.Pointjao;
 
 public class OnAsyncPlayerPreLoginEvent implements Listener {
 	JavaPlugin plugin;
@@ -82,11 +81,6 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 				}
 			}
 			return;
-		}else if(arr[0].equalsIgnoreCase("success")){
-			if(arr[1].equalsIgnoreCase("YES")){
-				Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + name + "は本日初ログインです。");
-				Pointjao.addjao(""+uuid, 10);
-			}
 		}
 		try{
 			new netaccess(plugin, name, uuid, ip, host).runTaskAsynchronously(plugin);

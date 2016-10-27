@@ -40,11 +40,17 @@ public class OnPlayerJoinEvent implements Listener {
   				Color.color.remove(event.getPlayer().getName());
   			}
   		}
+
   		if(!result.equalsIgnoreCase("null")){
   			event.setJoinMessage(ChatColor.YELLOW + event.getPlayer().getName() + ChatColor.YELLOW + ", " + ChatColor.YELLOW +result+" joined the game.");
   		}
   		if(event.getPlayer().hasPermission("mymaid.pex.limited")){
   			event.setJoinMessage(ChatColor.RED + event.getPlayer().getName() + ChatColor.YELLOW + " joined the game.");
+		}
+  		String point = Method.url_jaoplugin("point", "u=" + event.getPlayer().getUniqueId());
+		if(point.equalsIgnoreCase("YES")){
+			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + event.getPlayer().getName() + "は本日初ログインです。");
+			Pointjao.addjao(event.getPlayer(), 10);
 		}
   		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");

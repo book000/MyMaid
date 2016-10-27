@@ -52,6 +52,8 @@ public class OnVotifierEvent implements Listener {
 	        String i;
 	        if (Bukkit.getPlayer(vote.getUsername()) == null) {
 	        	i = Method.url_jaoplugin("vote", "p="+name);
+	        	String uuid = Method.url_jaoplugin("point", "p="+name);
+	        	Pointjao.addjao("" + uuid, 20);
 	        } else {
 	        	Player player;
 	        	if (Bukkit.getPlayer(name) == null) {

@@ -160,7 +160,48 @@ public class MyMaid extends JavaPlugin implements Listener {
 		conf.set("prison_block",Prison.prison_block);
 		conf.set("prison_lasttext",Prison.jail_lasttext);
 		conf.set("var",Var.var);
-		conf.set("color",Color.color);
+		Map<String,String> colorstr = new HashMap<String,String>();
+		for(Entry<String, ChatColor> p: Color.color.entrySet()){
+			ChatColor color = p.getValue();
+			String chatcolor;
+			if(color.equals(ChatColor.AQUA)){
+				chatcolor = "AQUA";
+			}else if(color.equals(ChatColor.BLACK)){
+				chatcolor = "BLACK";
+			}else if(color.equals(ChatColor.BLUE)){
+				chatcolor = "BLUE";
+			}else if(color.equals(ChatColor.DARK_AQUA)){
+				chatcolor = "DARK_AQUA";
+			}else if(color.equals(ChatColor.DARK_BLUE)){
+				chatcolor = "DARK_BLUE";
+			}else if(color.equals(ChatColor.DARK_GRAY)){
+				chatcolor = "DARK_GRAY";
+			}else if(color.equals(ChatColor.DARK_GREEN)){
+				chatcolor = "DARK_GREEN";
+			}else if(color.equals(ChatColor.DARK_PURPLE)){
+				chatcolor = "DARK_PURPLE";
+			}else if(color.equals(ChatColor.DARK_RED)){
+				chatcolor = "DARK_RED";
+			}else if(color.equals(ChatColor.GOLD)){
+				chatcolor = "GOLD";
+			}else if(color.equals(ChatColor.GREEN)){
+				chatcolor = "GREEN";
+			}else if(color.equals(ChatColor.LIGHT_PURPLE)){
+				chatcolor = "LIGHT_PURPLE";
+			}else if(color.equals(ChatColor.RED)){
+				chatcolor = "RED";
+			}else if(color.equals(ChatColor.WHITE)){
+				chatcolor = "WHITE";
+			}else if(color.equals(ChatColor.YELLOW)){
+				chatcolor = "YELLOW";
+			}else if(color.equals(ChatColor.GRAY)){
+				chatcolor = "GRAY";
+			}else{
+				chatcolor = null;
+			}
+			colorstr.put(p.getKey(), chatcolor);
+		}
+		conf.set("color", colorstr);
 		conf.set("jao",Pointjao.jao);
 		conf.set("maxplayer",maxplayer);
 		conf.set("maxplayertime",maxplayertime);
