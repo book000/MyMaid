@@ -4,7 +4,7 @@
 [![Author](https://img.shields.io/badge/Author%20MinecraftID-mine__book000-orange.svg)](https://img.shields.io)
 [![License](https://img.shields.io/badge/license-None-yellow.svg)](https://img.shields.io)  
 [jaoafaServer](https://jaoafa.xyz/)  
-ここでは、MyMaidプラグインのソースコードを公開していますが、Jao鯖専用プラグインにつき無断使用を禁止します。
+ここでは、MyMaidプラグインのソースコードを公開していますが、jao鯖専用プラグインにつき無断使用を禁止します。
 
 ## 簡単な注意事項及び説明
 このプラグインはあくまでも、jao Minecraft Serverのためだけに作られているものであり、いかなる理由であっても、作成者の許可を取らずに勝手に使用をする行為は全て禁止いたします。  
