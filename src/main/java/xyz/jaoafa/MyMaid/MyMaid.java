@@ -19,6 +19,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -32,12 +34,14 @@ import xyz.jaoafa.mymaid.Command.ArrowShotter;
 import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Ck;
 import xyz.jaoafa.mymaid.Command.Cmdb;
+import xyz.jaoafa.mymaid.Command.Cmdmymaid;
 import xyz.jaoafa.mymaid.Command.Cmdsearch;
 import xyz.jaoafa.mymaid.Command.Color;
 import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Ded;
 import xyz.jaoafa.mymaid.Command.DedMsg;
+import xyz.jaoafa.mymaid.Command.Discordsend;
 import xyz.jaoafa.mymaid.Command.Dynamic;
 import xyz.jaoafa.mymaid.Command.Dynmap_Compass;
 import xyz.jaoafa.mymaid.Command.Dynmap_Teleporter;
@@ -145,14 +149,13 @@ public class MyMaid extends JavaPlugin implements Listener {
     	Import_Task();
     	Import_Command_Executor();
     	Load_Config();
+    	Add_Recipe();
     	getLogger().info("--------------------------------------------------");
 
 		TitleSender = new TitleSender();
 
 		lunachat = (LunaChat)getServer().getPluginManager().getPlugin("LunaChat");
 	    lunachatapi = lunachat.getLunaChatAPI();
-
-
     }
     @Override
     public void onDisable() {
@@ -227,12 +230,14 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("chat").setExecutor(new Chat(this));
     	getCommand("ck").setExecutor(new Ck(this));
     	getCommand("cmdb").setExecutor(new Cmdb(this));
+    	getCommand("mymaid").setExecutor(new Cmdmymaid(this));
     	getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
     	getCommand("color").setExecutor(new Color(this));
     	getCommand("color").setTabCompleter(new Color(this));
     	getCommand("data").setExecutor(new Data(this));
     	getCommand("ded").setExecutor(new Ded(this));
     	getCommand("dedmsg").setExecutor(new DedMsg(this));
+    	getCommand("discordsend").setExecutor(new Discordsend(this));
     	getCommand(".").setExecutor(new DOT(this));
     	getCommand("dynamic").setExecutor(new Dynamic(this));
     	getCommand("dc").setExecutor(new Dynmap_Compass(this));
@@ -454,6 +459,127 @@ public class MyMaid extends JavaPlugin implements Listener {
  			maxplayertime = "無し";
  		}
     }
+	private void Add_Recipe(){
+		/* Ekusas83を以下の工程で作るの図
+		 *
+		 * [腐った肉] [ソウルサンド] [腐った肉]
+		 * [ガストの涙] [エンドポータル] [ガストの涙]
+		 * [腐った肉] [ソウルサンド] [腐った肉]
+		 */
+		ItemStack Ekusas83 = new ItemStack(Material.SKULL_ITEM);
+		SkullMeta skullMeta_Ekusas83 = (SkullMeta) Ekusas83.getItemMeta();
+		Ekusas83.setDurability((short) 3);
+		skullMeta_Ekusas83.setDisplayName("Ekusas83");
+		skullMeta_Ekusas83.setOwner("Ekusas83");
+		Ekusas83.setItemMeta(skullMeta_Ekusas83);
+		ShapedRecipe Ekusas83_sr = new ShapedRecipe(Ekusas83);
+
+		Ekusas83_sr.shape("*+*","$%$","*+*");
+
+		Ekusas83_sr.setIngredient('*', Material.ROTTEN_FLESH);
+		Ekusas83_sr.setIngredient('+', Material.SOUL_SAND);
+		Ekusas83_sr.setIngredient('$', Material.GHAST_TEAR);
+		Ekusas83_sr.setIngredient('%', Material.ENDER_PORTAL_FRAME);
+		Ekusas83_sr.setIngredient('%', Material.ENDER_PORTAL_FRAME);
+
+		getServer().addRecipe(Ekusas83_sr);
+
+		// -------------------------------------------- //
+		/* X4Zを以下の工程で作るの図
+		 *
+		 * [Ekusas83] [砂利] [Ekusas83]
+		 * [砂利] [レッドストーンブロック] [砂利]
+		 * [Ekusas83] [砂利] [Ekusas83]
+		 */
+		ItemStack X4Z = new ItemStack(Material.SKULL_ITEM);
+		SkullMeta skullMeta_X4Z = (SkullMeta) X4Z.getItemMeta();
+		X4Z.setDurability((short) 3);
+		skullMeta_X4Z.setDisplayName("X4Z");
+		skullMeta_X4Z.setOwner("X4Z");
+		X4Z.setItemMeta(skullMeta_X4Z);
+		ShapedRecipe X4Z_sr = new ShapedRecipe(X4Z);
+
+		X4Z_sr.shape("*+*","+$+","*+*");
+
+		X4Z_sr.setIngredient('*', Ekusas83.getData());
+		X4Z_sr.setIngredient('+', Material.GRAVEL);
+		X4Z_sr.setIngredient('$', Material.REDSTONE_BLOCK);
+
+		getServer().addRecipe(X4Z_sr);
+		// -------------------------------------------- //
+		/* X5Zを以下の工程で作るの図
+		 *
+		 * [水バケツ] [X4Z] [火打ち石]
+		 * [火薬] [ラピスラズリブロック] [火薬]
+		 * [TNT] [Ekusas83] [溶岩バケツ]
+		 */
+		ItemStack X5Z = new ItemStack(Material.SKULL_ITEM);
+		SkullMeta skullMeta_X5Z = (SkullMeta) X5Z.getItemMeta();
+		X5Z.setDurability((short) 3);
+		skullMeta_X5Z.setDisplayName("X5Z");
+		skullMeta_X5Z.setOwner("X5Z");
+		X5Z.setItemMeta(skullMeta_X5Z);
+		ShapedRecipe X5Z_sr = new ShapedRecipe(X5Z);
+
+		X5Z_sr.shape("WZF","SRS","TEL");
+
+		X5Z_sr.setIngredient('W', Material.WATER_BUCKET);
+		X5Z_sr.setIngredient('Z', X4Z.getData());
+		X5Z_sr.setIngredient('F', Material.FLINT_AND_STEEL);
+		X5Z_sr.setIngredient('S', Material.SULPHUR);
+		X5Z_sr.setIngredient('R', Material.LAPIS_BLOCK);
+		X5Z_sr.setIngredient('F', Material.FLINT_AND_STEEL);
+		X5Z_sr.setIngredient('T', Material.TNT);
+		X5Z_sr.setIngredient('E', Ekusas83.getData());
+		X5Z_sr.setIngredient('L', Material.LAVA_BUCKET);
+
+		getServer().addRecipe(X5Z_sr);
+		// -------------------------------------------- //
+		/* X6Zを以下の工程で作るの図
+		 *
+		 * [AIR] [AIR] [AIR]
+		 * [X5Z] [スライムボール] [Ekusas83]
+		 * [AIR] [AIR] [AIR]
+		 */
+		ItemStack X6Z = new ItemStack(Material.SKULL_ITEM);
+		SkullMeta skullMeta_X6Z = (SkullMeta) X6Z.getItemMeta();
+		X6Z.setDurability((short) 3);
+		skullMeta_X6Z.setDisplayName("X6Z");
+		skullMeta_X6Z.setOwner("X6Z");
+		X6Z.setItemMeta(skullMeta_X6Z);
+		ShapedRecipe X6Z_sr = new ShapedRecipe(X6Z);
+
+		X6Z_sr.shape("+*$");
+
+		X6Z_sr.setIngredient('+', X5Z.getData());
+		X6Z_sr.setIngredient('*', Material.SLIME_BALL);
+		X6Z_sr.setIngredient('$', Ekusas83.getData());
+
+		getServer().addRecipe(X6Z_sr);
+		// -------------------------------------------- //
+		/* X8Zを以下の工程で作るの図
+		 *
+		 * [AIR] [AIR] [AIR]
+		 * [X4Z] [スライムボール] [X4Z]
+		 * [AIR] [AIR] [AIR]
+		 */
+		ItemStack X8Z = new ItemStack(Material.SKULL_ITEM);
+		SkullMeta skullMeta_X8Z = (SkullMeta) X8Z.getItemMeta();
+		X8Z.setDurability((short) 3);
+		skullMeta_X8Z.setDisplayName("X8Z");
+		skullMeta_X8Z.setOwner("X8Z");
+		X8Z.setItemMeta(skullMeta_X8Z);
+		ShapedRecipe X8Z_sr = new ShapedRecipe(X8Z);
+
+		X8Z_sr.shape("+*+");
+
+		X8Z_sr.setIngredient('+', X4Z.getData());
+		X8Z_sr.setIngredient('*', Material.SLIME_BALL);
+
+		getServer().addRecipe(X8Z_sr);
+		// -------------------------------------------- //
+    }
+
 
     private class World_saver extends BukkitRunnable{
 		@Override

@@ -68,6 +68,8 @@ public class OnMyMaidCommandblockLogs implements Listener {
 					return;
 				}else if(cmdb.getCommand().startsWith("testforblocks")){
 					return;
+				}else if(cmdb.getCommand().equals("")){
+					return;
 				}
 
 				log(plugin, cmdb.getCommand(), min_player, min, cmdb.getX(), cmdb.getY(), cmdb.getZ());

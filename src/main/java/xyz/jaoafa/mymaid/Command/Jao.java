@@ -21,6 +21,17 @@ public class Jao implements CommandExecutor {
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
+		if(args.length == 1){
+			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+				if(player.getName().equalsIgnoreCase(args[0])){
+					int now = Pointjao.getjao(player);
+					Method.SendMessage(sender, cmd, "現在" + player.getName() + "が所持しているポイント数は" + now + "ポイントです。");
+					return true;
+				}
+			}
+			Method.SendMessage(sender, cmd, "プレイヤーが見つかりません。");
+			return true;
+		}
 		Player player = (Player) sender;
 		int now = Pointjao.getjao(player);
 		Method.SendMessage(sender, cmd, "現在あなたが所持しているポイント数は" + now + "ポイントです。");

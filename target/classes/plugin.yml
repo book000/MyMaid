@@ -271,3 +271,13 @@ commands:
       usage: /<command>
       permission: mymaid.jao
       permission-message: You do not have permission to perform this command.
+   mymaid:
+      description: MyMaid Config
+      usage: /<command>
+      permission: mymaid.mymaid
+      permission-message: You do not have permission to perform this command.
+   discordsend:
+      description: discordsend
+      usage: /<command>
+      permission: mymaid.discordsend
+      permission-message: You do not have permission to perform this command.

@@ -7,9 +7,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
 
-public class Report implements CommandExecutor {
+public class Discordsend implements CommandExecutor {
 	JavaPlugin plugin;
-	public Report(JavaPlugin plugin) {
+	public Discordsend(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
 	String old = "";
@@ -29,7 +29,7 @@ public class Report implements CommandExecutor {
 				Method.SendMessage(sender, cmd, "前回通報された内容と同じです。");
 				return true;
 			}
-			Method.url_jaoplugin("report", "p="+name+"&t="+text);
+			Method.url_jaoplugin("disreport", "p="+name+"&t="+text);
 			Method.SendMessage(sender, cmd, "送信しました。");
 			old = text;
 			return true;
