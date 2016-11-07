@@ -1,18 +1,28 @@
 package xyz.jaoafa.mymaid;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.util.TimeZone;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class Method {
 	JavaPlugin plugin;
@@ -45,6 +55,125 @@ public class Method {
 			System.out.println("[MyMaid] URLConnect Err:"+address);
 			return "";
 		}
+	}
+	public static String url_access_post(String address, String text){
+		System.out.println("[MyMaid] URLConnect Start:"+address);
+
+		final String TWO_HYPHEN = "--";
+	    final String EOL = "\r\n";
+	    final String BOURDARY = String.format("%x", new Random().hashCode());
+	    final String CHARSET = "UTF-8";
+
+		// 送信するコンテンツを成形する
+        StringBuilder contentsBuilder = new StringBuilder();
+        int iContentsLength = 0;
+
+        contentsBuilder.append(String.format("%s%s%s", TWO_HYPHEN, BOURDARY, EOL));
+        contentsBuilder.append(String.format("Content-Disposition: form-data; name=\"text\"%s", EOL));
+        contentsBuilder.append(EOL);
+        contentsBuilder.append(text);
+        contentsBuilder.append(EOL);
+
+        // コンテンツの長さを取得
+        try {
+            // StringBuilderを文字列に変化してからバイト長を取得しないと
+            // 実際送ったサイズと異なる場合があり、コンテンツを正しく送信できなくなる
+            iContentsLength = contentsBuilder.toString().getBytes(CHARSET).length;
+            Bukkit.broadcastMessage(""+iContentsLength);
+        } catch (UnsupportedEncodingException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+     // サーバへ接続する
+        HttpURLConnection connection = null;
+        DataOutputStream os = null;
+        BufferedReader br = null;
+        String result = "";
+        try {
+            URL url = new URL(address);
+
+            connection = (HttpURLConnection)url.openConnection();
+
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+
+            // キャッシュを使用しない
+            connection.setUseCaches(false);
+
+            // HTTPストリーミングを有効にする
+            connection.setChunkedStreamingMode(0);
+
+            // リクエストヘッダを設定する
+            // リクエストメソッドの設定
+            connection.setRequestMethod("POST");
+
+            // 持続接続を設定
+            connection.setRequestProperty("Connection", "Keep-Alive");
+
+            // ユーザエージェントの設定（必須ではない）
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (jaoafa.xyz)");
+
+            // POSTデータの形式を設定
+            connection.setRequestProperty("Content-Type", String.format("text/plain; boundary=%s", BOURDARY));
+            // POSTデータの長さを設定
+            connection.setRequestProperty("Content-Length", String.valueOf(iContentsLength));
+
+
+            // データを送信する
+            os = new DataOutputStream(connection.getOutputStream());
+            os.writeBytes(contentsBuilder.toString());
+
+
+            // レスポンスを受信する
+            int iResponseCode = connection.getResponseCode();
+
+            // 接続が確立したとき
+            if (iResponseCode == HttpURLConnection.HTTP_OK) {
+                StringBuilder resultBuilder = new StringBuilder();
+                String line = "";
+
+                br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                // レスポンスの読み込み
+                while ((line = br.readLine()) != null) {
+                    resultBuilder.append(String.format("%s%s", line, EOL));
+                }
+                result = resultBuilder.toString();
+            }
+            // 接続が確立できなかったとき
+            else {
+                result = String.valueOf(iResponseCode);
+            }
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.out.println("[MyMaid] URLConnect Err:"+address);
+			return "";
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.out.println("[MyMaid] URLConnect Err:"+address);
+			return "";
+        } finally {
+            // 開いたら閉じる
+            try {
+                if (br != null) br.close();
+                if (os != null) {
+                    os.flush();
+                    os.close();
+                }
+                if (connection != null) connection.disconnect();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                System.out.println("[MyMaid] URLConnect Err:"+address);
+    			return "";
+            }
+        }
+        System.out.println("[MyMaid] URLConnect End:"+address);
+		System.out.println(result);
+		return result;
 	}
 	//InputStreamより１行だけ読む（読めなければnullを返す）
 	static String readString(InputStream in){
@@ -93,4 +222,11 @@ public class Method {
 	public static void SendMessage(CommandSender sender, Command cmd, String text) {
 		sender.sendMessage("[" + cmd.getName().toUpperCase() +"] " + ChatColor.GREEN + text);
 	}
+	public static boolean CheckQroup(Player player, String group) {
+		if(PermissionsEx.getUser(player).inGroup(group)){
+			return true;
+		}
+		return false;
+	}
+	
 }

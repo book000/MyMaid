@@ -1,9 +1,5 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.bukkit.GameMode;
@@ -16,12 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.json.simple.JSONObject;
-
-import net.coreprotect.CoreProtect;
-import net.coreprotect.CoreProtectAPI.ParseResult;
-import xyz.jaoafa.mymaid.Method;
 
 public class MyMaid_NetworkApi implements CommandExecutor {
 	JavaPlugin plugin;
@@ -150,53 +141,8 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			obj.put("foodlevel", foodlevel);
 			obj.put("world", world);
 			sender.sendMessage(obj.toJSONString());
-		}else if(args[0].equalsIgnoreCase("server/blookup")){
-			new cp(args[1]).runTaskAsynchronously(plugin);
 		}
 		return true;
 	}
-	private class cp extends BukkitRunnable{
-		String player;
-    	public cp(String player) {
-    		this.player = player;
-    	}
-		@Override
-		public void run() {
-			List<String[]> lookup = CoreProtect.getInstance().getAPI().performLookup(Integer.MAX_VALUE, Arrays.asList(player), null, null, null, null, 0, null);
-			  if (lookup != null){
-				  String data = "";
-				  int count = 1;
-			    for (String[] value : lookup){
-			      ParseResult result = CoreProtect.getInstance().getAPI().parseResult(value);
-			      int x = result.getX();
-			      int y = result.getY();
-			      int z = result.getZ();
-			      String action = result.getActionString();
-			      String type = ""+result.getType();
-			      String rollbacked;
-			      if(result.isRolledBack()){
-			    	  rollbacked = "ロールバック済み";
-			      }else{
-			    	  rollbacked = "未ロールバック";
-			      }
-			      String world = result.worldName();
 
-			      Date date = new Date(Long.parseLong(""+result.getTime()) * 1000);
-			      SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
-			      String player = result.getPlayer();
-			      String loc = x + " " + y + " " + z + " - " + world;
-
-			      data += sdf.format(date) + " - " + player + " " + action + " " + type + " (" + rollbacked +") - (" + loc + ")\n";
-			      if(count > 20){
-			    	  break;
-			      }
-			      count++;
-			    }
-			    Method.url_jaoplugin("dissend", "t=" + data);
-			  }else{
-				  Method.url_jaoplugin("dissend", "t=情報無し");
-			  }
-		}
-	}
 }

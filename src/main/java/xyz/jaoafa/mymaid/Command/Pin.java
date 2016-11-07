@@ -74,11 +74,7 @@ public class Pin implements CommandExecutor {
 			Bukkit.getLogger().info("ERROR! コードが誤っています。Input PIN:\"" + pin.trim() + "\" NetWork PIN:\"" + code.trim() + "\"");
 			return true;
 		}else{
-			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(!p.hasPermission("pin_code_auth.pin")){
-					p.sendMessage("[PCA] " + ChatColor.GREEN + player.getName() + "さんがPINコード認証を通過しました。");
-				}
-			}
+			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + player.getName() + "さんが認証を通過しました。");
 			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
 			for(String group : groups){
 				if(PermissionsEx.getUser(player).inGroup(group)){
@@ -91,7 +87,7 @@ public class Pin implements CommandExecutor {
 			sender.sendMessage("[PCA] " + ChatColor.GREEN + "minecraft.jpで投票する: https://minecraft.jp/servers/jaoafa.xyz");
 			Bukkit.getLogger().info("\"" + player.getName() + "\"さんが登録されました。Input PIN:\"" + pin.trim() + "\" NetWork PIN:\"" + code.trim() + "\" PINStatus:\"" + status + "\" Now:\"" + utc + "\" PINClose:\"" + times + "\"");
 			Method.url_access("http://nubesco.jaoafa.xyz/plugin/pin/close.php?code=" + code.trim() + "&p=" + player.getName());
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mt tw " + player.getName() + "さんがPINコード認証を通過しました！ #jao_pin_code");
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mt tw " + player.getName() + "さんが認証を通過しました！ #jao_pin_code");
 		}
 		return true;
 	}

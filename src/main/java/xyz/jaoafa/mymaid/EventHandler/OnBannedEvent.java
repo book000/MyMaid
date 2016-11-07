@@ -2,12 +2,14 @@ package xyz.jaoafa.mymaid.EventHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.mcbans.firestar.mcbans.events.PlayerBannedEvent;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 
 public class OnBannedEvent implements Listener {
@@ -25,6 +27,11 @@ public class OnBannedEvent implements Listener {
 			Bukkit.broadcastMessage("[BANDATA] " + ChatColor.GREEN + "プレイヤー「" + player + "」がプレイヤー「" + sender +"」によってGBanされました。");
 			Bukkit.broadcastMessage("[BANDATA] " + ChatColor.GREEN + "理由「" + reason + "」");
 			Method.url_jaoplugin("ban", "p="+player+"&b="+sender+"&t=gban&r="+reason);
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[BANDATA] " + ChatColor.GREEN + "サーバの評価値を上げるため、MCBansに証拠画像を提供してください！ http://mcbans.com/server/jaoafa.xyz");
+				}
+			}
 		}else if(event.isLocalBan()){
 			Bukkit.broadcastMessage("[BANDATA] " + ChatColor.GREEN + "プレイヤー「" + player + "」がプレイヤー「" + sender +"」によってLBanされました。");
 			Bukkit.broadcastMessage("[BANDATA] " + ChatColor.GREEN + "理由「" + reason + "」");

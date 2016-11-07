@@ -253,6 +253,7 @@ public class Where implements CommandExecutor {
 				Method.SendMessage(sender, cmd, "この土地は他のユーザーに既に登録されています。");
 				return;
 			}
+
 			if(boo_name){
 				Method.SendMessage(sender, cmd, "この土地名は他のユーザーに既に登録されています。");
 				return;

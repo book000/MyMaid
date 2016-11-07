@@ -281,3 +281,8 @@ commands:
       usage: /<command>
       permission: mymaid.discordsend
       permission-message: You do not have permission to perform this command.
+   upgallery:
+      description: Upload Gallery
+      usage: /<command>
+      permission: mymaid.upgallery
+      permission-message: You do not have permission to perform this command.

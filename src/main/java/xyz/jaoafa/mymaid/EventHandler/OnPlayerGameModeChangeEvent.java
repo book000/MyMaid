@@ -26,9 +26,10 @@ public class OnPlayerGameModeChangeEvent implements Listener {
 			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
 			for(String group : groups){
 				if(PermissionsEx.getUser(player).inGroup(group)){
-					if(group.equalsIgnoreCase("QPPE") && group.equalsIgnoreCase("Default")){
+					if(group.equalsIgnoreCase("QPPE") || group.equalsIgnoreCase("Default")){
 						player.sendMessage("[GAMEMODE] " + ChatColor.GREEN + "処理に失敗しました。");
 						event.setCancelled(true);
+						return;
 					}
 				}
 			}

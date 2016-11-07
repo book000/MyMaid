@@ -52,6 +52,32 @@ public class Cmdmymaid implements CommandExecutor {
 				}
 				Method.SendMessage(sender, cmd, "プレイヤーが見つかりません。");
 				return true;
+			}else if(args[0].equalsIgnoreCase("jaouse")){
+				if (!(sender instanceof org.bukkit.entity.Player)) {
+					Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
+					return true;
+				}
+				Player p = (org.bukkit.entity.Player) sender;
+				if(!PermissionsEx.getUser(p).inGroup("Admin")){
+					Method.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
+					return true;
+				}
+				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+					if(player.getName().equalsIgnoreCase(args[1])){
+						int add;
+						try{
+							add = Integer.parseInt(args[2]);
+						} catch (NumberFormatException nfe) {
+							Method.SendMessage(sender, cmd, "ポイントには数値を指定してください。");
+							return true;
+						}
+						Pointjao.addjao(player, add);
+						Method.SendMessage(sender, cmd, player.getName() + "から" + add + "ポイントを減らしました。");
+						return true;
+					}
+				}
+				Method.SendMessage(sender, cmd, "プレイヤーが見つかりません。");
+				return true;
 			}else{
 				Method.SendMessage(sender, cmd, "Usage: \"/mymaid jaoadd jao\" OR \"/mymaid load\" OR \"/mymaid save\"");
 				return true;
