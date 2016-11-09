@@ -16,7 +16,7 @@ public class UpGallery implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if(args.length == 2){
+		if(args.length == 3){
 			if (!(sender instanceof org.bukkit.entity.Player)) {
 				Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 				Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
@@ -27,15 +27,17 @@ public class UpGallery implements CommandExecutor {
 			String url = args[1];
 			String name = player.getName();
 			UUID uuid = player.getUniqueId();
-			String result = Method.url_jaoplugin("upgallery", "t="+title+"&p="+name+"&u="+uuid+"&url="+url);
+			String description = args[2];
+			String result = Method.url_jaoplugin("upgallery", "t="+title+"&p="+name+"&u="+uuid+"&url="+url+"&text="+description);
 			if(result.equalsIgnoreCase("ok")){
 				Method.SendMessage(sender, cmd, "アップロードしました。");
 			}else{
 				Method.SendMessage(sender, cmd, "アップロードできませんでした。");
+				Method.SendMessage(sender, cmd, "/upgallery <TITLE> <URL> <Description>: ギャラリーにアップロードします。");
 			}
 			return true;
 		}else{
-			Method.SendMessage(sender, cmd, "/upgallery <TITLE> <URL>: ギャラリーにアップロードします。");
+			Method.SendMessage(sender, cmd, "/upgallery <TITLE> <URL> <Description>: ギャラリーにアップロードします。");
 			return true;
 		}
 	}
