@@ -46,7 +46,7 @@ public class SSK implements CommandExecutor {
 				}else if(i >= 77 && i <= 89){
 					player.setPlayerListName(ChatColor.GREEN + "■" + ChatColor.WHITE + player.getName());
 				}else if(i >= 90 && i <= 103){
-					player.setPlayerListName(ChatColor.DARK_GRAY + "■" + ChatColor.YELLOW + player.getName());
+					player.setPlayerListName(ChatColor.YELLOW + "■" + ChatColor.WHITE + player.getName());
 				}else if(i >= 104 && i <= 117){
 					player.setPlayerListName(ChatColor.GOLD + "■" + ChatColor.WHITE + player.getName());
 				}else if(i >= 118 && i <= 131){

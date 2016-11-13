@@ -86,7 +86,7 @@ public class OnVotifierEvent implements Listener {
 					}else if(i1 >= 77 && i1 <= 89){
 						player.setPlayerListName(ChatColor.GREEN + "■" + ChatColor.WHITE + player.getName());
 					}else if(i1 >= 90 && i1 <= 103){
-						player.setPlayerListName(ChatColor.DARK_GRAY + "■" + ChatColor.YELLOW + player.getName());
+						player.setPlayerListName(ChatColor.YELLOW + "■" + ChatColor.WHITE + player.getName());
 					}else if(i1 >= 104 && i1 <= 117){
 						player.setPlayerListName(ChatColor.GOLD + "■" + ChatColor.WHITE + player.getName());
 					}else if(i1 >= 118 && i1 <= 131){
