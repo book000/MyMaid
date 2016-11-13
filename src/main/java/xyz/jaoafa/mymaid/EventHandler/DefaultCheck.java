@@ -248,6 +248,9 @@ public class DefaultCheck implements Listener {
 			AnimalTamer tamer = wolf.getOwner();
 			if (tamer instanceof Player) {
 				Player tamerplayer = (Player) tamer;
+				if(damager.getName().equalsIgnoreCase(tamerplayer.getName())){
+					return;
+				}
 				wolf.setHealth(wolf.getMaxHealth());
 				wolf.teleport(tamerplayer);
 				tamerplayer.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + damager.getName() + "」があなたの飼っている狼を攻撃しようとしたのでテレポートさせました。");
@@ -271,6 +274,9 @@ public class DefaultCheck implements Listener {
 			AnimalTamer tamer = ocelot.getOwner();
 			if (tamer instanceof Player) {
 				Player tamerplayer = (Player) tamer;
+				if(damager.getName().equalsIgnoreCase(tamerplayer.getName())){
+					return;
+				}
 				ocelot.setHealth(ocelot.getMaxHealth());
 				ocelot.teleport(tamerplayer);
 				tamerplayer.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + damager.getName() + "」があなたの飼っている猫を攻撃しようとしたのでテレポートさせました。");
