@@ -13,9 +13,11 @@ import java.util.TimeZone;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -52,6 +54,7 @@ import xyz.jaoafa.mymaid.Command.Gamemode_Change;
 import xyz.jaoafa.mymaid.Command.Gettissue;
 import xyz.jaoafa.mymaid.Command.Guard;
 import xyz.jaoafa.mymaid.Command.Head;
+import xyz.jaoafa.mymaid.Command.Home;
 import xyz.jaoafa.mymaid.Command.Inv;
 import xyz.jaoafa.mymaid.Command.InvEnder;
 import xyz.jaoafa.mymaid.Command.InvLoad;
@@ -209,6 +212,13 @@ public class MyMaid extends JavaPlugin implements Listener {
 		conf.set("jao",Pointjao.jao);
 		conf.set("maxplayer",maxplayer);
 		conf.set("maxplayertime",maxplayertime);
+
+		Map<String, SerializableLocation> home = new HashMap<String, SerializableLocation>();
+		for(Entry<String, Location> home_: Home.home.entrySet()){
+			SerializableLocation sloc = new SerializableLocation(home_.getValue());
+			home.put(home_.getKey(), sloc);
+		}
+		conf.set("home", home);
     	saveConfig();
     }
 
@@ -252,6 +262,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("gettissue").setExecutor(new Gettissue(this));
     	getCommand("guard").setExecutor(new Guard(this));
     	getCommand("head").setExecutor(new Head(this));
+    	getCommand("home").setExecutor(new Home(this));
     	getCommand("inv").setExecutor(new Inv(this));
     	getCommand("invsave").setExecutor(new InvSave(this));
     	getCommand("invload").setExecutor(new InvLoad(this));
@@ -338,6 +349,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
     }
     private void Load_Config(){
+    	ConfigurationSerialization.registerClass(SerializableLocation.class);
     	conf = getConfig();
 
 		if(conf.contains("prison")){
@@ -459,6 +471,20 @@ public class MyMaid extends JavaPlugin implements Listener {
 			maxplayertime = conf.getString("maxplayertime");
  		}else{
  			maxplayertime = "無し";
+ 		}
+		if(conf.contains("home")){
+			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
+			Map<String, Object> home = conf.getConfigurationSection("home").getValues(true);
+			if(home.size() != 0){
+				for(Entry<String, Object> p: home.entrySet()){
+					SerializableLocation sloc = (SerializableLocation)p.getValue();
+					Location loc = sloc.getLocation();
+					Home.home.put(p.getKey(), loc);
+				}
+			}
+ 		}else{
+ 			Home.home = new HashMap<String, Location>();
+ 			conf.set("home",Home.home);
  		}
     }
 	private void Add_Recipe(){

@@ -286,3 +286,8 @@ commands:
       usage: /<command>
       permission: mymaid.upgallery
       permission-message: You do not have permission to perform this command.
+   home:
+      description: Home
+      usage: /<command>
+      permission: mymaid.home
+      permission-message: You do not have permission to perform this command.
