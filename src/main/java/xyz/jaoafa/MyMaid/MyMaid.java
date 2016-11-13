@@ -123,6 +123,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnPlayerPickupItemEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnQuitGame;
 import xyz.jaoafa.mymaid.EventHandler.OnServerCommandEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnSignClick;
+import xyz.jaoafa.mymaid.EventHandler.OnVehicleCreateEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnVotifierEvent;
 
 public class MyMaid extends JavaPlugin implements Listener {
@@ -346,6 +347,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnQuitGame(this), this);
     	getServer().getPluginManager().registerEvents(new OnServerCommandEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnSignClick(this), this);
+    	getServer().getPluginManager().registerEvents(new OnVehicleCreateEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
     }
     private void Load_Config(){

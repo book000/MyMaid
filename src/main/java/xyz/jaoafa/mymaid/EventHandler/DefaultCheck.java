@@ -117,6 +117,14 @@ public class DefaultCheck implements Listener {
 						item += ", FIREBALL";
 					}
 				}
+				if(hand.getType() == Material.EXPLOSIVE_MINECART){
+					flag = true;
+					if(item.equalsIgnoreCase("")){
+						item = "TNT_MINECART";
+					}else{
+						item += ", TNT_MINECART";
+					}
+				}
 			}
 			if(flag){
 				if(!(PermissionsEx.getUser(player).inGroup("Default") || PermissionsEx.getUser(player).inGroup("QPPE"))){
@@ -207,6 +215,14 @@ public class DefaultCheck implements Listener {
 				item = "FIREBALL";
 			}else{
 				item += ", FIREBALL";
+			}
+		}
+		if(hand.getType() == Material.EXPLOSIVE_MINECART){
+			flag = true;
+			if(item.equalsIgnoreCase("")){
+				item = "TNT_MINECART";
+			}else{
+				item += ", TNT_MINECART";
 			}
 		}
 		if(flag){

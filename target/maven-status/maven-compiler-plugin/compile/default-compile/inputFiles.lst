@@ -35,6 +35,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynamic.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Color.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedMsg.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Sign.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnVehicleCreateEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnMyMaidJoinLeftChatCmdLogs.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Access.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnHeadClick.java

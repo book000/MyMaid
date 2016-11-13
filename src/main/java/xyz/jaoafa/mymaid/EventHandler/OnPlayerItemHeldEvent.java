@@ -70,6 +70,8 @@ public class OnPlayerItemHeldEvent implements Listener {
 						Bukkit.getLogger().info("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「jaoium所有」という理由で牢獄リストに追加しました。");
 					}
 				}
+			}else if(hand.getType() == Material.EXPLOSIVE_MINECART){
+				player.getInventory().clear(e.getNewSlot());
 			}
 		}catch(java.lang.NullPointerException ex){
 		}
