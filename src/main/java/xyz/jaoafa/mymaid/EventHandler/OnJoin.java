@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -142,11 +143,13 @@ public class OnJoin implements Listener {
 				}
 				PermissionsEx.getUser(player).addGroup("QPPE");
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(!AFK.tnt.containsKey(p.getName())){
+					if(!AFK.tnt.containsKey(p.getName()) && p.getGameMode() != GameMode.SPECTATOR){
 						MyMaid.TitleSender.setTime_second(p, 2, 5, 2);
 						MyMaid.TitleSender.sendTitle(p, "", ChatColor.GOLD + "jaotan" + ChatColor.WHITE + " によって " + ChatColor.BLUE + player.getName() + ChatColor.WHITE + " がQPPE権限に引き上げられました！");
+						return;
 					}
 				}
+				MyMaid.TitleSender.sendTitle(player, "ルールをお読みください！", "サイトはこちらです。 https://jaoafa.xyz/");
 			}else{
 				Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Limited");
 				return;

@@ -1,5 +1,10 @@
 package xyz.jaoafa.mymaid.Command;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,7 +14,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -84,7 +91,18 @@ public class Cmdmymaid implements CommandExecutor {
 			}
 		}else if(args.length == 1){
 			if(args[0].equalsIgnoreCase("load")){
-				FileConfiguration conf = plugin.getConfig();
+				FileConfiguration conf = new YamlConfiguration();
+
+				Reader reader;
+				try {
+					reader = new InputStreamReader(new FileInputStream(plugin.getDataFolder() + File.separator + "config.yml"));
+					conf.load(reader);
+				} catch (IOException | InvalidConfigurationException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+					return true;
+				}
+				MyMaid.conf = conf;
 				if(conf.contains("prison")){
 					//Prison.prison = (Map<String,Boolean>) conf.getConfigurationSection("prison").getKeys(false);
 					Map<String, Object> pl = conf.getConfigurationSection("prison").getValues(true);
