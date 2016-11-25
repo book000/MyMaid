@@ -30,7 +30,7 @@ public class Method {
 		this.plugin = plugin;
 	}
 	public static String url_jaoplugin(String filename, String arg){
-		return url_access("http://nubesco.jaoafa.xyz/plugin/" + filename + ".php?" + arg);
+		return url_access("http://nubesco.jaoafa.com/plugin/" + filename + ".php?" + arg);
 	}
 	public static String url_access(String address){
 		System.out.println("[MyMaid] URLConnect Start:"+address);
@@ -112,7 +112,7 @@ public class Method {
             connection.setRequestProperty("Connection", "Keep-Alive");
 
             // ユーザエージェントの設定（必須ではない）
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (jaoafa.xyz)");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (jaoafa.com)");
 
             // POSTデータの形式を設定
             connection.setRequestProperty("Content-Type", String.format("text/plain; boundary=%s", BOURDARY));
@@ -228,5 +228,5 @@ public class Method {
 		}
 		return false;
 	}
-	
+
 }

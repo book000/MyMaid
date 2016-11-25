@@ -49,9 +49,9 @@ public class Pin implements CommandExecutor {
 				Bukkit.getLogger().info("ERROR! 4桁の半角数字が入力されませんでした。");
 				return true;
 			}
-			code = Method.url_access("http://nubesco.jaoafa.xyz/plugin/pin/code.txt");
-			time = Method.url_access("http://nubesco.jaoafa.xyz/plugin/pin/close_time.txt");
-			status = Method.url_access("http://nubesco.jaoafa.xyz/plugin/pin/status.txt");
+			code = Method.url_access("http://nubesco.jaoafa.com/plugin/pin/code.txt");
+			time = Method.url_access("http://nubesco.jaoafa.com/plugin/pin/close_time.txt");
+			status = Method.url_access("http://nubesco.jaoafa.com/plugin/pin/status.txt");
 		}
 
 		long utc = System.currentTimeMillis();
@@ -84,9 +84,9 @@ public class Pin implements CommandExecutor {
 			PermissionsEx.getUser(player).addGroup("Default");
 			sender.sendMessage("[PCA] " + ChatColor.GREEN + "登録しました。当鯖にお越しいただきありがとうございます。");
 			sender.sendMessage("[PCA] " + ChatColor.GREEN + "是非当鯖の宣伝をよろしくおねがいします！");
-			sender.sendMessage("[PCA] " + ChatColor.GREEN + "minecraft.jpで投票する: https://minecraft.jp/servers/jaoafa.xyz");
+			sender.sendMessage("[PCA] " + ChatColor.GREEN + "minecraft.jpで投票する: https://minecraft.jp/servers/jaoafa.com");
 			Bukkit.getLogger().info("\"" + player.getName() + "\"さんが登録されました。Input PIN:\"" + pin.trim() + "\" NetWork PIN:\"" + code.trim() + "\" PINStatus:\"" + status + "\" Now:\"" + utc + "\" PINClose:\"" + times + "\"");
-			Method.url_access("http://nubesco.jaoafa.xyz/plugin/pin/close.php?code=" + code.trim() + "&p=" + player.getName());
+			Method.url_jaoplugin("pin/close", "code=" + code.trim() + "&p=" + player.getName());
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mt tw " + player.getName() + "さんが認証を通過しました！ #jao_pin_code");
 		}
 		return true;

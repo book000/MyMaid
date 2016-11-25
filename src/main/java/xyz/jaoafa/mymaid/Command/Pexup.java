@@ -53,7 +53,7 @@ public class Pexup implements CommandExecutor {
 			if(p.equalsIgnoreCase(pl.getName())){
 				pl.sendMessage("[MyMaid] " + ChatColor.GREEN + "常連権限への昇格、おめでとうごさいます。");
 				pl.sendMessage("[MyMaid] " + ChatColor.GREEN + "常連権限としてサーバーで活動する際の説明を記載しました。ぜひご覧ください。");
-				pl.sendMessage("[MyMaid] " + ChatColor.GREEN + "https://jaoafa.xyz/rule/regular_getplayer");
+				pl.sendMessage("[MyMaid] " + ChatColor.GREEN + "https://jaoafa.com/rule/regular_getplayer");
 				return true;
 			}
 		}

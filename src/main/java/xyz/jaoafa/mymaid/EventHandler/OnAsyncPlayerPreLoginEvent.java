@@ -33,7 +33,8 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 		InetAddress ip = e.getAddress();
 		UUID uuid = e.getUniqueId();
 		String host = e.getAddress().getHostName();
-		String data = Method.url_access("http://nubesco.jaoafa.xyz/plugin/login.php?p="+name+"&u="+uuid+"&i="+ip+"&h="+host);
+
+		String data = Method.url_jaoplugin("login", "p="+name+"&u="+uuid+"&i="+ip+"&h="+host);
 		String[] arr = data.split("###", 0);
 		if(arr[0].equalsIgnoreCase("subaccount")){
 			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "Detect SubAccount.");

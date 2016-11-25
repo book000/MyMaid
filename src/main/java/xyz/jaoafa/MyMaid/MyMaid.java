@@ -29,6 +29,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.github.ucchyocean.lc.LunaChat;
 import com.github.ucchyocean.lc.LunaChatAPI;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.AFK.afking;
 import xyz.jaoafa.mymaid.Command.Access;
@@ -629,7 +630,14 @@ public class MyMaid extends JavaPlugin implements Listener {
 					String msg = message.replaceAll("%player%", play.getName());
 					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + msg);
 				}
-				//Bukkit.broadcastMessage("今流行りのピリオド連投対決はコマンド「/.」を使用することで楽しめます！詳しくは https://jaoafa.xyz/blog/tomachi/period_match で！");
+				
+				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(player).inGroup("Limited")){
+						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
+						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
+						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
+					}
+				}
 
 			}
 		}

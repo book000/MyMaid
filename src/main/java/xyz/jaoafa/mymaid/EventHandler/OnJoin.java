@@ -39,7 +39,8 @@ public class OnJoin implements Listener {
 		}else{
 			return;
 		}
-		String data = Method.url_access("http://nubesco.jaoafa.xyz/plugin/access.php?i="+ip);
+
+		String data = Method.url_jaoplugin("access", "i="+ip);
 		if(data.equalsIgnoreCase("NO")){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(p.hasPermission("pin_code_auth.joinmsg")) {
@@ -72,7 +73,7 @@ public class OnJoin implements Listener {
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "こんにちは！" + player.getName() + "さん！jao Minecraft Serverにようこそ！");
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "ルールはご覧になりましたか？もしご覧になられていない場合は以下リンクからご覧ください。");
-		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "https://jaoafa.xyz/rule");
+		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "https://jaoafa.com/rule");
 		try{
 			new netaccess(plugin, player).runTaskAsynchronously(plugin);
 		}catch(java.lang.NoClassDefFoundError e){
@@ -149,7 +150,7 @@ public class OnJoin implements Listener {
 						return;
 					}
 				}
-				MyMaid.TitleSender.sendTitle(player, "ルールをお読みください！", "サイトはこちらです。 https://jaoafa.xyz/");
+				MyMaid.TitleSender.sendTitle(player, "ルールをお読みください！", "サイトはこちらです。 https://jaoafa.com/");
 			}else{
 				Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Limited");
 				return;

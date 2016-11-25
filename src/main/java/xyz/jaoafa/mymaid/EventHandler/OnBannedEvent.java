@@ -29,7 +29,7 @@ public class OnBannedEvent implements Listener {
 			Method.url_jaoplugin("ban", "p="+player+"&b="+sender+"&t=gban&r="+reason);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin")) {
-					p.sendMessage("[BANDATA] " + ChatColor.GREEN + "サーバの評価値を上げるため、MCBansに証拠画像を提供してください！ http://mcbans.com/server/jaoafa.xyz");
+					p.sendMessage("[BANDATA] " + ChatColor.GREEN + "サーバの評価値を上げるため、MCBansに証拠画像を提供してください！ http://mcbans.com/server/jaoafa.com");
 				}
 			}
 		}else if(event.isLocalBan()){
