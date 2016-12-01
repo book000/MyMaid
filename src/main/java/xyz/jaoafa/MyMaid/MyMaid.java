@@ -28,6 +28,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.ucchyocean.lc.LunaChat;
 import com.github.ucchyocean.lc.LunaChatAPI;
+import com.ittekikun.plugin.eewalert.EEWAlert;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Command.AFK;
@@ -150,6 +151,16 @@ public class MyMaid extends JavaPlugin implements Listener {
     	Load_Plugin("CoreProtect");
     	Load_Plugin("Votifier");
     	Load_Plugin("MCBans");
+
+    	EEWAlert eew = (EEWAlert)getServer().getPluginManager().getPlugin("EEWAlert");
+    	String eewnoticeold;
+    	if(eew.eewAlertConfig.notificationMode){
+    		eewnoticeold = "true";
+    	}else{
+    		eewnoticeold = "false";
+    	}
+    	eew.eewAlertConfig.notificationMode = false;
+    	getLogger().info("EEWAlertの通知動作設定を" + eewnoticeold + "からfalseに変更しました。");
 
 		Import_Listener();
     	Import_Task();
@@ -630,7 +641,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 					String msg = message.replaceAll("%player%", play.getName());
 					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + msg);
 				}
-				
+
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(PermissionsEx.getUser(player).inGroup("Limited")){
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);

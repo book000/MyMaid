@@ -59,7 +59,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 
 			}
 			try{
-				URL url=new URL("http://toma.webcrow.jp/jaoget.php?location=" + location);
+				URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?location=" + location);
 				// URL接続
 				HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
 				connect.setRequestMethod("GET");//プロトコルの設定
@@ -139,7 +139,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 
 					}
 					try{
-						URL url=new URL("http://toma.webcrow.jp/jaoget.php?location=" + location);
+						URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?location=" + location);
 						// URL接続
 						HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
 						connect.setRequestMethod("GET");//プロトコルの設定
@@ -209,7 +209,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 		if (args.length == 2) {
             if (args[1].length() == 0) { // /testまで
             	try{
-					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=all");
+					URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?tab=all");
 					// URL接続
 					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
 					connect.setRequestMethod("GET");//プロトコルの設定
@@ -233,7 +233,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				}
             } else{
             	try{
-					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[1]);
+					URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?tab=" + args[1]);
 					// URL接続
 					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
 					connect.setRequestMethod("GET");//プロトコルの設定
@@ -260,7 +260,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
         }else if(args.length == 1){
         	if (args[0].length() != 0 && cmd.getName().equalsIgnoreCase("dt")) {
         		try{
-					URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[0]);
+					URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?tab=" + args[0]);
 					// URL接続
 					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
 					connect.setRequestMethod("GET");//プロトコルの設定

@@ -24,7 +24,7 @@ public class OnEEWReceiveEvent implements Listener {
     		//Bukkit.getLogger().info("[MyEEW] 地震情報を受信しましたが無視されました。(RT)");
     		return;
     	}
-    	String[] data = e.getRawArray();
+    	String[] data = e.getEewArray();
 
     	String separator = ",";
 
