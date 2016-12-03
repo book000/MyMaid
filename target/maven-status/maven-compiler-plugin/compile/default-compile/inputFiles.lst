@@ -37,6 +37,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedMsg.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Sign.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnVehicleCreateEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnMyMaidJoinLeftChatCmdLogs.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\MySQL.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Access.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnHeadClick.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockIgniteEvent.java
@@ -51,6 +52,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnJoin.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Jao.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnSignClick.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ja.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Database.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnFrom.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SignLock.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SSK.java
@@ -85,6 +87,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerItemHeldEv
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvEnder.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerCommand.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Land.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DOT.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Chat.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Where.java

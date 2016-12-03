@@ -139,7 +139,7 @@ public class Menu implements Listener {
 	    createDisplay(Material.TNT, inv, 12, "いま居る位置から100ブロックの範囲のTNT爆破を一時的に無効化します。", "DOOM!DOOM!(/eでも同様のことが行えます。)", "e");
 	    createDisplay(Material.SKULL_ITEM, inv, 13, "自分の頭を取り出します。", "(/headでも同様のことが行えます。)", "head");
 	    createDisplayHead(inv, "MHF_ArrowDown", 14, "現在のインベントリを保存します。", "(/invsaveでも同様のことが行えます。)", "invsave " + player.getName());
-	    createDisplayHead(inv, "MHF_ArrowUp", 15, "保存されたインベントリを読み込みします。", "(/invloadでも同様のことが行えます。)", "invload" + player.getName());
+	    createDisplayHead(inv, "MHF_ArrowUp", 15, "保存されたインベントリを読み込みします。", "(/invloadでも同様のことが行えます。)", "invload " + player.getName());
 	    createDisplay(Material.WOOD_AXE, inv, 16, "ピリオド連投10秒部門に出場します。", "(/. 10でも同様のことが行えます。)", ". 10");
 	    createDisplay(Material.IRON_AXE, inv, 17, "ピリオド連投60秒部門に出場します。", "(/. 60でも同様のことが行えます。)", ". 60");
 	    createDisplay(Material.DIAMOND_AXE, inv, 18, "ピリオド連投300秒部門に出場します。", "(/. 300でも同様のことが行えます。)", ". 300");

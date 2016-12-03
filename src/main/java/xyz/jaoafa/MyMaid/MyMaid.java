@@ -1,5 +1,7 @@
 package xyz.jaoafa.mymaid;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
@@ -67,6 +69,7 @@ import xyz.jaoafa.mymaid.Command.Jao;
 import xyz.jaoafa.mymaid.Command.JaoJao;
 import xyz.jaoafa.mymaid.Command.Jf;
 import xyz.jaoafa.mymaid.Command.Lag;
+import xyz.jaoafa.mymaid.Command.Land;
 import xyz.jaoafa.mymaid.Command.MakeCmd;
 import xyz.jaoafa.mymaid.Command.MyMaid_NetworkApi;
 import xyz.jaoafa.mymaid.Command.Pexup;
@@ -139,6 +142,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public static LunaChat lunachat;
 	public static int maxplayer;
 	public static String maxplayertime;
+	public static Connection c = null;
 	@Override
     public void onEnable() {
 		getLogger().info("--------------------------------------------------");
@@ -287,6 +291,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("j2").setExecutor(new JaoJao(this));
     	getCommand("jf").setExecutor(new Jf(this));
     	getCommand("lag").setExecutor(new Lag(this));
+    	getCommand("land").setExecutor(new Land(this));
     	getCommand("makecmd").setExecutor(new MakeCmd(this));
     	getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
     	getCommand("pexup").setExecutor(new Pexup(this));
@@ -502,7 +507,39 @@ public class MyMaid extends JavaPlugin implements Listener {
  			Home.home = new HashMap<String, Location>();
  			conf.set("home",Home.home);
  		}
+		if(conf.contains("sqluser") && conf.contains("sqlpassword")){
+			MySQL_Enable(conf.getString("sqluser"), conf.getString("sqlpassword"));
+		}else{
+			getLogger().info("MySQL Connect err. [conf NotFound]");
+			getLogger().info("Disable MyMaid...");
+			getServer().getPluginManager().disablePlugin(this);
+		}
+
     }
+
+    private void MySQL_Enable(String user, String password){
+    	MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", user, password);
+
+    	try {
+			c = MySQL.openConnection();
+		} catch (ClassNotFoundException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			getLogger().info("MySQL Connect err. [ClassNotFoundException]");
+			getLogger().info("Disable MyMaid...");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			getLogger().info("MySQL Connect err. [SQLException: " + e.getSQLState() + "]");
+			getLogger().info("Disable MyMaid...");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
+    	getLogger().info("MySQL Connect successful.");
+    }
+
 	private void Add_Recipe(){
 		/* Ekusas83を以下の工程で作るの図
 		 *
