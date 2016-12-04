@@ -143,6 +143,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public static int maxplayer;
 	public static String maxplayertime;
 	public static Connection c = null;
+	public static String sqluser;
+	public static String sqlpassword;
 	@Override
     public void onEnable() {
 		getLogger().info("--------------------------------------------------");
@@ -368,6 +370,8 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnSignClick(this), this);
     	getServer().getPluginManager().registerEvents(new OnVehicleCreateEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
+
+    	getServer().getPluginManager().registerEvents(new Land(this), this);
     }
     private void Load_Config(){
     	ConfigurationSerialization.registerClass(SerializableLocation.class);
@@ -508,6 +512,8 @@ public class MyMaid extends JavaPlugin implements Listener {
  			conf.set("home",Home.home);
  		}
 		if(conf.contains("sqluser") && conf.contains("sqlpassword")){
+			MyMaid.sqluser = conf.getString("sqluser");
+			MyMaid.sqlpassword = conf.getString("sqlpassword");
 			MySQL_Enable(conf.getString("sqluser"), conf.getString("sqlpassword"));
 		}else{
 			getLogger().info("MySQL Connect err. [conf NotFound]");

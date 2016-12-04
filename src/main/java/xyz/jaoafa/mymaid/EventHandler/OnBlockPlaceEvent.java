@@ -24,6 +24,9 @@ public class OnBlockPlaceEvent implements Listener {
     	if (!(player instanceof Player)) {
 			return;
 		}
+    	if(!player.getLocation().getWorld().getName().equalsIgnoreCase("Jao_Afa")){
+    		return;
+    	}
     	World World = Bukkit.getServer().getWorld("Jao_Afa");
 	   	Location prison = new Location(World, 1767, 70, 1767);
 	   	if(prison.distance(e.getBlock().getLocation()) <= 150){
