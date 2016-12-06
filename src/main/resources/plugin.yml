@@ -296,3 +296,8 @@ commands:
       usage: /<command>
       permission: mymaid.land
       permission-message: You do not have permission to perform this command.
+   discordlink:
+      description: Discord Account Connect to Minecraft Account.
+      usage: /<command>
+      permission: mymaid.land
+      permission-message: You do not have permission to perform this command.

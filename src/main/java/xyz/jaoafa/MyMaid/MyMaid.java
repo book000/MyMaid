@@ -47,6 +47,7 @@ import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Ded;
 import xyz.jaoafa.mymaid.Command.DedMsg;
+import xyz.jaoafa.mymaid.Command.DiscordLink;
 import xyz.jaoafa.mymaid.Command.Discordsend;
 import xyz.jaoafa.mymaid.Command.Dynamic;
 import xyz.jaoafa.mymaid.Command.Dynmap_Compass;
@@ -268,6 +269,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("data").setExecutor(new Data(this));
     	getCommand("ded").setExecutor(new Ded(this));
     	getCommand("dedmsg").setExecutor(new DedMsg(this));
+    	getCommand("discordlink").setExecutor(new DiscordLink(this));
     	getCommand("discordsend").setExecutor(new Discordsend(this));
     	getCommand(".").setExecutor(new DOT(this));
     	getCommand("dynamic").setExecutor(new Dynamic(this));
