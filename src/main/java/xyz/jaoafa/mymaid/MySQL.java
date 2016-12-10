@@ -67,7 +67,7 @@ public class MySQL extends Database {
 		String connectionURL = "jdbc:mysql://"
 				+ this.hostname + ":" + this.port;
 		if (database != null) {
-			connectionURL = connectionURL + "/" + this.database;
+			connectionURL = connectionURL + "/" + this.database + "?autoReconnect=true";
 		}
 
 		Class.forName("com.mysql.jdbc.Driver");
