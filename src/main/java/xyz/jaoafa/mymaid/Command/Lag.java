@@ -17,12 +17,7 @@ public class Lag implements CommandExecutor {
 	 * jao afaします。
 	 * /jf */
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		String data = Method.url_jaoplugin("lag", "show");
-		String[] arr = data.split("###", 0);
-		String start = arr[0];
-		String end = arr[1];
-		String lag = arr[2];
-		Method.SendMessage(sender, cmd, "最新のラグデータ: " + lag + "秒 (" + start + "～" + end + ")");
+		Method.SendMessage(sender, cmd, "最新のラグデータを確認するには/tpsコマンドを実行してください。");
 		return true;
 	}
 }
