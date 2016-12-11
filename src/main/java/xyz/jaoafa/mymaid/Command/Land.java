@@ -99,7 +99,7 @@ public class Land implements CommandExecutor, Listener {
 						Location landcenter = new Location(player.getWorld(), (Math.abs(res.getInt("x1")) + Math.abs(res.getInt("x2"))) / 2, 68, (Math.abs(res.getInt("z1")) + Math.abs(res.getInt("z2"))) / 2);
 						double distance = spawncenterloc.distance(landcenter);
 
-						double land_jaop = blocki + (distance*0.2);
+						double land_jaop = blocki / (distance / 100);
 
 						Method.SendMessage(sender, cmd, "この土地は土地ID「" + id + "」で登録されていますが、まだ取得されていません。(購入必要ポイント: " + ((int) land_jaop) + ")");
 					}else{
@@ -249,6 +249,7 @@ public class Land implements CommandExecutor, Listener {
 						int id = res.getInt("id");
 						if(res.getBoolean("isplayerland")){
 							Method.SendMessage(sender, cmd, "指定された土地は既に" + res.getString("player") + "が取得しています。");
+							return true;
 						}
 
 						int blocki = 0;
@@ -261,7 +262,7 @@ public class Land implements CommandExecutor, Listener {
 						Location landcenter = new Location(player.getWorld(), (Math.abs(res.getInt("x1")) + Math.abs(res.getInt("x2"))) / 2, 68, (Math.abs(res.getInt("z1")) + Math.abs(res.getInt("z2"))) / 2);
 						double distance = spawncenterloc.distance(landcenter);
 
-						double land_jaop = blocki + (distance*0.2);
+						double land_jaop = blocki / (distance / 100);
 
 						if(!Pointjao.hasjao(player, (int) land_jaop)){
 							Method.SendMessage(sender, cmd, "jaoPointが足りないため土地を購入できませんでした。(" + ((int) land_jaop) + "/" + Pointjao.getjao(player) + ")");
