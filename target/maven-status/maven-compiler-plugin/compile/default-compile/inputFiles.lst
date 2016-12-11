@@ -18,6 +18,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynmap_Teleporter.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\EyeMove.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBucketEmptyEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SaveWorld.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\WorldTeleport.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gamemode_Change.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MakeCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\UpGallery.java

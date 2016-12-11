@@ -90,6 +90,7 @@ import xyz.jaoafa.mymaid.Command.Var;
 import xyz.jaoafa.mymaid.Command.VarCmd;
 import xyz.jaoafa.mymaid.Command.Vote;
 import xyz.jaoafa.mymaid.Command.Where;
+import xyz.jaoafa.mymaid.Command.WorldTeleport;
 import xyz.jaoafa.mymaid.EventHandler.DefaultCheck;
 import xyz.jaoafa.mymaid.EventHandler.EyeMove;
 import xyz.jaoafa.mymaid.EventHandler.Menu;
@@ -319,6 +320,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("varcmd").setExecutor(new VarCmd(this));
     	getCommand("vote").setExecutor(new Vote(this));
     	getCommand("where").setExecutor(new Where(this));
+    	getCommand("wt").setExecutor(new WorldTeleport(this));
     }
     private void Import_Task(){
     	//Task

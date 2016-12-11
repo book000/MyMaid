@@ -301,3 +301,8 @@ commands:
       usage: /<command>
       permission: mymaid.land
       permission-message: You do not have permission to perform this command.
+   wt:
+      description: World Teleport
+      usage: /<command>
+      permission: mymaid.wt
+      permission-message: You do not have permission to perform this command.
