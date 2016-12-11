@@ -8,6 +8,7 @@ import java.util.Date;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,6 +35,7 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
+import xyz.jaoafa.mymaid.Pointjao;
 
 @SuppressWarnings("deprecation")
 public class Land implements CommandExecutor, Listener {
@@ -86,7 +88,20 @@ public class Land implements CommandExecutor, Listener {
 				}else{
 					int id = res.getInt("id");
 					if(!res.getBoolean("isplayerland")){
-						Method.SendMessage(sender, cmd, "この土地は土地ID「" + id + "」で登録されていますが、まだ取得されていません。");
+
+						int blocki = 0;
+						for(int i1=res.getInt("x2"); i1<=res.getInt("x1"); i1++){
+							for(int k=res.getInt("z2"); k<=res.getInt("z1"); k++){
+								blocki += 1;
+							}
+						}
+						Location spawncenterloc = new Location(player.getWorld(), 0, 0, 0);
+						Location landcenter = new Location(player.getWorld(), (Math.abs(res.getInt("x1")) + Math.abs(res.getInt("x2"))) / 2, 68, (Math.abs(res.getInt("z1")) + Math.abs(res.getInt("z2"))) / 2);
+						double distance = spawncenterloc.distance(landcenter);
+
+						double land_jaop = blocki + (distance*0.2);
+
+						Method.SendMessage(sender, cmd, "この土地は土地ID「" + id + "」で登録されていますが、まだ取得されていません。(購入必要ポイント: " + ((int) land_jaop) + ")");
 					}else{
 						Method.SendMessage(sender, cmd, "この土地は土地ID「" + id + "」で登録されています。既に" + res.getString("player") + "が取得しています。");
 					}
@@ -235,8 +250,29 @@ public class Land implements CommandExecutor, Listener {
 						if(res.getBoolean("isplayerland")){
 							Method.SendMessage(sender, cmd, "指定された土地は既に" + res.getString("player") + "が取得しています。");
 						}
+
+						int blocki = 0;
+						for(int i1=res.getInt("x2"); i1<=res.getInt("x1"); i1++){
+							for(int k=res.getInt("z2"); k<=res.getInt("z1"); k++){
+								blocki += 1;
+							}
+						}
+						Location spawncenterloc = new Location(player.getWorld(), 0, 0, 0);
+						Location landcenter = new Location(player.getWorld(), (Math.abs(res.getInt("x1")) + Math.abs(res.getInt("x2"))) / 2, 68, (Math.abs(res.getInt("z1")) + Math.abs(res.getInt("z2"))) / 2);
+						double distance = spawncenterloc.distance(landcenter);
+
+						double land_jaop = blocki + (distance*0.2);
+
+						if(!Pointjao.hasjao(player, (int) land_jaop)){
+							Method.SendMessage(sender, cmd, "jaoPointが足りないため土地を購入できませんでした。(" + ((int) land_jaop) + "/" + Pointjao.getjao(player) + ")");
+							return true;
+						}
+
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 						statement.executeUpdate("UPDATE land SET player = '" + player.getName() + "', uuid = '" + player.getUniqueId() + "', isplayerland = true, date = '" + sdf.format(new Date()) + "' WHERE id = " + id + ";");
+
+						Pointjao.usejao(player, (int) land_jaop);
+
 						Method.SendMessage(sender, cmd, "土地を取得しました。");
 						return true;
 					}
