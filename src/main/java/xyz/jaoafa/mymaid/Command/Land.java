@@ -498,6 +498,9 @@ public class Land implements CommandExecutor, Listener {
 	}
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockFromToEvent(BlockFromToEvent event){
+		if(!event.getBlock().getLocation().getWorld().getName().equalsIgnoreCase("ReJao_Afa")){
+    		return;
+    	}
 		Statement statement;
 		try {
 			statement = MyMaid.c.createStatement();
@@ -543,6 +546,9 @@ public class Land implements CommandExecutor, Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockPistonExtendEvent(BlockPistonExtendEvent event){
 		for(Block block : event.getBlocks()){
+			if(!block.getLocation().getWorld().getName().equalsIgnoreCase("ReJao_Afa")){
+	    		return;
+	    	}
 			Statement statement;
 			try {
 				statement = MyMaid.c.createStatement();
@@ -565,10 +571,12 @@ public class Land implements CommandExecutor, Listener {
 			}
 			try {
 				ResultSet res = statement.executeQuery("SELECT * FROM land WHERE x1 >= " + event.getBlock().getLocation().getBlockX() + " AND y1 >= " + event.getBlock().getLocation().getBlockY() + " AND z1 >= " + event.getBlock().getLocation().getBlockZ() + " AND x2 <= " + event.getBlock().getLocation().getBlockX() + " AND y2 <= " + event.getBlock().getLocation().getBlockY() + " AND z2 <= " + event.getBlock().getLocation().getBlockZ() + ";");
-				ResultSet res_to = statement.executeQuery("SELECT * FROM land WHERE x1 >= " + block.getLocation().getBlockX() + " AND y1 >= " + block.getLocation().getBlockY() + " AND z1 >= " + block.getLocation().getBlockZ() + " AND x2 <= " + block.getLocation().getBlockX() + " AND y2 <= " + block.getLocation().getBlockY() + " AND z2 <= " + block.getLocation().getBlockZ() + ";");
+
 				if(res.next()){
+					int id = res.getInt("id");
+					ResultSet res_to = statement.executeQuery("SELECT * FROM land WHERE x1 >= " + block.getLocation().getBlockX() + " AND y1 >= " + block.getLocation().getBlockY() + " AND z1 >= " + block.getLocation().getBlockZ() + " AND x2 <= " + block.getLocation().getBlockX() + " AND y2 <= " + block.getLocation().getBlockY() + " AND z2 <= " + block.getLocation().getBlockZ() + ";");
 					if(res_to.next()){
-						if(res.getInt("id") != res_to.getInt("id")){
+						if(id != res_to.getInt("id")){
 							event.setCancelled(true);
 						}
 					}else{
