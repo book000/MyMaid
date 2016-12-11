@@ -33,6 +33,7 @@ public class WorldTeleport implements CommandExecutor {
 				Location loc = new Location(world, 0, 0, 0, 0, 0);
 				int y = getGroundPos(loc);
 				loc = new Location(world, 0, y, 0, 0, 0);
+				loc.add(0.5f,0f,0.5f);
 				player.teleport(loc);
 				Method.SendMessage(sender, cmd, "「Jao_Afa」ワールドにテレポートしました。");
 				return true;
@@ -46,6 +47,7 @@ public class WorldTeleport implements CommandExecutor {
 				Location loc = new Location(world, 0, 0, 0, 0, 0);
 				int y = getGroundPos(loc);
 				loc = new Location(world, 0, y, 0, 0, 0);
+				loc.add(0.5f,0f,0.5f);
 				player.teleport(loc);
 				Method.SendMessage(sender, cmd, "「ReJao_Afa」ワールドにテレポートしました。");
 				return true;
@@ -58,6 +60,7 @@ public class WorldTeleport implements CommandExecutor {
 					Location loc = new Location(world, 0, 0, 0, 0, 0);
 					int y = getGroundPos(loc);
 					loc = new Location(world, 0, y, 0, 0, 0);
+					loc.add(0.5f,0f,0.5f);
 					player.teleport(loc);
 					Method.SendMessage(sender, cmd, "「" + world.getName() + "」ワールドにテレポートしました。");
 					return true;
@@ -84,6 +87,7 @@ public class WorldTeleport implements CommandExecutor {
 				Location loc = new Location(world, 0, 0, 0, 0, 0);
 				int y = getGroundPos(loc);
 				loc = new Location(world, 0, y, 0, 0, 0);
+				loc.add(0.5f,0f,0.5f);
 				play.teleport(loc);
 				Method.SendMessage(sender, cmd, play.getName() + "が「Jao_Afa」ワールドにテレポートしました。");
 				Method.SendMessage(play, cmd, "「Jao_Afa」ワールドにテレポートしました。");
@@ -98,6 +102,7 @@ public class WorldTeleport implements CommandExecutor {
 				Location loc = new Location(world, 0, 0, 0, 0, 0);
 				int y = getGroundPos(loc);
 				loc = new Location(world, 0, y, 0, 0, 0);
+				loc.add(0.5f,0f,0.5f);
 				play.teleport(loc);
 				Method.SendMessage(sender, cmd, play.getName() + "が「ReJao_Afa」ワールドにテレポートしました。");
 				Method.SendMessage(play, cmd, "「ReJao_Afa」ワールドにテレポートしました。");
@@ -111,18 +116,22 @@ public class WorldTeleport implements CommandExecutor {
 					Location loc = new Location(world, 0, 0, 0, 0, 0);
 					int y = getGroundPos(loc);
 					loc = new Location(world, 0, y, 0, 0, 0);
+					loc.add(0.5f,0f,0.5f);
 					play.teleport(loc);
 					Method.SendMessage(sender, cmd, play.getName() + "が「" + world.getName() + "」ワールドにテレポートしました。");
 					Method.SendMessage(play, cmd, "「" + world.getName() + "」ワールドにテレポートしました。");
 					return true;
 				}
 			}
-
 		}else{
+			Method.SendMessage(sender, cmd, "wt - WorldTeleport");
+			Method.SendMessage(sender, cmd, "/wt 1: 「Jao_Afa」ワールドにテレポートします。");
+			Method.SendMessage(sender, cmd, "/wt 2: 「ReJao_Afa」ワールドにテレポートします。");
 
+			Method.SendMessage(sender, cmd, "/wt [Player] 1: [Player]を「Jao_Afa」ワールドにテレポートします。");
+			Method.SendMessage(sender, cmd, "/wt [Player] 1: [Player]を「ReJao_Afa」ワールドにテレポートします。");
+			return true;
 		}
-
-		return true;
 	}
 	/**
 	 * 指定した地点の地面の高さを返す

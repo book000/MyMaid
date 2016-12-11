@@ -28,6 +28,7 @@ public class Spawn implements CommandExecutor {
 		Location spawnloc = new Location(World, 0, 100, 0);
 		int y = getGroundPos(spawnloc);
 		Location spawn = new Location(World, 0, y, 0);
+		spawn.add(0.5f,0f,0.5f);
 		player.teleport(spawn);
 		Method.SendMessage(sender, cmd, "初期スポーン地点にテレポートしました。");
 		return true;
