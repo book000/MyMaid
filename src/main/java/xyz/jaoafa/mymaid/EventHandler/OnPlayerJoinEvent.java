@@ -51,6 +51,18 @@ public class OnPlayerJoinEvent implements Listener {
 		if(point.equalsIgnoreCase("YES")){
 			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + event.getPlayer().getName() + "は本日初ログインです。");
 			Pointjao.addjao(event.getPlayer(), 10);
+
+			//クリスマス仕様
+			SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+			Date Date = new Date();
+			if(date.format(Date).equalsIgnoreCase("2016-12-24")){
+				event.getPlayer().sendMessage("[MyMaid] " + ChatColor.GREEN + "サーバからのプレゼントです！クリスマスがあなたにとって大切な日となりますように…。");
+				Pointjao.addjao(event.getPlayer(), 300);
+			}else if(date.format(Date).equalsIgnoreCase("2016-12-25")){
+				event.getPlayer().sendMessage("[MyMaid] " + ChatColor.GREEN + "サーバからのプレゼントです！クリスマスが終わったらもう年末ですね…年賀状投函は今日までですよ！");
+				Pointjao.addjao(event.getPlayer(), 300);
+			}
+
 		}
   		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
