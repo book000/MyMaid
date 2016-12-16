@@ -341,7 +341,7 @@ public class Land implements CommandExecutor, Listener {
 							}
 						}
 						Location spawncenterloc = new Location(player.getWorld(), 0, 0, 0);
-						Location landcenter = new Location(player.getWorld(), (Math.abs(res.getInt("x1")) + Math.abs(res.getInt("x2"))) / 2, 68, (Math.abs(res.getInt("z1")) + Math.abs(res.getInt("z2"))) / 2);
+						Location landcenter = new Location(player.getWorld(), (res.getInt("x1") + res.getInt("x2")) / 2, 68, (res.getInt("z1") + res.getInt("z2")) / 2);
 						double distance = spawncenterloc.distance(landcenter);
 
 						double land_jaop_sell = (blocki / (distance / 100)) / 2;
@@ -385,6 +385,56 @@ public class Land implements CommandExecutor, Listener {
 					e.printStackTrace();
 					return true;
 				}
+			}else if(args[0].equalsIgnoreCase("tp")){
+				int i;
+				try{
+					i = Integer.parseInt(args[1]);
+				}catch (NumberFormatException e){
+					Method.SendMessage(sender, cmd, "土地IDは数値で指定してください。");
+					return true;
+				}
+				Statement statement;
+				try {
+					statement = MyMaid.c.createStatement();
+				} catch (NullPointerException e) {
+					MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+					try {
+						MyMaid.c = MySQL.openConnection();
+						statement = MyMaid.c.createStatement();
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO 自動生成された catch ブロック
+						e1.printStackTrace();
+						Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
+						Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+						return true;
+					}
+				} catch (SQLException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+					Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
+					Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+					return true;
+				}
+				try {
+					ResultSet res = statement.executeQuery("SELECT * FROM land WHERE id = " + i + ";");
+					if(!res.next()){
+						Method.SendMessage(sender, cmd, "指定された土地はありません。");
+						return true;
+					}else{
+						Location landcenter = new Location(player.getWorld(), (res.getInt("x1") + res.getInt("x2")) / 2, 68, (res.getInt("z1") + res.getInt("z2")) / 2);
+						landcenter.setY(getGroundPos(landcenter));
+
+						player.teleport(landcenter);
+						Method.SendMessage(sender, cmd, "土地ID「"+i+"」にテレポートしました。");
+						return true;
+					}
+				} catch (SQLException e) {
+					// TODO 自動生成された catch ブロック
+					Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
+					Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+					e.printStackTrace();
+					return true;
+				}
 			}
 		}
 		Method.SendMessage(sender, cmd, "--- Land Help ---");
@@ -392,6 +442,7 @@ public class Land implements CommandExecutor, Listener {
 		Method.SendMessage(sender, cmd, "/land new: 土地を登録します。(管理部のみ)");
 		Method.SendMessage(sender, cmd, "/land get [LandID]: 土地IDの土地を取得します。(1人につき3つの土地が取得可能)");
 		Method.SendMessage(sender, cmd, "/land sell [LandID]: 土地IDの土地を売ります。(現在所有している土地のみ)");
+		Method.SendMessage(sender, cmd, "/land tp [LandID]: 土地IDの土地中心にテレポートします。");
 		return true;
 	}
 	@EventHandler
@@ -870,5 +921,39 @@ public class Land implements CommandExecutor, Listener {
 				return;
 			}
 		}
+	}
+	/**
+	 * 指定した地点の地面の高さを返す
+	 *
+	 * @param loc
+	 *            地面を探したい場所の座標
+	 * @return 地面の高さ（Y座標）
+	 *
+	 * http://www.jias.jp/blog/?57
+	 */
+	private int getGroundPos(Location loc) {
+
+	    // 最も高い位置にある非空気ブロックを取得
+	    loc = loc.getWorld().getHighestBlockAt(loc).getLocation();
+
+	    // 最後に見つかった地上の高さ
+	    int ground = loc.getBlockY();
+
+	    // 下に向かって探索
+	    for (int y = loc.getBlockY(); y != 0; y--) {
+	        // 座標をセット
+	        loc.setY(y);
+
+	        // そこは太陽光が一定以上届く場所で、非固体ブロックで、ひとつ上も非固体ブロックか
+	        if (loc.getBlock().getLightFromSky() >= 8
+	                && !loc.getBlock().getType().isSolid()
+	                && !loc.clone().add(0, 1, 0).getBlock().getType().isSolid()) {
+	            // 地上の高さとして記憶しておく
+	            ground = y;
+	        }
+	    }
+
+	    // 地上の高さを返す
+	    return ground;
 	}
 }
