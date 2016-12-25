@@ -76,9 +76,7 @@ public class OnExplosion implements Listener {
 				return;
 			}
 			if(min_player.hasPermission("mymaid.pex.default") || min_player.hasPermission("mymaid.pex.provisional")){
-				if(e != null){
-					e.setCancelled(true);
-				}
+				e.setCancelled(true);
 				return;
 			}
 			if(tntexplode){

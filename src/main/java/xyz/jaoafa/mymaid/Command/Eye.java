@@ -27,7 +27,7 @@ public class Eye implements CommandExecutor {
 		Player player = (Player) sender;
 		if(args.length != 1){
 			if(eyelist.containsKey(player.getName())){
-				Method.SendMessage(sender, cmd, "追跡中のプレイヤー:"+eyelist.get(player));
+				Method.SendMessage(sender, cmd, "追跡中のプレイヤー:"+eyelist.get(player.getName()));
 			}else{
 				Method.SendMessage(sender, cmd, "追跡していません");
 			}
@@ -40,7 +40,7 @@ public class Eye implements CommandExecutor {
 		}
 		if(playername.equals("clear")){
 			Method.SendMessage(sender, cmd, "削除しました");
-			Eye.eyelist.remove(player);
+			Eye.eyelist.remove(player.getName());
 			return true;
 		}
 		Player eye = null;
