@@ -37,6 +37,7 @@ public class Guard implements CommandExecutor {
 				}
 				try {
 					RegionSelector regionSelector = session.getRegionSelector(session.getSelectionWorld());
+					@SuppressWarnings("null")
 					String worldname = regionSelector.getRegion().getWorld().getName();
 					int x1 = regionSelector.getRegion().getMinimumPoint().getBlockX();
 					int y1 = regionSelector.getRegion().getMinimumPoint().getBlockY();
@@ -54,7 +55,7 @@ public class Guard implements CommandExecutor {
 							}
 						}
 					}
-					
+
 				} catch (IncompleteRegionException ex) {
 					Method.SendMessage(sender, cmd, "範囲を2つ指定してください。");
 				} catch(java.lang.NullPointerException ex){

@@ -66,7 +66,7 @@ public class DedMsg implements CommandExecutor {
 		String message = args[0];
 
 		// セレクタが立方体セレクタか判定
-		if (!(session.getRegionSelector() instanceof CuboidRegionSelector)){
+		if (!(session.getRegionSelector(session.getSelectionWorld()) instanceof CuboidRegionSelector)){
 			Method.SendMessage(sender, cmd, "WorldEditの選択範囲を立方体にしてください。");
 			return true;
 		}else{
@@ -102,7 +102,7 @@ public class DedMsg implements CommandExecutor {
     		this.message = message;
     		this.regionSelector = regionSelector;
     	}
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", "null" })
 		@Override
 		public void run() {
 			int x1;
@@ -113,6 +113,7 @@ public class DedMsg implements CommandExecutor {
 			int z2;
 			World world;
 			try {
+
 				String worldname = regionSelector.getRegion().getWorld().getName();
 				x1 = regionSelector.getRegion().getMinimumPoint().getBlockX();
 				y1 = regionSelector.getRegion().getMinimumPoint().getBlockY();

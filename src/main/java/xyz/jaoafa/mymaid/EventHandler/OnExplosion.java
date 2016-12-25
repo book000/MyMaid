@@ -35,6 +35,9 @@ public class OnExplosion implements Listener {
 				states = block.getState();
 				break;
 			}
+			if(states == null){
+				return;
+			}
 			location = states.getLocation();
 		}catch(java.lang.NullPointerException e1) {
 			tntexplode = false;
@@ -68,6 +71,9 @@ public class OnExplosion implements Listener {
 						min_player = player;
 					}
 				}
+			}
+			if(min_player == null){
+				return;
 			}
 			if(min_player.hasPermission("mymaid.pex.default") || min_player.hasPermission("mymaid.pex.provisional")){
 				if(e != null){

@@ -40,6 +40,9 @@ public class OnBlockRedstoneEvent implements Listener {
         		            		min_player = p;
         		            	}
         		        	}
+        					if(min_player == null){
+        						return;
+        					}
         					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "Found Cmdb(start)");
         					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "XYZ: " + cmdb.getX() + " " + cmdb.getY() + " " + cmdb.getZ());
         					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "Near Player: " + min_player.getName() + " (" + min + "Block)");
@@ -59,7 +62,11 @@ public class OnBlockRedstoneEvent implements Listener {
         		            		min = distance;
         		            		min_player = p;
         		            	}
+
         		        	}
+        					if(min_player == null){
+        						return;
+        					}
         					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "Found Cmdb(end)");
         					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "XYZ: " + cmdb.getX() + " " + cmdb.getY() + " " + cmdb.getZ());
         					player.sendMessage("[CmdSearch] " + ChatColor.GREEN + "Near Player: " + min_player.getName() + " (" + min + "Block)");

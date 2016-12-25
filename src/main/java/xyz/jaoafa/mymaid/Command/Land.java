@@ -160,13 +160,7 @@ public class Land implements CommandExecutor, Listener {
 						return true;
 					}
 					try {
-						ResultSet res = statement.executeQuery("SELECT * FROM land WHERE uuid = '" + player.getUniqueId() + "';");
-						res.next();
-						res.next();
-						if(res.next()){
-							Method.SendMessage(sender, cmd, "あなたは既に土地を3つ取得しています。");
-							return true;
-						}
+						@SuppressWarnings("null")
 						String worldname = regionSelector.getRegion().getWorld().getName();
 						if(!worldname.equalsIgnoreCase("ReJao_Afa")){
 							Method.SendMessage(sender, cmd, "このコマンドが使用できるワールドではありまぜん。");
@@ -245,7 +239,14 @@ public class Land implements CommandExecutor, Listener {
 					return true;
 				}
 				try {
-					ResultSet res = statement.executeQuery("SELECT * FROM land WHERE id = " + i + ";");
+					ResultSet res = statement.executeQuery("SELECT * FROM land WHERE uuid = '" + player.getUniqueId() + "';");
+					res.next();
+					res.next();
+					if(res.next()){
+						Method.SendMessage(sender, cmd, "あなたは既に土地を3つ取得しています。");
+						return true;
+					}
+					res = statement.executeQuery("SELECT * FROM land WHERE id = " + i + ";");
 					if(!res.next()){
 						Method.SendMessage(sender, cmd, "指定された土地はありません。");
 						return true;

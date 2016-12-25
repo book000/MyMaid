@@ -69,6 +69,10 @@ public class Ck implements CommandExecutor {
             		min = distance;
             		minecart = (Minecart) entity;
             	}
+            	if(player == null){
+            		Method.SendMessage(sender, cmd, "プレイヤーが見つかりません。");
+            		return true;
+            	}
             	if(minecart != null && player.isInsideVehicle() && player.getVehicle().getUniqueId().equals(minecart.getUniqueId())){
             		minecart = null;
 					continue;

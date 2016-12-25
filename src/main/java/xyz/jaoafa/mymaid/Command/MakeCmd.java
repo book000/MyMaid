@@ -59,7 +59,10 @@ public class MakeCmd implements CommandExecutor {
 
 			command = "/give @p minecraft:written_book 1 0 ";
 			command += "{title:\"" + title + "\", author:\"" + author + "\", generation:0, pages:[\"";
-
+			if(pages == null){
+				Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはプラグイン制作者にお問い合わせください。Debug: Pages null");
+				return true;
+			}
 			for(int i = 0; i < pages.size(); i++) {
 		    	command += "{text:\\\""+ pages.get(i).replaceAll("\r\n", "\n").replaceAll("[\n|\r]", "\\\\n") + "\\\",color:black}";
 		    	if(i+1 != pages.size()){

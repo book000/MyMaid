@@ -267,6 +267,11 @@ public class Where implements CommandExecutor {
 			int z2;
 			World world;
 			try {
+				if(regionSelector == null){
+					Method.SendMessage(sender, cmd, "範囲を指定してください。");
+					return;
+				}
+				@SuppressWarnings("null")
 				String worldname = regionSelector.getRegion().getWorld().getName();
 				x1 = regionSelector.getRegion().getMinimumPoint().getBlockX();
 				y1 = 0;
@@ -450,6 +455,7 @@ public class Where implements CommandExecutor {
 			int z2;
 			World world;
 			try {
+				@SuppressWarnings("null")
 				String worldname = regionSelector.getRegion().getWorld().getName();
 				x1 = regionSelector.getRegion().getMinimumPoint().getBlockX();
 				y1 = 0;
