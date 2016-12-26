@@ -3,14 +3,12 @@ package xyz.jaoafa.mymaid;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TimeZone;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -72,6 +70,7 @@ import xyz.jaoafa.mymaid.Command.Jf;
 import xyz.jaoafa.mymaid.Command.Lag;
 import xyz.jaoafa.mymaid.Command.Land;
 import xyz.jaoafa.mymaid.Command.MakeCmd;
+import xyz.jaoafa.mymaid.Command.MyBlock;
 import xyz.jaoafa.mymaid.Command.MyMaid_NetworkApi;
 import xyz.jaoafa.mymaid.Command.Pexup;
 import xyz.jaoafa.mymaid.Command.Pin;
@@ -241,6 +240,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("lag").setExecutor(new Lag(this));
     	getCommand("land").setExecutor(new Land(this));
     	getCommand("makecmd").setExecutor(new MakeCmd(this));
+    	getCommand("myblock").setExecutor(new MyBlock(this));
     	getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
     	getCommand("pexup").setExecutor(new Pexup(this));
     	getCommand("pin").setExecutor(new Pin(this));
@@ -269,7 +269,6 @@ public class MyMaid extends JavaPlugin implements Listener {
     	//Task
     	new World_saver().runTaskTimer(this, 0L, 36000L);
     	new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
-    	new Lag_Counter(this).runTaskTimer(this, 0L, 6000L);
     	new AFKChecker(this).runTaskTimer(this, 0L, 1200L);
     }
     private void Import_Listener(){
@@ -317,7 +316,6 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnSignClick(this), this);
     	getServer().getPluginManager().registerEvents(new OnVehicleCreateEvent(this), this);
     	getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
-
     	getServer().getPluginManager().registerEvents(new Land(this), this);
     }
     private void Load_Config(){
@@ -718,45 +716,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 		}
 	}
-    private class Lag_Counter extends BukkitRunnable{
-    	JavaPlugin plugin;
-    	public Lag_Counter(JavaPlugin plugin) {
-    		this.plugin = plugin;
-    	}
-		@Override
-		public void run() {
-			if(nextbakrender){
-				long start = System.currentTimeMillis();
-				new Lag_Counter_End(plugin, start).runTaskLater(plugin, 200L);
-			}
-		}
-	}
-    public static double lag = new Double(0);
-    private class Lag_Counter_End extends BukkitRunnable{
-    	long start;
-    	public Lag_Counter_End(JavaPlugin plugin, long start) {
-    		this.start = start;
-    	}
-		@Override
-		public void run() {
-			long end = System.currentTimeMillis();
-			String interval = Method.format(start, end);
 
-			Calendar start_calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
-			Calendar end_calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
-			start_calendar.setTimeInMillis(start);
-			end_calendar.setTimeInMillis(end);
-			start_calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
-			end_calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
-			SimpleDateFormat sdf = new SimpleDateFormat("YYYY/MM/dd_HH:mm:ss.SSSSS");
-			String start_ymdhis = sdf.format(start);
-			String end_ymdhis = sdf.format(end);
-
-			lag = Double.parseDouble(interval);
-
-			Method.url_jaoplugin("lag", "start=" + start_ymdhis + "&end=" + end_ymdhis + "&lag=" + String.format("%.5f", (Double.parseDouble(interval) - 10)));
-		}
-	}
     public static Map<String,Long> afktime = new HashMap<String,Long>();
     private class AFKChecker extends BukkitRunnable{
     	JavaPlugin plugin;

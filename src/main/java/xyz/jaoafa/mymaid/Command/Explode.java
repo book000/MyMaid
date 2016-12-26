@@ -38,10 +38,12 @@ public class Explode implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "---------------------------");
 			return true;
 		}
+		/*
 		if(args.length >= 5 && args.length <= 3){
 			Method.SendMessage(sender, cmd, "引数が多すぎるか足りません");
 			return true;
 		}
+		*/
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");

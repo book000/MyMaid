@@ -22,6 +22,7 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
+import xyz.jaoafa.mymaid.Command.MyBlock;
 
 public class OnQuitGame implements Listener {
 	JavaPlugin plugin;
@@ -34,6 +35,17 @@ public class OnQuitGame implements Listener {
   		if((Bukkit.getServer().getOnlinePlayers().size() - 1) == 0 && MyMaid.nextbakrender){
   			MyMaid.nextbakrender = false;
   			OnExplosion.tntexplode = true;
+  		}
+  		for(Player p: Bukkit.getServer().getOnlinePlayers()){
+  			if(MyBlock.myblock.containsKey(p.getName())){
+  				player.showPlayer(p);
+  			}
+		}
+  		if(MyBlock.myblock.containsKey(player.getName())){
+  			for(Player p: Bukkit.getServer().getOnlinePlayers()){
+				p.showPlayer(player);
+			}
+  			MyBlock.myblock.remove(player.getName());
   		}
   		try {
   			AFK.tnt.get(player.getName()).cancel();
