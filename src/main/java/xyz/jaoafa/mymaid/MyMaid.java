@@ -176,75 +176,18 @@ public class MyMaid extends JavaPlugin implements Listener {
     	Import_Command_Executor();
     	Load_Config();
     	Add_Recipe();
+    	FirstSetting();
     	getLogger().info("--------------------------------------------------");
 
+
+    }
+	private void FirstSetting(){
 		TitleSender = new TitleSender();
 
 		lunachat = (LunaChat)getServer().getPluginManager().getPlugin("LunaChat");
 	    lunachatapi = lunachat.getLunaChatAPI();
-    }
-    @Override
-    public void onDisable() {
-    	conf.set("prison",Prison.prison);
-		conf.set("prison_block",Prison.prison_block);
-		conf.set("prison_lasttext",Prison.jail_lasttext);
-		conf.set("var",Var.var);
-		Map<String,String> colorstr = new HashMap<String,String>();
-		for(Entry<String, ChatColor> p: Color.color.entrySet()){
-			ChatColor color = p.getValue();
-			String chatcolor;
-			if(color.equals(ChatColor.AQUA)){
-				chatcolor = "AQUA";
-			}else if(color.equals(ChatColor.BLACK)){
-				chatcolor = "BLACK";
-			}else if(color.equals(ChatColor.BLUE)){
-				chatcolor = "BLUE";
-			}else if(color.equals(ChatColor.DARK_AQUA)){
-				chatcolor = "DARK_AQUA";
-			}else if(color.equals(ChatColor.DARK_BLUE)){
-				chatcolor = "DARK_BLUE";
-			}else if(color.equals(ChatColor.DARK_GRAY)){
-				chatcolor = "DARK_GRAY";
-			}else if(color.equals(ChatColor.DARK_GREEN)){
-				chatcolor = "DARK_GREEN";
-			}else if(color.equals(ChatColor.DARK_PURPLE)){
-				chatcolor = "DARK_PURPLE";
-			}else if(color.equals(ChatColor.DARK_RED)){
-				chatcolor = "DARK_RED";
-			}else if(color.equals(ChatColor.GOLD)){
-				chatcolor = "GOLD";
-			}else if(color.equals(ChatColor.GREEN)){
-				chatcolor = "GREEN";
-			}else if(color.equals(ChatColor.LIGHT_PURPLE)){
-				chatcolor = "LIGHT_PURPLE";
-			}else if(color.equals(ChatColor.RED)){
-				chatcolor = "RED";
-			}else if(color.equals(ChatColor.WHITE)){
-				chatcolor = "WHITE";
-			}else if(color.equals(ChatColor.YELLOW)){
-				chatcolor = "YELLOW";
-			}else if(color.equals(ChatColor.GRAY)){
-				chatcolor = "GRAY";
-			}else{
-				chatcolor = null;
-			}
-			colorstr.put(p.getKey(), chatcolor);
-		}
-		conf.set("color", colorstr);
-		conf.set("jao",Pointjao.jao);
-		conf.set("maxplayer",maxplayer);
-		conf.set("maxplayertime",maxplayertime);
-
-		Map<String, SerializableLocation> home = new HashMap<String, SerializableLocation>();
-		for(Entry<String, Location> home_: Home.home.entrySet()){
-			SerializableLocation sloc = new SerializableLocation(home_.getValue());
-			home.put(home_.getKey(), sloc);
-		}
-		conf.set("home", home);
-    	saveConfig();
-    }
-
-    private void Load_Plugin(String PluginName){
+	}
+	private void Load_Plugin(String PluginName){
     	if(getServer().getPluginManager().isPluginEnabled(PluginName)){
     		getLogger().info("MyMaid Success(LOADED: " + PluginName + ")");
     		getLogger().info("Using " + PluginName);
@@ -670,6 +613,69 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().addRecipe(X8Z_sr);
 		// -------------------------------------------- //
     }
+
+    @Override
+    public void onDisable() {
+    	conf.set("prison",Prison.prison);
+		conf.set("prison_block",Prison.prison_block);
+		conf.set("prison_lasttext",Prison.jail_lasttext);
+		conf.set("var",Var.var);
+		Map<String,String> colorstr = new HashMap<String,String>();
+		for(Entry<String, ChatColor> p: Color.color.entrySet()){
+			ChatColor color = p.getValue();
+			String chatcolor;
+			if(color.equals(ChatColor.AQUA)){
+				chatcolor = "AQUA";
+			}else if(color.equals(ChatColor.BLACK)){
+				chatcolor = "BLACK";
+			}else if(color.equals(ChatColor.BLUE)){
+				chatcolor = "BLUE";
+			}else if(color.equals(ChatColor.DARK_AQUA)){
+				chatcolor = "DARK_AQUA";
+			}else if(color.equals(ChatColor.DARK_BLUE)){
+				chatcolor = "DARK_BLUE";
+			}else if(color.equals(ChatColor.DARK_GRAY)){
+				chatcolor = "DARK_GRAY";
+			}else if(color.equals(ChatColor.DARK_GREEN)){
+				chatcolor = "DARK_GREEN";
+			}else if(color.equals(ChatColor.DARK_PURPLE)){
+				chatcolor = "DARK_PURPLE";
+			}else if(color.equals(ChatColor.DARK_RED)){
+				chatcolor = "DARK_RED";
+			}else if(color.equals(ChatColor.GOLD)){
+				chatcolor = "GOLD";
+			}else if(color.equals(ChatColor.GREEN)){
+				chatcolor = "GREEN";
+			}else if(color.equals(ChatColor.LIGHT_PURPLE)){
+				chatcolor = "LIGHT_PURPLE";
+			}else if(color.equals(ChatColor.RED)){
+				chatcolor = "RED";
+			}else if(color.equals(ChatColor.WHITE)){
+				chatcolor = "WHITE";
+			}else if(color.equals(ChatColor.YELLOW)){
+				chatcolor = "YELLOW";
+			}else if(color.equals(ChatColor.GRAY)){
+				chatcolor = "GRAY";
+			}else{
+				chatcolor = null;
+			}
+			colorstr.put(p.getKey(), chatcolor);
+		}
+		conf.set("color", colorstr);
+		conf.set("jao",Pointjao.jao);
+		conf.set("maxplayer",maxplayer);
+		conf.set("maxplayertime",maxplayertime);
+
+		Map<String, SerializableLocation> home = new HashMap<String, SerializableLocation>();
+		for(Entry<String, Location> home_: Home.home.entrySet()){
+			SerializableLocation sloc = new SerializableLocation(home_.getValue());
+			home.put(home_.getKey(), sloc);
+		}
+		conf.set("home", home);
+    	saveConfig();
+    }
+
+
 
 
     private class World_saver extends BukkitRunnable{

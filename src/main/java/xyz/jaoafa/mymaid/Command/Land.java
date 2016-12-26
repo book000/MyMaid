@@ -59,6 +59,18 @@ public class Land implements CommandExecutor, Listener {
 			Method.SendMessage(sender, cmd, "このコマンドが使用できるワールドではありまぜん。");
 			return true;
 		}
+		if(PermissionsEx.getUser(player).inGroup("Limited")){
+			Method.SendMessage(sender, cmd, "このコマンドが使用できる権限を持っていません。");
+			return true;
+		}
+		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+			Method.SendMessage(sender, cmd, "このコマンドが使用できる権限を持っていません。");
+			return true;
+		}
+		if(PermissionsEx.getUser(player).inGroup("Default")){
+			Method.SendMessage(sender, cmd, "このコマンドが使用できる権限を持っていません。");
+			return true;
+		}
 		if(args.length == 0){
 			Statement statement;
 			try {

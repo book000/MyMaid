@@ -38,7 +38,7 @@ public class Explode implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "---------------------------");
 			return true;
 		}
-		if(args.length > 5 && args.length < 4){
+		if(args.length >= 5 && args.length <= 3){
 			Method.SendMessage(sender, cmd, "引数が多すぎるか足りません");
 			return true;
 		}
