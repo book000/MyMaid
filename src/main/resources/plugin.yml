@@ -306,3 +306,8 @@ commands:
       usage: /<command>
       permission: mymaid.wt
       permission-message: You do not have permission to perform this command.
+   myblock:
+      description: My Block
+      usage: /<command>
+      permission: mymaid.myblock
+      permission-message: You do not have permission to perform this command.

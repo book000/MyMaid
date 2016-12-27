@@ -11,11 +11,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
+import net.minecraft.server.v1_8_R3.Block;
+import net.minecraft.server.v1_8_R3.EntityFallingBlock;
+import net.minecraft.server.v1_8_R3.IBlockData;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntity;
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 
@@ -25,7 +31,8 @@ public class MyBlock implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	public static Map<String, Material> myblock = new HashMap<String, Material>();
-	FallingBlock fb;
+	EntityFallingBlock fb;
+	BukkitTask bt;
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(!(sender instanceof org.bukkit.entity.Player)){
@@ -43,7 +50,7 @@ public class MyBlock implements CommandExecutor {
 				}
 				myblock.put(player.getName(), Material.STONE);
 				if(myblock.size() == 1){
-					new MyBlockRunCheck().runTaskLaterAsynchronously(plugin, 1);
+					bt = new MyBlockRunCheck().runTaskTimer(plugin, 0, 1);
 				}
 				for(Player p: Bukkit.getServer().getOnlinePlayers()){
 					if(!p.getName().equalsIgnoreCase(player.getName())){
@@ -61,7 +68,7 @@ public class MyBlock implements CommandExecutor {
 				}
 				myblock.remove(player.getName());
 				if(myblock.size() == 0){
-					new MyBlockRunCheck().cancel();
+					bt.cancel();
 				}
 				for(Player p: Bukkit.getServer().getOnlinePlayers()){
 					if(!p.getName().equalsIgnoreCase(player.getName())){
@@ -72,20 +79,24 @@ public class MyBlock implements CommandExecutor {
 				return true;
 			}
 		}else if(args.length == 2){
-			if(args[1].equalsIgnoreCase("set")){
+			if(args[0].equalsIgnoreCase("set")){
 				if(!myblock.containsKey(player.getName())){
 					Method.SendMessage(sender, cmd, "あなたはブロックではないようです。");
 					return true;
 				}
 				Material material = null;
 				try{
-					int i = Integer.parseInt(args[0]);
+					int i = Integer.parseInt(args[1]);
 					material = Material.getMaterial(i);
 				}catch(NumberFormatException e){
-					material = Material.getMaterial(args[0]);
+					material = Material.getMaterial(args[1]);
+				}
+				if(material == null){
+					Method.SendMessage(sender, cmd, "そのアイテムはないようです。");
 				}
 				myblock.put(player.getName(), material);
 				Method.SendMessage(sender, cmd, "あなたは「" + material + "」になりました。");
+				return true;
 			}
 		}
 		Method.SendMessage(sender, cmd, "MyBlock HELP");
@@ -95,11 +106,12 @@ public class MyBlock implements CommandExecutor {
 		return true;
 	}
 	private class MyBlockRunCheck extends BukkitRunnable {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void run() {
 			if(MyMaid.nextbakrender){
 				if(myblock.size() == 0){
-					new MyBlockRunCheck().cancel();
+					bt.cancel();
 				}
 				for(Entry<String, Material> data : myblock.entrySet()) {
 				    Player player = Bukkit.getPlayer(data.getKey());
@@ -115,10 +127,23 @@ public class MyBlock implements CommandExecutor {
 					}
 					CraftPlayer cp = ((CraftPlayer) player);
 					CraftWorld cw = ((CraftWorld) player.getWorld());
-					if(!fb.isDead()){
-						fb.remove();
+					/*
+					if(fb != null){
+						fb.die();
 					}
-					fb = cw.spawnFallingBlock(cp.getLocation(), material, (byte) 0);
+					*/
+
+					int blockID = material.getId();
+					int combined = blockID;
+					IBlockData blockdata = (IBlockData) Block.getByCombinedId(combined);
+					fb = new EntityFallingBlock(cw.getHandle(), cp.getLocation().getX(), cp.getLocation().getY(), cp.getLocation().getZ(), blockdata);
+					Entity entity = cw.addEntity(fb, null);
+					PacketPlayOutEntityDestroy ppoed = new PacketPlayOutEntityDestroy(entity.getEntityId());
+					cp.getHandle().playerConnection.sendPacket(ppoed);
+					PacketPlayOutEntity ppoe = new PacketPlayOutEntity(entity.getEntityId());
+					for(Player p: Bukkit.getServer().getOnlinePlayers()){
+						((CraftPlayer) p).getHandle().playerConnection.sendPacket(ppoe);
+					}
 				}
 			}
 		}
