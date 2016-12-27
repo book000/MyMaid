@@ -29,6 +29,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Unko.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\TNTReload.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MyMaid_NetworkApi.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnLunaChatChannelMemberChangedEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MyMob.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvSave.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\VarCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ded.java
@@ -44,8 +45,8 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnHeadClick.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockIgniteEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvLoad.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DiscordLink.java
-N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Player.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\TitleSender.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Player.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\AFK.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Discordsend.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnVotifierEvent.java

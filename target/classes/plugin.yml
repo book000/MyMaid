@@ -311,3 +311,8 @@ commands:
       usage: /<command>
       permission: mymaid.myblock
       permission-message: You do not have permission to perform this command.
+   mymob:
+      description: My Mob
+      usage: /<command>
+      permission: mymaid.mymob
+      permission-message: You do not have permission to perform this command.
