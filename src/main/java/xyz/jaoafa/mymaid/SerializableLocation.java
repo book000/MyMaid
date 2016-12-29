@@ -10,6 +10,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 /**
  * Location（座標）をシリアライズ・デシリアライズするためのラッパークラス
+ * @author 石橋(<a href="http://www.jias.jp/blog/?78">シリアライズ用のクラスを作ってデータを保存する</a>)
  */
 public class SerializableLocation implements ConfigurationSerializable{
 

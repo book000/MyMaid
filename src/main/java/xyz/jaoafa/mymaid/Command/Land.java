@@ -501,6 +501,10 @@ public class Land implements CommandExecutor, Listener {
 						event.setCancelled(true);
 						return;
 					}
+				}else{
+					player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いため設置行為をすることはできません。");
+					event.setCancelled(true);
+					return;
 				}
 			}else{
 				player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いため設置行為をすることはできません。");
@@ -559,6 +563,10 @@ public class Land implements CommandExecutor, Listener {
 						event.setCancelled(true);
 						return;
 					}
+				}else{
+					player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いため破壊行為をすることはできません。");
+					event.setCancelled(true);
+					return;
 				}
 			}else{
 				player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いため破壊行為をすることはできません。");
@@ -617,6 +625,10 @@ public class Land implements CommandExecutor, Listener {
 						event.setCancelled(true);
 						return;
 					}
+				}else{
+					player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いため着火等行為をすることはできません。");
+					event.setCancelled(true);
+					return;
 				}
 			}else{
 				player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いため着火等行為をすることはできません。");
@@ -675,6 +687,10 @@ public class Land implements CommandExecutor, Listener {
 						event.setCancelled(true);
 						return;
 					}
+				}else{
+					player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いため着火等行為をすることはできません。");
+					event.setCancelled(true);
+					return;
 				}
 			}else{
 				player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いため着火等行為をすることはできません。");
@@ -860,6 +876,10 @@ public class Land implements CommandExecutor, Listener {
 							event.setCancelled(true);
 							return;
 						}
+					}else{
+						player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いためWorldEditで選択できません。");
+						event.setCancelled(true);
+						return;
 					}
 				}else{
 					player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いためWorldEditで選択できません。");
@@ -919,6 +939,10 @@ public class Land implements CommandExecutor, Listener {
 							event.setCancelled(true);
 							return;
 						}
+					}else{
+						player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いためWorldEditで選択できません。");
+						event.setCancelled(true);
+						return;
 					}
 				}else{
 					player.sendMessage("[LAND] " + ChatColor.GREEN + "この土地は購入されておらず、権限が無いためWorldEditで選択できません。");

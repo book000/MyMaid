@@ -24,14 +24,31 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
+/**
+ * 主要メゾット
+ * @author mine_book000
+*/
 public class Method {
 	JavaPlugin plugin;
 	public Method(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+	/**
+	 * jMSプラグインAPIアクセス
+	 * @param filename ファイル名(拡張子無し)
+	 * @param arg 引数(最初の?無し)
+	 * @return 取得した情報
+	 * @author mine_book000
+	*/
 	public static String url_jaoplugin(String filename, String arg){
 		return url_access("http://nubesco.jaoafa.com/plugin/" + filename + ".php?" + arg);
 	}
+	/**
+	 * ネットワークGETアクセス
+	 * @param address 取得したいURL
+	 * @return 取得した情報
+	 * @author mine_book000
+	*/
 	public static String url_access(String address){
 		System.out.println("[MyMaid] URLConnect Start:"+address);
 		try{
@@ -56,6 +73,13 @@ public class Method {
 			return "";
 		}
 	}
+	/**
+	 * ネットワークPOSTアクセス
+	 * @param address 取得したいURL
+	 * @param text 送信するテキスト
+	 * @return 取得した情報
+	 * @author mine_book000
+	*/
 	public static String url_access_post(String address, String text){
 		System.out.println("[MyMaid] URLConnect Start:"+address);
 
@@ -175,7 +199,12 @@ public class Method {
 		System.out.println(result);
 		return result;
 	}
-	//InputStreamより１行だけ読む（読めなければnullを返す）
+	/**
+	 * InputStreamから1行読む
+	 * @param in 読み込み元のInputStream
+	 * @return 読み込んだテキスト
+	 * @author mine_book000
+	*/
 	static String readString(InputStream in){
 		try{
 			int l;//呼んだ長さを記録
@@ -198,6 +227,13 @@ public class Method {
 			return null;
 		}
 	}
+	/**
+	 * チャット偽造
+	 * @param player 喋らせるプレイヤー
+	 * @param text 喋らせる内容
+	 * @return 偽造したテキスト
+	 * @author mine_book000
+	*/
 	public static String chatmaker(String player, String text){
   		Date Date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -205,6 +241,13 @@ public class Method {
 		String send = ChatColor.GRAY + "["+ date + "]" + ChatColor.WHITE + player +  ": " + text;
 		return send;
   	}
+	/**
+	 * 時間差を求める
+	 * @param startTime 開始時間
+	 * @param endTime 終了時間
+	 * @return フォーマットした時間差テキスト
+	 * @author mine_book000
+	*/
 	public static String format(long startTime, long endTime) {
         Calendar start = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
         Calendar end = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
@@ -219,9 +262,23 @@ public class Method {
         SimpleDateFormat sdf = new SimpleDateFormat("ss.SSSSS");
         return sdf.format(result.getTime());
     }
+	/**
+	 * 「[COMMAND] Text」に変換した上でsenderに送信する
+	 * @param sender 送信先
+	 * @param cmd コマンド情報
+	 * @param text 送信テキスト
+	 * @author mine_book000
+	*/
 	public static void SendMessage(CommandSender sender, Command cmd, String text) {
 		sender.sendMessage("[" + cmd.getName().toUpperCase() +"] " + ChatColor.GREEN + text);
 	}
+	/**
+	 * 指定したプレイヤーのPermissionsExにおけるグループに入っているかどうか確認する
+	 * @param player 取得するプレイヤー
+	 * @param group PermissionsExのグループ名
+	 * @return 入っていたらtrue、入っていなかったらfalse
+	 * @author mine_book000
+	*/
 	public static boolean CheckQroup(Player player, String group) {
 		if(PermissionsEx.getUser(player).inGroup(group)){
 			return true;

@@ -62,7 +62,7 @@ public class TitleSender {
 
     /**
      * プレイヤーに表示されているタイトルをリセットします。
-     * @param player
+     * @param player 対象のプレイヤー
      */
     public void resetTitle(Player player) {
         sendTitle(player,"","");

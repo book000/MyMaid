@@ -35,6 +35,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\VarCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ded.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynamic.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Color.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Give.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedMsg.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Sign.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnVehicleCreateEvent.java

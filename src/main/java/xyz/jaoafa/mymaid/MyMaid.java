@@ -147,12 +147,19 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public static Connection c = null;
 	public static String sqluser;
 	public static String sqlpassword;
+	/**
+	 * プラグインが起動したときに呼び出し
+	 * @author mine_book000
+	 * @since 2016/04/04
+	*/
 	@Override
     public void onEnable() {
 		getLogger().info("--------------------------------------------------");
-    	getLogger().info("(c) jao Minecraft Server MyMaid Project.");
+    	// クレジット
+		getLogger().info("(c) jao Minecraft Server MyMaid Project.");
     	getLogger().info("Product by tomachi.");
 
+    	//連携プラグインの確認
     	Load_Plugin("EEWAlert");
     	Load_Plugin("PermissionsEx");
     	Load_Plugin("WorldEdit");
@@ -161,6 +168,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	Load_Plugin("Votifier");
     	Load_Plugin("MCBans");
 
+    	//EEWAlertの設定
     	EEWAlert eew = (EEWAlert)getServer().getPluginManager().getPlugin("EEWAlert");
     	String eewnoticeold;
     	if(eew.eewAlertConfig.notificationMode){
@@ -171,22 +179,36 @@ public class MyMaid extends JavaPlugin implements Listener {
     	eew.eewAlertConfig.notificationMode = false;
     	getLogger().info("EEWAlertの通知動作設定を" + eewnoticeold + "からfalseに変更しました。");
 
+    	//リスナーを設定
 		Import_Listener();
+		//スケジュールタスクをスケジュ―リング
     	Import_Task();
+    	//コマンドを設定
     	Import_Command_Executor();
+    	//コンフィグ読み込み
     	Load_Config();
+    	//レシピ(クラフト)追加
     	Add_Recipe();
+    	//初期設定(TitleSender, Lunachat設定)
     	FirstSetting();
     	getLogger().info("--------------------------------------------------");
 
 
     }
+	/**
+	 * 初期設定
+	 * @author mine_book000
+	*/
 	private void FirstSetting(){
 		TitleSender = new TitleSender();
 
 		lunachat = (LunaChat)getServer().getPluginManager().getPlugin("LunaChat");
 	    lunachatapi = lunachat.getLunaChatAPI();
 	}
+	/**
+	 * 連携プラグイン確認
+	 * @author mine_book000
+	*/
 	private void Load_Plugin(String PluginName){
     	if(getServer().getPluginManager().isPluginEnabled(PluginName)){
     		getLogger().info("MyMaid Success(LOADED: " + PluginName + ")");
@@ -198,6 +220,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 			return;
 		}
     }
+	/**
+	 * コマンドの設定
+	 * @author mine_book000
+	*/
     private void Import_Command_Executor(){
     	//Command Executor
     	getCommand("access").setExecutor(new Access(this));
@@ -267,12 +293,19 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("where").setExecutor(new Where(this));
     	getCommand("wt").setExecutor(new WorldTeleport(this));
     }
+    /**
+	 * スケジューリング
+	 * @author mine_book000
+	*/
     private void Import_Task(){
-    	//Task
     	new World_saver().runTaskTimer(this, 0L, 36000L);
     	new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
     	new AFKChecker(this).runTaskTimer(this, 0L, 1200L);
     }
+    /**
+	 * リスナー設定
+	 * @author mine_book000
+	*/
     private void Import_Listener(){
     	//Listener
     	getServer().getPluginManager().registerEvents(this, this);
@@ -320,6 +353,10 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
     	getServer().getPluginManager().registerEvents(new Land(this), this);
     }
+    /**
+	 * コンフィグ読み込み
+	 * @author mine_book000
+	*/
     private void Load_Config(){
     	ConfigurationSerialization.registerClass(SerializableLocation.class);
     	conf = getConfig();
@@ -469,7 +506,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 
     }
-
+    /**
+	 * MySQLの初期設定
+	 * @author mine_book000
+	*/
     private void MySQL_Enable(String user, String password){
     	MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", user, password);
 
@@ -492,7 +532,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
     	getLogger().info("MySQL Connect successful.");
     }
-
+    /**
+	 * レシピ追加設定
+	 * @author mine_book000
+	*/
 	private void Add_Recipe(){
 		/* Ekusas83を以下の工程で作るの図
 		 *
@@ -675,9 +718,12 @@ public class MyMaid extends JavaPlugin implements Listener {
     	saveConfig();
     }
 
+    /* ----- タスク系 ----- */
 
-
-
+    /**
+	 * ワールド保存タスク(30分毎)
+	 * @author mine_book000
+	*/
     private class World_saver extends BukkitRunnable{
 		@Override
 		public void run() {
@@ -708,18 +754,42 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 		}
 	}
+    /**
+	 * Dynmapの自動レンダリング(30分毎)
+	 * @author mine_book000
+	*/
     private class Dynmap_Update_Render extends BukkitRunnable{
 		@Override
 		public void run() {
 			if(nextbakrender){
+				long i = 0;
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "dynmap updaterender Jao_Afa " + player.getLocation().getBlockX() + " " + player.getLocation().getBlockZ() );
+					new Dynmap_Update_Render_User(player).runTaskLater(MyMaid.this, i);
+					i += 100;
 				}
 			}
 		}
 	}
+    /**
+	 * Dynmapの自動レンダリング(時間差タスク)
+	 * @author mine_book000
+	*/
+    private class Dynmap_Update_Render_User extends BukkitRunnable{
+    	Player player;
+    	public Dynmap_Update_Render_User(Player player){
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "dynmap updaterender Jao_Afa " + player.getLocation().getBlockX() + " " + player.getLocation().getBlockZ() );
+		}
+	}
 
     public static Map<String,Long> afktime = new HashMap<String,Long>();
+    /**
+	 * AFKチェックタスク
+	 * @author mine_book000
+	*/
     private class AFKChecker extends BukkitRunnable{
     	JavaPlugin plugin;
     	public AFKChecker(JavaPlugin plugin) {
