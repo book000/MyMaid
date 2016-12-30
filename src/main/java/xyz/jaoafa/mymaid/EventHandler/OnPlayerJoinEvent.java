@@ -2,6 +2,7 @@ package xyz.jaoafa.mymaid.EventHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -55,12 +56,27 @@ public class OnPlayerJoinEvent implements Listener {
 			//クリスマス仕様
 			SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 			Date Date = new Date();
-			if(date.format(Date).equalsIgnoreCase("2016-12-24")){
-				event.getPlayer().sendMessage("[MyMaid] " + ChatColor.GREEN + "サーバからのプレゼントです！クリスマスがあなたにとって大切な日となりますように…。");
-				Pointjao.addjao(event.getPlayer(), 300);
-			}else if(date.format(Date).equalsIgnoreCase("2016-12-25")){
-				event.getPlayer().sendMessage("[MyMaid] " + ChatColor.GREEN + "サーバからのプレゼントです！クリスマスが終わったらもう年末ですね…年賀状投函は今日までですよ！");
-				Pointjao.addjao(event.getPlayer(), 300);
+			if(date.format(Date).equalsIgnoreCase("2017-01-01")){
+				event.getPlayer().sendMessage("[MyMaid] " + ChatColor.GREEN + "サーバからのプレゼントです！あけましておめでとうございます！");
+				Random rnd = new Random();
+				int random = rnd.nextInt(20)*10;
+				random += 300;
+
+				Pointjao.addjao(event.getPlayer(), random);
+			}else if(date.format(Date).equalsIgnoreCase("2017-01-02")){
+				event.getPlayer().sendMessage("[MyMaid] " + ChatColor.GREEN + "サーバからのプレゼントです！年賀状は届きましたか？");
+				Random rnd = new Random();
+				int random = rnd.nextInt(20)*10;
+				random += 300;
+
+				Pointjao.addjao(event.getPlayer(), random);
+			}else if(date.format(Date).equalsIgnoreCase("2017-01-03")){
+				event.getPlayer().sendMessage("[MyMaid] " + ChatColor.GREEN + "サーバからのプレゼントです！新ワールド「ReJao_Afa」がオープンしています！今回のお年玉イベントのポイントはそこで…！");
+				Random rnd = new Random();
+				int random = rnd.nextInt(20)*10;
+				random += 300;
+
+				Pointjao.addjao(event.getPlayer(), random);
 			}
 
 		}

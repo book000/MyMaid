@@ -1,5 +1,6 @@
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerInteractEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnEntityChangeBlockEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\ConfLang.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Var.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\MyMaid.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gettissue.java
@@ -20,8 +21,8 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBucketEmpt
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SaveWorld.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\WorldTeleport.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gamemode_Change.java
-N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MakeCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\UpGallery.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MakeCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveAFK.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerKickEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveEvent.java
@@ -35,7 +36,6 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\VarCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ded.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynamic.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Color.java
-N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Give.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedMsg.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Sign.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnVehicleCreateEvent.java
@@ -56,6 +56,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnJoin.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Jao.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnSignClick.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ja.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Language.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Database.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnFrom.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MyBlock.java
