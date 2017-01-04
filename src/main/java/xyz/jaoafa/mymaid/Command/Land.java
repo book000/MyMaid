@@ -218,6 +218,101 @@ public class Land implements CommandExecutor, Listener {
 						return true;
 					}
 				}
+			}else if(args[0].equalsIgnoreCase("list")){
+				Statement statement;
+				try {
+					statement = MyMaid.c.createStatement();
+				} catch (NullPointerException e) {
+					MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+					try {
+						MyMaid.c = MySQL.openConnection();
+						statement = MyMaid.c.createStatement();
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO 自動生成された catch ブロック
+						e1.printStackTrace();
+						Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
+						Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+						return true;
+					}
+				} catch (SQLException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+					Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
+					Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+					return true;
+				}
+				try {
+					ResultSet res = statement.executeQuery("SELECT * FROM land WHERE uuid = '" + player.getUniqueId() + "';");
+					while(res.next()){
+						Method.SendMessage(sender, cmd, "ID: " + res.getInt("id") + " XYZ: " + res.getInt("x1") + " " + res.getInt("y1") + " " + res.getInt("z1") + " - " +  res.getInt("x2") + " " + res.getInt("y2") + " " + res.getInt("z2"));
+					}
+				} catch (SQLException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+			}else if(args[0].equalsIgnoreCase("search")){
+				int i;
+				try{
+					i = Integer.parseInt(args[1]);
+				}catch (NumberFormatException e){
+					Method.SendMessage(sender, cmd, "土地IDは数値で指定してください。");
+					return true;
+				}
+				Statement statement;
+				try {
+					statement = MyMaid.c.createStatement();
+				} catch (NullPointerException e) {
+					MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+					try {
+						MyMaid.c = MySQL.openConnection();
+						statement = MyMaid.c.createStatement();
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO 自動生成された catch ブロック
+						e1.printStackTrace();
+						Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
+						Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+						return true;
+					}
+				} catch (SQLException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+					Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
+					Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+					return true;
+				}
+				try {
+					ResultSet res = statement.executeQuery("SELECT * FROM land WHERE uuid = '" + player.getUniqueId() + "';");
+					res.next();
+					res.next();
+					if(res.next()){
+						Method.SendMessage(sender, cmd, "あなたは既に土地を3つ取得しています。");
+						return true;
+					}
+					res = statement.executeQuery("SELECT * FROM land WHERE id = " + i + ";");
+					if(!res.next()){
+						Method.SendMessage(sender, cmd, "指定された土地はありません。");
+						return true;
+					}
+					if(res.getBoolean("isplayerland")){
+						Method.SendMessage(sender, cmd, "指定された土地「" + i + "」は所有されている土地です。");
+						Method.SendMessage(sender, cmd, "所有者: " + res.getString("player"));
+						Method.SendMessage(sender, cmd, "XYZ1: " + res.getInt("x1") + " " + res.getInt("y1") + " " + res.getInt("z1"));
+						Method.SendMessage(sender, cmd, "XYZ2: " + res.getInt("x2") + " " + res.getInt("y2") + " " + res.getInt("z2"));
+						Method.SendMessage(sender, cmd, "土地登録日付: " + res.getString("createdate"));
+						Method.SendMessage(sender, cmd, "土地取得日付: " + res.getString("date"));
+					}else{
+						Method.SendMessage(sender, cmd, "指定された土地「" + i + "」は所有されていない土地です。");
+						Method.SendMessage(sender, cmd, "XYZ1: " + res.getInt("x1") + " " + res.getInt("y1") + " " + res.getInt("z1"));
+						Method.SendMessage(sender, cmd, "XYZ2: " + res.getInt("x2") + " " + res.getInt("y2") + " " + res.getInt("z2"));
+						Method.SendMessage(sender, cmd, "土地登録日付: " + res.getString("createdate"));
+					}
+				} catch (SQLException e) {
+					// TODO 自動生成された catch ブロック
+					Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
+					Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+					e.printStackTrace();
+					return true;
+				}
 			}
 		}else if(args.length == 2){
 			if(args[0].equalsIgnoreCase("get")){
@@ -384,7 +479,7 @@ public class Land implements CommandExecutor, Listener {
 							}
 						}
 
-						statement.executeUpdate("DELETE FROM land WHERE  id = " + id + ";");
+						statement.executeUpdate("DELETE FROM land WHERE id = " + id + ";");
 
 						Pointjao.addjao(player, (int) land_jaop_sell);
 

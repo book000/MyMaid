@@ -32,12 +32,21 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="N:/Github/MyMaid/lib/craftbukkit-1.8.8.jar">
+	<classpathentry kind="lib" path="N:/Github/MyMaid/lib/MCBans.jar">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="org.bukkit"/>
-			<attribute name="maven.artifactId" value="craftbukkit"/>
-			<attribute name="maven.version" value="1.8.8-R0.1-SNAPSHOT"/>
+			<attribute name="maven.groupId" value="com.mcbans.firestar"/>
+			<attribute name="maven.artifactId" value="mcbans"/>
+			<attribute name="maven.version" value="4.3.3"/>
+			<attribute name="maven.scope" value="system"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="N:/pleiades/eclipse/workspace/MyMaid2/lib/MCBans.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="com.mcbans.firestar"/>
+			<attribute name="maven.artifactId" value="mcbans"/>
+			<attribute name="maven.version" value="4.3.3"/>
 			<attribute name="maven.scope" value="system"/>
 		</attributes>
 	</classpathentry>

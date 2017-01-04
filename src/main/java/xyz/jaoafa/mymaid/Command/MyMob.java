@@ -282,6 +282,7 @@ public class MyMob implements CommandExecutor {
 					if(e != null){
 						Location loc = cp.getLocation();
 						e.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+						e.setPositionRotation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
 
 						PacketPlayOutSpawnEntityLiving p24 = new PacketPlayOutSpawnEntityLiving(e);
 

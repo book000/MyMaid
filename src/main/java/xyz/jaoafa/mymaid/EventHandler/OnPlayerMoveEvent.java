@@ -29,17 +29,18 @@ public class OnPlayerMoveEvent implements Listener {
 	   	}
 	   	World World = Bukkit.getServer().getWorld("Jao_Afa");
 	   	Location prison = new Location(World, 1767, 70, 1767);
-	   	if(prison.distance(to) >= 150){
-	   		player.sendMessage("[PRISON] " + ChatColor.GREEN + "あなたは南の楽園から出られません！");
-	   		e.setCancelled(true);
-	   		try{
+	   	try{
+	   		if(prison.distance(to) >= 150){
+	   			player.sendMessage("[PRISON] " + ChatColor.GREEN + "あなたは南の楽園から出られません！");
+	   			e.setCancelled(true);
+
 	   			if(prison.distance(to) >= 200){
 		  			player.teleport(prison);
 		   		}
-	   		}catch(java.lang.IllegalArgumentException ex){
-	   			player.teleport(prison);
-	   		}
-	   	}
 
+	   		}
+	   	}catch(java.lang.IllegalArgumentException ex){
+   			player.teleport(prison);
+   		}
 	}
 }
