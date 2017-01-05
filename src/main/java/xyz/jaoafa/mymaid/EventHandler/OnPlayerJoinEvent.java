@@ -2,7 +2,6 @@ package xyz.jaoafa.mymaid.EventHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -53,7 +52,7 @@ public class OnPlayerJoinEvent implements Listener {
 			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + event.getPlayer().getName() + "は本日初ログインです。");
 			Pointjao.addjao(event.getPlayer(), 10);
 
-			//クリスマス仕様
+			/*
 			SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 			Date Date = new Date();
 			if(date.format(Date).equalsIgnoreCase("2017-01-01")){
@@ -78,6 +77,7 @@ public class OnPlayerJoinEvent implements Listener {
 
 				Pointjao.addjao(event.getPlayer(), random);
 			}
+			*/
 
 		}
   		Date Date = new Date();

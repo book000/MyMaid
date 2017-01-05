@@ -45,7 +45,7 @@ public class Pin implements CommandExecutor {
 			Pattern p = Pattern.compile(regex);
 			Matcher m = p.matcher(pin);
 			if (!m.find()){
-				sender.sendMessage("[PCA] " + ChatColor.GREEN + "エラーが発生しました。4桁の半角数字を入力してください。");
+				sender.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラーが発生しました。4桁の半角数字を入力してください。");
 				Bukkit.getLogger().info("ERROR! 4桁の半角数字が入力されませんでした。");
 				return true;
 			}
@@ -60,17 +60,17 @@ public class Pin implements CommandExecutor {
 		utc = Long.parseLong(utcs);
 		long times = Long.parseLong(time);
 		if(utc > times){
-			sender.sendMessage("[PCA] " + ChatColor.GREEN + "PINコードの有効期限が切れています。再度取得してください。(ErrorCode:1)");
+			sender.sendMessage("[MyMaid] " + ChatColor.GREEN + "PINコードの有効期限が切れています。再度取得してください。(ErrorCode:1)");
 			Bukkit.getLogger().info("ERROR! 有効期間が切れ、無効のPINコードが入力されました。Now:\"" + utc + "\" PINClose:\"" + times + "\"");
 			return true;
 		}
 		if(status.trim().equals("used")){
-			sender.sendMessage("[PCA] " + ChatColor.GREEN + "PINコードが既に使用されています。再度取得してください。(ErrorCode:2)");
+			sender.sendMessage("[MyMaid] " + ChatColor.GREEN + "PINコードが既に使用されています。再度取得してください。(ErrorCode:2)");
 			Bukkit.getLogger().info("ERROR! 既に使用されているコードが入力されました。 PINStatus:\"" + status + "\"");
 			return true;
 		}
 		if(!code.trim().equals(pin.trim())){
-			sender.sendMessage("[PCA] " + ChatColor.GREEN + "PINコードが誤っています。再度確認し正しいコードを入力してください。(ErrorCode:3)");
+			sender.sendMessage("[MyMaid] " + ChatColor.GREEN + "PINコードが誤っています。再度確認し正しいコードを入力してください。(ErrorCode:3)");
 			Bukkit.getLogger().info("ERROR! コードが誤っています。Input PIN:\"" + pin.trim() + "\" NetWork PIN:\"" + code.trim() + "\"");
 			return true;
 		}else{
@@ -82,9 +82,9 @@ public class Pin implements CommandExecutor {
 				}
 			}
 			PermissionsEx.getUser(player).addGroup("Default");
-			sender.sendMessage("[PCA] " + ChatColor.GREEN + "登録しました。当鯖にお越しいただきありがとうございます。");
-			sender.sendMessage("[PCA] " + ChatColor.GREEN + "是非当鯖の宣伝をよろしくおねがいします！");
-			sender.sendMessage("[PCA] " + ChatColor.GREEN + "minecraft.jpで投票する: https://minecraft.jp/servers/jaoafa.com");
+			sender.sendMessage("[MyMaid] " + ChatColor.GREEN + "登録しました。当鯖にお越しいただきありがとうございます。");
+			sender.sendMessage("[MyMaid] " + ChatColor.GREEN + "是非当鯖の宣伝をよろしくおねがいします！");
+			sender.sendMessage("[MyMaid] " + ChatColor.GREEN + "minecraft.jpで投票する: https://minecraft.jp/servers/jaoafa.com");
 			Bukkit.getLogger().info("\"" + player.getName() + "\"さんが登録されました。Input PIN:\"" + pin.trim() + "\" NetWork PIN:\"" + code.trim() + "\" PINStatus:\"" + status + "\" Now:\"" + utc + "\" PINClose:\"" + times + "\"");
 			Method.url_jaoplugin("pin/close", "code=" + code.trim() + "&p=" + player.getName());
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mt tw " + player.getName() + "さんが認証を通過しました！ #jao_pin_code");

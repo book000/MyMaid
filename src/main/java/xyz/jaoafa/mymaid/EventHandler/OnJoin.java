@@ -30,10 +30,10 @@ public class OnJoin implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer(); // Joinしたプレイヤー
 		InetAddress ip = player.getAddress().getAddress();
-		if(player.hasPermission("mymaid.pex.limited")){
+		if(PermissionsEx.getUser(player).inGroup("Limited")){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(p.hasPermission("pin_code_auth.joinmsg")) {
-					p.sendMessage("[PCA] " + ChatColor.GREEN + "新規ちゃんだよ！やったね☆");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "新規ちゃんだよ！やったね☆");
 				}
 			}
 		}else{
@@ -44,7 +44,7 @@ public class OnJoin implements Listener {
 		if(data.equalsIgnoreCase("NO")){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(p.hasPermission("pin_code_auth.joinmsg")) {
-					p.sendMessage("[PCA] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:なし");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:なし");
 				}
 			}
 
@@ -52,7 +52,7 @@ public class OnJoin implements Listener {
 		}else if(data.indexOf(",") == -1){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(p.hasPermission("pin_code_auth.joinmsg")) {
-					p.sendMessage("[PCA] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:"+data+"");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:"+data+"");
 				}
 			}
 			Bukkit.getLogger().info("このユーザーがアクセスしたページ:"+data+"");
@@ -64,7 +64,7 @@ public class OnJoin implements Listener {
 			}
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(p.hasPermission("pin_code_auth.joinmsg")) {
-					p.sendMessage("[PCA] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:"+accesstext+"など");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:"+accesstext+"など");
 				}
 			}
 			Bukkit.getLogger().info("このユーザーがアクセスしたページ:"+accesstext+"など");
