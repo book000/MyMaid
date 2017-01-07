@@ -45,7 +45,6 @@ public class Cmdmymaid implements CommandExecutor {
 	private static final Random random = new Random();
 	private static final String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length == 3){
 			if(args[0].equalsIgnoreCase("jaoadd")){
