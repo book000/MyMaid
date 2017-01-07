@@ -26,7 +26,9 @@ public class OnBreak implements Listener {
 		if(e.getBlock().getType() == Material.CROPS){
 			Crops block = (Crops)e.getBlock().getState().getData();
 			if(block.getState() == CropState.RIPE){
-				e.setCancelled(true);
+				if(player.getItemInHand().getType() != Material.DIAMOND_SWORD){
+					e.setCancelled(true);
+				}
 			}
 		}
 	}

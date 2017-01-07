@@ -8,18 +8,29 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.TileEntitySkull;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
@@ -31,6 +42,10 @@ public class Cmdmymaid implements CommandExecutor {
 		this.plugin = plugin;
 	}
 
+	private static final Random random = new Random();
+	private static final String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length == 3){
 			if(args[0].equalsIgnoreCase("jaoadd")){
@@ -111,10 +126,10 @@ public class Cmdmymaid implements CommandExecutor {
 							Prison.prison.put(p.getKey(), (Boolean) p.getValue());
 						}
 					}
-		 		}else{
-		 			Prison.prison = new HashMap<String,Boolean>();
-		 			conf.set("prison",Prison.prison);
-		 		}
+				}else{
+					Prison.prison = new HashMap<String,Boolean>();
+					conf.set("prison",Prison.prison);
+				}
 				if(conf.contains("prison_block")){
 					//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 					Map<String, Object> pl = conf.getConfigurationSection("prison_block").getValues(true);
@@ -123,10 +138,10 @@ public class Cmdmymaid implements CommandExecutor {
 							Prison.prison_block.put(p.getKey(), (Boolean) p.getValue());
 						}
 					}
-		 		}else{
-		 			Prison.prison_block = new HashMap<String,Boolean>();
-		 			conf.set("prison_block",Prison.prison_block);
-		 		}
+				}else{
+					Prison.prison_block = new HashMap<String,Boolean>();
+					conf.set("prison_block",Prison.prison_block);
+				}
 				if(conf.contains("prison_lasttext")){
 					Map<String, Object> pl = conf.getConfigurationSection("prison_lasttext").getValues(true);
 					if(pl.size() != 0){
@@ -134,10 +149,10 @@ public class Cmdmymaid implements CommandExecutor {
 							Prison.jail_lasttext.put(p.getKey(), p.getValue().toString());
 						}
 					}
-		 		}else{
-		 			Prison.jail_lasttext = new HashMap<String,String>();
-		 			conf.set("prison_lasttext",Prison.jail_lasttext);
-		 		}
+				}else{
+					Prison.jail_lasttext = new HashMap<String,String>();
+					conf.set("prison_lasttext",Prison.jail_lasttext);
+				}
 				if(conf.contains("var")){
 					//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 					Map<String, Object> var = conf.getConfigurationSection("var").getValues(true);
@@ -146,10 +161,10 @@ public class Cmdmymaid implements CommandExecutor {
 							Var.var.put(p.getKey(), (String) p.getValue());
 						}
 					}
-		 		}else{
-		 			Var.var = new HashMap<String, String>();
-		 			conf.set("var",Var.var);
-		 		}
+				}else{
+					Var.var = new HashMap<String, String>();
+					conf.set("var",Var.var);
+				}
 				if(conf.contains("jao")){
 					//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 					Map<String, Object> jao = conf.getConfigurationSection("jao").getValues(true);
@@ -158,10 +173,10 @@ public class Cmdmymaid implements CommandExecutor {
 							Pointjao.jao.put(p.getKey(), (Integer) p.getValue());
 						}
 					}
-		 		}else{
-		 			Pointjao.jao = new HashMap<String, Integer>();
-		 			conf.set("jao",Pointjao.jao);
-		 		}
+				}else{
+					Pointjao.jao = new HashMap<String, Integer>();
+					conf.set("jao",Pointjao.jao);
+				}
 				if(conf.contains("color")){
 					//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 					Map<String, Object> color = conf.getConfigurationSection("color").getValues(true);
@@ -209,20 +224,20 @@ public class Cmdmymaid implements CommandExecutor {
 							}
 						}
 					}
-		 		}else{
-		 			Color.color = new HashMap<String, ChatColor>();
-		 			conf.set("color",Color.color);
-		 		}
+				}else{
+					Color.color = new HashMap<String, ChatColor>();
+					conf.set("color",Color.color);
+				}
 				if(conf.contains("maxplayer")){
 					MyMaid.maxplayer = conf.getInt("maxplayer");
-		 		}else{
-		 			MyMaid.maxplayer = 0;
-		 		}
+				}else{
+					MyMaid.maxplayer = 0;
+				}
 				if(conf.contains("maxplayertime")){
 					MyMaid.maxplayertime = conf.getString("maxplayertime");
-		 		}else{
-		 			MyMaid.maxplayertime = "無し";
-		 		}
+				}else{
+					MyMaid.maxplayertime = "無し";
+				}
 				Method.SendMessage(sender, cmd, "MyMaid Config Loaded!");
 				return true;
 			}else if(args[0].equalsIgnoreCase("save")){
@@ -276,9 +291,9 @@ public class Cmdmymaid implements CommandExecutor {
 				conf.set("jao",Pointjao.jao);
 				conf.set("maxplayer",MyMaid.maxplayer);
 				conf.set("maxplayertime",MyMaid.maxplayertime);
-		    	plugin.saveConfig();
-		    	Method.SendMessage(sender, cmd, "MyMaid Config Saved!");
-		    	return true;
+				plugin.saveConfig();
+				Method.SendMessage(sender, cmd, "MyMaid Config Saved!");
+				return true;
 			}else{
 				Method.SendMessage(sender, cmd, "Usage: \"/mymaid jaoadd jao\" OR \"/mymaid load\" OR \"/mymaid save\"");
 				return true;
@@ -287,5 +302,29 @@ public class Cmdmymaid implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "Usage: \"/mymaid jaoadd jao\" OR \"/mymaid load\" OR \"/mymaid save\"");
 			return true;
 		}
+	}
+	// Real Method
+	public static GameProfile getNonPlayerProfile(String skinURL, boolean randomName) {
+		GameProfile newSkinProfile = new GameProfile(UUID.randomUUID(), randomName ? getRandomString(16) : null);
+		newSkinProfile.getProperties().put("textures", new Property("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + skinURL + "\"}}}")));
+		return newSkinProfile;
+	}
+
+	// Example Usage
+	@SuppressWarnings("deprecation")
+	public static void setSkullWithNonPlayerProfile(String skinURL, boolean randomName, Block skull) {
+		if(skull.getType() != Material.SKULL) throw new IllegalArgumentException("Block must be a skull." + skull.getType());
+		BlockPosition bp = new BlockPosition(skull.getX(), skull.getY(), skull.getZ());
+		TileEntitySkull skullTile = (TileEntitySkull)((CraftWorld)skull.getWorld()).getHandle().getTileEntity(bp);
+		skullTile.setGameProfile(getNonPlayerProfile(skinURL, randomName));
+		skull.getWorld().refreshChunk(skull.getChunk().getX(), skull.getChunk().getZ());
+	}
+
+	// Util
+	public static String getRandomString(int length) {
+		StringBuilder b = new StringBuilder(length);
+		for(int j = 0; j < length; j++)
+			b.append(chars.charAt(random.nextInt(chars.length())));
+		return b.toString();
 	}
 }
