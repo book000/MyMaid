@@ -30,6 +30,7 @@ import com.github.ucchyocean.lc.LunaChat;
 import com.github.ucchyocean.lc.LunaChatAPI;
 import com.ittekikun.plugin.eewalert.EEWAlert;
 
+import eu.manuelgu.discordmc.MessageAPI;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.AFK.afking;
@@ -194,7 +195,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	FirstSetting();
     	getLogger().info("--------------------------------------------------");
 
-
+    	MessageAPI.sendToDiscord("**Server Started.**");
     }
 	/**
 	 * 初期設定
@@ -717,6 +718,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 		conf.set("home", home);
     	saveConfig();
+    	MessageAPI.sendToDiscord("**Server Stopped.**");
     }
 
     /* ----- タスク系 ----- */
