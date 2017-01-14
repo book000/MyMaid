@@ -85,7 +85,7 @@ public class Ja implements CommandExecutor {
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jai");
-		MessageAPI.sendToDiscord("**" + Msg + "** jai");
+		MessageAPI.sendToDiscord("**" + Msg + "**: jai");
 		new jai_uwa(Msg).runTaskLater(plugin, 60);
 
 		return true;
@@ -100,7 +100,7 @@ public class Ja implements CommandExecutor {
 			Date Date = new Date();
 			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": uwa");
-			MessageAPI.sendToDiscord("**" + Msg + "** uwa");
+			MessageAPI.sendToDiscord("**" + Msg + "**: uwa");
 			cancel();
 		}
 	}

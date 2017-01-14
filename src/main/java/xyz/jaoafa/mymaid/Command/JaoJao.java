@@ -84,7 +84,7 @@ public class JaoJao implements CommandExecutor {
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jaojao");
-		MessageAPI.sendToDiscord("**" + Msg + "** jaojao");
+		MessageAPI.sendToDiscord("**" + Msg + "**: jaojao");
 		return true;
 	}
 }

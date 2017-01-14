@@ -99,7 +99,7 @@ public class Chat implements CommandExecutor {
 			date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
 			OnMyMaidJoinLeftChatCmdLogs.log(plugin, "chat", args[0], text);
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + color + "■" + ChatColor.WHITE + args[0] +  ": " + text);
-			MessageAPI.sendToDiscord("**" + args[0] + "**" + text);
+			MessageAPI.sendToDiscord("**" + args[0] + "**: " + text);
 		}else{
 			Method.SendMessage(sender, cmd, "このコマンドには2つ以上の引数が必要です。");
 		}
