@@ -3,6 +3,7 @@ package xyz.jaoafa.mymaid.EventHandler;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,6 +42,10 @@ public class EyeMove implements Listener {
 			return;
 		}
 		Vector vector = eye.getLocation().toVector().subtract(player.getLocation().toVector());
-		eye.getEyeLocation().setDirection(vector);
+
+		Location loc = eye.getLocation().setDirection(vector.setX(-vector.getX()));
+		loc = eye.getLocation().setDirection(vector.setY(-vector.getY()));
+		loc = eye.getLocation().setDirection(vector.setZ(-vector.getZ()));
+		eye.teleport(loc);
 	}
 }

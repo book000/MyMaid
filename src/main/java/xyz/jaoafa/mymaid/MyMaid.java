@@ -167,6 +167,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	Load_Plugin("CoreProtect");
     	Load_Plugin("Votifier");
     	Load_Plugin("MCBans");
+    	Load_Plugin("DiscordMC");
 
     	//EEWAlertの設定
     	EEWAlert eew = (EEWAlert)getServer().getPluginManager().getPlugin("EEWAlert");

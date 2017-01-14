@@ -428,7 +428,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 
 			FileWriter filewriter = new FileWriter(file, true);
 
-			filewriter.write(text + "¥r¥n");
+			filewriter.write(text + System.getProperty("line.separator"));
 
 			filewriter.close();
 		}catch(IOException e){

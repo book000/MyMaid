@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import eu.manuelgu.discordmc.MessageAPI;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
@@ -84,6 +85,7 @@ public class Jf implements CommandExecutor {
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jao");
+		MessageAPI.sendToDiscord("**" + Msg + "** jao");
 		new jao_afa(Msg).runTaskLater(plugin, 60);
 
 		return true;
@@ -98,6 +100,7 @@ public class Jf implements CommandExecutor {
 			Date Date = new Date();
 			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": afa");
+			MessageAPI.sendToDiscord("**" + Msg + "** afa");
 			cancel();
 		}
 	}
