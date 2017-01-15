@@ -283,11 +283,13 @@ public class Land implements CommandExecutor, Listener {
 					return true;
 				}
 				try {
-					ResultSet res = statement.executeQuery("SELECT * FROM land WHERE uuid = '" + player.getUniqueId() + "';");
-					res.next();
-					res.next();
+					ResultSet res = statement.executeQuery("SELECT COUNT(*) FROM land WHERE uuid = '" + player.getUniqueId() + "';");
+					int count = 0;
 					if(res.next()){
-						Method.SendMessage(sender, cmd, "あなたは既に土地を3つ取得しています。");
+						count = res.getInt(1);
+					}
+					if(count >= 10){
+						Method.SendMessage(sender, cmd, "あなたは既に土地を10つ取得しています。");
 						return true;
 					}
 					res = statement.executeQuery("SELECT * FROM land WHERE id = " + i + ";");
@@ -415,8 +417,7 @@ public class Land implements CommandExecutor, Listener {
 								}
 							}
 						}
-
-						statement.executeUpdate("DELETE FROM land WHERE id = " + id + ";");
+						statement.executeUpdate("UPDATE land SET `player` = '', `uuid` = '', `isplayerland` = '0', `date` = '' WHERE `land`.`id` = " + id + ";");
 
 						Pointjao.addjao(player, (int) land_jaop_sell);
 
