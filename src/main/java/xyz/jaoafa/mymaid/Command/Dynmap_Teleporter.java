@@ -108,6 +108,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 							Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
 							loc.add(0.5f,0f,0.5f);
 							player.teleport(loc);
+							MessageAPI.sendToDiscord("*[" + player.getName() + ": " + player.getName() + " to " + location + "]*");
 							Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
 							return true;
 						}

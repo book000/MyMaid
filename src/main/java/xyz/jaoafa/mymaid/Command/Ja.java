@@ -86,21 +86,23 @@ public class Ja implements CommandExecutor {
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jai");
 		MessageAPI.sendToDiscord("**" + Msg + "**: jai");
-		new jai_uwa(Msg).runTaskLater(plugin, 60);
+		new jai_uwa(Msg, player).runTaskLater(plugin, 60);
 
 		return true;
 	}
 	private class jai_uwa extends BukkitRunnable{
+		Player player;
 		String Msg;
-		public jai_uwa(String Msg) {
+		public jai_uwa(String Msg, Player player) {
 			this.Msg = Msg;
+			this.player = player;
 		}
 		@Override
 		public void run() {
 			Date Date = new Date();
 			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": uwa");
-			MessageAPI.sendToDiscord("**" + Msg + "**: uwa");
+			MessageAPI.sendToDiscord("**" + player.getName() + "**: uwa");
 			cancel();
 		}
 	}
