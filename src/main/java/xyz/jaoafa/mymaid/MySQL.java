@@ -3,6 +3,9 @@ package xyz.jaoafa.mymaid;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 
 /**
  * Connects to and uses a MySQL database
@@ -74,5 +77,26 @@ public class MySQL extends Database {
 		connection = DriverManager.getConnection(connectionURL,
 				this.user, this.password);
 		return connection;
+	}
+	public static Statement check(Statement statement){
+		try {
+			statement.executeQuery("SELECT * FROM chetab LIMIT 1");
+			return statement;
+		} catch (CommunicationsException e){
+			MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+			try {
+				MyMaid.c = MySQL.openConnection();
+				statement = MyMaid.c.createStatement();
+				return statement;
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+				return null;
+			}
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
