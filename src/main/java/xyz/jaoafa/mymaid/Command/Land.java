@@ -53,7 +53,7 @@ public class Land implements CommandExecutor, Listener {
 	}
 
 	private double MarkLandCalculation(double value, double distance){
-		return value / distance;
+		return ( value - ( distance / 100 ) ) / 100;
 	}
 
 	private double LandMarkjaoAdd(CommandSender sender, Command cmd, String commandLabel, String[] args, double basicjao, Location LandLoc){
@@ -86,10 +86,10 @@ public class Land implements CommandExecutor, Listener {
 				Location markloc = new Location(Bukkit.getWorld("ReJao_Afa"), res.getInt("x"), LandLoc.getBlockY(), res.getInt("z"));
 				double distance = LandLoc.distance(markloc);
 				double value = res.getDouble("value");
-				Bukkit.broadcastMessage(res.getInt("id") + ": " + distance + "[" + res.getInt("x") + " " + LandLoc.getBlockY() + " " + res.getInt("z") + " ---- " + LandLoc.getBlockX() + " " + LandLoc.getBlockY() + " " + LandLoc.getBlockZ() + "]");
-				if(distance <= 100){
+				if(distance <= 300){
 					basicjao = basicjao * MarkLandCalculation(value, distance);
 				}
+
 				/*
 				Map<String, String> data = new HashMap<String, String>();
 				data.put("id", "" + id);
@@ -101,6 +101,7 @@ public class Land implements CommandExecutor, Listener {
 				landmark.put(distance, data);
 				*/
 			}
+			basicjao += 1;
 			/*
 			Iterator<Double> it = landmark.keySet().iterator();
 			int c = 0;
