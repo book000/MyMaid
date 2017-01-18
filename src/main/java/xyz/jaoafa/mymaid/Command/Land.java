@@ -53,7 +53,7 @@ public class Land implements CommandExecutor, Listener {
 	}
 
 	private double MarkLandCalculation(double value, double distance){
-		return ( value - ( distance / 100 ) ) / 100;
+		return ( value * ( 3 - ( distance / 100 ) ) / 100 ) +  1;
 	}
 
 	private double LandMarkjaoAdd(CommandSender sender, Command cmd, String commandLabel, String[] args, double basicjao, Location LandLoc){
