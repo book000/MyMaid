@@ -299,7 +299,7 @@ commands:
    discordlink:
       description: Discord Account Connect to Minecraft Account.
       usage: /<command>
-      permission: mymaid.land
+      permission: mymaid.discordlink
       permission-message: You do not have permission to perform this command.
    wt:
       description: World Teleport

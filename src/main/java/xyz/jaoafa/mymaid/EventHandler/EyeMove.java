@@ -26,26 +26,23 @@ public class EyeMove implements Listener {
 		for(Entry<String, String> eye : Eye.eyelist.entrySet()) {
 	   	    if(player.getName().equalsIgnoreCase(eye.getValue())){
 	   	    	eyeplayer = eye.getKey();
+	   	    	if(eyeplayer == null){
+	   				return;
+	   			}
+	   			Player eyep = null;
+	   			for(Player online: Bukkit.getServer().getOnlinePlayers()) {
+	   				if(online.getName().equalsIgnoreCase(eyeplayer)){
+	   					eyep = online;
+	   				}
+	   			}
+	   			Vector vector = eyep.getLocation().toVector().subtract(player.getLocation().toVector());
+
+	   			Location loc = eyep.getLocation().setDirection(vector.setX(-vector.getX()));
+	   			loc = eyep.getLocation().setDirection(vector.setY(-vector.getY()));
+	   			loc = eyep.getLocation().setDirection(vector.setZ(-vector.getZ()));
+	   			eyep.teleport(loc);
 	   	    }
 	   	}
-		if(eyeplayer == null){
-			return;
-		}
-		Player eye = null;
-		for(Player online: Bukkit.getServer().getOnlinePlayers()) {
-			if(online.getName().equalsIgnoreCase(eyeplayer)){
-				eye = online;
-			}
-		}
-		if(eye == null){
-			Eye.eyelist.remove(eyeplayer);
-			return;
-		}
-		Vector vector = eye.getLocation().toVector().subtract(player.getLocation().toVector());
 
-		Location loc = eye.getLocation().setDirection(vector.setX(-vector.getX()));
-		loc = eye.getLocation().setDirection(vector.setY(-vector.getY()));
-		loc = eye.getLocation().setDirection(vector.setZ(-vector.getZ()));
-		eye.teleport(loc);
 	}
 }
