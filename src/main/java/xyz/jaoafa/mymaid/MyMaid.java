@@ -1,5 +1,10 @@
 package xyz.jaoafa.mymaid;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -9,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,6 +31,8 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.github.ucchyocean.lc.LunaChat;
 import com.github.ucchyocean.lc.LunaChatAPI;
@@ -193,6 +201,8 @@ public class MyMaid extends JavaPlugin implements Listener {
     	Add_Recipe();
     	//初期設定(TitleSender, Lunachat設定)
     	FirstSetting();
+    	//Compromised Accountのキャッシュ処理
+    	Compromised_Account_Cacher();
     	getLogger().info("--------------------------------------------------");
 
     	MessageAPI.sendToDiscord("**Server Started.**");
@@ -658,6 +668,43 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().addRecipe(X8Z_sr);
 		// -------------------------------------------- //
     }
+
+	public static Map<String, String> cac = new HashMap<String, String>();
+	public static Map<String, Map<String, String>> mcjppvp_banned = new HashMap<String, Map<String, String>>();
+	/**
+	 * Compromised Accountをログインさせないようにする前提キャッシュ
+	 * @author mine_book000
+	 * @see https://github.com/unchama/BanAssist
+	*/
+	private void Compromised_Account_Cacher(){
+		try {
+			URL url = new URL("https://pvp.minecraft.jp/punishments/banned-players.json");
+			URLConnection urlCon = url.openConnection();
+			urlCon.setRequestProperty("User-Agent", "MyMaid - Compromised Account Checker");
+			InputStream in = urlCon.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+			String jstr = reader.readLine();
+
+			// 不要な配列[]を除去、},{でsplitするために一時トークンを付与
+			String[] banlist = jstr.replace("[", "").replace("]", "").replace("},{", "}},{{").split(Pattern.quote("},{"));
+			// 各プレイヤーに対してチェック
+			for (String p : banlist) {
+				JSONObject jsonObject = (JSONObject) new JSONParser().parse(p);
+				if (jsonObject.get("reason").equals("Compromised Account")) {
+					cac.put((String) jsonObject.get("uuid"), (String) jsonObject.get("name"));
+				}else{
+					Map<String, String> mcjppvp_data = new HashMap<String, String>();
+					mcjppvp_data.put("name", (String) jsonObject.get("name"));
+					mcjppvp_data.put("created", (String) jsonObject.get("created"));
+					mcjppvp_data.put("reason", (String) jsonObject.get("reason"));
+					mcjppvp_banned.put((String) jsonObject.get("uuid"), mcjppvp_data);
+				}
+			}
+		} catch (Exception e) {
+			getLogger().info("Compromised Account Cache Error.");
+			e.printStackTrace();
+		}
+	}
 
     @Override
     public void onDisable() {

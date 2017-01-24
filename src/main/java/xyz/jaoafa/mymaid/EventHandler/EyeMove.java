@@ -35,6 +35,9 @@ public class EyeMove implements Listener {
 	   					eyep = online;
 	   				}
 	   			}
+	   			if(eyep == null){
+	   				return;
+	   			}
 	   			Vector vector = eyep.getLocation().toVector().subtract(player.getLocation().toVector());
 
 	   			Location loc = eyep.getLocation().setDirection(vector.setX(-vector.getX()));
