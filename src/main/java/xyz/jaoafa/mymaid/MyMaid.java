@@ -39,7 +39,6 @@ import com.github.ucchyocean.lc.LunaChatAPI;
 import com.ittekikun.plugin.eewalert.EEWAlert;
 
 import eu.manuelgu.discordmc.MessageAPI;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.AFK.afking;
 import xyz.jaoafa.mymaid.Command.Access;
@@ -793,14 +792,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + msg);
 				}
 
-				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(player).inGroup("Limited")){
-						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
-						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
-						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
-					}
-				}
-
 			}
 		}
 	}
@@ -871,6 +862,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 						player.getInventory().setArmorContents(after);
 						player.updateInventory();
 						Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
+						MessageAPI.sendToDiscord(player.getName() + " is afk!");
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
