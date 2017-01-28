@@ -124,18 +124,19 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			}
 			return;
 		}
-
-		if(MyMaid.cac.containsKey(e.getUniqueId().toString())){
-			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, ChatColor.RED + "[Login Denied! Reason: Compromised Account]\n"
-					+ ChatColor.RESET + ChatColor.WHITE + "あなたのアカウントは不正なアカウントと判定されました。\n"
-					+ ChatColor.RESET + ChatColor.WHITE + "もしこの判定が誤判定と思われる場合は、サイト内お問い合わせからお問い合わせを行ってください。\n"
-					+ "公式Discordでお問い合わせをして頂いても構いません。");
-			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
-					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>Compromised Account(不正アカウント)");
+		if(!((String) obj.get("message")).equalsIgnoreCase("CAUnCheck")){
+			if(MyMaid.cac.containsKey(e.getUniqueId().toString())){
+				e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, ChatColor.RED + "[Login Denied! Reason: Compromised Account]\n"
+						+ ChatColor.RESET + ChatColor.WHITE + "あなたのアカウントは不正なアカウントと判定されました。\n"
+						+ ChatColor.RESET + ChatColor.WHITE + "もしこの判定が誤判定と思われる場合は、サイト内お問い合わせからお問い合わせを行ってください。\n"
+						+ "公式Discordでお問い合わせをして頂いても構いません。");
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(p).inGroup("Admin")) {
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>Compromised Account(不正アカウント)");
+					}
 				}
+				return;
 			}
-			return;
 		}
 
 		if(MyMaid.mcjppvp_banned.containsKey(e.getUniqueId().toString())){
