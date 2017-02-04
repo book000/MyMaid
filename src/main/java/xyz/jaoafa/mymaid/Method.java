@@ -27,7 +27,7 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 /**
  * 主要メゾット
  * @author mine_book000
-*/
+ */
 public class Method {
 	JavaPlugin plugin;
 	public Method(JavaPlugin plugin) {
@@ -39,7 +39,7 @@ public class Method {
 	 * @param arg 引数(最初の?無し)
 	 * @return 取得した情報
 	 * @author mine_book000
-	*/
+	 */
 	public static String url_jaoplugin(String filename, String arg){
 		return url_access("http://nubesco.jaoafa.com/plugin/" + filename + ".php?" + arg);
 	}
@@ -48,7 +48,7 @@ public class Method {
 	 * @param address 取得したいURL
 	 * @return 取得した情報
 	 * @author mine_book000
-	*/
+	 */
 	public static String url_access(String address){
 		System.out.println("[MyMaid] URLConnect Start:"+address);
 		try{
@@ -79,123 +79,123 @@ public class Method {
 	 * @param text 送信するテキスト
 	 * @return 取得した情報
 	 * @author mine_book000
-	*/
+	 */
 	public static String url_access_post(String address, String text){
 		System.out.println("[MyMaid] URLConnect Start:"+address);
 
 		final String TWO_HYPHEN = "--";
-	    final String EOL = "\r\n";
-	    final String BOURDARY = String.format("%x", new Random().hashCode());
-	    final String CHARSET = "UTF-8";
+		final String EOL = "\r\n";
+		final String BOURDARY = String.format("%x", new Random().hashCode());
+		final String CHARSET = "UTF-8";
 
 		// 送信するコンテンツを成形する
-        StringBuilder contentsBuilder = new StringBuilder();
-        int iContentsLength = 0;
+		StringBuilder contentsBuilder = new StringBuilder();
+		int iContentsLength = 0;
 
-        contentsBuilder.append(String.format("%s%s%s", TWO_HYPHEN, BOURDARY, EOL));
-        contentsBuilder.append(String.format("Content-Disposition: form-data; name=\"text\"%s", EOL));
-        contentsBuilder.append(EOL);
-        contentsBuilder.append(text);
-        contentsBuilder.append(EOL);
+		contentsBuilder.append(String.format("%s%s%s", TWO_HYPHEN, BOURDARY, EOL));
+		contentsBuilder.append(String.format("Content-Disposition: form-data; name=\"text\"%s", EOL));
+		contentsBuilder.append(EOL);
+		contentsBuilder.append(text);
+		contentsBuilder.append(EOL);
 
-        // コンテンツの長さを取得
-        try {
-            // StringBuilderを文字列に変化してからバイト長を取得しないと
-            // 実際送ったサイズと異なる場合があり、コンテンツを正しく送信できなくなる
-            iContentsLength = contentsBuilder.toString().getBytes(CHARSET).length;
-            Bukkit.broadcastMessage(""+iContentsLength);
-        } catch (UnsupportedEncodingException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
+		// コンテンツの長さを取得
+		try {
+			// StringBuilderを文字列に変化してからバイト長を取得しないと
+			// 実際送ったサイズと異なる場合があり、コンテンツを正しく送信できなくなる
+			iContentsLength = contentsBuilder.toString().getBytes(CHARSET).length;
+			Bukkit.broadcastMessage(""+iContentsLength);
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
-     // サーバへ接続する
-        HttpURLConnection connection = null;
-        DataOutputStream os = null;
-        BufferedReader br = null;
-        String result = "";
-        try {
-            URL url = new URL(address);
+		// サーバへ接続する
+		HttpURLConnection connection = null;
+		DataOutputStream os = null;
+		BufferedReader br = null;
+		String result = "";
+		try {
+			URL url = new URL(address);
 
-            connection = (HttpURLConnection)url.openConnection();
+			connection = (HttpURLConnection)url.openConnection();
 
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
 
-            // キャッシュを使用しない
-            connection.setUseCaches(false);
+			// キャッシュを使用しない
+			connection.setUseCaches(false);
 
-            // HTTPストリーミングを有効にする
-            connection.setChunkedStreamingMode(0);
+			// HTTPストリーミングを有効にする
+			connection.setChunkedStreamingMode(0);
 
-            // リクエストヘッダを設定する
-            // リクエストメソッドの設定
-            connection.setRequestMethod("POST");
+			// リクエストヘッダを設定する
+			// リクエストメソッドの設定
+			connection.setRequestMethod("POST");
 
-            // 持続接続を設定
-            connection.setRequestProperty("Connection", "Keep-Alive");
+			// 持続接続を設定
+			connection.setRequestProperty("Connection", "Keep-Alive");
 
-            // ユーザエージェントの設定（必須ではない）
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (jaoafa.com)");
+			// ユーザエージェントの設定（必須ではない）
+			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (jaoafa.com)");
 
-            // POSTデータの形式を設定
-            connection.setRequestProperty("Content-Type", String.format("text/plain; boundary=%s", BOURDARY));
-            // POSTデータの長さを設定
-            connection.setRequestProperty("Content-Length", String.valueOf(iContentsLength));
-
-
-            // データを送信する
-            os = new DataOutputStream(connection.getOutputStream());
-            os.writeBytes(contentsBuilder.toString());
+			// POSTデータの形式を設定
+			connection.setRequestProperty("Content-Type", String.format("text/plain; boundary=%s", BOURDARY));
+			// POSTデータの長さを設定
+			connection.setRequestProperty("Content-Length", String.valueOf(iContentsLength));
 
 
-            // レスポンスを受信する
-            int iResponseCode = connection.getResponseCode();
+			// データを送信する
+			os = new DataOutputStream(connection.getOutputStream());
+			os.writeBytes(contentsBuilder.toString());
 
-            // 接続が確立したとき
-            if (iResponseCode == HttpURLConnection.HTTP_OK) {
-                StringBuilder resultBuilder = new StringBuilder();
-                String line = "";
 
-                br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			// レスポンスを受信する
+			int iResponseCode = connection.getResponseCode();
 
-                // レスポンスの読み込み
-                while ((line = br.readLine()) != null) {
-                    resultBuilder.append(String.format("%s%s", line, EOL));
-                }
-                result = resultBuilder.toString();
-            }
-            // 接続が確立できなかったとき
-            else {
-                result = String.valueOf(iResponseCode);
-            }
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            System.out.println("[MyMaid] URLConnect Err:"+address);
+			// 接続が確立したとき
+			if (iResponseCode == HttpURLConnection.HTTP_OK) {
+				StringBuilder resultBuilder = new StringBuilder();
+				String line = "";
+
+				br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+				// レスポンスの読み込み
+				while ((line = br.readLine()) != null) {
+					resultBuilder.append(String.format("%s%s", line, EOL));
+				}
+				result = resultBuilder.toString();
+			}
+			// 接続が確立できなかったとき
+			else {
+				result = String.valueOf(iResponseCode);
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("[MyMaid] URLConnect Err:"+address);
 			return "";
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            System.out.println("[MyMaid] URLConnect Err:"+address);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("[MyMaid] URLConnect Err:"+address);
 			return "";
-        } finally {
-            // 開いたら閉じる
-            try {
-                if (br != null) br.close();
-                if (os != null) {
-                    os.flush();
-                    os.close();
-                }
-                if (connection != null) connection.disconnect();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                System.out.println("[MyMaid] URLConnect Err:"+address);
-    			return "";
-            }
-        }
-        System.out.println("[MyMaid] URLConnect End:"+address);
+		} finally {
+			// 開いたら閉じる
+			try {
+				if (br != null) br.close();
+				if (os != null) {
+					os.flush();
+					os.close();
+				}
+				if (connection != null) connection.disconnect();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("[MyMaid] URLConnect Err:"+address);
+				return "";
+			}
+		}
+		System.out.println("[MyMaid] URLConnect End:"+address);
 		System.out.println(result);
 		return result;
 	}
@@ -204,7 +204,7 @@ public class Method {
 	 * @param in 読み込み元のInputStream
 	 * @return 読み込んだテキスト
 	 * @author mine_book000
-	*/
+	 */
 	static String readString(InputStream in){
 		try{
 			int l;//呼んだ長さを記録
@@ -233,42 +233,42 @@ public class Method {
 	 * @param text 喋らせる内容
 	 * @return 偽造したテキスト
 	 * @author mine_book000
-	*/
+	 */
 	public static String chatmaker(String player, String text){
-  		Date Date = new Date();
+		Date Date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		String date = sdf.format(Date);
 		String send = ChatColor.GRAY + "["+ date + "]" + ChatColor.WHITE + player +  ": " + text;
 		return send;
-  	}
+	}
 	/**
 	 * 時間差を求める
 	 * @param startTime 開始時間
 	 * @param endTime 終了時間
 	 * @return フォーマットした時間差テキスト
 	 * @author mine_book000
-	*/
+	 */
 	public static String format(long startTime, long endTime) {
-        Calendar start = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
-        Calendar end = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
-        Calendar result = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
-        start.setTimeInMillis(startTime);
-        end.setTimeInMillis(endTime);
-        start.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
-        end.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
-        result.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
-        long sa = end.getTimeInMillis() - start.getTimeInMillis() - result.getTimeZone().getRawOffset();
-        result.setTimeInMillis(sa);
-        SimpleDateFormat sdf = new SimpleDateFormat("ss.SSSSS");
-        return sdf.format(result.getTime());
-    }
+		Calendar start = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+		Calendar end = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+		Calendar result = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+		start.setTimeInMillis(startTime);
+		end.setTimeInMillis(endTime);
+		start.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+		end.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+		result.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+		long sa = end.getTimeInMillis() - start.getTimeInMillis() - result.getTimeZone().getRawOffset();
+		result.setTimeInMillis(sa);
+		SimpleDateFormat sdf = new SimpleDateFormat("ss.SSSSS");
+		return sdf.format(result.getTime());
+	}
 	/**
 	 * 「[COMMAND] Text」に変換した上でsenderに送信する
 	 * @param sender 送信先
 	 * @param cmd コマンド情報
 	 * @param text 送信テキスト
 	 * @author mine_book000
-	*/
+	 */
 	public static void SendMessage(CommandSender sender, Command cmd, String text) {
 		sender.sendMessage("[" + cmd.getName().toUpperCase() +"] " + ChatColor.GREEN + text);
 	}
@@ -278,12 +278,38 @@ public class Method {
 	 * @param group PermissionsExのグループ名
 	 * @return 入っていたらtrue、入っていなかったらfalse
 	 * @author mine_book000
-	*/
+	 */
 	public static boolean CheckQroup(Player player, String group) {
 		if(PermissionsEx.getUser(player).inGroup(group)){
 			return true;
 		}
 		return false;
+	}
+	/**
+	 * UUIDかどうか？
+	 * @param uuid UUIDかどうかチェックする文字列
+	 * @return UUIDだったらtrue、そうでなかったらfalse
+	 * @see https://b.0218.jp/20140424133801.html
+	 */
+	public static Boolean isUUID(String uuid) {
+		boolean isUUID = false;
+
+		if (uuid.length() == 36) {
+		    String[] parts = uuid.split("-");
+
+		    if (parts.length == 5) {
+		        if ((parts[0].length() == 8) &&
+		            (parts[1].length() == 4) &&
+		            (parts[2].length() == 4) &&
+		            (parts[3].length() == 4) &&
+		            (parts[4].length() == 12))
+		        {
+		            isUUID = true;
+		        }
+		    }
+		}
+
+		return isUUID;
 	}
 
 }
