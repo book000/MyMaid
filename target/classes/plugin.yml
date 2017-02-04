@@ -316,3 +316,8 @@ commands:
       usage: /<command>
       permission: mymaid.mymob
       permission-message: You do not have permission to perform this command.
+   autoheal:
+      description: Auto Respawn
+      usage: /<command>
+      permission: mymaid.autoheal
+      permission-message: You do not have permission to perform this command.

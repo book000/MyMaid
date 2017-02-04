@@ -82,5 +82,54 @@ public class OnPlayerDeathEvent implements Listener {
 		if(boo){
 			e.setDeathMessage(message.replaceAll("%player%", player.getName()));
 		}
+
+		// -----
+
+		parser = new JSONParser();
+		json = "";
+		try{
+			File file = new File(plugin.getDataFolder() + File.separator + "AUTOHEAL.json");
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			String brseparator = System.getProperty("line.separator");
+
+			String str;
+			while((str = br.readLine()) != null){
+				json += str + brseparator;
+			}
+			br.close();
+		}catch(FileNotFoundException e1){
+			System.out.println(e1);
+		}catch(IOException e1){
+			System.out.println(e1);
+		}
+		try {
+			obj = (JSONObject) parser.parse(json);
+		} catch (ParseException e1) {
+			obj = new JSONObject();
+		}
+		message = "";
+		boo = false;
+		for(Entry<String, JSONObject> one : (Set<Map.Entry<String,JSONObject>>) obj.entrySet()){
+			int x1 = Integer.parseInt(String.valueOf(one.getValue().get("x1")));
+			int x2 = Integer.parseInt(String.valueOf(one.getValue().get("x2")));
+			int y1 = Integer.parseInt(String.valueOf(one.getValue().get("y1")));
+			int y2 = Integer.parseInt(String.valueOf(one.getValue().get("y2")));
+			int z1 = Integer.parseInt(String.valueOf(one.getValue().get("z1")));
+			int z2 = Integer.parseInt(String.valueOf(one.getValue().get("z2")));
+			if(x1 <= loc.getBlockX() && x2 >= loc.getBlockX()){
+				if(y1 <= loc.getBlockY() && y2 >= loc.getBlockY()){
+					if(z1 <= loc.getBlockZ() && z2 >= loc.getBlockZ()){
+						boo = true;
+					}
+				}
+			}
+
+
+		}
+		if(boo){
+			player.sendMessage("[AUTORESPAWN] " + ChatColor.GREEN + "死んだ場所がオートリスポーン地点だったため自動でリスポーンしました。");
+			player.spigot().respawn();
+		}
 	}
 }

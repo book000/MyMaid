@@ -43,6 +43,7 @@ import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.AFK.afking;
 import xyz.jaoafa.mymaid.Command.Access;
 import xyz.jaoafa.mymaid.Command.ArrowShotter;
+import xyz.jaoafa.mymaid.Command.AutoHeal;
 import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Ck;
 import xyz.jaoafa.mymaid.Command.Cmdb;
@@ -240,6 +241,7 @@ public class MyMaid extends JavaPlugin implements Listener {
     	getCommand("access").setExecutor(new Access(this));
     	getCommand("afk").setExecutor(new AFK(this));
     	getCommand("as").setExecutor(new ArrowShotter(this));
+    	getCommand("autoheal").setExecutor(new AutoHeal(this));
     	getCommand("chat").setExecutor(new Chat(this));
     	getCommand("ck").setExecutor(new Ck(this));
     	getCommand("cmdb").setExecutor(new Cmdb(this));

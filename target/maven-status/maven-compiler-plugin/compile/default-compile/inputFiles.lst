@@ -61,10 +61,11 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Database.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnFrom.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MyBlock.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SignLock.java
-N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SSK.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerJoinEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SSK.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Prison.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockRedstoneEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\AutoHeal.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\DefaultCheck.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynmap_Compass.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\SerializableLocation.java
