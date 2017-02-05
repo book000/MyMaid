@@ -75,6 +75,7 @@ public class OnPlayerCommand implements Listener {
     			OnMyMaidJoinLeftChatCmdLogs.log(plugin, "chat", player.getName(), text);
     			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + color + "■" + ChatColor.WHITE + player.getName() +  ": " + text);
     			e.setCancelled(true);
+    			return;
     		}
     	}else if(args.length == 2){
     		if(args[0].equalsIgnoreCase("/kill")){
@@ -115,6 +116,58 @@ public class OnPlayerCommand implements Listener {
         			}
         		}
         	}
+    		if(args[0].equalsIgnoreCase("//calc") || args[0].equalsIgnoreCase("/worldedit:/calc")){
+    			ChatColor color = ChatColor.RESET;
+				if(player.hasPermission("mymaid.pex.limited")){
+					color = ChatColor.BLACK;
+    			}else if(Prison.prison.containsKey(player.getName())){
+    				color = ChatColor.DARK_GRAY;
+    			}else if(MyMaid.chatcolor.containsKey(player.getName())){
+    	  			int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));
+    				if(i >= 0 && i <= 5){
+    					color = ChatColor.WHITE;
+    				}else if(i >= 6 && i <= 19){
+    					color = ChatColor.DARK_BLUE;
+    				}else if(i >= 20 && i <= 33){
+    					color = ChatColor.BLUE;
+    				}else if(i >= 34 && i <= 47){
+    					color = ChatColor.AQUA;
+    				}else if(i >= 48 && i <= 61){
+    					color = ChatColor.DARK_AQUA;
+    				}else if(i >= 62 && i <= 76){
+    					color = ChatColor.DARK_GREEN;
+    				}else if(i >= 77 && i <= 89){
+    					color = ChatColor.GREEN;
+    				}else if(i >= 90 && i <= 103){
+    					color = ChatColor.YELLOW;
+    				}else if(i >= 104 && i <= 117){
+    					color = ChatColor.GOLD;
+    				}else if(i >= 118 && i <= 131){
+    					color = ChatColor.RED;
+    				}else if(i >= 132 && i <= 145){
+    					color = ChatColor.DARK_RED;
+    				}else if(i >= 146 && i <= 159){
+    					color = ChatColor.DARK_PURPLE;
+    				}else if(i >= 160){
+    					color = ChatColor.LIGHT_PURPLE;
+    				}
+    			}else{
+    				color = ChatColor.GRAY;
+    			}
+    			Date Date = new Date();
+    			SimpleDateFormat H = new SimpleDateFormat("H");
+    			SimpleDateFormat m = new SimpleDateFormat("m");
+    			SimpleDateFormat s = new SimpleDateFormat("s");
+    			String Hs = H.format(Date);
+    			String ms = m.format(Date);
+    			String ss = s.format(Date);
+    			String date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
+    			String text = "オ、オオwwwwwwwwオレアタマ良いwwwwwwww最近めっちょ成績あがってんねんオレwwwwwwwwエゴサとかかけるとめっちょ人気やねんwwwwァァァァァァァwwwクソハゲアタマを見下しながら食べるフライドチキンは一段とウメェなァァァァwwwwwwww";
+    			OnMyMaidJoinLeftChatCmdLogs.log(plugin, "chat", player.getName(), text);
+    			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + color + "■" + ChatColor.WHITE + player.getName() +  ": " + text);
+    			e.setCancelled(true);
+    			return;
+    		}
     	}
 	}
 }
