@@ -52,35 +52,56 @@ public class Data implements CommandExecutor {
 			e.printStackTrace();
 			return true;
 		}
+		Statement statement2 = null;
+		try {
+			statement2 = MyMaid.c.createStatement();
+		} catch (NullPointerException e) {
+			MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+			try {
+				MyMaid.c = MySQL.openConnection();
+				statement2 = MyMaid.c.createStatement();
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
+				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
+			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			e.printStackTrace();
+			return true;
+		}
 
 		statement = MySQL.check(statement);
+		statement2 = MySQL.check(statement2);
+
 		if(args.length == 1){
-			try {
-				InetAddress ia = InetAddress.getByName(args[0]);
+			if(isMatch(args[0], "%")){
 				try {
-					ResultSet res = statement.executeQuery("SELECT * FROM log WHERE ip = '" + ia.getHostAddress() + "' ORDER BY id DESC");
+					ResultSet res = statement.executeQuery("SELECT * FROM log WHERE host LIKE '" + args[0] + "'");
 					ResultSetMetaData rsmd = res.getMetaData();
 				    int count = rsmd.getColumnCount();
 					if(count != 0){
 						ArrayList<String> players = new ArrayList<String>();
-						Method.SendMessage(sender, cmd, "--- IPアドレス「" + ia.getHostAddress() + "」からのデータ ---");
-						Method.SendMessage(sender, cmd, "ホスト: " + ia.getHostName());
-						Method.SendMessage(sender, cmd, "IPから見つかったログイン者:");
-						String playerdata = "";
+						Method.SendMessage(sender, cmd, "--- ホスト「" + args[0] + "」からのデータ(部分一致検索) ---");
+						Method.SendMessage(sender, cmd, "ホストから見つかったログイン者:");
 						while(res.next()){
 							String player = res.getString("player");
+							String ip = res.getString("ip");
+							String host = res.getString("host");
+							String time = res.getString("time");
 							if(!players.contains(player)){
+								Method.SendMessage(sender, cmd, "| " + player + " - " + ip + "(" + host + ") - " + time);
 								players.add(player);
-								playerdata += player + ", ";
 							}
 						}
-						if(playerdata.length() > 0){
-							playerdata = playerdata.substring(0, playerdata.length()-2);
-						}
-						Method.SendMessage(sender, cmd, playerdata);
 						return true;
 					}else{
-						Method.SendMessage(sender, cmd, "データ無し");
+						Method.SendMessage(sender, cmd, "--- ホスト「" + args[0] + "」からのデータ(部分一致検索) ---");
+						Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
 						return true;
 					}
 				} catch (SQLException e) {
@@ -90,6 +111,80 @@ public class Data implements CommandExecutor {
 					e.printStackTrace();
 					return true;
 				}
+			}
+			try {
+				InetAddress ia = InetAddress.getByName(args[0]);
+				if(args[0].equalsIgnoreCase(ia.getHostAddress())){
+					try {
+						ResultSet res = statement.executeQuery("SELECT * FROM log WHERE ip = '" + ia.getHostAddress() + "' ORDER BY id DESC");
+						ResultSetMetaData rsmd = res.getMetaData();
+					    int count = rsmd.getColumnCount();
+						if(count != 0){
+							ArrayList<String> players = new ArrayList<String>();
+							Method.SendMessage(sender, cmd, "--- IPアドレス「" + ia.getHostAddress() + "」からのデータ ---");
+							Method.SendMessage(sender, cmd, "ホスト: " + ia.getHostName());
+							Method.SendMessage(sender, cmd, "IPから見つかったログイン者:");
+							String playerdata = "";
+							while(res.next()){
+								String player = res.getString("player");
+								if(!players.contains(player)){
+									players.add(player);
+									playerdata += player + ", ";
+								}
+							}
+							if(playerdata.length() > 0){
+								playerdata = playerdata.substring(0, playerdata.length()-2);
+							}
+							Method.SendMessage(sender, cmd, playerdata);
+							return true;
+						}else{
+							Method.SendMessage(sender, cmd, "--- IPアドレス「" + ia.getHostAddress() + "」からのデータ ---");
+							Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
+							return true;
+						}
+					} catch (SQLException e) {
+						// TODO 自動生成された catch ブロック
+						Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
+						Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+						e.printStackTrace();
+						return true;
+					}
+				}else{
+					try {
+						ResultSet res = statement.executeQuery("SELECT * FROM log WHERE host = '" + ia.getHostAddress() + "' ORDER BY id DESC");
+						ResultSetMetaData rsmd = res.getMetaData();
+					    int count = rsmd.getColumnCount();
+						if(count != 0){
+							ArrayList<String> players = new ArrayList<String>();
+							Method.SendMessage(sender, cmd, "--- ホスト「" + ia.getHostName() + "」からのデータ ---");
+							Method.SendMessage(sender, cmd, "IP: " + ia.getHostAddress());
+							Method.SendMessage(sender, cmd, "ホストから見つかったログイン者:");
+							String playerdata = "";
+							while(res.next()){
+								String player = res.getString("player");
+								if(!players.contains(player)){
+									players.add(player);
+									playerdata += player + ", ";
+								}
+							}
+							if(playerdata.length() > 0){
+								playerdata = playerdata.substring(0, playerdata.length()-2);
+							}
+							Method.SendMessage(sender, cmd, playerdata);
+							return true;
+						}else{
+							Method.SendMessage(sender, cmd, "--- ホスト「" + ia.getHostName() + "」からのデータ ---");
+							Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
+							return true;
+						}
+					} catch (SQLException e) {
+						// TODO 自動生成された catch ブロック
+						Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
+						Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+						e.printStackTrace();
+						return true;
+					}
+				}
 			} catch (UnknownHostException e) {
 				//プレイヤー？UUID？
 				if(Method.isUUID(args[0])){
@@ -98,17 +193,31 @@ public class Data implements CommandExecutor {
 						ResultSetMetaData rsmd = res.getMetaData();
 					    int count = rsmd.getColumnCount();
 						if(count != 0){
-							ArrayList<String> ips = new ArrayList<String>();
+
 							Method.SendMessage(sender, cmd, "--- UUID「" + args[0] + "」からのデータ ---");
 							if(!res.next()){
-								Method.SendMessage(sender, cmd, "データ無し");
+								Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
 								return true;
 							}
 							Method.SendMessage(sender, cmd, "プレイヤー: " + res.getString("player"));
 							res.last();
 							Method.SendMessage(sender, cmd, "初ログイン: " + res.getString("time"));
+							Method.SendMessage(sender, cmd, "累計ログイン回数: " + count);
 							res.first();
 							Method.SendMessage(sender, cmd, "最終ログイン: " + res.getString("time"));
+							ResultSet res2 = statement2.executeQuery("SELECT * FROM log WHERE uuid = '" + res.getString("uuid") + "'");
+							ArrayList<String> players = new ArrayList<String>();
+							Method.SendMessage(sender, cmd, "過去のプレイヤー名:");
+							while(res2.next()){
+								String player = res2.getString("player");
+								String time = res2.getString("time");
+								if(!players.contains(player)){
+									Method.SendMessage(sender, cmd, "| " + player + ": " + time);
+									players.add(player);
+								}
+							}
+							res.beforeFirst();
+							ArrayList<String> ips = new ArrayList<String>();
 							Method.SendMessage(sender, cmd, "過去のログイン元IP:");
 							while(res.next()){
 								String ip = res.getString("ip");
@@ -120,7 +229,8 @@ public class Data implements CommandExecutor {
 							}
 							return true;
 						}else{
-							Method.SendMessage(sender, cmd, "データ無し");
+							Method.SendMessage(sender, cmd, "--- UUID「" + args[0] + "」からのデータ ---");
+							Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
 							return true;
 						}
 					} catch (SQLException ex) {
@@ -137,17 +247,29 @@ public class Data implements CommandExecutor {
 					ResultSetMetaData rsmd = res.getMetaData();
 				    int count = rsmd.getColumnCount();
 					if(count != 0){
-						ArrayList<String> ips = new ArrayList<String>();
+						Method.SendMessage(sender, cmd, "--- Player「" + args[0] + "」からのデータ ---");
 						if(!res.next()){
-							Method.SendMessage(sender, cmd, "データ無し");
+							Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
 							return true;
 						}
-						Method.SendMessage(sender, cmd, "--- Player「" + args[0] + "」からのデータ ---");
-						Method.SendMessage(sender, cmd, "プレイヤー: " + res.getString("uuid"));
+						Method.SendMessage(sender, cmd, "UUID: " + res.getString("uuid"));
 						res.last();
 						Method.SendMessage(sender, cmd, "初ログイン: " + res.getString("time"));
+						Method.SendMessage(sender, cmd, "累計ログイン回数: " + count);
 						res.first();
 						Method.SendMessage(sender, cmd, "最終ログイン: " + res.getString("time"));
+						ResultSet res2 = statement2.executeQuery("SELECT * FROM log WHERE uuid = '" + res.getString("uuid") + "'");
+						ArrayList<String> players = new ArrayList<String>();
+						Method.SendMessage(sender, cmd, "過去のプレイヤー名:");
+						while(res2.next()){
+							String player = res2.getString("player");
+							String time = res2.getString("time");
+							if(!players.contains(player)){
+								Method.SendMessage(sender, cmd, "| " + player + ": " + time);
+								players.add(player);
+							}
+						}
+						ArrayList<String> ips = new ArrayList<String>();
 						Method.SendMessage(sender, cmd, "過去のログイン元IP:");
 						while(res.next()){
 							String ip = res.getString("ip");
@@ -159,7 +281,8 @@ public class Data implements CommandExecutor {
 						}
 						return true;
 					}else{
-						Method.SendMessage(sender, cmd, "データ無し");
+						Method.SendMessage(sender, cmd, "--- Player「" + args[0] + "」からのデータ ---");
+						Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
 						return true;
 					}
 				} catch (SQLException ex) {
@@ -215,16 +338,22 @@ public class Data implements CommandExecutor {
 				{
 					tileEntities += chunk.getTileEntities().length;
 				}
+				Method.SendMessage(sender, cmd, "World: " + Name + "(" + worldType + ") LoadedChunk: " + w.getLoadedChunks().length + " Size: " + w.getEntities().size() + " tileEntity: " + tileEntities);
 			}
 			catch (java.lang.ClassCastException ex)
 			{
 				Bukkit.getLogger().log(Level.SEVERE, "Corrupted chunk data on world " + w, ex);
 				Method.SendMessage(sender, cmd, "Corrupted chunk data on world " + w + "(" + ex.getMessage() + ")");
 			}
-			Method.SendMessage(sender, cmd, "World: " + Name + "(" + worldType + ") LoadedChunk: " + w.getLoadedChunks().length + " Size: " + w.getEntities().size() + " tileEntity: " + tileEntities);
 		}
-
-
 		return true;
+	}
+	public boolean isMatch(String str1, String str2) {
+	    if(str1.matches(".*" + str2 + ".*")) {
+	        return true;
+	    }
+	    else {
+	        return false;
+	    }
 	}
 }
