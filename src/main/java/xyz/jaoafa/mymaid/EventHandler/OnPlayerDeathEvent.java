@@ -9,8 +9,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +22,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
+import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand.EnumClientCommand;
 import xyz.jaoafa.mymaid.Command.Ded;
 
 public class OnPlayerDeathEvent implements Listener {
@@ -129,7 +133,16 @@ public class OnPlayerDeathEvent implements Listener {
 		}
 		if(boo){
 			player.sendMessage("[AUTORESPAWN] " + ChatColor.GREEN + "死んだ場所がオートリスポーン地点だったため自動でリスポーンしました。");
-			player.spigot().respawn();
+			Respawn(player, 1);
 		}
+	}
+	public void Respawn(final Player player,int Time){
+		Bukkit.getScheduler().runTaskLater(this.plugin, new Runnable() {
+
+			@Override
+			public void run() {
+				((CraftPlayer)player).getHandle().playerConnection.a(new PacketPlayInClientCommand(EnumClientCommand.PERFORM_RESPAWN));
+			}
+		},Time);
 	}
 }
