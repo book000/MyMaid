@@ -21,6 +21,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBucketEmpt
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SaveWorld.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\WorldTeleport.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gamemode_Change.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\PPAP.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\UpGallery.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MakeCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveAFK.java
@@ -35,6 +36,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvSave.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\VarCmd.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ded.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynamic.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\WO.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Color.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedMsg.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Sign.java

@@ -321,3 +321,8 @@ commands:
       usage: /<command>
       permission: mymaid.autoheal
       permission-message: You do not have permission to perform this command.
+   wo:
+      description: WO.
+      usage: /<command>
+      permission: mymaid.wo
+      permission-message: You do not have permission to perform this command.

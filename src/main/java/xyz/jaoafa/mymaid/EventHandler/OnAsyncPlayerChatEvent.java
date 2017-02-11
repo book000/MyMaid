@@ -24,6 +24,7 @@ import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.Color;
 import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Prison;
+import xyz.jaoafa.mymaid.Command.WO;
 
 public class OnAsyncPlayerChatEvent implements Listener {
 	JavaPlugin plugin;
@@ -37,6 +38,11 @@ public class OnAsyncPlayerChatEvent implements Listener {
 	public static Map<String,BukkitTask> doomtask = new HashMap<String,BukkitTask>();
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
+		if(e.getMessage().equals("を")){
+			if(WO.nowwo){
+				WO.stopwo = true;
+			}
+		}
 		if(e.getMessage().equals(".")){
 			if(DOT.bed.containsKey(e.getPlayer().getName())){
 				e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");

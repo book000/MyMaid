@@ -3,11 +3,13 @@ package xyz.jaoafa.mymaid;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -98,6 +100,7 @@ import xyz.jaoafa.mymaid.Command.UpGallery;
 import xyz.jaoafa.mymaid.Command.Var;
 import xyz.jaoafa.mymaid.Command.VarCmd;
 import xyz.jaoafa.mymaid.Command.Vote;
+import xyz.jaoafa.mymaid.Command.WO;
 import xyz.jaoafa.mymaid.Command.Where;
 import xyz.jaoafa.mymaid.Command.WorldTeleport;
 import xyz.jaoafa.mymaid.EventHandler.DefaultCheck;
@@ -160,219 +163,223 @@ public class MyMaid extends JavaPlugin implements Listener {
 	 * プラグインが起動したときに呼び出し
 	 * @author mine_book000
 	 * @since 2016/04/04
-	*/
+	 */
 	@Override
-    public void onEnable() {
+	public void onEnable() {
 		getLogger().info("--------------------------------------------------");
-    	// クレジット
+		// クレジット
 		getLogger().info("(c) jao Minecraft Server MyMaid Project.");
-    	getLogger().info("Product by tomachi.");
+		getLogger().info("Product by tomachi.");
 
-    	//連携プラグインの確認
-    	Load_Plugin("EEWAlert");
-    	Load_Plugin("PermissionsEx");
-    	Load_Plugin("WorldEdit");
-    	Load_Plugin("LunaChat");
-    	Load_Plugin("CoreProtect");
-    	Load_Plugin("Votifier");
-    	Load_Plugin("MCBans");
-    	Load_Plugin("DiscordMC");
+		//連携プラグインの確認
+		Load_Plugin("EEWAlert");
+		Load_Plugin("PermissionsEx");
+		Load_Plugin("WorldEdit");
+		Load_Plugin("LunaChat");
+		Load_Plugin("CoreProtect");
+		Load_Plugin("Votifier");
+		Load_Plugin("MCBans");
+		Load_Plugin("DiscordMC");
 
-    	//EEWAlertの設定
-    	EEWAlert eew = (EEWAlert)getServer().getPluginManager().getPlugin("EEWAlert");
-    	String eewnoticeold;
-    	if(eew.eewAlertConfig.notificationMode){
-    		eewnoticeold = "true";
-    	}else{
-    		eewnoticeold = "false";
-    	}
-    	eew.eewAlertConfig.notificationMode = false;
-    	getLogger().info("EEWAlertの通知動作設定を" + eewnoticeold + "からfalseに変更しました。");
+		//EEWAlertの設定
+		EEWAlert eew = (EEWAlert)getServer().getPluginManager().getPlugin("EEWAlert");
+		String eewnoticeold;
+		if(eew.eewAlertConfig.notificationMode){
+			eewnoticeold = "true";
+		}else{
+			eewnoticeold = "false";
+		}
+		eew.eewAlertConfig.notificationMode = false;
+		getLogger().info("EEWAlertの通知動作設定を" + eewnoticeold + "からfalseに変更しました。");
 
-    	//リスナーを設定
+		//リスナーを設定
 		Import_Listener();
 		//スケジュールタスクをスケジュ―リング
-    	Import_Task();
-    	//コマンドを設定
-    	Import_Command_Executor();
-    	//コンフィグ読み込み
-    	Load_Config();
-    	//レシピ(クラフト)追加
-    	Add_Recipe();
-    	//初期設定(TitleSender, Lunachat設定)
-    	FirstSetting();
-    	//Compromised Accountのキャッシュ処理
-    	Compromised_Account_Cacher();
-    	getLogger().info("--------------------------------------------------");
+		Import_Task();
+		//コマンドを設定
+		Import_Command_Executor();
+		//コンフィグ読み込み
+		Load_Config();
+		//レシピ(クラフト)追加
+		Add_Recipe();
+		//初期設定(TitleSender, Lunachat設定)
+		FirstSetting();
+		//Compromised Accountのキャッシュ処理
+		Compromised_Account_Cacher();
+		//BukkitRunnableの動作確認
+		BukkitRunnableTester();
 
-    	MessageAPI.sendToDiscord("**Server Started.**");
-    }
+		getLogger().info("--------------------------------------------------");
+
+		MessageAPI.sendToDiscord("**Server Started.**");
+	}
 	/**
 	 * 初期設定
 	 * @author mine_book000
-	*/
+	 */
 	private void FirstSetting(){
 		TitleSender = new TitleSender();
 
 		lunachat = (LunaChat)getServer().getPluginManager().getPlugin("LunaChat");
-	    lunachatapi = lunachat.getLunaChatAPI();
+		lunachatapi = lunachat.getLunaChatAPI();
 	}
 	/**
 	 * 連携プラグイン確認
 	 * @author mine_book000
-	*/
+	 */
 	private void Load_Plugin(String PluginName){
-    	if(getServer().getPluginManager().isPluginEnabled(PluginName)){
-    		getLogger().info("MyMaid Success(LOADED: " + PluginName + ")");
-    		getLogger().info("Using " + PluginName);
+		if(getServer().getPluginManager().isPluginEnabled(PluginName)){
+			getLogger().info("MyMaid Success(LOADED: " + PluginName + ")");
+			getLogger().info("Using " + PluginName);
 		}else{
 			getLogger().warning("MyMaid ERR(NOTLOADED: " + PluginName + ")");
 			getLogger().info("Disable MyMaid...");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
-    }
+	}
 	/**
 	 * コマンドの設定
 	 * @author mine_book000
-	*/
-    private void Import_Command_Executor(){
-    	//Command Executor
-    	getCommand("access").setExecutor(new Access(this));
-    	getCommand("afk").setExecutor(new AFK(this));
-    	getCommand("as").setExecutor(new ArrowShotter(this));
-    	getCommand("autoheal").setExecutor(new AutoHeal(this));
-    	getCommand("chat").setExecutor(new Chat(this));
-    	getCommand("ck").setExecutor(new Ck(this));
-    	getCommand("cmdb").setExecutor(new Cmdb(this));
-    	getCommand("mymaid").setExecutor(new Cmdmymaid(this));
-    	getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
-    	getCommand("color").setExecutor(new Color(this));
-    	getCommand("color").setTabCompleter(new Color(this));
-    	getCommand("data").setExecutor(new Data(this));
-    	getCommand("ded").setExecutor(new Ded(this));
-    	getCommand("dedmsg").setExecutor(new DedMsg(this));
-    	getCommand("discordlink").setExecutor(new DiscordLink(this));
-    	getCommand("discordsend").setExecutor(new Discordsend(this));
-    	getCommand(".").setExecutor(new DOT(this));
-    	getCommand("dynamic").setExecutor(new Dynamic(this));
-    	getCommand("dc").setExecutor(new Dynmap_Compass(this));
-    	getCommand("dc").setTabCompleter(new Dynmap_Compass(this));
-    	getCommand("dt").setExecutor(new Dynmap_Teleporter(this));
-    	getCommand("dt").setTabCompleter(new Dynmap_Teleporter(this));
-    	getCommand("e").setExecutor(new E(this));
-    	getCommand("explode").setExecutor(new Explode(this));
-    	getCommand("eye").setExecutor(new Eye(this));
-    	getCommand("g").setExecutor(new Gamemode_Change(this));
-    	getCommand("gettissue").setExecutor(new Gettissue(this));
-    	getCommand("guard").setExecutor(new Guard(this));
-    	getCommand("head").setExecutor(new Head(this));
-    	getCommand("home").setExecutor(new Home(this));
-    	getCommand("inv").setExecutor(new Inv(this));
-    	getCommand("invsave").setExecutor(new InvSave(this));
-    	getCommand("invload").setExecutor(new InvLoad(this));
-    	getCommand("invender").setExecutor(new InvEnder(this));
-    	getCommand("iphost").setExecutor(new Ip_To_Host(this));
-    	getCommand("ja").setExecutor(new Ja(this));
-    	getCommand("jao").setExecutor(new Jao(this));
-    	getCommand("j2").setExecutor(new JaoJao(this));
-    	getCommand("jf").setExecutor(new Jf(this));
-    	getCommand("lag").setExecutor(new Lag(this));
-    	getCommand("land").setExecutor(new Land(this));
-    	getCommand("makecmd").setExecutor(new MakeCmd(this));
-    	getCommand("myblock").setExecutor(new MyBlock(this));
-    	getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
-    	getCommand("mymob").setExecutor(new MyMob(this));
-    	getCommand("pexup").setExecutor(new Pexup(this));
-    	getCommand("pin").setExecutor(new Pin(this));
-    	getCommand("player").setExecutor(new xyz.jaoafa.mymaid.Command.Player(this));
-    	getCommand("jail").setExecutor(new Prison(this));
-    	getCommand("jail").setTabCompleter(new Prison(this));
-    	getCommand("quiz").setExecutor(new Quiz(this));
-    	getCommand("report").setExecutor(new Report(this));
-    	getCommand("ruleload").setExecutor(new RuleLoad(this));
-    	getCommand("save-world").setExecutor(new SaveWorld(this));
-    	getCommand("sign").setExecutor(new xyz.jaoafa.mymaid.Command.Sign(this));
-    	getCommand("signlock").setExecutor(new SignLock(this));
-    	getCommand("spawn").setExecutor(new Spawn(this));
-    	getCommand("skk").setExecutor(new SSK(this));
-    	getCommand("tnt").setExecutor(new TNTReload(this));
-    	getCommand("unko").setExecutor(new Unko(this));
-    	getCommand("upgallery").setExecutor(new UpGallery(this));
-    	getCommand("var").setExecutor(new Var(this));
-    	getCommand("var").setTabCompleter(new Var(this));
-    	getCommand("varcmd").setExecutor(new VarCmd(this));
-    	getCommand("vote").setExecutor(new Vote(this));
-    	getCommand("where").setExecutor(new Where(this));
-    	getCommand("wt").setExecutor(new WorldTeleport(this));
-    }
-    /**
+	 */
+	private void Import_Command_Executor(){
+		//Command Executor
+		getCommand("access").setExecutor(new Access(this));
+		getCommand("afk").setExecutor(new AFK(this));
+		getCommand("as").setExecutor(new ArrowShotter(this));
+		getCommand("autoheal").setExecutor(new AutoHeal(this));
+		getCommand("chat").setExecutor(new Chat(this));
+		getCommand("ck").setExecutor(new Ck(this));
+		getCommand("cmdb").setExecutor(new Cmdb(this));
+		getCommand("mymaid").setExecutor(new Cmdmymaid(this));
+		getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
+		getCommand("color").setExecutor(new Color(this));
+		getCommand("color").setTabCompleter(new Color(this));
+		getCommand("data").setExecutor(new Data(this));
+		getCommand("ded").setExecutor(new Ded(this));
+		getCommand("dedmsg").setExecutor(new DedMsg(this));
+		getCommand("discordlink").setExecutor(new DiscordLink(this));
+		getCommand("discordsend").setExecutor(new Discordsend(this));
+		getCommand(".").setExecutor(new DOT(this));
+		getCommand("dynamic").setExecutor(new Dynamic(this));
+		getCommand("dc").setExecutor(new Dynmap_Compass(this));
+		getCommand("dc").setTabCompleter(new Dynmap_Compass(this));
+		getCommand("dt").setExecutor(new Dynmap_Teleporter(this));
+		getCommand("dt").setTabCompleter(new Dynmap_Teleporter(this));
+		getCommand("e").setExecutor(new E(this));
+		getCommand("explode").setExecutor(new Explode(this));
+		getCommand("eye").setExecutor(new Eye(this));
+		getCommand("g").setExecutor(new Gamemode_Change(this));
+		getCommand("gettissue").setExecutor(new Gettissue(this));
+		getCommand("guard").setExecutor(new Guard(this));
+		getCommand("head").setExecutor(new Head(this));
+		getCommand("home").setExecutor(new Home(this));
+		getCommand("inv").setExecutor(new Inv(this));
+		getCommand("invsave").setExecutor(new InvSave(this));
+		getCommand("invload").setExecutor(new InvLoad(this));
+		getCommand("invender").setExecutor(new InvEnder(this));
+		getCommand("iphost").setExecutor(new Ip_To_Host(this));
+		getCommand("ja").setExecutor(new Ja(this));
+		getCommand("jao").setExecutor(new Jao(this));
+		getCommand("j2").setExecutor(new JaoJao(this));
+		getCommand("jf").setExecutor(new Jf(this));
+		getCommand("lag").setExecutor(new Lag(this));
+		getCommand("land").setExecutor(new Land(this));
+		getCommand("makecmd").setExecutor(new MakeCmd(this));
+		getCommand("myblock").setExecutor(new MyBlock(this));
+		getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
+		getCommand("mymob").setExecutor(new MyMob(this));
+		getCommand("pexup").setExecutor(new Pexup(this));
+		getCommand("pin").setExecutor(new Pin(this));
+		getCommand("player").setExecutor(new xyz.jaoafa.mymaid.Command.Player(this));
+		getCommand("jail").setExecutor(new Prison(this));
+		getCommand("jail").setTabCompleter(new Prison(this));
+		getCommand("quiz").setExecutor(new Quiz(this));
+		getCommand("report").setExecutor(new Report(this));
+		getCommand("ruleload").setExecutor(new RuleLoad(this));
+		getCommand("save-world").setExecutor(new SaveWorld(this));
+		getCommand("sign").setExecutor(new xyz.jaoafa.mymaid.Command.Sign(this));
+		getCommand("signlock").setExecutor(new SignLock(this));
+		getCommand("spawn").setExecutor(new Spawn(this));
+		getCommand("skk").setExecutor(new SSK(this));
+		getCommand("tnt").setExecutor(new TNTReload(this));
+		getCommand("unko").setExecutor(new Unko(this));
+		getCommand("upgallery").setExecutor(new UpGallery(this));
+		getCommand("var").setExecutor(new Var(this));
+		getCommand("var").setTabCompleter(new Var(this));
+		getCommand("varcmd").setExecutor(new VarCmd(this));
+		getCommand("vote").setExecutor(new Vote(this));
+		getCommand("where").setExecutor(new Where(this));
+		getCommand("wo").setExecutor(new WO(this));
+		getCommand("wt").setExecutor(new WorldTeleport(this));
+	}
+	/**
 	 * スケジューリング
 	 * @author mine_book000
-	*/
-    private void Import_Task(){
-    	new World_saver().runTaskTimer(this, 0L, 36000L);
-    	new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
-    	new AFKChecker(this).runTaskTimer(this, 0L, 1200L);
-    }
-    /**
+	 */
+	private void Import_Task(){
+		new World_saver().runTaskTimer(this, 0L, 36000L);
+		new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
+		new AFKChecker(this).runTaskTimer(this, 0L, 1200L);
+	}
+	/**
 	 * リスナー設定
 	 * @author mine_book000
-	*/
-    private void Import_Listener(){
-    	//Listener
-    	getServer().getPluginManager().registerEvents(this, this);
-    	getServer().getPluginManager().registerEvents(new DefaultCheck(this), this);
-    	getServer().getPluginManager().registerEvents(new EyeMove(this), this);
-    	getServer().getPluginManager().registerEvents(new Menu(this), this);
-    	getServer().getPluginManager().registerEvents(new MoveLocationName(this), this);
-    	getServer().getPluginManager().registerEvents(new OnAsyncPlayerChatEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnAsyncPlayerPreLoginEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnBannedEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnBlockBreakEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnBlockIgniteEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnBlockPlaceEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnBlockRedstoneEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnBreak(this), this);
-    	getServer().getPluginManager().registerEvents(new OnEEWReceiveEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnEntityChangeBlockEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnExplosion(this), this);
-    	getServer().getPluginManager().registerEvents(new OnFrom(this), this);
-    	getServer().getPluginManager().registerEvents(new OnHeadClick(this), this);
-    	getServer().getPluginManager().registerEvents(new OnInventoryClickEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnJoin(this), this);
-    	getServer().getPluginManager().registerEvents(new OnLunaChatChannelMemberChangedEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnMyMaidCommandblockLogs(this), this);
-    	getServer().getPluginManager().registerEvents(new OnMyMaidJoinLeftChatCmdLogs(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerBedEnterEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerBedLeaveEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerBucketEmptyEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerCommand(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerCommandPreprocessEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerCommandSendAdmin(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerDeathEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerGameModeChangeEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerInteractEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerItemHeldEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerKickEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerMoveAFK(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerMoveEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnPlayerPickupItemEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnQuitGame(this), this);
-    	getServer().getPluginManager().registerEvents(new OnServerCommandEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnSignClick(this), this);
-    	getServer().getPluginManager().registerEvents(new OnVehicleCreateEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
-    	getServer().getPluginManager().registerEvents(new Land(this), this);
-    }
-    /**
+	 */
+	private void Import_Listener(){
+		//Listener
+		getServer().getPluginManager().registerEvents(this, this);
+		getServer().getPluginManager().registerEvents(new DefaultCheck(this), this);
+		getServer().getPluginManager().registerEvents(new EyeMove(this), this);
+		getServer().getPluginManager().registerEvents(new Menu(this), this);
+		getServer().getPluginManager().registerEvents(new MoveLocationName(this), this);
+		getServer().getPluginManager().registerEvents(new OnAsyncPlayerChatEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnAsyncPlayerPreLoginEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnBannedEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnBlockBreakEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnBlockIgniteEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnBlockPlaceEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnBlockRedstoneEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnBreak(this), this);
+		getServer().getPluginManager().registerEvents(new OnEEWReceiveEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnEntityChangeBlockEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnExplosion(this), this);
+		getServer().getPluginManager().registerEvents(new OnFrom(this), this);
+		getServer().getPluginManager().registerEvents(new OnHeadClick(this), this);
+		getServer().getPluginManager().registerEvents(new OnInventoryClickEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnJoin(this), this);
+		getServer().getPluginManager().registerEvents(new OnLunaChatChannelMemberChangedEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnMyMaidCommandblockLogs(this), this);
+		getServer().getPluginManager().registerEvents(new OnMyMaidJoinLeftChatCmdLogs(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerBedEnterEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerBedLeaveEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerBucketEmptyEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerCommand(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerCommandPreprocessEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerCommandSendAdmin(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerDeathEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerGameModeChangeEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerInteractEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerItemHeldEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerKickEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerMoveAFK(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerMoveEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerPickupItemEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnQuitGame(this), this);
+		getServer().getPluginManager().registerEvents(new OnServerCommandEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnSignClick(this), this);
+		getServer().getPluginManager().registerEvents(new OnVehicleCreateEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
+		getServer().getPluginManager().registerEvents(new Land(this), this);
+	}
+	/**
 	 * コンフィグ読み込み
 	 * @author mine_book000
-	*/
-    private void Load_Config(){
-    	ConfigurationSerialization.registerClass(SerializableLocation.class);
-    	conf = getConfig();
+	 */
+	private void Load_Config(){
+		ConfigurationSerialization.registerClass(SerializableLocation.class);
+		conf = getConfig();
 
 		if(conf.contains("prison")){
 			//Prison.prison = (Map<String,Boolean>) conf.getConfigurationSection("prison").getKeys(false);
@@ -382,10 +389,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 					Prison.prison.put(p.getKey(), (Boolean) p.getValue());
 				}
 			}
- 		}else{
- 			Prison.prison = new HashMap<String,Boolean>();
- 			conf.set("prison",Prison.prison);
- 		}
+		}else{
+			Prison.prison = new HashMap<String,Boolean>();
+			conf.set("prison",Prison.prison);
+		}
 		if(conf.contains("prison_block")){
 			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 			Map<String, Object> pl = conf.getConfigurationSection("prison_block").getValues(true);
@@ -394,10 +401,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 					Prison.prison_block.put(p.getKey(), (Boolean) p.getValue());
 				}
 			}
- 		}else{
- 			Prison.prison_block = new HashMap<String,Boolean>();
- 			conf.set("prison_block",Prison.prison_block);
- 		}
+		}else{
+			Prison.prison_block = new HashMap<String,Boolean>();
+			conf.set("prison_block",Prison.prison_block);
+		}
 		if(conf.contains("prison_lasttext")){
 			Map<String, Object> pl = conf.getConfigurationSection("prison_lasttext").getValues(true);
 			if(pl.size() != 0){
@@ -405,10 +412,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 					Prison.jail_lasttext.put(p.getKey(), p.getValue().toString());
 				}
 			}
- 		}else{
- 			Prison.jail_lasttext = new HashMap<String,String>();
- 			conf.set("prison_lasttext",Prison.jail_lasttext);
- 		}
+		}else{
+			Prison.jail_lasttext = new HashMap<String,String>();
+			conf.set("prison_lasttext",Prison.jail_lasttext);
+		}
 		if(conf.contains("var")){
 			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 			Map<String, Object> var = conf.getConfigurationSection("var").getValues(true);
@@ -417,10 +424,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 					Var.var.put(p.getKey(), (String) p.getValue());
 				}
 			}
- 		}else{
- 			Var.var = new HashMap<String, String>();
- 			conf.set("var",Var.var);
- 		}
+		}else{
+			Var.var = new HashMap<String, String>();
+			conf.set("var",Var.var);
+		}
 		if(conf.contains("jao")){
 			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 			Map<String, Object> jao = conf.getConfigurationSection("jao").getValues(true);
@@ -429,10 +436,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 					Pointjao.jao.put(p.getKey(), (Integer) p.getValue());
 				}
 			}
- 		}else{
- 			Pointjao.jao = new HashMap<String, Integer>();
- 			conf.set("jao",Pointjao.jao);
- 		}
+		}else{
+			Pointjao.jao = new HashMap<String, Integer>();
+			conf.set("jao",Pointjao.jao);
+		}
 		if(conf.contains("color")){
 			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 			Map<String, Object> color = conf.getConfigurationSection("color").getValues(true);
@@ -480,20 +487,20 @@ public class MyMaid extends JavaPlugin implements Listener {
 					}
 				}
 			}
- 		}else{
- 			Color.color = new HashMap<String, ChatColor>();
- 			conf.set("color",Color.color);
- 		}
+		}else{
+			Color.color = new HashMap<String, ChatColor>();
+			conf.set("color",Color.color);
+		}
 		if(conf.contains("maxplayer")){
 			maxplayer = conf.getInt("maxplayer");
- 		}else{
- 			maxplayer = 0;
- 		}
+		}else{
+			maxplayer = 0;
+		}
 		if(conf.contains("maxplayertime")){
 			maxplayertime = conf.getString("maxplayertime");
- 		}else{
- 			maxplayertime = "無し";
- 		}
+		}else{
+			maxplayertime = "無し";
+		}
 		if(conf.contains("home")){
 			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 			Map<String, Object> home = conf.getConfigurationSection("home").getValues(true);
@@ -504,10 +511,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 					Home.home.put(p.getKey(), loc);
 				}
 			}
- 		}else{
- 			Home.home = new HashMap<String, Location>();
- 			conf.set("home",Home.home);
- 		}
+		}else{
+			Home.home = new HashMap<String, Location>();
+			conf.set("home",Home.home);
+		}
 		if(conf.contains("sqluser") && conf.contains("sqlpassword")){
 			MyMaid.sqluser = conf.getString("sqluser");
 			MyMaid.sqlpassword = conf.getString("sqlpassword");
@@ -518,15 +525,15 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getServer().getPluginManager().disablePlugin(this);
 		}
 
-    }
-    /**
+	}
+	/**
 	 * MySQLの初期設定
 	 * @author mine_book000
-	*/
-    private void MySQL_Enable(String user, String password){
-    	MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", user, password);
+	 */
+	private void MySQL_Enable(String user, String password){
+		MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", user, password);
 
-    	try {
+		try {
 			c = MySQL.openConnection();
 		} catch (ClassNotFoundException e) {
 			// TODO 自動生成された catch ブロック
@@ -543,12 +550,12 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
-    	getLogger().info("MySQL Connect successful.");
-    }
-    /**
+		getLogger().info("MySQL Connect successful.");
+	}
+	/**
 	 * レシピ追加設定
 	 * @author mine_book000
-	*/
+	 */
 	private void Add_Recipe(){
 		/* Ekusas83を以下の工程で作るの図
 		 *
@@ -668,7 +675,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		getServer().addRecipe(X8Z_sr);
 		// -------------------------------------------- //
-    }
+	}
 
 	public static Map<String, String> cac = new HashMap<String, String>();
 	public static Map<String, Map<String, String>> mcjppvp_banned = new HashMap<String, Map<String, String>>();
@@ -676,7 +683,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	 * Compromised Accountをログインさせないようにする前提キャッシュ
 	 * @author mine_book000
 	 * @see https://github.com/unchama/BanAssist
-	*/
+	 */
 	private void Compromised_Account_Cacher(){
 		try {
 			URL url = new URL("https://pvp.minecraft.jp/punishments/banned-players.json");
@@ -707,9 +714,22 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 	}
 
-    @Override
-    public void onDisable() {
-    	conf.set("prison",Prison.prison);
+	/**
+	 * BukkitRunnableが動かないときの対処(強制再起動)
+	 * @author mine_book000
+	 */
+	private void BukkitRunnableTester(){
+		try{
+			new BukkitRunnabletest().runTaskLater(this, 200);
+		}catch(java.lang.NoClassDefFoundError e){
+			restart();
+		}
+	}
+
+
+	@Override
+	public void onDisable() {
+		conf.set("prison",Prison.prison);
 		conf.set("prison_block",Prison.prison_block);
 		conf.set("prison_lasttext",Prison.jail_lasttext);
 		conf.set("var",Var.var);
@@ -765,17 +785,17 @@ public class MyMaid extends JavaPlugin implements Listener {
 			home.put(home_.getKey(), sloc);
 		}
 		conf.set("home", home);
-    	saveConfig();
-    	MessageAPI.sendToDiscord("**Server Stopped.**");
-    }
+		saveConfig();
+		MessageAPI.sendToDiscord("**Server Stopped.**");
+	}
 
-    /* ----- タスク系 ----- */
+	/* ----- タスク系 ----- */
 
-    /**
+	/**
 	 * ワールド保存タスク(30分毎)
 	 * @author mine_book000
-	*/
-    private class World_saver extends BukkitRunnable{
+	 */
+	private class World_saver extends BukkitRunnable{
 		@Override
 		public void run() {
 			if(nextbakrender){
@@ -797,11 +817,11 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 		}
 	}
-    /**
+	/**
 	 * Dynmapの自動レンダリング(30分毎)
 	 * @author mine_book000
-	*/
-    private class Dynmap_Update_Render extends BukkitRunnable{
+	 */
+	private class Dynmap_Update_Render extends BukkitRunnable{
 		@Override
 		public void run() {
 			if(nextbakrender){
@@ -813,31 +833,31 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 		}
 	}
-    /**
+	/**
 	 * Dynmapの自動レンダリング(時間差タスク)
 	 * @author mine_book000
-	*/
-    private class Dynmap_Update_Render_User extends BukkitRunnable{
-    	Player player;
-    	public Dynmap_Update_Render_User(Player player){
-    		this.player = player;
-    	}
+	 */
+	private class Dynmap_Update_Render_User extends BukkitRunnable{
+		Player player;
+		public Dynmap_Update_Render_User(Player player){
+			this.player = player;
+		}
 		@Override
 		public void run() {
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "dynmap updaterender Jao_Afa " + player.getLocation().getBlockX() + " " + player.getLocation().getBlockZ() );
 		}
 	}
 
-    public static Map<String,Long> afktime = new HashMap<String,Long>();
-    /**
+	public static Map<String,Long> afktime = new HashMap<String,Long>();
+	/**
 	 * AFKチェックタスク
 	 * @author mine_book000
-	*/
-    private class AFKChecker extends BukkitRunnable{
-    	JavaPlugin plugin;
-    	public AFKChecker(JavaPlugin plugin) {
-    		this.plugin = plugin;
-    	}
+	 */
+	private class AFKChecker extends BukkitRunnable{
+		JavaPlugin plugin;
+		public AFKChecker(JavaPlugin plugin) {
+			this.plugin = plugin;
+		}
 		@Override
 		public void run() {
 			if(nextbakrender){
@@ -872,6 +892,43 @@ public class MyMaid extends JavaPlugin implements Listener {
 					}
 				}
 			}
+		}
+	}
+
+	private class BukkitRunnabletest extends BukkitRunnable{
+		@Override
+		public void run() {
+		}
+	}
+
+	public void restart() {
+		try {
+			Class<?> c = Class.forName("java.lang.ApplicationShutdownHooks");
+			Field f = c.getDeclaredField("hooks");
+			f.setAccessible(true);
+			List<Thread> list = new ArrayList<Thread>();
+			Map<?, ?> hooks = (Map<?, ?>)f.get(null);
+			for(Object thread : hooks.values()) {
+				list.add((Thread)thread);
+			}
+			for(Thread thread : list) {
+				Runtime.getRuntime().removeShutdownHook(thread);
+			}
+			Runtime.getRuntime().addShutdownHook(new Thread() {
+				public void run() {
+					try {
+						String command = "/var/minecraft/autorestart.sh";
+						new ProcessBuilder(command).start();
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			Bukkit.shutdown();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
