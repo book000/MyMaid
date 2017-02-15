@@ -19,7 +19,6 @@ import com.github.ucchyocean.lc.LunaChatAPI;
 import com.github.ucchyocean.lc.channel.Channel;
 import com.github.ucchyocean.lc.channel.ChannelPlayer;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.Color;
@@ -42,18 +41,10 @@ public class OnAsyncPlayerChatEvent implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
 		if(e.getMessage().equalsIgnoreCase("afa") && oldtext.equalsIgnoreCase("jao")){
-			for(Player p: Bukkit.getServer().getOnlinePlayers()){
-				if(!(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Regular"))){
-					p.sendMessage(ChatColor.GOLD + "[Tips] " + ChatColor.GREEN + "このjao afaって言うのはこのサーバにログインした時にする挨拶だよ！やってみよう！");
-				}
-			}
+			Method.SendTipsALL("このjao afaって言うのはこのサーバにログインした時にする挨拶だよ！やってみよう！");
 		}
 		if(e.getMessage().equalsIgnoreCase("jaojao")){
-			for(Player p: Bukkit.getServer().getOnlinePlayers()){
-				if(!(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Regular"))){
-					p.sendMessage(ChatColor.GOLD + "[Tips] " + ChatColor.GREEN + "このjaojaoって言うのはこのサーバからログアウトする前にする挨拶だよ！やってみよう！");
-				}
-			}
+			Method.SendTipsALL("このjaojaoって言うのはこのサーバからログアウトする前にする挨拶だよ！やってみよう！");
 		}
 		if(e.getMessage().equals("を")){
 			if(WO.nowwo){

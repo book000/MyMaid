@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import eu.manuelgu.discordmc.MessageAPI;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
@@ -86,11 +85,7 @@ public class JaoJao implements CommandExecutor {
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jaojao");
 		MessageAPI.sendToDiscord("**" + player.getName() + "**: jaojao");
-		for(Player p: Bukkit.getServer().getOnlinePlayers()){
-			if(!(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Regular"))){
-				p.sendMessage(ChatColor.GOLD + "[Tips] " + ChatColor.GREEN + "このjaojaoって言うのはこのサーバからログアウトする前にする挨拶だよ！やってみよう！");
-			}
-		}
+		Method.SendTipsALL("このjaojaoって言うのはこのサーバからログアウトする前にする挨拶だよ！やってみよう！");
 		return true;
 	}
 }

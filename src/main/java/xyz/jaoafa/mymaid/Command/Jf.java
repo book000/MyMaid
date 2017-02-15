@@ -13,7 +13,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import eu.manuelgu.discordmc.MessageAPI;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
@@ -104,11 +103,7 @@ public class Jf implements CommandExecutor {
 			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": afa");
 			MessageAPI.sendToDiscord("**" + player.getName() + "**: afa");
-			for(Player p: Bukkit.getServer().getOnlinePlayers()){
-				if(!(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Regular"))){
-					p.sendMessage(ChatColor.GOLD + "[Tips] " + ChatColor.GREEN + "このjao afaって言うのはこのサーバにログインした時にする挨拶だよ！やってみよう！");
-				}
-			}
+			Method.SendTipsALL("このjao afaって言うのはこのサーバにログインした時にする挨拶だよ！やってみよう！");
 			cancel();
 		}
 	}

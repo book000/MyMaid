@@ -12,6 +12,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
 
@@ -308,8 +310,25 @@ public class Method {
 		        }
 		    }
 		}
-
 		return isUUID;
 	}
-
+	static Map<String, String> tips = new HashMap<String, String>();
+	/**
+	 * TipsをAdminとRegular以外に送信します
+	 * @param text
+	 * @author mine_book000
+	 */
+	public static void SendTipsALL(String text) {
+		for(Player p: Bukkit.getServer().getOnlinePlayers()){
+			if(!PermissionsEx.getUser(p).inGroup("Admin") && !PermissionsEx.getUser(p).inGroup("Regular")){
+				if(tips.containsKey(p.getName())){
+					if(tips.get(p.getName()).equalsIgnoreCase(text)){
+						continue;
+					}
+				}
+				p.sendMessage(ChatColor.GOLD + "[Tips] " + ChatColor.GREEN + text);
+				tips.put(p.getName(), text);
+			}
+		}
+	}
 }
