@@ -1,8 +1,13 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -60,6 +65,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 					+ ChatColor.RESET + ChatColor.WHITE + "もしこの判定が誤判定と思われる場合は、サイト内お問い合わせからお問い合わせを行ってください。\n"
 					+ "公式Discordでお問い合わせをして頂いても構いません。");
 			Bukkit.getLogger().info(e.getName()+": Connection to server failed! (Detect SubAccount.)");
+			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.SubAccount, player);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>複垢(" + player + ")");
@@ -76,6 +82,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 					+ ChatColor.RESET + ChatColor.WHITE + "もしこのBanに異議がある場合は、サイト内お問い合わせからお問い合わせを行ってください。\n"
 					+ "公式Discordでお問い合わせをして頂いても構いません。");
 			Bukkit.getLogger().info(e.getName()+": Connection to server failed!([PBan] " + message + ")");
+			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.PBan, message);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>[PBan] " + message + ")");
@@ -102,6 +109,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 				Bukkit.getLogger().info("err");
 			}
 			Bukkit.getLogger().info(e.getName()+": Connection to server failed!(Region Error "+country+")");
+			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.RegionErr, country);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>許可されていない地域からのログイン("+country+")");
@@ -117,6 +125,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 					+ ChatColor.RESET + ChatColor.WHITE + "(Your MCBans Reputation is below this servers threshold!)\n"
 					+ ChatColor.RESET + ChatColor.WHITE + "もしこの判定が誤判定と思われる場合は、サイト内お問い合わせからお問い合わせを行ってください。\n"
 					+ "公式Discordでお問い合わせをして頂いても構いません。");
+			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.MCBansRepErr, message);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>鯖指定評価値下回り(" + message + ")");
@@ -130,6 +139,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 						+ ChatColor.RESET + ChatColor.WHITE + "あなたのアカウントは不正なアカウントと判定されました。\n"
 						+ ChatColor.RESET + ChatColor.WHITE + "もしこの判定が誤判定と思われる場合は、サイト内お問い合わせからお問い合わせを行ってください。\n"
 						+ "公式Discordでお問い合わせをして頂いても構いません。");
+				LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.CompromisedAccount, "");
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 					if(PermissionsEx.getUser(p).inGroup("Admin")) {
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>Compromised Account(不正アカウント)");
@@ -173,15 +183,65 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 		UUID uuid;
 		InetAddress ip;
 		String host;
-    	public netaccess(JavaPlugin plugin, String player, UUID uuid, InetAddress ip, String host) {
-    		this.player = player;
-    		this.uuid = uuid;
-    		this.ip = ip;
-    		this.host = host;
-    	}
+		public netaccess(JavaPlugin plugin, String player, UUID uuid, InetAddress ip, String host) {
+			this.player = player;
+			this.uuid = uuid;
+			this.ip = ip;
+			this.host = host;
+		}
 		@Override
 		public void run() {
 			Method.url_jaoplugin("mccheck_anotherlogin", "p=" + player + "&u=" + uuid + "&i=" + ip + "&host=" + host);
+		}
+	}
+	public enum DisAllowLoginType {
+		SubAccount("サブアカウント"),
+		PBan("PBan"),
+		RegionErr("海外からのログイン"),
+		MCBansRepErr("MCBansでの評価値下回り"),
+		CompromisedAccount("MCJPPvPにてCompromisedAccountでBan");
+
+
+
+		private String name;
+
+		DisAllowLoginType(String name) {
+			this.name = name;
+		}
+	}
+	private void LoginErrBackupSaveTxt(String player, DisAllowLoginType type, String reason){
+		try{
+			File file = new File(plugin.getDataFolder() + File.separator + "loginerrlog.txt");
+
+			if(file.exists()){
+				file.createNewFile();
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			String text = "["+ sdf.format(new Date()) + "|" + type.name + "] ";
+			StringBuffer TextBuf = new StringBuffer();
+			TextBuf.append(text);
+
+			if(type == DisAllowLoginType.SubAccount){
+				TextBuf.append(player + "はサブアカウント判定をされました。(関連ID: " + reason + ")");
+			}else if(type == DisAllowLoginType.PBan){
+				TextBuf.append(player + "はPBanをされています。(理由: " + reason + ")");
+			}else if(type == DisAllowLoginType.RegionErr){
+				TextBuf.append(player + "は海外からのログインと判定されました。(" + reason +")");
+			}else if(type == DisAllowLoginType.MCBansRepErr){
+				TextBuf.append(player + "はMCBansでの評価値が鯖指定評価値を下回っています。");
+			}else if(type == DisAllowLoginType.CompromisedAccount){
+				TextBuf.append(player + "はMCJPPvPにてCompromisedAccountでBanされています。");
+			}
+
+			text = TextBuf.toString();
+
+			FileWriter filewriter = new FileWriter(file, true);
+
+			filewriter.write(text + System.getProperty("line.separator"));
+
+			filewriter.close();
+		}catch(IOException e){
+			System.out.println(e);
 		}
 	}
 }
