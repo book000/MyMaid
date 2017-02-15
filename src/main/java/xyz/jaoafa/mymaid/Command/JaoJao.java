@@ -87,7 +87,7 @@ public class JaoJao implements CommandExecutor {
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jaojao");
 		MessageAPI.sendToDiscord("**" + player.getName() + "**: jaojao");
 		for(Player p: Bukkit.getServer().getOnlinePlayers()){
-			if(!(PermissionsEx.getUser(p).inGroup("Regular") || PermissionsEx.getUser(p).inGroup("Regular"))){
+			if(!(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Regular"))){
 				p.sendMessage(ChatColor.GOLD + "[Tips] " + ChatColor.GREEN + "このjaojaoって言うのはこのサーバからログアウトする前にする挨拶だよ！やってみよう！");
 			}
 		}

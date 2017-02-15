@@ -43,14 +43,14 @@ public class OnAsyncPlayerChatEvent implements Listener {
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
 		if(e.getMessage().equalsIgnoreCase("afa") && oldtext.equalsIgnoreCase("jao")){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()){
-				if(!(PermissionsEx.getUser(p).inGroup("Regular") || PermissionsEx.getUser(p).inGroup("Regular"))){
+				if(!(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Regular"))){
 					p.sendMessage(ChatColor.GOLD + "[Tips] " + ChatColor.GREEN + "このjao afaって言うのはこのサーバにログインした時にする挨拶だよ！やってみよう！");
 				}
 			}
 		}
 		if(e.getMessage().equalsIgnoreCase("jaojao")){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()){
-				if(!(PermissionsEx.getUser(p).inGroup("Regular") || PermissionsEx.getUser(p).inGroup("Regular"))){
+				if(!(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Regular"))){
 					p.sendMessage(ChatColor.GOLD + "[Tips] " + ChatColor.GREEN + "このjaojaoって言うのはこのサーバからログアウトする前にする挨拶だよ！やってみよう！");
 				}
 			}
