@@ -16,12 +16,16 @@ public class Jao implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if (!(sender instanceof Player)) {
-			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
-			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
-			return true;
-		}
+
 		if(args.length == 1){
+			if(args[0].equalsIgnoreCase("history")){
+				if (!(sender instanceof Player)) {
+					Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
+					Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
+					return true;
+				}
+				Method.SendMessage(sender, cmd, "仕様策定中ですのでサイトでご確認ください。 https://jaoafa.com/point/check.php?uuid=" + ((Player) sender).getUniqueId().toString());
+			}
 			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 				if(player.getName().equalsIgnoreCase(args[0])){
 					int now = Pointjao.getjao(player);
@@ -30,6 +34,11 @@ public class Jao implements CommandExecutor {
 				}
 			}
 			Method.SendMessage(sender, cmd, "プレイヤーが見つかりません。");
+			return true;
+		}
+		if (!(sender instanceof Player)) {
+			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
+			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
 		Player player = (Player) sender;
