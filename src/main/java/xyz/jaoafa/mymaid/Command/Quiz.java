@@ -63,7 +63,7 @@ public class Quiz implements CommandExecutor {
 					 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
 					 	 return true;
 					}
-					Pointjao.usejao(player, use);
+					Pointjao.usejao(player, use, "quizコマンド実行でクイズを開始した為");
 				}
 
 				quiz.put(qid, data);

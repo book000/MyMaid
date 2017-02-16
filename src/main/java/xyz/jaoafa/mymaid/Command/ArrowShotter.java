@@ -78,7 +78,7 @@ public class ArrowShotter implements CommandExecutor {
 			 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
 			 	 return true;
 			}
-			Pointjao.usejao(player, use);
+			Pointjao.usejao(player, use, "ArrowShotter実行の為");
 
 			Method.SendMessage(sender, cmd, "ArrowShotterを起動しました。");
 			now = true;

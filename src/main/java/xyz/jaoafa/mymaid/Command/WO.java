@@ -52,7 +52,7 @@ public class WO implements CommandExecutor {
 		 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
 		 	 return true;
 		}
-		Pointjao.usejao(player, use);
+		Pointjao.usejao(player, use, "woコマンド実行の為");
 		String Msg = "";
 		if(player.hasPermission("mymaid.pex.limited")){
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());

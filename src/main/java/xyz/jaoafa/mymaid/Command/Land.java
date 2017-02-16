@@ -488,7 +488,7 @@ public class Land implements CommandExecutor, Listener {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				statement.executeUpdate("UPDATE land SET player = '" + player.getName() + "', uuid = '" + player.getUniqueId() + "', isplayerland = true, date = '" + sdf.format(new Date()) + "' WHERE id = " + id + ";");
 
-				Pointjao.usejao(player, (int) land_jaop);
+				Pointjao.usejao(player, (int) land_jaop, "landコマンドによる土地取得");
 
 				Method.SendMessage(sender, cmd, "土地を取得しました。");
 				return;
@@ -594,7 +594,7 @@ public class Land implements CommandExecutor, Listener {
 				}
 				statement.executeUpdate("UPDATE land SET `player` = '', `uuid` = '', `isplayerland` = '0', `date` = '' WHERE `land`.`id` = " + id + ";");
 
-				Pointjao.addjao(player, (int) land_jaop_sell);
+				Pointjao.addjao(player, (int) land_jaop_sell, "landコマンドによる土地の売却");
 
 				Method.SendMessage(sender, cmd, "土地を売りました。");
 				return;

@@ -1,5 +1,9 @@
 package xyz.jaoafa.mymaid;
 
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,7 +89,7 @@ public class Pointjao {
 	 * @return 実行できたかどうか
 	 * @author mine_book000
 	*/
-	public static boolean usejao(Player player, int usejao){
+	public static boolean usejao(Player player, int usejao, String reason){
 		int now = getjao(player);
 		if(!hasjao(player, usejao)){
 			return false;
@@ -94,6 +98,15 @@ public class Pointjao {
 		jao.put(getuuidtostring(player), newjao);
 		MyMaid.conf.set("jao",Pointjao.jao);
 		player.sendMessage("[POINT] " + ChatColor.GREEN + usejao + "ポイントを使用しました。現在" + newjao + "ポイント持っています。");
+		try {
+			String type = "Use";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			UpdateQuery("INSERT INTO jaopoint (player, uuid, type, point, reason, nowpoint, description, date) VALUES ('" + player.getName() + "', '" + player.getUniqueId().toString() +"', '" +  type + "', " + usejao + ", '" + reason + "', " + newjao + ", 'プラグイン', '" + sdf.format(new Date()) + "');");
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			player.sendMessage("[POINT] " + ChatColor.GREEN + "明細の書き込みに失敗しました。開発者に連絡を行ってください。");
+		}
 		return true;
 	}
 	/**
@@ -103,12 +116,21 @@ public class Pointjao {
 	 * @return 実行できたかどうか
 	 * @author mine_book000
 	*/
-	public static boolean addjao(Player player, int addjao){
+	public static boolean addjao(Player player, int addjao, String reason){
 		int now = getjao(player);
 		int newjao = now + addjao;
 		jao.put(getuuidtostring(player), newjao);
 		MyMaid.conf.set("jao",Pointjao.jao);
 		player.sendMessage("[POINT] " + ChatColor.GREEN + addjao + "ポイントを追加しました。現在" + newjao + "ポイント持っています。");
+		try {
+			String type = "Add";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			UpdateQuery("INSERT INTO jaopoint (player, uuid, type, point, reason, nowpoint, description, date) VALUES ('" + player.getName() + "', '" + player.getUniqueId().toString() +"', '" +  type + "', " + addjao + ", '" + reason + "', " + newjao + ", 'プラグイン', '" + sdf.format(new Date()) + "');");
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			player.sendMessage("[POINT] " + ChatColor.GREEN + "明細の書き込みに失敗しました。開発者に連絡を行ってください。");
+		}
 		return true;
 	}
 	/**
@@ -118,11 +140,44 @@ public class Pointjao {
 	 * @return 実行できたかどうか
 	 * @author mine_book000
 	*/
-	public static boolean addjao(String uuid, int addjao){
+	public static boolean addjao(String uuid, int addjao, String reason){
 		int now = getjao(uuid);
 		int newjao = now + addjao;
 		jao.put(uuid, newjao);
 		MyMaid.conf.set("jao",Pointjao.jao);
+		try {
+			String type = "Add";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			UpdateQuery("INSERT INTO jaopoint (player, uuid, type, point, reason, nowpoint, description, date) VALUES ('', '" + uuid +"', '" +  type + "', " + addjao + ", '" + reason + "', " + newjao + ", 'プラグイン', '" + sdf.format(new Date()) + "');");
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 		return true;
+	}
+	/**
+	 * MySQLにアップデートクエリ送信
+	 * @param query
+	 * @return ?
+	 * @author mine_book000
+	 * @return
+	 */
+	private static int UpdateQuery(String query) throws Exception{
+		Statement statement = null;
+		try {
+			statement = MyMaid.c.createStatement();
+		} catch (NullPointerException e) {
+			MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+			try {
+				MyMaid.c = MySQL.openConnection();
+				statement = MyMaid.c.createStatement();
+			} catch (ClassNotFoundException | SQLException e1) {
+				throw new Exception("ClassNotFound/SQLException");
+			}
+		} catch (SQLException e) {
+			throw new Exception("SQLException");
+		}
+		statement = MySQL.check(statement);
+		return statement.executeUpdate(query);
 	}
 }

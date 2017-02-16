@@ -66,7 +66,7 @@ public class Cmdmymaid implements CommandExecutor {
 							Method.SendMessage(sender, cmd, "ポイントには数値を指定してください。");
 							return true;
 						}
-						Pointjao.addjao(player, add);
+						Pointjao.addjao(player, add, "管理部からのポイント追加処理");
 						Method.SendMessage(sender, cmd, player.getName() + "に" + add + "ポイントを追加しました。");
 						return true;
 					}
@@ -92,7 +92,7 @@ public class Cmdmymaid implements CommandExecutor {
 							Method.SendMessage(sender, cmd, "ポイントには数値を指定してください。");
 							return true;
 						}
-						Pointjao.addjao(player, add);
+						Pointjao.usejao(player, add, "管理部からのポイント減算処理");
 						Method.SendMessage(sender, cmd, player.getName() + "から" + add + "ポイントを減らしました。");
 						return true;
 					}

@@ -1,5 +1,7 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -33,7 +35,9 @@ public class OnVotifierEvent implements Listener {
         if (Bukkit.getPlayer(vote.getUsername()) == null) {
         	i = Method.url_jaoplugin("vote", "p="+name);
         	String uuid = Method.url_jaoplugin("point", "p="+name);
-        	Pointjao.addjao("" + uuid, 20);
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			Date Date = new Date();
+        	Pointjao.addjao("" + uuid, 20, sdf.format(Date) + "の投票ボーナス");
         } else {
         	Player player;
         	if (Bukkit.getPlayer(name) == null) {
@@ -44,7 +48,9 @@ public class OnVotifierEvent implements Listener {
 
         	UUID uuid = player.getUniqueId();
         	i = Method.url_jaoplugin("vote", "p="+name+"&u="+uuid);
-        	Pointjao.addjao(player, 20);
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			Date Date = new Date();
+        	Pointjao.addjao(player, 20, sdf.format(Date) + "の投票ボーナス");
         	if(player.hasPermission("mymaid.pex.limited")){
 				player.setPlayerListName(ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
 			}else if(Prison.prison.containsKey(player.getName())){

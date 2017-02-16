@@ -206,7 +206,7 @@ public class DedMsg implements CommandExecutor {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
 				int use = 20;
-				Pointjao.usejao(player, use);
+				Pointjao.usejao(player, use, "dedmagコマンド実行の為");
 			}
 			Method.SendMessage(sender, cmd, "設定しました。");
 			return;

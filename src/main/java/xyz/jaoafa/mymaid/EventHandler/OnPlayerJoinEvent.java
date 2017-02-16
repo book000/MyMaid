@@ -49,8 +49,10 @@ public class OnPlayerJoinEvent implements Listener {
 		}
   		String point = Method.url_jaoplugin("point", "u=" + event.getPlayer().getUniqueId());
 		if(point.equalsIgnoreCase("YES")){
+			SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+			Date Date = new Date();
 			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + event.getPlayer().getName() + "は本日初ログインです。");
-			Pointjao.addjao(event.getPlayer(), 10);
+			Pointjao.addjao(event.getPlayer(), 10, date.format(Date) + "のログインボーナス");
 
 			/*
 			SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
@@ -86,7 +88,7 @@ public class OnPlayerJoinEvent implements Listener {
 		if((MyMaid.maxplayer+1) == Bukkit.getServer().getOnlinePlayers().size()){
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 最高ログイン人数を突破しました！おめでとうございます！前回のログイン人数突破は「" + MyMaid.maxplayertime + "」でした！");
 			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-				Pointjao.addjao(player, 30);
+				Pointjao.addjao(player, 30, timeFormat.format(Date) + "の最高ログイン人数「" + Bukkit.getServer().getOnlinePlayers().size() + "人」を突破したため");
 			}
 			SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			MyMaid.maxplayer = Bukkit.getServer().getOnlinePlayers().size();

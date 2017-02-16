@@ -40,7 +40,7 @@ public class Ja implements CommandExecutor {
 		 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
 		 	 return true;
 		}
-		Pointjao.usejao(player, use);
+		Pointjao.usejao(player, use, "jaコマンド実行の為");
 
 		String Msg = "";
 		if(player.hasPermission("mymaid.pex.limited")){
