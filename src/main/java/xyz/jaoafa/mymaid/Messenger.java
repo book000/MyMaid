@@ -119,7 +119,7 @@ public class Messenger {
 		}
 		try{
 			JavaPlugin plugin = MyMaid.getJavaPlugin();
-			File file = new File(plugin.getDataFolder() + File.separator + "jaopoint.json");
+			File file = new File(plugin.getDataFolder() + File.separator + "messenger.json");
 			FileWriter filewriter = new FileWriter(file);
 
 			filewriter.write(array.toJSONString());
@@ -143,7 +143,7 @@ public class Messenger {
 		String json = "";
 		try{
 			JavaPlugin plugin = MyMaid.getJavaPlugin();
-			File file = new File(plugin.getDataFolder() + File.separator + "jaopoint.json");
+			File file = new File(plugin.getDataFolder() + File.separator + "messenger.json");
 			BufferedReader br = new BufferedReader(new FileReader(file));
 
 			String separator = System.getProperty("line.separator");
