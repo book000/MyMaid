@@ -190,6 +190,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		eew.eewAlertConfig.notificationMode = false;
 		getLogger().info("EEWAlertの通知動作設定を" + eewnoticeold + "からfalseに変更しました。");
 
+		//初期設定(TitleSender, Lunachat設定)
+		FirstSetting();
 		//リスナーを設定
 		Import_Listener();
 		//スケジュールタスクをスケジュ―リング
@@ -200,8 +202,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		Load_Config();
 		//レシピ(クラフト)追加
 		Add_Recipe();
-		//初期設定(TitleSender, Lunachat設定)
-		FirstSetting();
+
 		//Compromised Accountのキャッシュ処理
 		Compromised_Account_Cacher();
 		//BukkitRunnableの動作確認

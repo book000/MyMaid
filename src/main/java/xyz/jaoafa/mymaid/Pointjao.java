@@ -246,8 +246,10 @@ public class Pointjao {
 		} catch (ParseException e1) {
 			obj = new JSONObject();
 		}
-		for(Entry<String, Integer> one : (Set<Map.Entry<String, Integer>>) obj.entrySet()){
-			jao.put(one.getKey(), one.getValue());
+		for(Entry<String, Long> one : (Set<Map.Entry<String, Long>>) obj.entrySet()){
+			Long l = one.getValue();
+			Integer i = new Integer(l.toString());
+			jao.put(one.getKey(), i);
 		}
 		return true;
 	}
