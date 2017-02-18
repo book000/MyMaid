@@ -1,15 +1,26 @@
 package xyz.jaoafa.mymaid;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * ポイントシステム
@@ -96,7 +107,13 @@ public class Pointjao {
 		}
 		int newjao = now - usejao;
 		jao.put(getuuidtostring(player), newjao);
-		MyMaid.conf.set("jao",Pointjao.jao);
+		try {
+			Savejao();
+		} catch (Exception e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+			player.sendMessage("[POINT] " + ChatColor.GREEN + "システムの処理に失敗しました。開発者にお問い合わせください。");
+		}
 		player.sendMessage("[POINT] " + ChatColor.GREEN + usejao + "ポイントを使用しました。現在" + newjao + "ポイント持っています。");
 		try {
 			String type = "Use";
@@ -120,7 +137,13 @@ public class Pointjao {
 		int now = getjao(player);
 		int newjao = now + addjao;
 		jao.put(getuuidtostring(player), newjao);
-		MyMaid.conf.set("jao",Pointjao.jao);
+		try {
+			Savejao();
+		} catch (Exception e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+			player.sendMessage("[POINT] " + ChatColor.GREEN + "システムの処理に失敗しました。開発者にお問い合わせください。");
+		}
 		player.sendMessage("[POINT] " + ChatColor.GREEN + addjao + "ポイントを追加しました。現在" + newjao + "ポイント持っています。");
 		try {
 			String type = "Add";
@@ -144,7 +167,12 @@ public class Pointjao {
 		int now = getjao(uuid);
 		int newjao = now + addjao;
 		jao.put(uuid, newjao);
-		MyMaid.conf.set("jao",Pointjao.jao);
+		try {
+			Savejao();
+		} catch (Exception e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
 		try {
 			String type = "Add";
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -155,12 +183,81 @@ public class Pointjao {
 		}
 		return true;
 	}
+
+	/**
+	 * jaoポイントをセーブする。
+	 * @return 実行できたかどうか
+	 * @author mine_book000
+	 * @throws Exception IOExceptionの発生時に発生
+	*/
+	@SuppressWarnings("unchecked")
+	public static boolean Savejao() throws Exception{
+		JSONObject obj = new JSONObject();
+		for(Entry<String, Integer> one : jao.entrySet()) {
+		    obj.put(one.getKey(), one.getValue());
+		}
+		try{
+			JavaPlugin plugin = MyMaid.getJavaPlugin();
+	    	File file = new File(plugin.getDataFolder() + File.separator + "jaopoint.json");
+	    	FileWriter filewriter = new FileWriter(file);
+
+	    	filewriter.write(obj.toJSONString());
+
+	    	filewriter.close();
+	    }catch(IOException e){
+	    	e.printStackTrace();
+	    	throw new Exception("IOException");
+	    }
+		return true;
+	}
+
+	/**
+	 * jaoポイントをロードする。
+	 * @return 実行できたかどうか
+	 * @author mine_book000
+	 * @throws Exception 何かしらのExceptionが発生したときに発生(FileNotFoundException, IOException)
+	*/
+	@SuppressWarnings("unchecked")
+	public static boolean Loadjao() throws Exception{
+		JSONParser parser = new JSONParser();
+		String json = "";
+		try{
+			JavaPlugin plugin = MyMaid.getJavaPlugin();
+	    	File file = new File(plugin.getDataFolder() + File.separator + "jaopoint.json");
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			String separator = System.getProperty("line.separator");
+
+			String str;
+			while((str = br.readLine()) != null){
+				json += str + separator;
+			}
+			br.close();
+		}catch(FileNotFoundException e1){
+			e1.printStackTrace();
+			throw new FileNotFoundException(e1.getMessage());
+		}catch(IOException e1){
+			e1.printStackTrace();
+			throw new IOException(e1.getMessage());
+		}
+		JSONObject obj;
+		try {
+			obj = (JSONObject) parser.parse(json);
+		} catch (ParseException e1) {
+			obj = new JSONObject();
+		}
+		for(Entry<String, Integer> one : (Set<Map.Entry<String, Integer>>) obj.entrySet()){
+			jao.put(one.getKey(), one.getValue());
+		}
+		return true;
+	}
+
 	/**
 	 * MySQLにアップデートクエリ送信
-	 * @param query
-	 * @return ?
+	 * @param query アップデートクエリ
+	 * @return executeUpdateの返却値
 	 * @author mine_book000
-	 * @return
+	 * @throws Exception なんらかの理由でクエリが実行出来なかったときに発生
 	 */
 	private static int UpdateQuery(String query) throws Exception{
 		Statement statement = null;
@@ -172,9 +269,11 @@ public class Pointjao {
 				MyMaid.c = MySQL.openConnection();
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
+				e1.printStackTrace();
 				throw new Exception("ClassNotFound/SQLException");
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new Exception("SQLException");
 		}
 		statement = MySQL.check(statement);

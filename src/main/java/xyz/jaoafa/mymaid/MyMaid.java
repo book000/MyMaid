@@ -8,10 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +39,6 @@ import com.ittekikun.plugin.eewalert.EEWAlert;
 
 import eu.manuelgu.discordmc.MessageAPI;
 import xyz.jaoafa.mymaid.Command.AFK;
-import xyz.jaoafa.mymaid.Command.AFK.afking;
 import xyz.jaoafa.mymaid.Command.Access;
 import xyz.jaoafa.mymaid.Command.ArrowShotter;
 import xyz.jaoafa.mymaid.Command.AutoHeal;
@@ -159,6 +155,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public static Connection c = null;
 	public static String sqluser;
 	public static String sqlpassword;
+	private static JavaPlugin instance;
 	/**
 	 * プラグインが起動したときに呼び出し
 	 * @author mine_book000
@@ -222,6 +219,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		lunachat = (LunaChat)getServer().getPluginManager().getPlugin("LunaChat");
 		lunachatapi = lunachat.getLunaChatAPI();
+
+		instance = this;
 	}
 	/**
 	 * 連携プラグイン確認
@@ -321,6 +320,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		new World_saver().runTaskTimer(this, 0L, 36000L);
 		new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
 		new AFKChecker(this).runTaskTimer(this, 0L, 1200L);
+		new AutoMessage().runTaskTimer(this, 0L, 36000L);
 	}
 	/**
 	 * リスナー設定
@@ -428,18 +428,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 			Var.var = new HashMap<String, String>();
 			conf.set("var",Var.var);
 		}
-		if(conf.contains("jao")){
-			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
-			Map<String, Object> jao = conf.getConfigurationSection("jao").getValues(true);
-			if(jao.size() != 0){
-				for(Entry<String, Object> p: jao.entrySet()){
-					Pointjao.jao.put(p.getKey(), (Integer) p.getValue());
-				}
-			}
-		}else{
-			Pointjao.jao = new HashMap<String, Integer>();
-			conf.set("jao",Pointjao.jao);
-		}
 		if(conf.contains("color")){
 			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 			Map<String, Object> color = conf.getConfigurationSection("color").getValues(true);
@@ -525,6 +513,14 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getServer().getPluginManager().disablePlugin(this);
 		}
 
+		//jaoポイントをロード
+		try {
+			Pointjao.Loadjao();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			getLogger().info("jaoPointのロードに失敗しました。");
+		}
 	}
 	/**
 	 * MySQLの初期設定
@@ -804,19 +800,21 @@ public class MyMaid extends JavaPlugin implements Listener {
 				{
 					w.save();
 				}
-
-				List<String> list = getConfig().getStringList("messages");
-				Collections.shuffle(list);
-				String message = list.get(0);
-				String date = new SimpleDateFormat("HH:mm:ss").format(new Date());
-				for(Player play: Bukkit.getServer().getOnlinePlayers()) {
-					String msg = message.replaceAll("%player%", play.getName());
-					play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + msg);
-				}
-
 			}
 		}
 	}
+
+	/**
+	 * 定期メッセージ(30分毎)
+	 * @author mine_book000
+	 */
+	private class AutoMessage extends BukkitRunnable{
+		@Override
+		public void run() {
+			Messenger.BroadcastMessage();
+		}
+	}
+
 	/**
 	 * Dynmapの自動レンダリング(30分毎)
 	 * @author mine_book000
@@ -888,7 +886,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
-						AFK.tnt.put(player.getName(), new afking(plugin, player).runTaskTimer(plugin, 0L, 5L));
+						AFK.tnt.put(player.getName(), new AFK.afking(plugin, player).runTaskTimer(plugin, 0L, 5L));
 					}
 				}
 			}
@@ -930,5 +928,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	public static JavaPlugin getJavaPlugin(){
+		return instance;
 	}
 }
