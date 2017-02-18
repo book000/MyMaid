@@ -36,7 +36,15 @@ public class Messenger {
 	 * @return 追加できたかどうか
 	 */
 	public static boolean Add(String message){
-		return Messages.add(message);
+		boolean result = Messages.add(message);
+		try {
+			SaveMessenger();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			return result;
+		}
+		return result;
 	}
 
 	/**
@@ -46,7 +54,12 @@ public class Messenger {
 	 * @return 存在したかどうか
 	 */
 	public static boolean Contains(int index){
-		return Messages.contains(index);
+		try{
+			Messages.get(index);
+		}catch(IndexOutOfBoundsException e){
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -70,6 +83,13 @@ public class Messenger {
 			Messages.remove(index);
 		}catch(IndexOutOfBoundsException e){
 			return false;
+		}
+		try {
+			SaveMessenger();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			return true;
 		}
 		return true;
 	}

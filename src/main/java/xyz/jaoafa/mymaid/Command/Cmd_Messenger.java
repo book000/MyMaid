@@ -1,6 +1,7 @@
 package xyz.jaoafa.mymaid.Command;
 
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -10,7 +11,7 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Messenger;
 import xyz.jaoafa.mymaid.Method;
 
-public class Cmd_Messenger {
+public class Cmd_Messenger implements CommandExecutor {
 	JavaPlugin plugin;
 	public Cmd_Messenger(JavaPlugin plugin) {
 		this.plugin = plugin;

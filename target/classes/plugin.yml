@@ -326,3 +326,8 @@ commands:
       usage: /<command>
       permission: mymaid.wo
       permission-message: You do not have permission to perform this command.
+   messenger:
+      description: Auto Message Messenger
+      usage: /<command>
+      permission: mymaid.messenger
+      permission-message: You do not have permission to perform this command.
