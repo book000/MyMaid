@@ -1,5 +1,5 @@
 name: MyMaid
-main: com.jaoafa.mymaid.MyMaid
+main: xyz.jaoafa.mymaid.MyMaid
 version: 0.0.1
 description: General Plugin
 database: true
