@@ -159,6 +159,8 @@ public class Messenger {
 	 * @throws Exception 何かしらのExceptionが発生したときに発生(FileNotFoundException, IOException)
 	 */
 	public static boolean LoadMessenger() throws Exception{
+		Messages.clear();
+
 		JSONParser parser = new JSONParser();
 		String json = "";
 		try{

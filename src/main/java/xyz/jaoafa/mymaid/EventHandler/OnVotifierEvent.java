@@ -2,6 +2,7 @@ package xyz.jaoafa.mymaid.EventHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -28,6 +29,7 @@ public class OnVotifierEvent implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
     public void onVotifierEvent(VotifierEvent event) {
+		final int VOTEPOINT = 20;
 
         Vote vote = event.getVote();
         String name = vote.getUsername();
@@ -37,7 +39,7 @@ public class OnVotifierEvent implements Listener {
         	String uuid = Method.url_jaoplugin("point", "p="+name);
         	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			Date Date = new Date();
-        	Pointjao.addjao("" + uuid, 20, sdf.format(Date) + "の投票ボーナス");
+        	Pointjao.addjao("" + uuid, VOTEPOINT, sdf.format(Date) + "の投票ボーナス");
         } else {
         	Player player;
         	if (Bukkit.getPlayer(name) == null) {
@@ -50,7 +52,18 @@ public class OnVotifierEvent implements Listener {
         	i = Method.url_jaoplugin("vote", "p="+name+"&u="+uuid);
         	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			Date Date = new Date();
-        	Pointjao.addjao(player, 20, sdf.format(Date) + "の投票ボーナス");
+        	Pointjao.addjao(player, VOTEPOINT, sdf.format(Date) + "の投票ボーナス");
+
+        	SimpleDateFormat date = new SimpleDateFormat("yyyy-MM");
+    		if(date.format(Date).equalsIgnoreCase("2017-02")){
+    			Random rnd = new Random();
+    			int random = rnd.nextInt(50)+1;
+
+    			Pointjao.addjao(player, random, sdf.format(Date) + "の投票ボーナス(2月ポイント補填ボーナス)");
+    			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + player.getName() + "さんが投票し、2月ポイント補填ボーナスを" + random + "ポイント追加しました。");
+    	        MessageAPI.sendToDiscord(player.getName() + "さんが投票し、2月ポイント補填ボーナスを" + random + "ポイント追加しました。");
+    		}
+
         	if(player.hasPermission("mymaid.pex.limited")){
 				player.setPlayerListName(ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
 			}else if(Prison.prison.containsKey(player.getName())){

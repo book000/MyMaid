@@ -198,6 +198,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		Import_Task();
 		//コマンドを設定
 		Import_Command_Executor();
+		//jaopoint読み込み
+		Load_JaoPoint();
 		//コンフィグ読み込み
 		Load_Config();
 		//レシピ(クラフト)追加
@@ -515,7 +517,12 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getLogger().info("Disable MyMaid...");
 			getServer().getPluginManager().disablePlugin(this);
 		}
-
+	}
+	/**
+	 * jaoPoint読み込み
+	 * @author mine_book000
+	 */
+	private void Load_JaoPoint(){
 		//jaoポイントをロード
 		try {
 			Pointjao.Loadjao();
@@ -728,6 +735,14 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
+		try {
+			Pointjao.Savejao();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			getLogger().info("jaoPointのセーブに失敗しました。");
+		}
+
 		conf.set("prison",Prison.prison);
 		conf.set("prison_block",Prison.prison_block);
 		conf.set("prison_lasttext",Prison.jail_lasttext);
@@ -774,7 +789,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 			colorstr.put(p.getKey(), chatcolor);
 		}
 		conf.set("color", colorstr);
-		conf.set("jao",Pointjao.jao);
 		conf.set("maxplayer",maxplayer);
 		conf.set("maxplayertime",maxplayertime);
 
@@ -785,6 +799,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 		conf.set("home", home);
 		saveConfig();
+
 		MessageAPI.sendToDiscord("**Server Stopped.**");
 	}
 
