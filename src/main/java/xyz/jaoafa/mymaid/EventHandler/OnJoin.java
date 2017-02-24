@@ -110,6 +110,9 @@ public class OnJoin implements Listener {
 			String re = Method.url_jaoplugin("mcbanscheck", "p="+player.getName());
 			if(re.equalsIgnoreCase("D")){
 				Boolean check = true;
+				if(OnAsyncPlayerPreLoginEvent.FBAN.containsKey(player.getName())){
+					check = false;
+				}
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 					if(PermissionsEx.getUser(p).inGroup("Limited")){
 						continue;

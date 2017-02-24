@@ -36,6 +36,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 		this.plugin = plugin;
 	}
 	public static Map<String,Boolean> LD = new HashMap<String,Boolean>();
+	public static Map<String,String> FBAN = new HashMap<String,String>();
 	@EventHandler
 	public void onJoin(AsyncPlayerPreLoginEvent e){
 		String name = e.getName();
@@ -149,6 +150,39 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			}
 		}
 
+		if(((String) obj.get("message")).equalsIgnoreCase("fban_kick")){
+			String message = ((String) obj.get("player"));
+			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, ChatColor.RED + "[Login Denied! Reason: FBan]\n"
+					+ ChatColor.RESET + ChatColor.WHITE + "あなたのアカウントはFBanをされています。詳細は以下の通りです。\n"
+					+ ChatColor.RESET + ChatColor.AQUA + "あなたによると思われる破壊行為が一部確認されました。" + "\n"
+					+ ChatColor.RESET + ChatColor.AQUA + "一定期間中に連絡がない場合は処罰される可能性があります。" + "\n"
+					+ ChatColor.RESET + ChatColor.AQUA + "詳しくは以下ページをご覧ください" + "\n"
+					+ ChatColor.RESET + ChatColor.AQUA + "https://jaoafa.com/proof/fban/?id=" + message + "\n"
+					+ ChatColor.RESET + ChatColor.AQUA + "なお、再度ログインすることでサーバに入ることができます。" + "\n"
+					+ ChatColor.RESET + ChatColor.WHITE + "もしこのBanに異議がある場合は、サイト内お問い合わせからお問い合わせを行ってください。\n"
+					+ "公式Discordでお問い合わせをして頂いても構いません。");
+			Bukkit.getLogger().info(e.getName()+": Connection to server failed!([FBan] https://jaoafa.com/proof/fban/?id=" + message + ")");
+			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.FBan, message);
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>[FBan] https://jaoafa.com/proof/fban/?id=" + message + ")");
+				}
+			}
+			return;
+		}
+
+		if(((String) obj.get("message")).equalsIgnoreCase("fban")){
+			String message = ((String) obj.get("player"));
+			FBAN.put(name, message);
+
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>[FBan] https://jaoafa.com/proof/fban/?id=" + message + ")");
+				}
+			}
+			return;
+		}
+
 		if(MyMaid.mcjppvp_banned.containsKey(e.getUniqueId().toString())){
 			Map<String, String> mcjppvp_data = MyMaid.mcjppvp_banned.get(e.getUniqueId().toString());
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
@@ -197,6 +231,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 	public enum DisAllowLoginType {
 		SubAccount("サブアカウント"),
 		PBan("PBan"),
+		FBan("FBan"),
 		RegionErr("海外からのログイン"),
 		MCBansRepErr("MCBansでの評価値下回り"),
 		CompromisedAccount("MCJPPvPにてCompromisedAccountでBan");
@@ -225,6 +260,8 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 				TextBuf.append(player + "はサブアカウント判定をされました。(関連ID: " + reason + ")");
 			}else if(type == DisAllowLoginType.PBan){
 				TextBuf.append(player + "はPBanをされています。(理由: " + reason + ")");
+			}else if(type == DisAllowLoginType.FBan){
+				TextBuf.append(player + "はFBanをされています。(詳細: https://jaoafa.com/proof/fban/?id=" + reason + ")");
 			}else if(type == DisAllowLoginType.RegionErr){
 				TextBuf.append(player + "は海外からのログインと判定されました。(" + reason +")");
 			}else if(type == DisAllowLoginType.MCBansRepErr){

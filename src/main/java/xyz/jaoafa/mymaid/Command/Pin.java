@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
 
 public class Pin implements CommandExecutor {
 	JavaPlugin plugin;
@@ -31,6 +32,11 @@ public class Pin implements CommandExecutor {
 		String time = "";
 		String status = "";
 		String pin = "";
+
+		if(OnAsyncPlayerPreLoginEvent.FBAN.containsKey(player.getName())){
+			Method.SendMessage(sender, cmd, "エラーが発生しました。");
+			return true;
+		}
 
 		if (args.length == 0){
 			Method.SendMessage(sender, cmd, "エラーが発生しました。PINコードを入力してください。");

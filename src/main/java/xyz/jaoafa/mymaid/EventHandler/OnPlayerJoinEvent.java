@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
@@ -30,6 +31,17 @@ public class OnPlayerJoinEvent implements Listener {
   		if(Bukkit.getServer().getOnlinePlayers().size() >= 1 && !MyMaid.nextbakrender){
   			MyMaid.nextbakrender = true;
   		}
+
+  		if(OnAsyncPlayerPreLoginEvent.FBAN.containsKey(event.getPlayer().getName())){
+  			String id = OnAsyncPlayerPreLoginEvent.FBAN.get(event.getPlayer().getName());
+  			event.getPlayer().sendMessage(ChatColor.RED + "あなたによると思われる破壊行為が一部確認されました。\n"
+  					+ "一定期間中に連絡がない場合は処罰される可能性があります。\n"
+  					+ "詳しくは以下ページをご覧ください\n"
+  					+ "https://jaoafa.com/proof/fban/?id=" + id);
+  			PermissionsEx.getUser(event.getPlayer()).addGroup("Limited");
+  			event.getPlayer().setOp(false);
+  		}
+
   		UUID uuid = event.getPlayer().getUniqueId();
   		String data = Method.url_jaoplugin("joinvote", "u="+uuid);
   		String[] arr = data.split("###", 0);
