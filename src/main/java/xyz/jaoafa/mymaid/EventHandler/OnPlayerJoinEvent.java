@@ -1,6 +1,7 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
@@ -38,6 +39,12 @@ public class OnPlayerJoinEvent implements Listener {
   					+ "一定期間中に連絡がない場合は処罰される可能性があります。\n"
   					+ "詳しくは以下ページをご覧ください\n"
   					+ "https://jaoafa.com/proof/fban/?id=" + id);
+  			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
+			for(String group : groups){
+				if(PermissionsEx.getUser(event.getPlayer()).inGroup(group)){
+					PermissionsEx.getUser(event.getPlayer()).removeGroup(group);
+				}
+			}
   			PermissionsEx.getUser(event.getPlayer()).addGroup("Limited");
   			event.getPlayer().setOp(false);
   		}

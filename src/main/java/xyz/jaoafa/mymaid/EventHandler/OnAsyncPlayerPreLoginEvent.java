@@ -156,7 +156,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 					+ ChatColor.RESET + ChatColor.WHITE + "あなたのアカウントはFBanをされています。詳細は以下の通りです。\n"
 					+ ChatColor.RESET + ChatColor.AQUA + "あなたによると思われる破壊行為が一部確認されました。" + "\n"
 					+ ChatColor.RESET + ChatColor.AQUA + "一定期間中に連絡がない場合は処罰される可能性があります。" + "\n"
-					+ ChatColor.RESET + ChatColor.AQUA + "詳しくは以下ページをご覧ください" + "\n"
+					+ ChatColor.RESET + ChatColor.AQUA + "このFBanの処罰内容は詳しくは以下ページをご覧ください" + "\n"
 					+ ChatColor.RESET + ChatColor.AQUA + "https://jaoafa.com/proof/fban/?id=" + message + "\n"
 					+ ChatColor.RESET + ChatColor.AQUA + "なお、再度ログインすることでサーバに入ることができます。" + "\n"
 					+ ChatColor.RESET + ChatColor.WHITE + "もしこのBanに異議がある場合は、サイト内お問い合わせからお問い合わせを行ってください。\n"
@@ -180,8 +180,12 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>[FBan] https://jaoafa.com/proof/fban/?id=" + message + ")");
 				}
 			}
-			return;
+		}else{
+			if(FBAN.containsKey(name)){
+				FBAN.remove(name);
+			}
 		}
+
 
 		if(MyMaid.mcjppvp_banned.containsKey(e.getUniqueId().toString())){
 			Map<String, String> mcjppvp_data = MyMaid.mcjppvp_banned.get(e.getUniqueId().toString());
