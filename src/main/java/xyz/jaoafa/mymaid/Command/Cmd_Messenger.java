@@ -35,7 +35,7 @@ public class Cmd_Messenger implements CommandExecutor {
 			if(args[0].equalsIgnoreCase("add")){
 				if (sender instanceof Player) {
 					Player p = (Player) sender;
-					if(!PermissionsEx.getUser(p).inGroup("Admin")){
+					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
 						Method.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
 						return true;
 					}
@@ -55,7 +55,7 @@ public class Cmd_Messenger implements CommandExecutor {
 			}else if(args[0].equalsIgnoreCase("del")){
 				if (sender instanceof Player) {
 					Player p = (Player) sender;
-					if(!PermissionsEx.getUser(p).inGroup("Admin")){
+					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
 						Method.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
 						return true;
 					}

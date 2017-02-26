@@ -28,7 +28,7 @@ public class OnPlayerKickEvent implements Listener {
 			}
 		}else{
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")){
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
 					p.sendMessage("[KickReason] " + ChatColor.GREEN + e.getPlayer().getName() + " Kick Reason: 「" + e.getReason() + "」");
 				}
 			}

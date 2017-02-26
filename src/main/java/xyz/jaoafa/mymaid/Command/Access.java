@@ -29,7 +29,7 @@ public class Access implements CommandExecutor {
 						new netaccess(plugin, player, cmd, ip, cmdplayer).runTaskAsynchronously(plugin);
 					}catch(java.lang.NoClassDefFoundError e){
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-							if(PermissionsEx.getUser(p).inGroup("Admin")) {
+							if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 								p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
 								p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 							}

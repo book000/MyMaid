@@ -127,7 +127,7 @@ public class Where implements CommandExecutor {
 						new messageset(plugin, sender, cmd, location, regionSelector).runTask(plugin);
 					}catch(java.lang.NoClassDefFoundError e){
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-							if(PermissionsEx.getUser(p).inGroup("Admin")) {
+							if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 								p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
 								p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 							}
@@ -141,7 +141,7 @@ public class Where implements CommandExecutor {
 					new messagedel(plugin, sender, cmd, args[1]).runTask(plugin);
 				}catch(java.lang.NoClassDefFoundError e){
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-						if(PermissionsEx.getUser(p).inGroup("Admin")) {
+						if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 							p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
 							p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 						}
@@ -172,7 +172,7 @@ public class Where implements CommandExecutor {
 						new messagesetdisc(plugin, sender, cmd, location, regionSelector, discription).runTask(plugin);
 					}catch(java.lang.NoClassDefFoundError e){
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-							if(PermissionsEx.getUser(p).inGroup("Admin")) {
+							if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 								p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
 								p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 							}

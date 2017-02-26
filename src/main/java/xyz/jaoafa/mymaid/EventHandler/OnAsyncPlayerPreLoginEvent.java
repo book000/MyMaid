@@ -51,7 +51,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			obj = (JSONObject) parser.parse(data);
 		} catch (ParseException e2) {
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。");
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "jsonを解析できませんでした。Nubescoサーバが停止しているか、予期しないエラーがlogin2.phpで起きた可能性があります。");
 				}
@@ -68,7 +68,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			Bukkit.getLogger().info(e.getName()+": Connection to server failed! (Detect SubAccount.)");
 			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.SubAccount, player);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>複垢(" + player + ")");
 				}
 			}
@@ -85,7 +85,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			Bukkit.getLogger().info(e.getName()+": Connection to server failed!([PBan] " + message + ")");
 			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.PBan, message);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>[PBan] " + message + ")");
 				}
 			}
@@ -112,7 +112,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			Bukkit.getLogger().info(e.getName()+": Connection to server failed!(Region Error "+country+")");
 			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.RegionErr, country);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>許可されていない地域からのログイン("+country+")");
 				}
 			}
@@ -128,7 +128,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 					+ "公式Discordでお問い合わせをして頂いても構いません。");
 			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.MCBansRepErr, message);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>鯖指定評価値下回り(" + message + ")");
 				}
 			}
@@ -142,12 +142,14 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 						+ "公式Discordでお問い合わせをして頂いても構いません。");
 				LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.CompromisedAccount, "");
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin")) {
+					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>Compromised Account(不正アカウント)");
 					}
 				}
 				return;
 			}
+		}else{
+
 		}
 
 		if(((String) obj.get("message")).equalsIgnoreCase("fban_kick")){
@@ -164,7 +166,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			Bukkit.getLogger().info(e.getName()+": Connection to server failed!([FBan] https://jaoafa.com/proof/fban/?id=" + message + ")");
 			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.FBan, message);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>[FBan] https://jaoafa.com/proof/fban/?id=" + message + ")");
 				}
 			}
@@ -176,7 +178,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			FBAN.put(name, message);
 
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>[FBan] https://jaoafa.com/proof/fban/?id=" + message + ")");
 				}
 			}
@@ -190,7 +192,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 		if(MyMaid.mcjppvp_banned.containsKey(e.getUniqueId().toString())){
 			Map<String, String> mcjppvp_data = MyMaid.mcjppvp_banned.get(e.getUniqueId().toString());
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>MCJPPvPにおいて過去にBan情報有り。(" + mcjppvp_data.get("reason") + " [" + mcjppvp_data.get("created") + "])");
 				}
 			}
@@ -201,7 +203,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			new netaccess(plugin, name, uuid, ip, host).runTaskAsynchronously(plugin);
 		}catch(java.lang.NoClassDefFoundError ex){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + ex.getMessage());
 				}

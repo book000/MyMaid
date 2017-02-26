@@ -32,7 +32,7 @@ public class OnJoin implements Listener {
 		InetAddress ip = player.getAddress().getAddress();
 		if(PermissionsEx.getUser(player).inGroup("Limited")){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(p.hasPermission("pin_code_auth.joinmsg")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "新規ちゃんだよ！やったね☆");
 				}
 			}
@@ -43,7 +43,7 @@ public class OnJoin implements Listener {
 		String data = Method.url_jaoplugin("access", "i="+ip);
 		if(data.equalsIgnoreCase("NO")){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(p.hasPermission("pin_code_auth.joinmsg")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:なし");
 				}
 			}
@@ -51,7 +51,7 @@ public class OnJoin implements Listener {
 			Bukkit.getLogger().info("このユーザーがアクセスしたページ:なし");
 		}else if(data.indexOf(",") == -1){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(p.hasPermission("pin_code_auth.joinmsg")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:"+data+"");
 				}
 			}
@@ -63,7 +63,7 @@ public class OnJoin implements Listener {
 				accesstext += "「"+one+"」";
 			}
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(p.hasPermission("pin_code_auth.joinmsg")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:"+accesstext+"など");
 				}
 			}
@@ -78,7 +78,7 @@ public class OnJoin implements Listener {
 			new netaccess(plugin, player).runTaskAsynchronously(plugin);
 		}catch(java.lang.NoClassDefFoundError e){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 				}
