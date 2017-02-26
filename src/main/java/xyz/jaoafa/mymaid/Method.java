@@ -314,13 +314,13 @@ public class Method {
 	}
 	static Map<String, String> tips = new HashMap<String, String>();
 	/**
-	 * TipsをAdminとRegular以外に送信します
+	 * TipsをAdminとModeratorとRegular以外に送信します
 	 * @param text
 	 * @author mine_book000
 	 */
 	public static void SendTipsALL(String text) {
 		for(Player p: Bukkit.getServer().getOnlinePlayers()){
-			if(!PermissionsEx.getUser(p).inGroup("Admin") && !PermissionsEx.getUser(p).inGroup("Regular")){
+			if(!PermissionsEx.getUser(p).inGroup("Admin") && !PermissionsEx.getUser(p).inGroup("Moderator") && !PermissionsEx.getUser(p).inGroup("Regular")){
 				if(tips.containsKey(p.getName())){
 					if(tips.get(p.getName()).equalsIgnoreCase(text)){
 						continue;
