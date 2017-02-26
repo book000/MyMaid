@@ -20,7 +20,7 @@ commands:
    g:
       description: Change your gamemode
       usage: /<command> <0|1|2|3>
-      permission: mymaid.gamemode
+      permission: mymaid.g
       permission-message: You do not have permission to perform this command.
    chat:
       description: Make chat with fake player
@@ -70,7 +70,7 @@ commands:
    save-world:
       description: Save the world
       usage: /<command>
-      permission: pin_code_auth.save-world
+      permission: mymaid.save-world
       permission-message: You do not have permission to perform this command.
    head:
       description: Give player skull to you
@@ -124,7 +124,7 @@ commands:
    mymaid_networkapi:
       description: api(Rcon Only)
       usage: /<command>
-      permission: mymaid.lag
+      permission: mymaid.mymaid_networkapi
       permission-message: You do not have permission to perform this command.
    as:
       description: Arrow Shotter!
@@ -180,6 +180,11 @@ commands:
       description: Player Inventory Enderchest Show
       usage: /<command> [Player]
       permission: mymaid.invender
+      permission-message: You do not have permission to perform this command.
+   invedit:
+      description: Player Inventory Editer
+      usage: /<command> [Player]
+      permission: mymaid.invedit
       permission-message: You do not have permission to perform this command.
    unko:
       description: unko?
