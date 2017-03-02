@@ -9,6 +9,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBreak.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnEEWReceiveEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerCommandPreprocessEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdsearch.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Nuke.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdb.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerPreLoginEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Home.java

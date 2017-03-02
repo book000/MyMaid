@@ -17,12 +17,12 @@ public class WorldTeleport implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if (!(sender instanceof org.bukkit.entity.Player)) {
-			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
-			return true;
-		}
-		org.bukkit.entity.Player player = (org.bukkit.entity.Player) sender;
 		if(args.length == 1){
+			if (!(sender instanceof org.bukkit.entity.Player)) {
+				Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
+				return true;
+			}
+			org.bukkit.entity.Player player = (org.bukkit.entity.Player) sender;
 			if(args[0].equalsIgnoreCase("1")){
 				// Jao_Afa
 				World world = Bukkit.getServer().getWorld("Jao_Afa");
@@ -129,7 +129,7 @@ public class WorldTeleport implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "/wt 2: 「ReJao_Afa」ワールドにテレポートします。");
 
 			Method.SendMessage(sender, cmd, "/wt [Player] 1: [Player]を「Jao_Afa」ワールドにテレポートします。");
-			Method.SendMessage(sender, cmd, "/wt [Player] 1: [Player]を「ReJao_Afa」ワールドにテレポートします。");
+			Method.SendMessage(sender, cmd, "/wt [Player] 2: [Player]を「ReJao_Afa」ワールドにテレポートします。");
 			return true;
 		}
 	}

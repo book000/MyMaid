@@ -336,3 +336,8 @@ commands:
       usage: /<command>
       permission: mymaid.messenger
       permission-message: You do not have permission to perform this command.
+   nuke:
+      description: Nuke...?Nuke...!
+      usage: /<command>
+      permission: mymaid.nuke
+      permission-message: You do not have permission to perform this command.

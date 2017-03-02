@@ -82,6 +82,7 @@ import xyz.jaoafa.mymaid.Command.MakeCmd;
 import xyz.jaoafa.mymaid.Command.MyBlock;
 import xyz.jaoafa.mymaid.Command.MyMaid_NetworkApi;
 import xyz.jaoafa.mymaid.Command.MyMob;
+import xyz.jaoafa.mymaid.Command.Nuke;
 import xyz.jaoafa.mymaid.Command.Pexup;
 import xyz.jaoafa.mymaid.Command.Pin;
 import xyz.jaoafa.mymaid.Command.Prison;
@@ -295,6 +296,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("myblock").setExecutor(new MyBlock(this));
 		getCommand("mymaid_networkapi").setExecutor(new MyMaid_NetworkApi(this));
 		getCommand("mymob").setExecutor(new MyMob(this));
+		getCommand("nuke").setExecutor(new Nuke(this));
 		getCommand("pexup").setExecutor(new Pexup(this));
 		getCommand("pin").setExecutor(new Pin(this));
 		getCommand("player").setExecutor(new xyz.jaoafa.mymaid.Command.Player(this));
