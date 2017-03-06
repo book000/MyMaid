@@ -11,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.manuelgu.discordmc.MessageAPI;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.Prison;
 
@@ -74,11 +76,27 @@ public class OnPlayerCommand implements Listener {
     			String text = "オ、オオwwwwwwwwオレアルファwwwwwwww最近めっちょふぁぼられてんねんオレwwwwwwwwエゴサとかかけるとめっちょ人気やねんwwwwァァァァァァァwwwクソアルファを見下しながら食べるエビフィレオは一段とウメェなァァァァwwwwwwww";
     			OnMyMaidJoinLeftChatCmdLogs.log(plugin, "chat", player.getName(), text);
     			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + color + "■" + ChatColor.WHITE + player.getName() +  ": " + text);
+    			MessageAPI.sendToDiscord("**" + player.getName() + "**: オ、オオwwwwwwwwオレアルファwwwwwwww最近めっちょふぁぼられてんねんオレwwwwwwwwエゴサとかかけるとめっちょ人気やねんwwwwァァァァァァァwwwクソアルファを見下しながら食べるエビフィレオは一段とウメェなァァァァwwwwwwww");
     			e.setCancelled(true);
     			return;
     		}
-    	}else if(args.length == 2){
+    	}else if(args.length >= 2){
     		if(args[0].equalsIgnoreCase("/kill")){
+    			boolean killflag = false;
+    			if(PermissionsEx.getUser(player).inGroup("Limited")){
+    				killflag = true;
+    			}else if(PermissionsEx.getUser(player).inGroup("QPPE")){
+    				killflag = true;
+    			}else if(PermissionsEx.getUser(player).inGroup("Default")){
+    				killflag = true;
+    			}
+    			if(killflag){
+    				SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+    				Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(new Date()) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: " + player.getName() + "さんが" + args[1] + "を殺すとか調子に乗ってると思うので" + player.getName() + "さんを殺しておきますね^^");
+    				MessageAPI.sendToDiscord("**jaotan**: " + player.getName() + "さんが" + args[1] + "を殺すとか調子に乗ってると思うので" + player.getName() + "さんを殺しておきますね^^");
+    				e.setCancelled(true);
+        			return;
+    			}
         		if(args[1].equalsIgnoreCase("@e")){
         			player.sendMessage("[COMMAND] " + ChatColor.GREEN + "kill @eはサーバー内のすべてのエンティティが削除されてしまうので使用できません");
         			e.setCancelled(true);
@@ -98,6 +116,21 @@ public class OnPlayerCommand implements Listener {
         		}
         	}
     		if(args[0].equalsIgnoreCase("/minecraft:kill")){
+    			boolean killflag = false;
+    			if(PermissionsEx.getUser(player).inGroup("Limited")){
+    				killflag = true;
+    			}else if(PermissionsEx.getUser(player).inGroup("QPPE")){
+    				killflag = true;
+    			}else if(PermissionsEx.getUser(player).inGroup("Default")){
+    				killflag = true;
+    			}
+    			if(killflag){
+    				SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+    				Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(new Date()) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: " + player.getName() + "ごときが" + args[1] + "を殺そうだなんて図が高いわ！ " + player.getName() + "が死ね！");
+    				MessageAPI.sendToDiscord("**jaotan**: " + player.getName() + "ごときが" + args[1] + "を殺そうだなんて図が高いわ！ " + player.getName() + "が死ね！");
+    				e.setCancelled(true);
+        			return;
+    			}
         		if(args[1].equalsIgnoreCase("@e")){
         			player.sendMessage("[COMMAND] " + ChatColor.GREEN + "kill @eはサーバー内のすべてのエンティティが削除されてしまうので使用できません");
         			e.setCancelled(true);

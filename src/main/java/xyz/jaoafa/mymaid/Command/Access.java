@@ -21,12 +21,11 @@ public class Access implements CommandExecutor {
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length == 1){
-			Player cmdplayer = (Player) sender;
 			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 				if(player.getName().equalsIgnoreCase(args[0])) {
 					InetAddress ip = player.getAddress().getAddress();
 					try{
-						new netaccess(plugin, player, cmd, ip, cmdplayer).runTaskAsynchronously(plugin);
+						new netaccess(plugin, player, cmd, ip, sender).runTaskAsynchronously(plugin);
 					}catch(java.lang.NoClassDefFoundError e){
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 							if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
@@ -50,21 +49,21 @@ public class Access implements CommandExecutor {
 		Player player;
 		Command cmd;
 		InetAddress ip;
-		Player cmdplayer;
-    	public netaccess(JavaPlugin plugin, Player player, Command cmd, InetAddress ip, Player cmdplayer) {
+		CommandSender sender;
+    	public netaccess(JavaPlugin plugin, Player player, Command cmd, InetAddress ip, CommandSender sender) {
     		this.player = player;
     		this.cmd = cmd;
     		this.ip = ip;
-    		this.cmdplayer = cmdplayer;
+    		this.sender = sender;
     	}
 		@Override
 		public void run() {
 			String data = Method.url_jaoplugin("access", "i="+ip);
 			if(data.equalsIgnoreCase("NO")){
-				Method.SendMessage(cmdplayer, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:なし");
+				Method.SendMessage(sender, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:なし");
 				return;
 			}else if(data.indexOf(",") == -1){
-				Method.SendMessage(cmdplayer, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:"+data+"");
+				Method.SendMessage(sender, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:"+data+"");
 				Bukkit.getLogger().info("このユーザーがアクセスしたページ:"+data+"");
 				return;
 			}else{
@@ -73,7 +72,7 @@ public class Access implements CommandExecutor {
 				for (String one: access){
 					accesstext += "「"+one+"」";
 				}
-				Method.SendMessage(cmdplayer, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:"+accesstext+"など");
+				Method.SendMessage(sender, cmd, "このユーザー「"+player.getName()+"」がアクセスしたページ:"+accesstext+"など");
 				Bukkit.getLogger().info("このユーザーがアクセスしたページ:"+accesstext+"など");
 				return;
 			}

@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import eu.manuelgu.discordmc.MessageAPI;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.Pointjao;
 
@@ -73,6 +74,10 @@ public class Quiz implements CommandExecutor {
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "質問: 「" + args[1] + "」");
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "回答選択: " + questions);
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "回答形式:「/quiz " + qid + " [1-" + quizcount + "]」");
+				MessageAPI.sendToDiscord(sender.getName() + "がクイズを開始しました。");
+				MessageAPI.sendToDiscord("質問: 「" + args[1] + "」");
+				MessageAPI.sendToDiscord("回答選択: " + questions);
+				MessageAPI.sendToDiscord("回答形式:「/quiz " + qid + " [1-" + quizcount + "]」");
 				return true;
 			}else{
 				Method.SendMessage(sender, cmd, "--- Quiz Help ---");
@@ -140,6 +145,10 @@ public class Quiz implements CommandExecutor {
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "クイズ「" + question + "(クイズID:" + qid + ")」の解答が発表されました。");
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "答えは" + aid + "の「" + answer + "」でした。");
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "回答 " + answers);
+				MessageAPI.sendToDiscord("クイズ「" + question + "(クイズID:" + qid + ")」の解答が発表されました。");
+				MessageAPI.sendToDiscord("質問: 「" + args[1] + "」");
+				MessageAPI.sendToDiscord("答えは" + aid + "の「" + answer + "」でした。");
+				MessageAPI.sendToDiscord("回答 " + answers);
 				return true;
 			}else{
 				Method.SendMessage(sender, cmd, "--- Quiz Help ---");
