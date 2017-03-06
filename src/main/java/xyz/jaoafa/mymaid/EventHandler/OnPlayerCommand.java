@@ -94,6 +94,7 @@ public class OnPlayerCommand implements Listener {
     				SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     				Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(new Date()) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: " + player.getName() + "さんが" + args[1] + "を殺すとか調子に乗ってると思うので" + player.getName() + "さんを殺しておきますね^^");
     				MessageAPI.sendToDiscord("**jaotan**: " + player.getName() + "さんが" + args[1] + "を殺すとか調子に乗ってると思うので" + player.getName() + "さんを殺しておきますね^^");
+    				player.setHealth(0);
     				e.setCancelled(true);
         			return;
     			}
@@ -128,6 +129,7 @@ public class OnPlayerCommand implements Listener {
     				SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     				Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(new Date()) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: " + player.getName() + "ごときが" + args[1] + "を殺そうだなんて図が高いわ！ " + player.getName() + "が死ね！");
     				MessageAPI.sendToDiscord("**jaotan**: " + player.getName() + "ごときが" + args[1] + "を殺そうだなんて図が高いわ！ " + player.getName() + "が死ね！");
+    				player.setHealth(0);
     				e.setCancelled(true);
         			return;
     			}
