@@ -315,7 +315,7 @@ public class Method {
 	static Map<String, String> tips = new HashMap<String, String>();
 	/**
 	 * TipsをAdminとModeratorとRegular以外に送信します
-	 * @param text
+	 * @param text Tipメッセージ
 	 * @author mine_book000
 	 */
 	public static void SendTipsALL(String text) {
@@ -330,5 +330,20 @@ public class Method {
 				tips.put(p.getName(), text);
 			}
 		}
+	}
+	/**
+	 * TipsをPlayerに送信します
+	 * @param player 送信する相手
+	 * @param text Tipメッセージ
+	 * @author mine_book000
+	 */
+	public static void SendTipsPlayer(Player player, String text) {
+		if(tips.containsKey(player.getName())){
+			if(tips.get(player.getName()).equalsIgnoreCase(text)){
+				return;
+			}
+		}
+		player.sendMessage(ChatColor.GOLD + "[Tips] " + ChatColor.GREEN + text);
+		tips.put(player.getName(), text);
 	}
 }
