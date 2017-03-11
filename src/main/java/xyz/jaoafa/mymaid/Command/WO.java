@@ -41,6 +41,7 @@ public class WO implements CommandExecutor {
 
 	}
 
+
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
@@ -118,6 +119,7 @@ public class WO implements CommandExecutor {
 					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 					Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + text.get(text.size()-1));
 					nowwo = false;
+					stopwo = false;
 					cancel();
 				}
 				if(nowwo){
