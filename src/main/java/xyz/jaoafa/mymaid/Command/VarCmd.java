@@ -33,8 +33,7 @@ public class VarCmd implements CommandExecutor {
 		}
 		text = StringUtils.stripStart(text, "/");
 		for(Map.Entry<String, String> e : Var.var.entrySet()) {
-			//Bukkit.broadcastMessage("$" + e.getKey() + " => " + e.getValue());
-			text = text.replaceAll("\\$" + e.getKey(), e.getValue());
+			text = text.replaceAll("\\$" + e.getKey() + "\\$", e.getValue());
 		}
 		Bukkit.dispatchCommand(sender, text);
 		Method.SendMessage(sender, cmd, "コマンド「" + text + "」を実行しました。");

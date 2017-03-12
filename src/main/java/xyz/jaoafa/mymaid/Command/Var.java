@@ -83,7 +83,7 @@ public class Var implements CommandExecutor, TabCompleter {
 			Method.SendMessage(sender, cmd, "変数「" + args[1] + "」と変数「" + args[2] + "」を加算し、変数「" + args[1] + "」に入力しました。(回答:" + newvar +")");
 			return true;
 		}else if(args[0].equalsIgnoreCase("minus")){
-			//Plus(/var plus var var)
+			//minus(/var minus var var)
 			if(args.length < 3){
 				Method.SendMessage(sender, cmd, "引数が適切ではありません。");
 				return true;
@@ -191,6 +191,14 @@ public class Var implements CommandExecutor, TabCompleter {
 				Method.SendMessage(sender, cmd, "$" + e.getKey() + "=>" + e.getValue());
 			}
 			Method.SendMessage(sender, cmd, "-------------------------");
+			return true;
+		}else if(args[0].equalsIgnoreCase("clear")){
+			if(!var.containsKey(args[1])){
+				Method.SendMessage(sender, cmd, "変数「" + args[1] + "」は定義されていません。");
+				return true;
+			}
+			var.remove(args[1]);
+			Method.SendMessage(sender, cmd, "変数「" + args[1] + "」を削除しました。");
 			return true;
 		}else{
 			Method.SendMessage(sender, cmd, "未実装(?)");
