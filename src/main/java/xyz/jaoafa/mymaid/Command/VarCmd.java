@@ -37,18 +37,18 @@ public class VarCmd implements CommandExecutor {
 
 		// ----- 事前定義(予約済み変数) ----- //
 
-		SimpleDateFormat sdf_Year = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat sdf_Year = new SimpleDateFormat("yyyy");
 		text = text.replaceAll("\\$" + "DateTime_Year" + "\\$", sdf_Year.format(new Date()));
-		SimpleDateFormat sdf_Month = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat sdf_Month = new SimpleDateFormat("MM");
 		text = text.replaceAll("\\$" + "DateTime_Month" + "\\$", sdf_Month.format(new Date()));
-		SimpleDateFormat sdf_Day = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat sdf_Day = new SimpleDateFormat("dd");
 		text = text.replaceAll("\\$" + "DateTime_Day" + "\\$", sdf_Day.format(new Date()));
 
-		SimpleDateFormat sdf_Hour = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat sdf_Hour = new SimpleDateFormat("HH");
 		text = text.replaceAll("\\$" + "DateTime_Hour" + "\\$", sdf_Hour.format(new Date()));
-		SimpleDateFormat sdf_Minute = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat sdf_Minute = new SimpleDateFormat("mm");
 		text = text.replaceAll("\\$" + "DateTime_Minute" + "\\$", sdf_Minute.format(new Date()));
-		SimpleDateFormat sdf_Second = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat sdf_Second = new SimpleDateFormat("ss");
 		text = text.replaceAll("\\$" + "DateTime_Second" + "\\$", sdf_Second.format(new Date()));
 
 		text = text.replaceAll("\\$" + "PlayerCount" + "\\$", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));

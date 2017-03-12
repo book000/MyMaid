@@ -26,6 +26,9 @@ public class OnBowClickEvent implements Listener {
 			return;
 		}
 		Player player = (Player) he;
+		if(is == null){
+			return;
+		}
 		if(is.getType() == Material.BOW){
 			if(!player.hasPermission("modifyworld.items.have.bow")){
 				Method.SendTipsPlayer(player, "弓が使えない？ルールを読んでみることをお勧めします！ https://jaoafa.com/rule");
