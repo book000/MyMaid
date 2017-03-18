@@ -20,6 +20,7 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
+import xyz.jaoafa.mymaid.Command.Cmd_Account;
 
 public class OnJoin implements Listener {
 	JavaPlugin plugin;
@@ -74,9 +75,14 @@ public class OnJoin implements Listener {
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "こんにちは！" + player.getName() + "さん！jao Minecraft Serverにようこそ！");
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "ルールはご覧になりましたか？もしご覧になられていない場合は以下リンクからご覧ください。");
 		player.sendMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GRAY + "■" + ChatColor.GOLD + "jaotan" +  ": " + "https://jaoafa.com/rule");
+		if(!Cmd_Account.getStatus(Cmd_Account.getJson(player, "wp_getaccount"))){
+			Cmd_Account.getJson(player, "wp_create");
+		}
+
 		try{
 			new netaccess(plugin, player).runTaskAsynchronously(plugin);
 		}catch(java.lang.NoClassDefFoundError e){
+			new netaccess(plugin, player).run();
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
