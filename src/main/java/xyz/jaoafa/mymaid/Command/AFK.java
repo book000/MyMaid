@@ -51,6 +51,8 @@ public class AFK implements CommandExecutor{
 			MyMaid.TitleSender.resetTitle(player);
 			MessageAPI.sendToDiscord(sender.getName() + " is now online!");
 			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + sender.getName() + " is now online!");
+			String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.DARK_GRAY + player.getName());
+			player.setPlayerListName(listname);
 		}else{
 			ItemStack[] after={
 					new ItemStack(is[0]),
@@ -71,7 +73,8 @@ public class AFK implements CommandExecutor{
 			MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
 			MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 			tnt.put(player.getName(), new afking(plugin, player).runTaskTimer(plugin, 0L, 5L));
-
+			String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.WHITE + player.getName());
+			player.setPlayerListName(listname);
 		}
 		return true;
 	}

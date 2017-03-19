@@ -62,7 +62,16 @@ public class OnAsyncPlayerChatEvent implements Listener {
 						e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ピリオド計測開始っ(" +  section + "秒部門)");
 						DOT.runwait.remove(e.getPlayer().getName());
 						DOT.dotcount_stop.put(e.getPlayer().getName(), true);
-						DOT.run.put(e.getPlayer().getName(), new dot_section(plugin, e.getPlayer(), MyMaid.lunachatapi, section).runTaskLater(plugin, section * 20));
+						BukkitTask bt = null;
+						try{
+							bt = new dot_section(plugin, e.getPlayer(), MyMaid.lunachatapi, section).runTaskLater(plugin, section * 20);
+						}catch(NoClassDefFoundError ex){
+							e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ピリオド計測に失敗しました。");
+						}
+						if(bt == null){
+							e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ピリオド計測に失敗しました。");
+						}
+						DOT.run.put(e.getPlayer().getName(), bt);
 						DOT.success.put(e.getPlayer().getName(), 1);
 						DOT.unsuccess.put(e.getPlayer().getName(), 0);
 						Collection<Channel> channels = MyMaid.lunachatapi.getChannels();

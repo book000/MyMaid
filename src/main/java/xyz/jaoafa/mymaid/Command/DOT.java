@@ -59,6 +59,10 @@ public class DOT implements CommandExecutor {
 			return true;
 		}
 		*/
+		if(args.length == 0){
+			Method.SendMessage(sender, cmd, "引数無しでのピリオド連投はサポートを終了しました。「/. 60」をご利用ください。");
+			return true;
+		}
 		int section = 60;
 		Boolean sectionout = false;
 		if(args.length == 1){

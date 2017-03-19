@@ -923,6 +923,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 						AFK.tnt.put(player.getName(), new AFK.afking(plugin, player).runTaskTimer(plugin, 0L, 5L));
+						String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.DARK_GRAY + player.getName());
+						player.setPlayerListName(listname);
 					}
 				}
 			}

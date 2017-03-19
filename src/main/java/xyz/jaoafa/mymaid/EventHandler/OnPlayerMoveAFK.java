@@ -41,5 +41,7 @@ public class OnPlayerMoveAFK implements Listener {
 		MyMaid.TitleSender.resetTitle(player);
 		Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is now online!");
 		MessageAPI.sendToDiscord(player.getName() + " is now online!");
+		String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.WHITE + player.getName());
+		player.setPlayerListName(listname);
 	}
 }
