@@ -44,6 +44,7 @@ import xyz.jaoafa.mymaid.Command.ArrowShotter;
 import xyz.jaoafa.mymaid.Command.AutoHeal;
 import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Ck;
+import xyz.jaoafa.mymaid.Command.Cmd_Account;
 import xyz.jaoafa.mymaid.Command.Cmd_Messenger;
 import xyz.jaoafa.mymaid.Command.Cmdb;
 import xyz.jaoafa.mymaid.Command.Cmdmymaid;
@@ -53,6 +54,7 @@ import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Ded;
 import xyz.jaoafa.mymaid.Command.DedMsg;
+import xyz.jaoafa.mymaid.Command.DedRain;
 import xyz.jaoafa.mymaid.Command.DiscordLink;
 import xyz.jaoafa.mymaid.Command.Discordsend;
 import xyz.jaoafa.mymaid.Command.Dynamic;
@@ -145,6 +147,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnServerCommandEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnSignClick;
 import xyz.jaoafa.mymaid.EventHandler.OnVehicleCreateEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnVotifierEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnWeatherChangeEvent;
 
 public class MyMaid extends JavaPlugin implements Listener {
 	public static Boolean nextbakrender = false;
@@ -256,6 +259,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("autoheal").setExecutor(new AutoHeal(this));
 		getCommand("chat").setExecutor(new Chat(this));
 		getCommand("ck").setExecutor(new Ck(this));
+		getCommand("account").setExecutor(new Cmd_Account(this));
 		getCommand("messenger").setExecutor(new Cmd_Messenger(this));
 		getCommand("cmdb").setExecutor(new Cmdb(this));
 		getCommand("mymaid").setExecutor(new Cmdmymaid(this));
@@ -265,6 +269,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("data").setExecutor(new Data(this));
 		getCommand("ded").setExecutor(new Ded(this));
 		getCommand("dedmsg").setExecutor(new DedMsg(this));
+		getCommand("dedrain").setExecutor(new DedRain(this));
 		getCommand("discordlink").setExecutor(new DiscordLink(this));
 		getCommand("discordsend").setExecutor(new Discordsend(this));
 		getCommand(".").setExecutor(new DOT(this));
@@ -382,6 +387,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnSignClick(this), this);
 		getServer().getPluginManager().registerEvents(new OnVehicleCreateEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnWeatherChangeEvent(this), this);
 		getServer().getPluginManager().registerEvents(new Land(this), this);
 	}
 	/**
@@ -522,6 +528,11 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getLogger().info("MySQL Connect err. [conf NotFound]");
 			getLogger().info("Disable MyMaid...");
 			getServer().getPluginManager().disablePlugin(this);
+		}
+		if(conf.contains("dedrain")){
+			DedRain.flag = conf.getBoolean("dedrain");
+		}else{
+			DedRain.flag = false;
 		}
 	}
 	/**
@@ -804,6 +815,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 			home.put(home_.getKey(), sloc);
 		}
 		conf.set("home", home);
+		conf.set("dedrain", DedRain.flag);
 		saveConfig();
 
 		MessageAPI.sendToDiscord("**Server Stopped.**");

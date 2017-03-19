@@ -3,6 +3,7 @@ package xyz.jaoafa.mymaid.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,13 +14,13 @@ import org.json.simple.parser.ParseException;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 
-public class Cmd_Account {
+public class Cmd_Account implements CommandExecutor {
 	JavaPlugin plugin;
 	public Cmd_Account(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
 
-	String url = "";
+	String url = "https://jaoafa.com/wp/wp-login.php";
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
@@ -41,7 +42,7 @@ public class Cmd_Account {
 				}
 				return true;
 			}else if(args[0].equalsIgnoreCase("create")){
-				if(!getStatus(getJson(player, "wp_getaccount"))){
+				if(getStatus(getJson(player, "wp_getaccount"))){
 					Method.SendMessage(sender, cmd, "jaoアカウントは既に作成されています。");
 				}else{
 					JSONObject json = getJson(player, "wp_create");
@@ -54,11 +55,13 @@ public class Cmd_Account {
 						Method.SendMessage(sender, cmd, "jaoアカウントの作成に失敗しました…。");
 					}
 				}
+				return true;
 			}
 		}else if(args.length == 0){
-			if(getStatus(getJson(player, "wp_getaccount"))){
+			JSONObject json = getJson(player, "wp_getaccount");
+			if(getStatus(json)){
 				Method.SendMessage(sender, cmd, "--- jaoAccount Data ---");
-				Method.SendMessage(sender, cmd, "ID: " + player.getName());
+				Method.SendMessage(sender, cmd, "ID: " + json.get("userlogin"));
 				Method.SendMessage(sender, cmd, "URL: " + url);
 				Method.SendMessage(sender, cmd, "パスワードはセキュリティ保護のため、確認するにはリセットする必要があります。");
 				Method.SendMessage(sender, cmd, "/account resetを使ってパスワードをリセットしてください。");

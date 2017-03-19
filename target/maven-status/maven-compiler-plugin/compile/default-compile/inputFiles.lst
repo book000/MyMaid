@@ -7,6 +7,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gettissue.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Vote.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBreak.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnEEWReceiveEvent.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnWeatherChangeEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmd_Account.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerCommandPreprocessEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdsearch.java
@@ -20,8 +21,8 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Explode.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynmap_Teleporter.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\EyeMove.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBucketEmptyEvent.java
-N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SaveWorld.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\WorldTeleport.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SaveWorld.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gamemode_Change.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\PPAP.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\UpGallery.java
@@ -43,6 +44,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBowClickEvent.ja
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynamic.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\WO.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Color.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedRain.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedMsg.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Sign.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnVehicleCreateEvent.java

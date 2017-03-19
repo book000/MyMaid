@@ -341,3 +341,13 @@ commands:
       usage: /<command>
       permission: mymaid.nuke
       permission-message: You do not have permission to perform this command.
+   account:
+      description: jao Account
+      usage: /<command>
+      permission: mymaid.account
+      permission-message: You do not have permission to perform this command.
+   dedrain:
+      description: ded rain
+      usage: /<command>
+      permission: mymaid.dedrain
+      permission-message: You do not have permission to perform this command.
