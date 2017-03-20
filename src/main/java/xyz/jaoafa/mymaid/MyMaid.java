@@ -108,6 +108,7 @@ import xyz.jaoafa.mymaid.EventHandler.DefaultCheck;
 import xyz.jaoafa.mymaid.EventHandler.EyeMove;
 import xyz.jaoafa.mymaid.EventHandler.Menu;
 import xyz.jaoafa.mymaid.EventHandler.MoveLocationName;
+import xyz.jaoafa.mymaid.EventHandler.NoWither;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerChatEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBannedEvent;
@@ -348,6 +349,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new EyeMove(this), this);
 		getServer().getPluginManager().registerEvents(new Menu(this), this);
 		getServer().getPluginManager().registerEvents(new MoveLocationName(this), this);
+		getServer().getPluginManager().registerEvents(new NoWither(this), this);
 		getServer().getPluginManager().registerEvents(new OnAsyncPlayerChatEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnAsyncPlayerPreLoginEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnBannedEvent(this), this);
