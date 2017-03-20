@@ -18,9 +18,11 @@ public class DedRain implements CommandExecutor {
 			String old = Boolean.toString(flag);
 			if(args[0].equalsIgnoreCase("true")){
 				Method.SendMessage(sender, cmd, "降水禁止設定を" + old + "から" + "true" + "に変更しました。");
+				flag = true;
 				return true;
 			}else if(args[0].equalsIgnoreCase("false")){
 				Method.SendMessage(sender, cmd, "降水禁止設定を" + old + "から" + "false" + "に変更しました。");
+				flag = false;
 				return true;
 			}
 		}else if(args.length == 0){
