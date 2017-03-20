@@ -149,6 +149,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnSignClick;
 import xyz.jaoafa.mymaid.EventHandler.OnVehicleCreateEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnVotifierEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnWeatherChangeEvent;
+import xyz.jaoafa.mymaid.EventHandler.SpawnEggRegulation;
 
 public class MyMaid extends JavaPlugin implements Listener {
 	public static Boolean nextbakrender = false;
@@ -391,6 +392,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnWeatherChangeEvent(this), this);
 		getServer().getPluginManager().registerEvents(new Land(this), this);
+		getServer().getPluginManager().registerEvents(new SpawnEggRegulation(this), this);
 	}
 	/**
 	 * コンフィグ読み込み
