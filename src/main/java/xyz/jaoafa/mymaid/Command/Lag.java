@@ -17,6 +17,8 @@ public class Lag implements CommandExecutor {
 	 * jao afaします。
 	 * /jf */
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		String tps = Method.getTPS1m();
+		Method.SendMessage(sender, cmd, tps);
 		Method.SendMessage(sender, cmd, "最新のラグデータを確認するには/tpsコマンドを実行してください。");
 		return true;
 	}

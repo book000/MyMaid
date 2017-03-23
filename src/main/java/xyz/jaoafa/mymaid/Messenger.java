@@ -115,7 +115,7 @@ public class Messenger {
 			e.printStackTrace();
 			return;
 		}
-		List<String> list = Messages;
+		List<String> list = new ArrayList<String>(Messages);
 		Collections.shuffle(list);
 		String message = list.get(0);
 		String date = new SimpleDateFormat("HH:mm:ss").format(new Date());
@@ -123,6 +123,25 @@ public class Messenger {
 			String msg = message.replaceAll("%player%", play.getName());
 			play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + msg);
 		}
+	}
+
+	/**
+	 * メッセージをランダムに取得する
+	 * @author mine_book000
+	 * @return メッセージ
+	 */
+	public static String GetRandomMessage(){
+		try {
+			LoadMessenger();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			return "";
+		}
+		List<String> list = new ArrayList<String>(Messages);
+		Collections.shuffle(list);
+		String message = list.get(0);
+		return message;
 	}
 
 	/**

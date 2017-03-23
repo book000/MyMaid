@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,9 +23,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 /**
@@ -35,6 +42,10 @@ public class Method {
 	public Method(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+
+	public static Map<String, String> header = new HashMap<String, String>();
+	public static Map<String, String> footer = new HashMap<String, String>();
+
 	/**
 	 * jMSプラグインAPIアクセス
 	 * @param filename ファイル名(拡張子無し)
@@ -297,18 +308,18 @@ public class Method {
 		boolean isUUID = false;
 
 		if (uuid.length() == 36) {
-		    String[] parts = uuid.split("-");
+			String[] parts = uuid.split("-");
 
-		    if (parts.length == 5) {
-		        if ((parts[0].length() == 8) &&
-		            (parts[1].length() == 4) &&
-		            (parts[2].length() == 4) &&
-		            (parts[3].length() == 4) &&
-		            (parts[4].length() == 12))
-		        {
-		            isUUID = true;
-		        }
-		    }
+			if (parts.length == 5) {
+				if ((parts[0].length() == 8) &&
+						(parts[1].length() == 4) &&
+						(parts[2].length() == 4) &&
+						(parts[3].length() == 4) &&
+						(parts[4].length() == 12))
+				{
+					isUUID = true;
+				}
+			}
 		}
 		return isUUID;
 	}
@@ -346,4 +357,152 @@ public class Method {
 		player.sendMessage(ChatColor.GOLD + "[Tips] " + ChatColor.GREEN + text);
 		tips.put(player.getName(), text);
 	}
+
+	/**
+	 * PlayerのTabリストのヘッダーとフッダーにそれぞれを表示する
+	 * @param player 表示するプレイヤー
+	 * @param header ヘッダー
+	 * @param footer フッダー
+	 * @author mine_book000
+	 */
+	public static void setPlayerListHeaderFooterByJSON(Player player, String header, String footer) {
+
+		CraftPlayer cplayer = (CraftPlayer) player;
+		PlayerConnection connection = cplayer.getHandle().playerConnection;
+
+		IChatBaseComponent header_ichat = ChatSerializer.a(header);
+		IChatBaseComponent footer_ichat = ChatSerializer.a(footer);
+
+		PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter(header_ichat);
+
+		try{
+			Field footerField = packet.getClass().getDeclaredField("b");
+			footerField.setAccessible(true);
+			footerField.set(packet, footer_ichat);
+			footerField.setAccessible(!footerField.isAccessible());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		Method.header.put(player.getName(), header);
+		Method.footer.put(player.getName(), footer);
+
+		connection.sendPacket(packet);
+	}
+
+	/**
+	 * PlayerのTabリストのヘッダーを取得する
+	 * @param player 表示するプレイヤー
+	 * @author mine_book000
+	 * @return ヘッダー
+	 */
+	public static String getPlayerListHeader(Player player) {
+		if(header.containsKey(player.getName())){
+			return header.get(player.getName());
+		}else{
+			return "";
+		}
+	}
+
+	/**
+	 * PlayerのTabリストのフッターを取得する
+	 * @param player 表示するプレイヤー
+	 * @author mine_book000
+	 * @return フッター
+	 */
+	public static String getPlayerListFooter(Player player) {
+		if(footer.containsKey(player.getName())){
+			return footer.get(player.getName());
+
+		}else{
+			return "";
+		}
+	}
+	/**
+	 * TPSを取得する(1m)
+	 * @author mine_book000
+	 * @return tps
+	 */
+	public static String getTPS1m() {
+		try {
+			double[] tpsdouble = ((double[]) tpsField.get(serverInstance));
+			if(tpsdouble[0] > 20.0){
+				return "*" + Math.min( Math.round( tpsdouble[0] * 100.0 ) / 100.0, 20.0 );
+			}
+			return ""+Math.min( Math.round( tpsdouble[0] * 100.0 ) / 100.0, 20.0 );
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	/**
+	 * TPSを取得する(5m)
+	 * @author mine_book000
+	 * @return tps
+	 */
+	public static String getTPS5m() {
+		try {
+			double[] tpsdouble = ((double[]) tpsField.get(serverInstance));
+			if(tpsdouble[1] > 20.0){
+				return "*" + Math.min( Math.round( tpsdouble[1] * 100.0 ) / 100.0, 20.0 );
+			}
+			return ""+Math.min( Math.round( tpsdouble[1] * 100.0 ) / 100.0, 20.0 );
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	/**
+	 * TPSを取得する(15m)
+	 * @author mine_book000
+	 * @return tps
+	 */
+	public static String getTPS15m() {
+		try {
+			double[] tpsdouble = ((double[]) tpsField.get(serverInstance));
+			if(tpsdouble[2] > 20.0){
+				return "*" + Math.min( Math.round( tpsdouble[2] * 100.0 ) / 100.0, 20.0 );
+			}
+			return ""+Math.min( Math.round( tpsdouble[2] * 100.0 ) / 100.0, 20.0 );
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	private final static String name = Bukkit.getServer().getClass().getPackage().getName();
+	private final static String version = name.substring(name.lastIndexOf('.') + 1);
+	//private final static DecimalFormat format = new DecimalFormat("##.##");
+
+	private static Object serverInstance;
+	private static Field tpsField;
+	private static Class<?> getNMSClass(String className) {
+		try {
+			return Class.forName("net.minecraft.server." + version + "." + className);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	/*
+	private static String format(double tps)
+	{
+		return ( ( tps > 18.0 ) ? ChatColor.GREEN : ( tps > 16.0 ) ? ChatColor.YELLOW : ChatColor.RED ).toString()
+				+ ( ( tps > 20.0 ) ? "*" : "" ) + Math.min( Math.round( tps * 100.0 ) / 100.0, 20.0 );
+	}
+	*/
+	public static String TPSColor(double tps){
+		if(tps > 18.0){
+			return "green";
+		}
+		if(tps > 16.0){
+			return "yellow";
+		}
+		return "red";
+	}
+	public static void OnEnable_TPSSetting(){
+		try {
+			serverInstance = getNMSClass("MinecraftServer").getMethod("getServer").invoke(null);
+			tpsField = serverInstance.getClass().getField("recentTps");
+		} catch (NoSuchFieldException | SecurityException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

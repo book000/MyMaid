@@ -31,7 +31,7 @@ public class Cmd_Messenger implements CommandExecutor {
 				}
 				return true;
 			}
-		}else if(args.length == 2){
+		}else if(args.length >= 2){
 			if(args[0].equalsIgnoreCase("add")){
 				if (sender instanceof Player) {
 					Player p = (Player) sender;
@@ -46,7 +46,16 @@ public class Cmd_Messenger implements CommandExecutor {
 					return true;
 				}
 
-				String message = args[1];
+				String message = "";
+				int c = 1;
+				while(args.length > c){
+					message += args[c];
+					if(args.length != (c+1)){
+						message += " ";
+					}
+					c++;
+				}
+
 				boolean result = Messenger.Add(message);
 				if(result){
 					Method.SendMessage(sender, cmd, "メッセージ「" + message + "」の追加処理に成功しました。");

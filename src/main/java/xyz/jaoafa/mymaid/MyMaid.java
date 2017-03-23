@@ -231,6 +231,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		lunachat = (LunaChat)getServer().getPluginManager().getPlugin("LunaChat");
 		lunachatapi = lunachat.getLunaChatAPI();
+		Method.OnEnable_TPSSetting();
 
 		instance = this;
 	}
@@ -338,6 +339,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
 		new AFKChecker(this).runTaskTimer(this, 0L, 1200L);
 		new AutoMessage().runTaskTimer(this, 0L, 36000L);
+		new TPSChange().runTaskTimer(this, 0L, 1200L);
 	}
 	/**
 	 * リスナー設定
@@ -852,6 +854,52 @@ public class MyMaid extends JavaPlugin implements Listener {
 		@Override
 		public void run() {
 			Messenger.BroadcastMessage();
+		}
+	}
+
+	/**
+	 * TPS更新(1分毎)
+	 * @author mine_book000
+	 */
+	private class TPSChange extends BukkitRunnable{
+		@Override
+		public void run() {
+			String tps1m = Method.getTPS1m();
+			String tps5m = Method.getTPS5m();
+			String tps15m = Method.getTPS15m();
+
+			String tps1mcolor;
+			try{
+				double tps1m_double = Double.parseDouble(tps1m);
+				tps1mcolor = Method.TPSColor(tps1m_double);
+			}catch(NumberFormatException e){
+				tps1mcolor = "green";
+			}
+
+			String tps5mcolor;
+			try{
+				double tps5m_double = Double.parseDouble(tps5m);
+				tps5mcolor = Method.TPSColor(tps5m_double);
+			}catch(NumberFormatException e){
+				tps5mcolor = "green";
+			}
+
+			String tps15mcolor;
+			try{
+				double tps15m_double = Double.parseDouble(tps15m);
+				tps15mcolor = Method.TPSColor(tps15m_double);
+			}catch(NumberFormatException e){
+				tps15mcolor = "green";
+			}
+
+
+			String tpsmsg = "[\"\",{\"text\":\"TPS\n\",\"color\":\"gold\"},{\"text\":\"1m: \",\"color\":\"red\"},{\"text\":\"" + tps1m + "\",\"color\":\"" + tps1mcolor + "\"},{\"text\":\"\n\",\"color\":\"\"},{\"text\":\"5m: \",\"color\":\"yellow\"},{\"text\":\"" + tps5m + "\",\"color\":\"" + tps5mcolor + "\"},{\"text\":\"\n\",\"color\":\"none\"},{\"text\":\"15m: \",\"color\":\"green\"},{\"text\":\"" + tps15m + "\",\"color\":\"" + tps15mcolor + "\"}]";
+
+			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+				String header = Method.getPlayerListHeader(player);
+				Method.setPlayerListHeaderFooterByJSON(player, header, tpsmsg);
+			}
+
 		}
 	}
 
