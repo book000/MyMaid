@@ -44,6 +44,7 @@ public class NoWither implements Listener {
 				event.setCancelled(true);
 				return;
 			}
+			event.setCancelled(true);
             min_player.sendMessage("[NoWither] " + ChatColor.GREEN + "負荷対策の為にウィザーの召喚を禁止しています。ご協力をお願いします。");
             for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
