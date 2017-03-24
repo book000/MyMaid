@@ -111,7 +111,7 @@ public class Home implements CommandExecutor, TabCompleter {
 			try {
 				ResultSet res = statement.executeQuery("SELECT * FROM home WHERE uuid = '" + player.getUniqueId().toString() + "' AND name = '" + name + "'");
 				if(res.next()){
-					Location loc = new Location(Bukkit.getWorld(res.getString("world")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"), res.getFloat("yaw"), res.getFloat("pitch"));
+					Location loc = new Location(Bukkit.getWorld(res.getString("world")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"), res.getFloat("pitch"), res.getFloat("yaw"));
 					player.teleport(loc);
 					Method.SendMessage(sender, cmd, "ホーム「" + name + "」にテレポートしました。");
 					return true;
