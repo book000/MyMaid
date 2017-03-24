@@ -296,6 +296,11 @@ commands:
       usage: /<command>
       permission: mymaid.home
       permission-message: You do not have permission to perform this command.
+   sethome:
+      description: SetHome
+      usage: /<command>
+      permission: mymaid.sethome
+      permission-message: You do not have permission to perform this command.
    land:
       description: Land
       usage: /<command>

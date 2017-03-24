@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -93,6 +92,7 @@ import xyz.jaoafa.mymaid.Command.Report;
 import xyz.jaoafa.mymaid.Command.RuleLoad;
 import xyz.jaoafa.mymaid.Command.SSK;
 import xyz.jaoafa.mymaid.Command.SaveWorld;
+import xyz.jaoafa.mymaid.Command.SetHome;
 import xyz.jaoafa.mymaid.Command.SignLock;
 import xyz.jaoafa.mymaid.Command.Spawn;
 import xyz.jaoafa.mymaid.Command.TNTReload;
@@ -289,6 +289,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("guard").setExecutor(new Guard(this));
 		getCommand("head").setExecutor(new Head(this));
 		getCommand("home").setExecutor(new Home(this));
+		getCommand("home").setTabCompleter(new Home(this));
 		getCommand("inv").setExecutor(new Inv(this));
 		getCommand("invedit").setExecutor(new InvEdit(this));
 		getCommand("invsave").setExecutor(new InvSave(this));
@@ -315,6 +316,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("report").setExecutor(new Report(this));
 		getCommand("ruleload").setExecutor(new RuleLoad(this));
 		getCommand("save-world").setExecutor(new SaveWorld(this));
+		getCommand("sethome").setExecutor(new SetHome(this));
 		getCommand("sign").setExecutor(new xyz.jaoafa.mymaid.Command.Sign(this));
 		getCommand("signlock").setExecutor(new SignLock(this));
 		getCommand("spawn").setExecutor(new Spawn(this));
@@ -511,20 +513,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 			maxplayertime = conf.getString("maxplayertime");
 		}else{
 			maxplayertime = "無し";
-		}
-		if(conf.contains("home")){
-			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
-			Map<String, Object> home = conf.getConfigurationSection("home").getValues(true);
-			if(home.size() != 0){
-				for(Entry<String, Object> p: home.entrySet()){
-					SerializableLocation sloc = (SerializableLocation)p.getValue();
-					Location loc = sloc.getLocation();
-					Home.home.put(p.getKey(), loc);
-				}
-			}
-		}else{
-			Home.home = new HashMap<String, Location>();
-			conf.set("home",Home.home);
 		}
 		if(conf.contains("sqluser") && conf.contains("sqlpassword")){
 			MyMaid.sqluser = conf.getString("sqluser");
@@ -814,13 +802,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		conf.set("color", colorstr);
 		conf.set("maxplayer",maxplayer);
 		conf.set("maxplayertime",maxplayertime);
-
-		Map<String, SerializableLocation> home = new HashMap<String, SerializableLocation>();
-		for(Entry<String, Location> home_: Home.home.entrySet()){
-			SerializableLocation sloc = new SerializableLocation(home_.getValue());
-			home.put(home_.getKey(), sloc);
-		}
-		conf.set("home", home);
 		conf.set("dedrain", DedRain.flag);
 		saveConfig();
 
