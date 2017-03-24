@@ -61,6 +61,7 @@ public class Home implements CommandExecutor, TabCompleter {
 					Location loc = new Location(Bukkit.getWorld(res.getString("world")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"), res.getFloat("yaw"), res.getFloat("pitch"));
 					player.teleport(loc);
 					Method.SendMessage(sender, cmd, "ホーム「default」にテレポートしました。");
+					return true;
 				}else{
 					Method.SendMessage(sender, cmd, "ホーム「default」は見つかりませんでした。");
 					return true;
@@ -93,6 +94,7 @@ public class Home implements CommandExecutor, TabCompleter {
 					}
 					if(i == 0){
 						Method.SendMessage(sender, cmd, "見つかりませんでした。");
+						return true;
 					}
 				} catch (SQLException e) {
 					// TODO 自動生成された catch ブロック
@@ -135,8 +137,10 @@ public class Home implements CommandExecutor, TabCompleter {
 						int id = res.getInt("id");
 						statement.executeUpdate("DELETE FROM home WHERE id = " + id);
 						Method.SendMessage(sender, cmd, "ホーム「" + name + "」の削除に成功しました。");
+						return true;
 					}else{
 						Method.SendMessage(sender, cmd, "ホーム「" + name + "」の削除に失敗しました。");
+						return true;
 					}
 				} catch (SQLException e) {
 					// TODO 自動生成された catch ブロック
@@ -190,7 +194,6 @@ public class Home implements CommandExecutor, TabCompleter {
 			if(args[0].length() == 0){
 				try {
 					ResultSet res = statement.executeQuery("SELECT * FROM home WHERE uuid = '" + player.getUniqueId().toString() + "'");
-					int i = 0;
 					List<String> returndata = new ArrayList<String>();
 					while(res.next()){
 						returndata.add(res.getString("name"));
@@ -208,7 +211,6 @@ public class Home implements CommandExecutor, TabCompleter {
 				try {
 					String name = args[0];
 					ResultSet res = statement.executeQuery("SELECT * FROM home WHERE uuid = '" + player.getUniqueId().toString() + "' AND name LIKE '" + name + "%'");
-					int i = 0;
 					List<String> returndata = new ArrayList<String>();
 					while(res.next()){
 						returndata.add(res.getString("name"));

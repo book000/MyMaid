@@ -9,6 +9,7 @@ N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBreak.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnEEWReceiveEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnWeatherChangeEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\SpawnEggRegulation.java
+N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SetHome.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerCommandPreprocessEvent.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmd_Account.java
 N:\Github\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdsearch.java
