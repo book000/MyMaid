@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
-import xyz.jaoafa.mymaid.Command.DOT;
 
 public class OnPlayerKickEvent implements Listener {
 	JavaPlugin plugin;
@@ -20,12 +19,7 @@ public class OnPlayerKickEvent implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerKickEvent(PlayerKickEvent e){
 		if(e.getReason().equals("disconnect.spam")){
-			if(DOT.run.containsKey(e.getPlayer().getName())){
-				e.setCancelled(true);
-			}
-			if(OnAsyncPlayerChatEvent.dottotask.containsKey(e.getPlayer().getName())){
-				e.setCancelled(true);
-			}
+			e.setCancelled(true);
 		}else{
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
