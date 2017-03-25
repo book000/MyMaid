@@ -33,6 +33,12 @@ public class DOT implements CommandExecutor {
 	public static Map<String, Integer> unsuccess = new HashMap<String, Integer>();
 	//DOTCOUNTERストップ
 	public static Map<String, Boolean> dotcount_stop = new HashMap<String, Boolean>();
+
+	public static Map<String,Integer> dotto = new HashMap<String,Integer>();
+	public static Map<String,BukkitTask> dottotask = new HashMap<String,BukkitTask>();
+
+	public static Map<String,Integer> doom = new HashMap<String,Integer>();
+	public static Map<String,BukkitTask> doomtask = new HashMap<String,BukkitTask>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");

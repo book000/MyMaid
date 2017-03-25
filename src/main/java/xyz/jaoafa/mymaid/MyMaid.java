@@ -9,6 +9,7 @@ import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,8 @@ import org.json.simple.parser.JSONParser;
 
 import com.github.ucchyocean.lc.LunaChat;
 import com.github.ucchyocean.lc.LunaChatAPI;
+import com.github.ucchyocean.lc.channel.Channel;
+import com.github.ucchyocean.lc.channel.ChannelPlayer;
 import com.ittekikun.plugin.eewalert.EEWAlert;
 
 import eu.manuelgu.discordmc.MessageAPI;
@@ -165,6 +168,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public static String sqluser;
 	public static String sqlpassword;
 	private static JavaPlugin instance;
+	private static MyMaid mymaid;
 	/**
 	 * プラグインが起動したときに呼び出し
 	 * @author mine_book000
@@ -234,6 +238,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		Method.OnEnable_TPSSetting();
 
 		instance = this;
+		mymaid = this;
 	}
 	/**
 	 * 連携プラグイン確認
@@ -1000,7 +1005,123 @@ public class MyMaid extends JavaPlugin implements Listener {
 			e.printStackTrace();
 		}
 	}
+
+	public static class dot extends BukkitRunnable{
+		Player player;
+    	public dot(JavaPlugin plugin, Player player) {
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			if(DOT.dotto.containsKey(player.getName())){
+				int dot = DOT.dotto.get(player.getName());
+				if(dot != 1){
+					DOT.dotto.remove(player.getName());
+					DOT.dottotask.remove(player.getName());
+					Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "'s DOTTO COUNTER: " + dot + "/1s");
+				}else{
+					DOT.dotto.remove(player.getName());
+					DOT.dottotask.remove(player.getName());
+				}
+			}
+		}
+
+	}
+
+	public static class doom extends BukkitRunnable{
+		Player player;
+    	public doom(JavaPlugin plugin, Player player) {
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			if(DOT.doom.containsKey(player.getName())){
+				int dot = DOT.doom.get(player.getName());
+				if(dot != 1){
+					DOT.doom.remove(player.getName());
+					DOT.doomtask.remove(player.getName());
+					if(dot >= 10){
+						Collection<Channel> channels = MyMaid.lunachatapi.getChannels();
+						boolean chan = true;
+						for(Channel channel: channels){
+							if(channel.getName().equals("_CHAT_JAIL_")){
+								chan = false;
+							}
+						}
+						if(chan){
+							MyMaid.lunachatapi.createChannel("_CHAT_JAIL_");
+						}
+						if(MyMaid.lunachatapi.getChannel("_CHAT_JAIL_").isBroadcastChannel()){
+							MyMaid.lunachatapi.getChannel("_CHAT_JAIL_").setBroadcast(false);
+						}
+						MyMaid.lunachatapi.getChannel("_CHAT_JAIL_").addMember(ChannelPlayer.getChannelPlayer(player.getName()));
+						MyMaid.lunachatapi.setDefaultChannel(player.getName(), "_CHAT_JAIL_");
+						DOT.dotcount_stop.put(player.getName(), true);
+						Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "はチャットスパムとして判定されましたので隔離チャンネルに移動しました。(" + dot + "/1s)");
+					}
+				}else{
+					DOT.doom.remove(player.getName());
+					DOT.doomtask.remove(player.getName());
+				}
+			}
+		}
+
+	}
+
+	public static class dot_section extends BukkitRunnable{
+		Player player;
+		LunaChatAPI lunachatapi;
+		int section;
+    	public dot_section(JavaPlugin plugin, Player player, LunaChatAPI lunachatapi, int section) {
+    		this.player = player;
+    		this.lunachatapi = lunachatapi;
+    		this.section = section;
+    	}
+		@Override
+		public void run() {
+			//Bukkit.broadcastMessage(DOT.success.toString() + DOT.unsuccess.toString());
+			int success;
+			if(DOT.success.containsKey(player.getName())){
+				success = DOT.success.get(player.getName());
+			}else{
+				success = 0;
+			}
+			int unsuccess;
+			if(DOT.unsuccess.containsKey(player.getName())){
+				try{
+					unsuccess = DOT.unsuccess.get(player.getName());
+				}catch(NullPointerException e){
+					unsuccess = 0;
+				}
+			}else{
+				unsuccess = 0;
+			}
+			DOT.run.get(player.getName()).cancel();
+			DOT.run.remove(player.getName());
+			DOT.dotcount_stop.remove(player.getName());
+			DOT.success.remove(player.getName());
+			DOT.unsuccess.remove(player.getName());
+			lunachatapi.getChannel("_DOT_").removeMember(ChannelPlayer.getChannelPlayer(player.getName()));
+			if(section == 10){
+				String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			}else if(section == 60){
+				String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			}else if(section == 300){
+				String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			}else{
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒例外部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(部門外のためrankingなし)");
+			}
+
+			MyMaid.lunachatapi.setPlayersJapanize(player.getName(), DOT.kana.get(player.getName()));
+		}
+	}
 	public static JavaPlugin getJavaPlugin(){
 		return instance;
+	}
+	public static MyMaid getInstance(){
+		return mymaid;
 	}
 }
