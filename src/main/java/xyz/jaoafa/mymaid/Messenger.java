@@ -107,7 +107,7 @@ public class Messenger {
 	 * メッセージをランダム配信する
 	 * @author mine_book000
 	 */
-	public static void BroadcastMessage(){
+	public static void RandomBroadcastMessage(){
 		try {
 			LoadMessenger();
 		} catch (Exception e) {
@@ -118,6 +118,26 @@ public class Messenger {
 		List<String> list = new ArrayList<String>(Messages);
 		Collections.shuffle(list);
 		String message = list.get(0);
+		String date = new SimpleDateFormat("HH:mm:ss").format(new Date());
+		for(Player play: Bukkit.getServer().getOnlinePlayers()) {
+			String msg = message.replaceAll("%player%", play.getName());
+			play.sendMessage(ChatColor.GRAY + "["+ date + "]" + ChatColor.GOLD + "└( ・з・)┘" + ChatColor.WHITE +  ": " + msg);
+		}
+	}
+
+	/**
+	 * メッセージをランダム配信する
+	 * @author mine_book000
+	 */
+	public static void BroadcastMessage(int messageid){
+		try {
+			LoadMessenger();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			return;
+		}
+		String message = Messages.get(messageid);
 		String date = new SimpleDateFormat("HH:mm:ss").format(new Date());
 		for(Player play: Bukkit.getServer().getOnlinePlayers()) {
 			String msg = message.replaceAll("%player%", play.getName());

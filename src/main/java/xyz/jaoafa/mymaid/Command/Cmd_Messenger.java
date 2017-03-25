@@ -20,7 +20,7 @@ public class Cmd_Messenger implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length == 1){
 			if(args[0].equalsIgnoreCase("broadcast")){
-				Messenger.BroadcastMessage();
+				Messenger.RandomBroadcastMessage();
 				return true;
 			}else if(args[0].equalsIgnoreCase("list")){
 				Method.SendMessage(sender, cmd, "----- Message List -----");
@@ -77,7 +77,13 @@ public class Cmd_Messenger implements CommandExecutor {
 					return true;
 				}
 
-				int i = Integer.parseInt(args[1]);
+				int i;
+				try{
+					i = Integer.parseInt(args[1]);
+				}catch(NumberFormatException e){
+					Method.SendMessage(sender, cmd, "数字を指定してください！");
+					return true;
+				}
 				if(!Messenger.Contains(i)){
 					Method.SendMessage(sender, cmd, "指定されたメッセージID「" + args[1] + "」は存在しません。");
 				}
@@ -89,11 +95,22 @@ public class Cmd_Messenger implements CommandExecutor {
 					Method.SendMessage(sender, cmd, "メッセージ「" + message + "」の削除に失敗しました。");
 				}
 				return true;
+			}else if(args[0].equalsIgnoreCase("broadcast")){
+				int i;
+				try{
+					i = Integer.parseInt(args[1]);
+				}catch(NumberFormatException e){
+					Method.SendMessage(sender, cmd, "数字を指定してください！");
+					return true;
+				}
+				Messenger.BroadcastMessage(i);
+				return true;
 			}
 		}
 		Method.SendMessage(sender, cmd, "----- Messenger Help -----");
 		Method.SendMessage(sender, cmd, "/messenger list: メッセージのリストを表示します。");
-		Method.SendMessage(sender, cmd, "/messenger broadcast: メッセージを今すぐにランダムに1つ放送します。");
+		Method.SendMessage(sender, cmd, "/messenger broadcast: メッセージを今すぐランダムに1つ放送します。");
+		Method.SendMessage(sender, cmd, "/messenger broadcast <MessageID>: メッセージを今すぐMessageIDのメッセージを放送します。");
 		Method.SendMessage(sender, cmd, "/messenger add <Message>: メッセージを追加します。");
 		Method.SendMessage(sender, cmd, "/messenger del <MessageID>: 指定されたメッセージIDのメッセージを削除します");
 		return true;

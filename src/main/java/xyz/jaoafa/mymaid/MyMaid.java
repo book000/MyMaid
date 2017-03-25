@@ -834,7 +834,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	private class AutoMessage extends BukkitRunnable{
 		@Override
 		public void run() {
-			Messenger.BroadcastMessage();
+			Messenger.RandomBroadcastMessage();
 		}
 	}
 
