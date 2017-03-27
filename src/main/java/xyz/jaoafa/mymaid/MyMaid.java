@@ -345,7 +345,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		new World_saver().runTaskTimer(this, 0L, 36000L);
 		new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
 		new AFKChecker(this).runTaskTimer(this, 0L, 1200L);
-		new AutoMessage().runTaskTimer(this, 0L, 36000L);
+		new AutoMessage().runTaskTimer(this, 0L, 12000L);
 		new TPSChange().runTaskTimer(this, 0L, 1200L);
 	}
 	/**
@@ -833,7 +833,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	}
 
 	/**
-	 * 定期メッセージ(30分毎)
+	 * 定期メッセージ(10分毎)
 	 * @author mine_book000
 	 */
 	private class AutoMessage extends BukkitRunnable{
