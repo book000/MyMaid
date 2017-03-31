@@ -1178,10 +1178,20 @@ public class MyMaid extends JavaPlugin implements Listener {
 			for(String mod : mods){
 				builder.append(mod).append(",");
 			}
-			String strmods = builder.substring(0, builder.length() - 1);
+			String strmods;
+			if(builder.length() == 0){
+				strmods = "not found";
+			}else{
+				strmods = builder.substring(0, builder.length() - 1);
+			}
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "Mod情報: " + strmods);
+				}
+			}
 
 			try {
 				statement.executeUpdate("INSERT INTO usemod (id, player, uuid, mods, date) VALUES (NULL, '" + player.getName() + "', '" + player.getUniqueId().toString() + "', '" + strmods + "', '" + sdf.format(new Date()) + "');");

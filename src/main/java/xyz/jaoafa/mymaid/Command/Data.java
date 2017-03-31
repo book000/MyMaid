@@ -214,19 +214,20 @@ public class Data implements CommandExecutor {
 								String first = sdf.format(firstdate);
 								String last = sdf.format(lastdate);
 
-								long t = (long) ( offlineplayer.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) * 0.05 * 1000 );
-								long[] times = formatDuration(t);
-								long days = times[0];
-								long hours = times[1];
-								long minutes = times[2];
-								long seconds = times[3];
-
-								String alllogintime = days + "日間 " + hours + "時間" + minutes + "分" + seconds + "秒";
-
 								Method.SendMessage(sender, cmd, "プレイヤー: " + offlineplayer.getName());
 								Method.SendMessage(sender, cmd, "初ログイン: " + first);
 								Method.SendMessage(sender, cmd, "最終ログイン: " + last);
-								Method.SendMessage(sender, cmd, "累計ログイン時間: " + alllogintime);
+								if(offlineplayer.getPlayer() != null){
+									long t = (long) ( offlineplayer.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) * 0.05 * 1000 );
+									long[] times = formatDuration(t);
+									long days = times[0];
+									long hours = times[1];
+									long minutes = times[2];
+									long seconds = times[3];
+
+									String alllogintime = days + "日間 " + hours + "時間" + minutes + "分" + seconds + "秒";
+									Method.SendMessage(sender, cmd, "累計ログイン時間: " + alllogintime);
+								}
 								return true;
 							}
 							Method.SendMessage(sender, cmd, "プレイヤー: " + res.getString("player"));
@@ -329,19 +330,20 @@ public class Data implements CommandExecutor {
 							String first = sdf.format(firstdate);
 							String last = sdf.format(lastdate);
 
-							long t = (long) ( offlineplayer.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) * 0.05 * 1000 );
-							long[] times = formatDuration(t);
-							long days = times[0];
-							long hours = times[1];
-							long minutes = times[2];
-							long seconds = times[3];
-
-							String alllogintime = days + "日間 " + hours + "時間" + minutes + "分" + seconds + "秒";
-
 							Method.SendMessage(sender, cmd, "UUID: " + offlineplayer.getUniqueId().toString());
 							Method.SendMessage(sender, cmd, "初ログイン: " + first);
 							Method.SendMessage(sender, cmd, "最終ログイン: " + last);
-							Method.SendMessage(sender, cmd, "累計ログイン時間: " + alllogintime);
+							if(offlineplayer.getPlayer() != null){
+								long t = (long) ( offlineplayer.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) * 0.05 * 1000 );
+								long[] times = formatDuration(t);
+								long days = times[0];
+								long hours = times[1];
+								long minutes = times[2];
+								long seconds = times[3];
+
+								String alllogintime = days + "日間 " + hours + "時間" + minutes + "分" + seconds + "秒";
+								Method.SendMessage(sender, cmd, "累計ログイン時間: " + alllogintime);
+							}
 							return true;
 						}
 						Method.SendMessage(sender, cmd, "UUID: " + res.getString("uuid"));
