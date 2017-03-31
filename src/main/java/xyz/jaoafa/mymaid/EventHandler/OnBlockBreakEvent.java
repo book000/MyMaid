@@ -29,14 +29,6 @@ public class OnBlockBreakEvent implements Listener {
 				e.setCancelled(true);
 			}
 		}
-    	if(PermissionsEx.getUser(player).inGroup("Default")){
-			if(!PermissionsEx.getUser(player).inGroup("Regular")){
-				if(e.getBlock().getType() == Material.COMMAND){
-					player.sendMessage("[COMMANDCHECK] " + ChatColor.GREEN + "Default権限ではコマンドブロックを破壊することができません。");
-					e.setCancelled(true);
-				}
-			}
-		}
   		if(!Prison.prison.containsKey(player.getName())){
   			return;
   		}
