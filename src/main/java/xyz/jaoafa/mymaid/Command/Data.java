@@ -7,13 +7,19 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -196,7 +202,31 @@ public class Data implements CommandExecutor {
 
 							Method.SendMessage(sender, cmd, "--- UUID「" + args[0] + "」からのデータ ---");
 							if(!res.next()){
-								Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
+								UUID uuid = UUID.fromString(args[0]);
+								OfflinePlayer offlineplayer = Bukkit.getOfflinePlayer(uuid);
+								if(offlineplayer == null){
+									Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
+									return true;
+								}
+								Date firstdate = new Date(offlineplayer.getFirstPlayed() * 1000);
+								Date lastdate = new Date(offlineplayer.getLastPlayed() * 1000);
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+								String first = sdf.format(firstdate);
+								String last = sdf.format(lastdate);
+
+								long t = (long) ( offlineplayer.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) * 0.05 * 1000 );
+								long[] times = formatDuration(t);
+								long days = times[0];
+								long hours = times[1];
+								long minutes = times[2];
+								long seconds = times[3];
+
+								String alllogintime = days + "日間 " + hours + "時間" + minutes + "分" + seconds + "秒";
+
+								Method.SendMessage(sender, cmd, "プレイヤー: " + offlineplayer.getName());
+								Method.SendMessage(sender, cmd, "初ログイン: " + first);
+								Method.SendMessage(sender, cmd, "最終ログイン: " + last);
+								Method.SendMessage(sender, cmd, "累計ログイン時間: " + alllogintime);
 								return true;
 							}
 							Method.SendMessage(sender, cmd, "プレイヤー: " + res.getString("player"));
@@ -205,6 +235,21 @@ public class Data implements CommandExecutor {
 							Method.SendMessage(sender, cmd, "累計ログイン回数: " + count);
 							res.first();
 							Method.SendMessage(sender, cmd, "最終ログイン: " + res.getString("time"));
+
+							UUID uuid = UUID.fromString(args[0]);
+							OfflinePlayer offlineplayer = Bukkit.getOfflinePlayer(uuid);
+							if(offlineplayer != null){
+								long t = (long) ( offlineplayer.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) * 0.05 * 1000 );
+								long[] times = formatDuration(t);
+								long days = times[0];
+								long hours = times[1];
+								long minutes = times[2];
+								long seconds = times[3];
+
+								String alllogintime = days + "日間 " + hours + "時間" + minutes + "分" + seconds + "秒";
+
+								Method.SendMessage(sender, cmd, "累計ログイン時間: " + alllogintime);
+							}
 							ResultSet res2 = statement2.executeQuery("SELECT * FROM log WHERE uuid = '" + res.getString("uuid") + "'");
 							ArrayList<String> players = new ArrayList<String>();
 							Method.SendMessage(sender, cmd, "過去のプレイヤー名:");
@@ -229,8 +274,32 @@ public class Data implements CommandExecutor {
 							}
 							return true;
 						}else{
-							Method.SendMessage(sender, cmd, "--- UUID「" + args[0] + "」からのデータ ---");
-							Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
+							UUID uuid = UUID.fromString(args[0]);
+							OfflinePlayer offlineplayer = Bukkit.getOfflinePlayer(uuid);
+							if(offlineplayer == null){
+								Method.SendMessage(sender, cmd, "--- UUID「" + args[0] + "」からのデータ ---");
+								Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
+								return true;
+							}
+							Date firstdate = new Date(offlineplayer.getFirstPlayed() * 1000);
+							Date lastdate = new Date(offlineplayer.getLastPlayed() * 1000);
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+							String first = sdf.format(firstdate);
+							String last = sdf.format(lastdate);
+
+							long t = (long) ( offlineplayer.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) * 0.05 * 1000 );
+							long[] times = formatDuration(t);
+							long days = times[0];
+							long hours = times[1];
+							long minutes = times[2];
+							long seconds = times[3];
+
+							String alllogintime = days + "日間 " + hours + "時間" + minutes + "分" + seconds + "秒";
+
+							Method.SendMessage(sender, cmd, "プレイヤー: " + offlineplayer.getName());
+							Method.SendMessage(sender, cmd, "初ログイン: " + first);
+							Method.SendMessage(sender, cmd, "最終ログイン: " + last);
+							Method.SendMessage(sender, cmd, "累計ログイン時間: " + alllogintime);
 							return true;
 						}
 					} catch (SQLException ex) {
@@ -249,7 +318,31 @@ public class Data implements CommandExecutor {
 					if(count != 0){
 						Method.SendMessage(sender, cmd, "--- Player「" + args[0] + "」からのデータ ---");
 						if(!res.next()){
-							Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
+							@SuppressWarnings("deprecation")
+							OfflinePlayer offlineplayer = Bukkit.getOfflinePlayer(args[0]);
+							if(offlineplayer == null){
+								Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
+								return true;
+							}
+							Date firstdate = new Date(offlineplayer.getFirstPlayed() * 1000);
+							Date lastdate = new Date(offlineplayer.getLastPlayed() * 1000);
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+							String first = sdf.format(firstdate);
+							String last = sdf.format(lastdate);
+
+							long t = (long) ( offlineplayer.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) * 0.05 * 1000 );
+							long[] times = formatDuration(t);
+							long days = times[0];
+							long hours = times[1];
+							long minutes = times[2];
+							long seconds = times[3];
+
+							String alllogintime = days + "日間 " + hours + "時間" + minutes + "分" + seconds + "秒";
+
+							Method.SendMessage(sender, cmd, "UUID: " + offlineplayer.getUniqueId().toString());
+							Method.SendMessage(sender, cmd, "初ログイン: " + first);
+							Method.SendMessage(sender, cmd, "最終ログイン: " + last);
+							Method.SendMessage(sender, cmd, "累計ログイン時間: " + alllogintime);
 							return true;
 						}
 						Method.SendMessage(sender, cmd, "UUID: " + res.getString("uuid"));
@@ -258,6 +351,20 @@ public class Data implements CommandExecutor {
 						Method.SendMessage(sender, cmd, "累計ログイン回数: " + count);
 						res.first();
 						Method.SendMessage(sender, cmd, "最終ログイン: " + res.getString("time"));
+						@SuppressWarnings("deprecation")
+						OfflinePlayer offlineplayer = Bukkit.getOfflinePlayer(args[0]);
+						if(offlineplayer != null){
+							long t = (long) ( offlineplayer.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) * 0.05 * 1000 );
+							long[] times = formatDuration(t);
+							long days = times[0];
+							long hours = times[1];
+							long minutes = times[2];
+							long seconds = times[3];
+
+							String alllogintime = days + "日間 " + hours + "時間" + minutes + "分" + seconds + "秒";
+
+							Method.SendMessage(sender, cmd, "累計ログイン時間: " + alllogintime);
+						}
 						ResultSet res2 = statement2.executeQuery("SELECT * FROM log WHERE uuid = '" + res.getString("uuid") + "'");
 						ArrayList<String> players = new ArrayList<String>();
 						Method.SendMessage(sender, cmd, "過去のプレイヤー名:");
@@ -281,9 +388,34 @@ public class Data implements CommandExecutor {
 						}
 						return true;
 					}else{
-						Method.SendMessage(sender, cmd, "--- Player「" + args[0] + "」からのデータ ---");
-						Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
+						@SuppressWarnings("deprecation")
+						OfflinePlayer offlineplayer = Bukkit.getOfflinePlayer(args[0]);
+						if(offlineplayer == null){
+							Method.SendMessage(sender, cmd, "--- Player「" + args[0] + "」からのデータ ---");
+							Method.SendMessage(sender, cmd, "データが見つかりませんでした。");
+							return true;
+						}
+						Date firstdate = new Date(offlineplayer.getFirstPlayed() * 1000);
+						Date lastdate = new Date(offlineplayer.getLastPlayed() * 1000);
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+						String first = sdf.format(firstdate);
+						String last = sdf.format(lastdate);
+
+						long t = (long) ( offlineplayer.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) * 0.05 * 1000 );
+						long[] times = formatDuration(t);
+						long days = times[0];
+						long hours = times[1];
+						long minutes = times[2];
+						long seconds = times[3];
+
+						String alllogintime = days + "日間 " + hours + "時間" + minutes + "分" + seconds + "秒";
+
+						Method.SendMessage(sender, cmd, "UUID: " + offlineplayer.getUniqueId().toString());
+						Method.SendMessage(sender, cmd, "初ログイン: " + first);
+						Method.SendMessage(sender, cmd, "最終ログイン: " + last);
+						Method.SendMessage(sender, cmd, "累計ログイン時間: " + alllogintime);
 						return true;
+
 					}
 				} catch (SQLException ex) {
 					// TODO 自動生成された catch ブロック
@@ -356,4 +488,15 @@ public class Data implements CommandExecutor {
 	        return false;
 	    }
 	}
+	private long[] formatDuration( long millis ) {
+        long days = TimeUnit.MILLISECONDS.toDays( millis );
+        millis -= TimeUnit.DAYS.toMillis( days );
+        long hours = TimeUnit.MILLISECONDS.toHours( millis );
+        millis -= TimeUnit.HOURS.toMillis( hours );
+        long minutes = TimeUnit.MILLISECONDS.toMinutes( millis );
+        millis -= TimeUnit.MINUTES.toMillis( minutes );
+        long seconds = TimeUnit.MILLISECONDS.toSeconds( millis );
+
+        return new long[]{ days, hours, minutes, seconds };
+}
 }

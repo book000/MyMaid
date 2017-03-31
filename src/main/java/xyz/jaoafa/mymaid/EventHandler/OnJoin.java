@@ -1,9 +1,12 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
 import java.net.InetAddress;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,6 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.MySQL;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Cmd_Account;
 
@@ -30,6 +34,39 @@ public class OnJoin implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer(); // Joinしたプレイヤー
+
+		Statement statement;
+		try {
+			statement = MyMaid.c.createStatement();
+		} catch (NullPointerException e) {
+			MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+			try {
+				MyMaid.c = MySQL.openConnection();
+				statement = MyMaid.c.createStatement();
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。ClassNotFoundException / SQLException");
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+					}
+				}
+				return;
+			}
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。SQLException");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+				}
+			}
+			return;
+		}
+
+		statement = MySQL.check(statement);
 
 		String tps1m = Method.getTPS1m();
 		String tps5m = Method.getTPS5m();
@@ -63,6 +100,29 @@ public class OnJoin implements Listener {
 		String tpsmsg = "[\"\",{\"text\":\"TPS\n\",\"color\":\"gold\"},{\"text\":\"1m: \",\"color\":\"red\"},{\"text\":\"" + tps1m + "\",\"color\":\"" + tps1mcolor + "\"},{\"text\":\"\n\",\"color\":\"\"},{\"text\":\"5m: \",\"color\":\"yellow\"},{\"text\":\"" + tps5m + "\",\"color\":\"" + tps5mcolor + "\"},{\"text\":\"\n\",\"color\":\"none\"},{\"text\":\"15m: \",\"color\":\"green\"},{\"text\":\"" + tps15m + "\",\"color\":\"" + tps15mcolor + "\"}]";
 
 		Method.setPlayerListHeaderFooterByJSON(player, "[\"\",{\"text\":\"jao \",\"color\":\"gold\"},{\"text\":\"Minecraft \",\"color\":\"yellow\"},{\"text\":\"Server\",\"color\":\"aqua\"}]", tpsmsg);
+
+		Set<String> mods = player.getListeningPluginChannels();
+		StringBuilder builder = new StringBuilder();
+		for(String mod : mods){
+			builder.append(mod).append(",");
+		}
+		String strmods = builder.substring(0, builder.length() - 1);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+
+		try {
+			statement.executeQuery("INSERT INTO usemod (id, player, uuid, mods, date) VALUES (NULL, '" + player.getName() + "', '" + player.getUniqueId().toString() + "', '" + strmods + "', '" + sdf.format(new Date()) + "');");
+		} catch (SQLException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。SQLException");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e1.getMessage());
+				}
+			}
+		}
 
 		InetAddress ip = player.getAddress().getAddress();
 		if(PermissionsEx.getUser(player).inGroup("Limited")){

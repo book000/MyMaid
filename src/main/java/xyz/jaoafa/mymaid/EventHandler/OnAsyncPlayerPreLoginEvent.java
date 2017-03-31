@@ -68,7 +68,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			Bukkit.getLogger().info(e.getName()+": Connection to server failed! (Detect SubAccount.)");
 			LoginErrBackupSaveTxt(e.getName(), DisAllowLoginType.SubAccount, player);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator") || PermissionsEx.getUser(p).inGroup("Regular")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>複垢(" + player + ")");
 				}
 			}

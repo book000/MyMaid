@@ -44,7 +44,6 @@ xyz\jaoafa\mymaid\EventHandler\OnPlayerCommandSendAdmin.class
 xyz\jaoafa\mymaid\EventHandler\OnPlayerItemHeldEvent.class
 xyz\jaoafa\mymaid\Command\VarCmd.class
 xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveEvent.class
-xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatEvent$dot_section.class
 xyz\jaoafa\mymaid\Command\SaveWorld.class
 xyz\jaoafa\mymaid\Command\MakeCmd.class
 xyz\jaoafa\mymaid\Command\Unko.class
@@ -66,7 +65,6 @@ xyz\jaoafa\mymaid\Command\InvEnder.class
 xyz\jaoafa\mymaid\EventHandler\OnVotifierEvent.class
 xyz\jaoafa\mymaid\Command\Access$netaccess.class
 xyz\jaoafa\mymaid\EventHandler\OnBlockRedstoneEvent.class
-xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatEvent$dot.class
 xyz\jaoafa\mymaid\Command\Jao.class
 xyz\jaoafa\mymaid\Command\Quiz.class
 xyz\jaoafa\mymaid\EventHandler\OnMyMaidCommandblockLogs.class
@@ -149,7 +147,6 @@ xyz\jaoafa\mymaid\Database.class
 xyz\jaoafa\mymaid\Command\Where$messagesetdisc.class
 xyz\jaoafa\mymaid\Command\Pin.class
 xyz\jaoafa\mymaid\Command\Data.class
-xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatEvent$doom.class
 xyz\jaoafa\mymaid\Command\MyBlock$MyBlockRunBlock.class
 xyz\jaoafa\mymaid\EventHandler\OnLunaChatChannelMemberChangedEvent.class
 xyz\jaoafa\mymaid\Command\TNTReload.class
