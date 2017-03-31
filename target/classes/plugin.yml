@@ -356,3 +356,8 @@ commands:
       usage: /<command>
       permission: mymaid.dedrain
       permission-message: You do not have permission to perform this command.
+   cmb:
+      description: Command Block Editer
+      usage: /<command>
+      permission: mymaid.cmb
+      permission-message: You do not have permission to perform this command.

@@ -8,12 +8,16 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
@@ -40,12 +44,14 @@ import com.github.ucchyocean.lc.channel.ChannelPlayer;
 import com.ittekikun.plugin.eewalert.EEWAlert;
 
 import eu.manuelgu.discordmc.MessageAPI;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Access;
 import xyz.jaoafa.mymaid.Command.ArrowShotter;
 import xyz.jaoafa.mymaid.Command.AutoHeal;
 import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Ck;
+import xyz.jaoafa.mymaid.Command.Cmb;
 import xyz.jaoafa.mymaid.Command.Cmd_Account;
 import xyz.jaoafa.mymaid.Command.Cmd_Messenger;
 import xyz.jaoafa.mymaid.Command.Cmdb;
@@ -267,6 +273,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("autoheal").setExecutor(new AutoHeal(this));
 		getCommand("chat").setExecutor(new Chat(this));
 		getCommand("ck").setExecutor(new Ck(this));
+		getCommand("cmb").setExecutor(new Cmb(this));
 		getCommand("account").setExecutor(new Cmd_Account(this));
 		getCommand("messenger").setExecutor(new Cmd_Messenger(this));
 		getCommand("cmdb").setExecutor(new Cmdb(this));
@@ -401,6 +408,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnVotifierEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnWeatherChangeEvent(this), this);
 		getServer().getPluginManager().registerEvents(new Land(this), this);
+		getServer().getPluginManager().registerEvents(new Cmb(this), this);
 		getServer().getPluginManager().registerEvents(new SpawnEggRegulation(this), this);
 	}
 	/**
@@ -1123,5 +1131,70 @@ public class MyMaid extends JavaPlugin implements Listener {
 	}
 	public static MyMaid getInstance(){
 		return mymaid;
+	}
+	public static class usemodget extends BukkitRunnable{
+		Player player;
+    	public usemodget(JavaPlugin plugin, Player player) {
+    		this.player = player;
+    	}
+		@Override
+		public void run() {
+			Statement statement;
+			try {
+				statement = MyMaid.c.createStatement();
+			} catch (NullPointerException e) {
+				MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+				try {
+					MyMaid.c = MySQL.openConnection();
+					statement = MyMaid.c.createStatement();
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO 自動生成された catch ブロック
+					e1.printStackTrace();
+					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+						if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+							p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。ClassNotFoundException / SQLException");
+							p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+						}
+					}
+					return;
+				}
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。SQLException");
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+					}
+				}
+				return;
+			}
+
+			statement = MySQL.check(statement);
+
+
+			Set<String> mods = player.getListeningPluginChannels();
+			StringBuilder builder = new StringBuilder();
+			for(String mod : mods){
+				builder.append(mod).append(",");
+			}
+			String strmods = builder.substring(0, builder.length() - 1);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+
+			try {
+				statement.executeUpdate("INSERT INTO usemod (id, player, uuid, mods, date) VALUES (NULL, '" + player.getName() + "', '" + player.getUniqueId().toString() + "', '" + strmods + "', '" + sdf.format(new Date()) + "');");
+			} catch (SQLException e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。SQLException");
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e1.getMessage());
+					}
+				}
+			}
+		}
 	}
 }
