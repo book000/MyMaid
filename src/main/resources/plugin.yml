@@ -204,7 +204,7 @@ commands:
    invload:
       description: Inventory Load
       usage: /<command>
-      permission: mymaid.load
+      permission: mymaid.invload
       permission-message: You do not have permission to perform this command.
    var:
       description: Var Set
