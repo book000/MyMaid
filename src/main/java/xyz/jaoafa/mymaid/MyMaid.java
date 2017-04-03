@@ -152,6 +152,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnPlayerKickEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveAFK;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerPickupItemEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnPlayerTeleportEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnQuitGame;
 import xyz.jaoafa.mymaid.EventHandler.OnServerCommandEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnSignClick;
@@ -401,6 +402,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnPlayerMoveAFK(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerMoveEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerPickupItemEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerTeleportEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnQuitGame(this), this);
 		getServer().getPluginManager().registerEvents(new OnServerCommandEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnSignClick(this), this);
