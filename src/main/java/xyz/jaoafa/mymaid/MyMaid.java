@@ -43,7 +43,6 @@ import com.github.ucchyocean.lc.channel.Channel;
 import com.github.ucchyocean.lc.channel.ChannelPlayer;
 import com.ittekikun.plugin.eewalert.EEWAlert;
 
-import eu.manuelgu.discordmc.MessageAPI;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Access;
@@ -113,6 +112,7 @@ import xyz.jaoafa.mymaid.Command.Vote;
 import xyz.jaoafa.mymaid.Command.WO;
 import xyz.jaoafa.mymaid.Command.Where;
 import xyz.jaoafa.mymaid.Command.WorldTeleport;
+import xyz.jaoafa.mymaid.Discord.Discord;
 import xyz.jaoafa.mymaid.EventHandler.DefaultCheck;
 import xyz.jaoafa.mymaid.EventHandler.EyeMove;
 import xyz.jaoafa.mymaid.EventHandler.Menu;
@@ -176,6 +176,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public static String sqlpassword;
 	private static JavaPlugin instance;
 	private static MyMaid mymaid;
+	public static Discord discord = null;
 	/**
 	 * プラグインが起動したときに呼び出し
 	 * @author mine_book000
@@ -196,7 +197,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		Load_Plugin("CoreProtect");
 		Load_Plugin("Votifier");
 		Load_Plugin("MCBans");
-		Load_Plugin("DiscordMC");
 
 		//EEWAlertの設定
 		EEWAlert eew = (EEWAlert)getServer().getPluginManager().getPlugin("EEWAlert");
@@ -231,7 +231,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		getLogger().info("--------------------------------------------------");
 
-		MessageAPI.sendToDiscord("**Server Started.**");
+		Discord.Queuesend("**Server Started.**");
 	}
 	/**
 	 * 初期設定
@@ -543,6 +543,14 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}else{
 			DedRain.flag = false;
 		}
+		if(conf.contains("discordtoken")){
+			discord = new Discord(this, conf.getString("discordtoken"));
+			discord.start();
+		}else{
+			getLogger().info("Discordへの接続に失敗しました。 [conf NotFound]");
+			getLogger().info("Disable MyMaid...");
+			getServer().getPluginManager().disablePlugin(this);
+		}
 	}
 	/**
 	 * jaoPoint読み込み
@@ -820,7 +828,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 		conf.set("dedrain", DedRain.flag);
 		saveConfig();
 
-		MessageAPI.sendToDiscord("**Server Stopped.**");
+		if(discord != null){
+			discord.end();
+		}
 	}
 
 	/* ----- タスク系 ----- */
@@ -966,7 +976,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 						player.getInventory().setArmorContents(after);
 						player.updateInventory();
 						Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
-						MessageAPI.sendToDiscord(player.getName() + " is afk!");
+						Discord.Queuesend(player.getName() + " is afk!");
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
@@ -1127,6 +1137,25 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 			MyMaid.lunachatapi.setPlayersJapanize(player.getName(), DOT.kana.get(player.getName()));
 		}
+	}
+
+	public static class QueueDiscordSendData extends BukkitRunnable{
+		JavaPlugin plugin;
+    	public QueueDiscordSendData(JavaPlugin plugin) {
+    		this.plugin = plugin;
+    	}
+		@Override
+		public void run() {
+			String senddata = Discord.SendData.poll();
+			if(senddata == null){
+				Discord.task.cancel();
+				return;
+			}
+			if(!Discord.send(senddata)){
+				Discord.Queuesend(senddata);
+			}
+		}
+
 	}
 	public static JavaPlugin getJavaPlugin(){
 		return instance;

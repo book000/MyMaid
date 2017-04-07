@@ -26,9 +26,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import eu.manuelgu.discordmc.MessageAPI;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 	JavaPlugin plugin;
@@ -108,7 +108,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 							Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
 							loc.add(0.5f,0f,0.5f);
 							player.teleport(loc);
-							MessageAPI.sendToDiscord("*[" + player.getName() + ": " + player.getName() + " to " + location + "]*");
+							Discord.send("*[" + player.getName() + ": " + player.getName() + " to " + location + "]*");
 							Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
 							return true;
 						}
@@ -185,7 +185,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 									Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
 									loc.add(0.5f,0f,0.5f);
 									player.teleport(loc);
-									MessageAPI.sendToDiscord("*[" + sender.getName() + ": " + player.getName() + " to " + location + "]*");
+									Discord.send("*[" + sender.getName() + ": " + player.getName() + " to " + location + "]*");
 									Bukkit.broadcastMessage(ChatColor.GRAY + "[" + sender.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
 									return true;
 								}

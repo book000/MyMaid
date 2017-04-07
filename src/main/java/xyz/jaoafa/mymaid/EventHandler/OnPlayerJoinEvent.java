@@ -1,8 +1,13 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -18,6 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.MySQL;
 import xyz.jaoafa.mymaid.Pointjao;
 import xyz.jaoafa.mymaid.Command.Color;
 import xyz.jaoafa.mymaid.Command.Prison;
@@ -32,6 +38,8 @@ public class OnPlayerJoinEvent implements Listener {
   		if(Bukkit.getServer().getOnlinePlayers().size() >= 1 && !MyMaid.nextbakrender){
   			MyMaid.nextbakrender = true;
   		}
+
+  		Player player = event.getPlayer();
 
   		if(OnAsyncPlayerPreLoginEvent.FBAN.containsKey(event.getPlayer().getName())){
   			String id = OnAsyncPlayerPreLoginEvent.FBAN.get(event.getPlayer().getName());
@@ -50,6 +58,87 @@ public class OnPlayerJoinEvent implements Listener {
   		}
 
   		UUID uuid = event.getPlayer().getUniqueId();
+
+  		Statement statement;
+		try {
+			statement = MyMaid.c.createStatement();
+		} catch (NullPointerException e) {
+			MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+			try {
+				MyMaid.c = MySQL.openConnection();
+				statement = MyMaid.c.createStatement();
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。(NoVote/ClassNotFoundException | SQLException)通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+					}
+				}
+				return;
+			}
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。(NoVote/SQLException)通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+				}
+			}
+			return;
+		}
+
+		statement = MySQL.check(statement);
+
+		try {
+			ResultSet res = statement.executeQuery("SELECT * FROM vote WHERE uuid = '" + uuid.toString() +"'");
+			Calendar cal = Calendar.getInstance();
+			cal.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+			cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 9, 0, 0);
+			long today9 = cal.getTimeInMillis() / 1000L;
+
+			cal.add(Calendar.DAY_OF_MONTH, -1);
+			long yesterday9 = cal.getTimeInMillis() / 1000L;
+
+			long now = System.currentTimeMillis() / 1000L;
+
+			boolean checktype; // true: 今日の9時 / false: 昨日の9時
+			if(today9 <= now){
+				checktype = true;
+			}else{
+				checktype = false;
+			}
+
+
+			if(res.next()){
+				long lasttime = Long.parseLong(res.getString("lasttime"));
+				if(checktype){
+					if(lasttime < today9){
+						player.sendMessage("[Vote] " + ChatColor.GREEN + "まだこのサーバに投票していないみたいです！");
+						player.sendMessage("[Vote] " + ChatColor.GREEN + "よろしければ投票をお願いします！ https://jaoafa.com/vote");
+					}
+				}else{
+					if(lasttime < yesterday9){
+						player.sendMessage("[Vote] " + ChatColor.GREEN + "まだこのサーバに投票していないみたいです！");
+						player.sendMessage("[Vote] " + ChatColor.GREEN + "よろしければ投票をお願いします！ https://jaoafa.com/vote");
+					}
+				}
+			}
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。(NoVote/SQLException)通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
+				}
+			}
+			return;
+		}
+
+
   		String data = Method.url_jaoplugin("joinvote", "u="+uuid);
   		String[] arr = data.split("###", 0);
   		String result = arr[0];
@@ -106,8 +195,8 @@ public class OnPlayerJoinEvent implements Listener {
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 現在『" + Bukkit.getServer().getOnlinePlayers().size() + "人』がログインしています。");
 		if((MyMaid.maxplayer+1) == Bukkit.getServer().getOnlinePlayers().size()){
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 最高ログイン人数を突破しました！おめでとうございます！前回のログイン人数突破は「" + MyMaid.maxplayertime + "」でした！");
-			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-				Pointjao.addjao(player, 30, timeFormat.format(Date) + "の最高ログイン人数「" + Bukkit.getServer().getOnlinePlayers().size() + "人」を突破したため");
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				Pointjao.addjao(p, 30, timeFormat.format(Date) + "の最高ログイン人数「" + Bukkit.getServer().getOnlinePlayers().size() + "人」を突破したため");
 			}
 			SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			MyMaid.maxplayer = Bukkit.getServer().getOnlinePlayers().size();
@@ -123,10 +212,9 @@ public class OnPlayerJoinEvent implements Listener {
 			Method.url_jaoplugin("max", "c=2&w");
 		}
 
-		for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-			new TabListSKKReloader(plugin, player).runTaskLater(plugin, 20L);
+		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+			new TabListSKKReloader(plugin, p).runTaskLater(plugin, 20L);
 		}
-
   	}
 	private class TabListSKKReloader extends BukkitRunnable{
     	Player player;

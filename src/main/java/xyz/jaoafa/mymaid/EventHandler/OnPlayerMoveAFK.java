@@ -10,9 +10,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import eu.manuelgu.discordmc.MessageAPI;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class OnPlayerMoveAFK implements Listener {
 	JavaPlugin plugin;
@@ -40,7 +40,7 @@ public class OnPlayerMoveAFK implements Listener {
 		}
 		MyMaid.TitleSender.resetTitle(player);
 		Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is now online!");
-		MessageAPI.sendToDiscord(player.getName() + " is now online!");
+		Discord.send(player.getName() + " is now online!");
 		String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.WHITE + player.getName());
 		player.setPlayerListName(listname);
 	}

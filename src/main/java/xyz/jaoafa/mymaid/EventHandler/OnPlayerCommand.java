@@ -11,10 +11,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import eu.manuelgu.discordmc.MessageAPI;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.Prison;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class OnPlayerCommand implements Listener {
 	JavaPlugin plugin;
@@ -76,7 +76,7 @@ public class OnPlayerCommand implements Listener {
     			String text = "オ、オオwwwwwwwwオレアルファwwwwwwww最近めっちょふぁぼられてんねんオレwwwwwwwwエゴサとかかけるとめっちょ人気やねんwwwwァァァァァァァwwwクソアルファを見下しながら食べるエビフィレオは一段とウメェなァァァァwwwwwwww";
     			OnMyMaidJoinLeftChatCmdLogs.log(plugin, "chat", player.getName(), text);
     			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + color + "■" + ChatColor.WHITE + player.getName() +  ": " + text);
-    			MessageAPI.sendToDiscord("**" + player.getName() + "**: オ、オオwwwwwwwwオレアルファwwwwwwww最近めっちょふぁぼられてんねんオレwwwwwwwwエゴサとかかけるとめっちょ人気やねんwwwwァァァァァァァwwwクソアルファを見下しながら食べるエビフィレオは一段とウメェなァァァァwwwwwwww");
+    			Discord.send("**" + player.getName() + "**: オ、オオwwwwwwwwオレアルファwwwwwwww最近めっちょふぁぼられてんねんオレwwwwwwwwエゴサとかかけるとめっちょ人気やねんwwwwァァァァァァァwwwクソアルファを見下しながら食べるエビフィレオは一段とウメェなァァァァwwwwwwww");
     			e.setCancelled(true);
     			return;
     		}
@@ -93,7 +93,7 @@ public class OnPlayerCommand implements Listener {
     			if(killflag){
     				SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     				Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(new Date()) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: " + player.getName() + "さんが" + args[1] + "を殺すとか調子に乗ってると思うので" + player.getName() + "さんを殺しておきますね^^");
-    				MessageAPI.sendToDiscord("**jaotan**: " + player.getName() + "さんが" + args[1] + "を殺すとか調子に乗ってると思うので" + player.getName() + "さんを殺しておきますね^^");
+    				Discord.send("**jaotan**: " + player.getName() + "さんが" + args[1] + "を殺すとか調子に乗ってると思うので" + player.getName() + "さんを殺しておきますね^^");
     				player.setHealth(0);
     				e.setCancelled(true);
         			return;
@@ -128,7 +128,7 @@ public class OnPlayerCommand implements Listener {
     			if(killflag){
     				SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     				Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(new Date()) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: " + player.getName() + "ごときが" + args[1] + "を殺そうだなんて図が高いわ！ " + player.getName() + "が死ね！");
-    				MessageAPI.sendToDiscord("**jaotan**: " + player.getName() + "ごときが" + args[1] + "を殺そうだなんて図が高いわ！ " + player.getName() + "が死ね！");
+    				Discord.send("**jaotan**: " + player.getName() + "ごときが" + args[1] + "を殺そうだなんて図が高いわ！ " + player.getName() + "が死ね！");
     				player.setHealth(0);
     				e.setCancelled(true);
         			return;

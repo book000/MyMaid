@@ -16,9 +16,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import eu.manuelgu.discordmc.MessageAPI;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class AFK implements CommandExecutor{
 	JavaPlugin plugin;
@@ -49,7 +49,7 @@ public class AFK implements CommandExecutor{
 
 			}
 			MyMaid.TitleSender.resetTitle(player);
-			MessageAPI.sendToDiscord(sender.getName() + " is now online!");
+			Discord.send(sender.getName() + " is now online!");
 			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + sender.getName() + " is now online!");
 			String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.WHITE + player.getName());
 			player.setPlayerListName(listname);
@@ -63,7 +63,7 @@ public class AFK implements CommandExecutor{
 			player.updateInventory();
 			Method.SendMessage(sender, cmd, "AFK true");
 			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
-			MessageAPI.sendToDiscord(player.getName() + " is afk!");
+			Discord.send(player.getName() + " is afk!");
 			try {
 				tnt.get(player.getName()).cancel();
 			}catch(Exception e){

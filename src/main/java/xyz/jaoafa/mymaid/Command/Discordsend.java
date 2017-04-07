@@ -1,16 +1,12 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.util.List;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import eu.manuelgu.discordmc.DiscordMC;
-import eu.manuelgu.discordmc.MessageAPI;
-import sx.blah.discord.handle.obj.IChannel;
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class Discordsend implements CommandExecutor {
 	JavaPlugin plugin;
@@ -30,13 +26,16 @@ public class Discordsend implements CommandExecutor {
 				}
 				c++;
 			}
+			/*
 			if(old.equalsIgnoreCase(text)){
 				Method.SendMessage(sender, cmd, "前回通報された内容と同じです。");
 				return true;
 			}
+			*/
 			//Method.url_jaoplugin("disreport", "p="+name+"&t="+text);
-			List<IChannel> ch = DiscordMC.getClient().getGuilds().get(0).getChannelsByName("jaotan");
-			MessageAPI.sendToDiscord(ch, name + ": " + text);
+			text = Discord.format(text);
+			String SendMessage = "**" + name + "**: " + text;
+			Discord.send("250613942106193921", SendMessage);
 			Method.SendMessage(sender, cmd, "送信しました。");
 			old = text;
 			return true;
