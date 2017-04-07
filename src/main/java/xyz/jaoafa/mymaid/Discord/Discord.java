@@ -3,7 +3,6 @@ package xyz.jaoafa.mymaid.Discord;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -165,13 +164,11 @@ public class Discord {
 			return message;
 		}
 		for (IRole role : guild.getRoles()) {
-			Bukkit.broadcastMessage(role.getName());
-			Bukkit.broadcastMessage(Boolean.toString(message.contains("@"+role.getName())));
 			message = message.replaceAll("@" + role.getName(), "<@&" + role.getID() + ">");
 		}
 
 		for (IUser user : guild.getUsers()){
-			if(!user.getNicknameForGuild(guild).get().equalsIgnoreCase("")){
+			if(!(user.getNicknameForGuild(guild).orElseGet(()->"").equalsIgnoreCase(""))){
 				message = message.replaceAll("@" + user.getNicknameForGuild(guild).get(), "<@" + user.getID() + ">");
 			}
 			message = message.replaceAll("@" + user.getName(), "<@" + user.getID() + ">");
