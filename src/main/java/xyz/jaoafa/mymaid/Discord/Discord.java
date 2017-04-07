@@ -18,6 +18,7 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
+import sx.blah.discord.util.RequestBuffer;
 import xyz.jaoafa.mymaid.MyMaid;
 
 public class Discord {
@@ -86,24 +87,39 @@ public class Discord {
 		if(channel == null){
 			return false;
 		}
-		try {
-			channel.sendMessage(message);
-		} catch (MissingPermissionsException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
-			return false;
-		} catch (RateLimitException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
-			return false;
-		} catch (DiscordException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
+		RequestBuffer.request(() ->{
+			try {
+				channel.sendMessage(message);
+			} catch (MissingPermissionsException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+				plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
+			} catch (DiscordException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+				plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
+			}
+		});
+		return true;
+	}
+
+	public static boolean send(IChannel channel, String message){
+		if(channel == null){
 			return false;
 		}
+		RequestBuffer.request(() ->{
+			try {
+				channel.sendMessage(message);
+			} catch (MissingPermissionsException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+				plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
+			} catch (DiscordException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+				plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
+			}
+		});
 		return true;
 	}
 
@@ -127,24 +143,7 @@ public class Discord {
 			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(指定されたチャンネルが見つかりません。)");
 			return false;
 		}
-		try {
-			channel.sendMessage(message);
-		} catch (MissingPermissionsException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
-			return false;
-		} catch (RateLimitException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
-			return false;
-		} catch (DiscordException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
-			return false;
-		}
+		send(channel, message);
 		return true;
 	}
 
