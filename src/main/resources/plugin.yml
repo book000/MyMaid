@@ -53,9 +53,14 @@ commands:
       permission: mymaid.j2
       permission-message: You do not have permission to perform this command.
    vote:
-      description: Console only
+      description: Check Vote
       usage: /<command>
       permission: mymaid.vote
+      permission-message: You do not have permission to perform this command.
+   voteadd:
+      description: Console only
+      usage: /<command>
+      permission: mymaid.voteadd
       permission-message: You do not have permission to perform this command.
    sign:
       description: Change sentence of sign

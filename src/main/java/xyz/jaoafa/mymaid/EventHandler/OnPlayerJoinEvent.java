@@ -125,6 +125,9 @@ public class OnPlayerJoinEvent implements Listener {
 						player.sendMessage("[Vote] " + ChatColor.GREEN + "よろしければ投票をお願いします！ https://jaoafa.com/vote");
 					}
 				}
+			}else{
+				player.sendMessage("[Vote] " + ChatColor.GREEN + "まだこのサーバに投票していないみたいです！");
+				player.sendMessage("[Vote] " + ChatColor.GREEN + "よろしければ投票をお願いします！ https://jaoafa.com/vote");
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック

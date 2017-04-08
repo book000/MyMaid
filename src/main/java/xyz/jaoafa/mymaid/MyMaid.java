@@ -109,6 +109,7 @@ import xyz.jaoafa.mymaid.Command.UpGallery;
 import xyz.jaoafa.mymaid.Command.Var;
 import xyz.jaoafa.mymaid.Command.VarCmd;
 import xyz.jaoafa.mymaid.Command.Vote;
+import xyz.jaoafa.mymaid.Command.Vote_Add;
 import xyz.jaoafa.mymaid.Command.WO;
 import xyz.jaoafa.mymaid.Command.Where;
 import xyz.jaoafa.mymaid.Command.WorldTeleport;
@@ -341,6 +342,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("var").setTabCompleter(new Var(this));
 		getCommand("varcmd").setExecutor(new VarCmd(this));
 		getCommand("vote").setExecutor(new Vote(this));
+		getCommand("voteadd").setExecutor(new Vote_Add(this));
 		getCommand("where").setExecutor(new Where(this));
 		getCommand("wo").setExecutor(new WO(this));
 		getCommand("wt").setExecutor(new WorldTeleport(this));
