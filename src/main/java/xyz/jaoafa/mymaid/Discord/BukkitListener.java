@@ -24,6 +24,7 @@ public class BukkitListener implements Listener {
 		Discord.send(JoinMessage);
 	}
 
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void OnDeath(PlayerDeathEvent event){
 		String DeathMessage = event.getDeathMessage();
 
@@ -32,6 +33,7 @@ public class BukkitListener implements Listener {
 		Discord.send(DeathMessage);
 	}
 
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void OnQuit(PlayerQuitEvent event){
 		String QuitMessage = event.getQuitMessage();
 
