@@ -1153,7 +1153,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 				Discord.task.cancel();
 				return;
 			}
-			if(!Discord.send(senddata)){
+			if(!Discord.retrysend(senddata)){
 				Discord.Queuesend(senddata);
 			}
 		}

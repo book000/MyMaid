@@ -88,22 +88,8 @@ public class Discord {
 		if(channel == null){
 			return false;
 		}
-		RequestBuffer.request(() ->{
-			try {
-				channel.sendMessage(message);
-			} catch (MissingPermissionsException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-				plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
-				//return false;
-			} catch (DiscordException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-				plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
-				//return false;
-			}
-		});
-		return true;
+		// Caused by: java.lang.NoSuchMethodError: sx.blah.discord.util.RequestBuffer.request(Lsx/blah/discord/util/RequestBuffer$IVoidRequest;)V
+		return retrysend(message);
 	}
 
 	public static boolean retrysend(String message){
