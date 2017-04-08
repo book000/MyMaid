@@ -35,7 +35,7 @@ public class Discordsend implements CommandExecutor {
 			//Method.url_jaoplugin("disreport", "p="+name+"&t="+text);
 			text = Discord.format(text);
 			String SendMessage = "**" + name + "**: " + text;
-			Discord.send("250613942106193921", SendMessage);
+			Discord.send("223582668132974594", SendMessage);
 			Method.SendMessage(sender, cmd, "送信しました。");
 			old = text;
 			return true;

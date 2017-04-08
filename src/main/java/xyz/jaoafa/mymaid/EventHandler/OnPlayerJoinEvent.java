@@ -33,7 +33,7 @@ public class OnPlayerJoinEvent implements Listener {
 	public OnPlayerJoinEvent(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoinEvent(PlayerJoinEvent event) {
   		if(Bukkit.getServer().getOnlinePlayers().size() >= 1 && !MyMaid.nextbakrender){
   			MyMaid.nextbakrender = true;
