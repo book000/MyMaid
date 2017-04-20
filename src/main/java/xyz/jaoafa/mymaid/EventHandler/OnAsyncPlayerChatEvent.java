@@ -17,6 +17,7 @@ import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MyMaid.doom;
 import xyz.jaoafa.mymaid.MyMaid.dot;
+import xyz.jaoafa.mymaid.Command.BON;
 import xyz.jaoafa.mymaid.Command.Color;
 import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.Prison;
@@ -41,6 +42,9 @@ public class OnAsyncPlayerChatEvent implements Listener {
 		if(e.getMessage().equals("を")){
 			if(WO.nowwo){
 				WO.stopwo = true;
+			}
+			if(BON.nowbon){
+				BON.stopbon = true;
 			}
 		}
 		if(e.getMessage().equals(".")){

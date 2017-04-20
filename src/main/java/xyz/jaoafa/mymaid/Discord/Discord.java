@@ -25,7 +25,7 @@ public class Discord {
 	static JavaPlugin plugin;
 	String token;
 	public static IDiscordClient client = null;
-	static IGuild guild = null;;
+	static IGuild guild = null;
 	static IChannel channel = null;
 
 	public Discord(JavaPlugin plugin, String token) {

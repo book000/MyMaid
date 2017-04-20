@@ -48,6 +48,7 @@ import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Access;
 import xyz.jaoafa.mymaid.Command.ArrowShotter;
 import xyz.jaoafa.mymaid.Command.AutoHeal;
+import xyz.jaoafa.mymaid.Command.BON;
 import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Ck;
 import xyz.jaoafa.mymaid.Command.Cmb;
@@ -247,6 +248,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		instance = this;
 		mymaid = this;
+
+		BugReport.start();
 	}
 	/**
 	 * 連携プラグイン確認
@@ -273,6 +276,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("afk").setExecutor(new AFK(this));
 		getCommand("as").setExecutor(new ArrowShotter(this));
 		getCommand("autoheal").setExecutor(new AutoHeal(this));
+		getCommand("bon").setExecutor(new BON(this));
 		getCommand("chat").setExecutor(new Chat(this));
 		getCommand("ck").setExecutor(new Ck(this));
 		getCommand("cmb").setExecutor(new Cmb(this));
@@ -978,7 +982,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 						player.getInventory().setArmorContents(after);
 						player.updateInventory();
 						Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
-						Discord.Queuesend(player.getName() + " is afk!");
+						Discord.send(player.getName() + " is afk!");
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);

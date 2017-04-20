@@ -17,27 +17,29 @@ import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
 
-public class WO implements CommandExecutor {
+public class BON implements CommandExecutor {
 	JavaPlugin plugin;
 	ArrayList<String> text = new ArrayList<String>();
-	public static boolean nowwo = false;
-	public static boolean stopwo = false;
-	public WO(JavaPlugin plugin) {
+	public static boolean nowbon = false;
+	public static boolean stopbon = false;
+	public BON(JavaPlugin plugin) {
 		this.plugin = plugin;
 
-		text.add("(‘o’) ﾍｲ ﾕﾉｫﾝﾜｲ ﾜｨｱｨﾜｨｬ?");
-		text.add("(‘o’) ｲﾖｯﾊ ｲﾔﾊ ｲﾔﾊ ｲﾔﾊ ｲﾔﾊ ｲﾔﾊ ｲﾔﾊ … ｫﾎﾎｯﾊｰﾎﾎｯﾊｰﾎﾎｯﾊｰﾊﾊﾊﾊﾊﾎﾎ…");
-		text.add("(‘o’) ィ～ッニャッハッハッハッハッハッハッハッハッハッ");
-		text.add("(‘o’) ィ～ニャッハッハッハッハッハッハッハッハッ");
-		text.add("(‘o’) ﾝィ～ッニャッハッハッハッハッハッハッハッハッハッハッ");
-		text.add("(‘o’) オーホホオーホホオーホホホホホホ");
-		text.add("(‘o’) ｲﾖ ｲﾖ ｲﾖ ﾎﾎ ｲﾖ ｲﾖ ｲﾖ ﾎﾎ ｲﾖ ｲﾖ ｲﾖ ﾎﾎ ｵｰﾎﾎ ｵｯﾎﾎ");
-		text.add("(‘o’) ｲﾖ ｲﾖ ｲﾖ ﾎﾎ ｲﾖ ｲﾖ ｲﾖ ﾎﾎ ｲﾖ ｲﾖ ｲﾖ…ｲﾖ…ｲﾖ…ｲﾖ…");
-		text.add("(‘o’) ィ～ニャッハッハッハッハッハハハッハッハハハッハッハッハハハッ(ﾋﾟｩｰﾝ)");
-		text.add("(‘o’) ィ～ニャッハッハッハッハハハッハッハハハハハハッハッハッ(ｳｫｰｱｰ?ﾀﾞｨｬ)");
-		text.add("(‘o’) ィ～ニャッハッハッハッハッハハハッハッハハハッハッハッハハハッ(ﾋﾟｩｰﾝ)");
-		text.add("(‘o’) ィ～ニャッハッハッハッハハハッハッハハハハハハッハッハッ(ﾆｮﾝ)ウォオオオオウ！！！！！！");
-		text.add("(‘o’) ＜ を");
+		text.add("( ◠‿◠ )ﾎﾞﾝ ﾊﾞｯ ﾎﾞｯﾎﾞｯｯﾎﾞｯ ｯﾎﾞﾝﾊﾞｯ ﾎﾞｯﾎﾞｯｯﾎﾞｯ ﾎﾞﾝ ﾊﾞｯ ﾎﾞｯﾎﾞｯｯﾎﾞｯ ｯﾎﾞﾝﾊﾞｯ ﾎﾞｯﾎﾞｯｯﾎﾞｯ");
+		text.add("( ◠‿◠ )ﾃﾞﾊﾞﾊﾞ ﾊﾙｻﾒ ﾎｳﾕﾖ ﾊﾞｧ! ﾃﾞﾏﾞｶﾝﾒ ﾊﾙｻﾒ ﾎﾕﾖ ﾊﾞｧ!");
+		text.add("( ◠‿◠ )ﾃﾞｷﾞｬﾝﾏ ｽﾕﾊﾟｼﾝﾇ ﾒﾆｭﾊﾞﾊﾞﾆｼﾞｬｽ! ﾅ ﾆ ｼｭｯｶ ｼﾞｬｯ ﾋﾟ ｵﾝ ｶ!");
+		text.add("( ◠‿◠ )( ◠‿◠ )ﾃﾞﾊﾞﾊﾞ ﾊﾙｻﾒ ﾎｳﾕﾖ ﾊﾞｧ! ﾃﾞﾏﾞｶﾝﾒ ﾊﾙｻﾒ ﾎﾕﾖ ﾊﾞｧ!!");
+		text.add("( ◠‿◠ )( ◠‿◠ )ﾃﾞｷﾞｬｷﾞｬ ｽﾕﾊﾟｼﾝﾇ ﾒﾆｭﾊﾞﾊﾞﾆｼﾞｬｽ! ﾅ ﾆ ｼｭｯｶ ｼﾞｬｯ ｼﾞｬｼﾞｬｯｼﾞｬｯｼﾞｬｯ!!");
+		text.add("( ◠‿◠ )∠( ◠‿◠ )／おーう！！！");
+		text.add("( ◠‿◠ )(「◠‿◠ )」ぼん ばっ ぼっぼっっぼっ っぼっぼっ ぼっぼっっぼっ L( ◠‿◠ )┘ぼっぼっぼっ ぼっぼっっぼっ っぼっぼぼっ ぼっぼっ");
+		text.add("( ◠‿◠ )L(◠‿◠ 「)ぼん ばっ ぼっぼっっぼっ っぼっぼっ ぼっぼっっぼっ └( ◠‿◠ )」ぼっぼっぼっ ぼっぼっっぼっ っぼっぼぼっ ぼっぼっ");
+		text.add("( ◠‿◠ ):((; ◠‿◠ ;)): ねばば はるさめ ほうゆよ ばぁ! でまかんめ はるさめ ほゆよ ばぁ！");
+		text.add("( ◠‿◠ ):((; ◠‿◠ ;)): でぎゃんま すゆぱしんぬ めにゅばばにじゃす! な に しゅっか じゃっ ぴ おん か!");
+		text.add("( ◠‿◠ ):((; ◠‿◠ ;)): ねばば はるさめ ほうゆよ ばぁ! でまかんめ はるさめ ほゆよ ばぁ！！！");
+		text.add("( ◠‿◠ ):((; ◠‿◠ ;)): でぎゃんま すゆぱしんぬ めにゅばばにじゃす! な に しゅっか じゃっ じゃじゃっじゃっじゃっ！！！！");
+		text.add("( ◠‿◠ )(「◠‿◠ )」ぼん ばっ ぼっぼっっぼっ っぼっぼっ ぼっぼっっぼっ L( ◠‿◠ )┘ぼっぼっぼっ ぼっぼっっぼっ っぼっぼぼっ ぼっぼっ…");
+		text.add("( ◠‿◠ )L(◠‿◠ 「)ぼん ばっ ぼっぼっっぼっ っぼっぼっ ぼっぼっっぼっ └( ◠‿◠ )」ぼっぼっぼっ ぼっぼっっぼっ っぼっぼぼっ ぼっぼっ…");
+		text.add("( ◠‿◠ ) ＜ を");
 
 	}
 
@@ -53,7 +55,7 @@ public class WO implements CommandExecutor {
 		 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
 		 	 return true;
 		}
-		Pointjao.usejao(player, use, "woコマンド実行の為");
+		Pointjao.usejao(player, use, "bonコマンド実行の為");
 		String Msg = "";
 		if(player.hasPermission("mymaid.pex.limited")){
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
@@ -109,23 +111,23 @@ public class WO implements CommandExecutor {
 		@Override
 		public void run() {
 			if(i == 0){
-				nowwo = true;
+				nowbon = true;
 			}
 			if(i >= text.size()){
-				nowwo = false;
-				player.sendMessage("[WO] " + ChatColor.GREEN + "woコマンドを途中で止められずに終えることができたため、ポイントを返却します！");
-				Pointjao.addjao(player, 10, "woコマンドのポイント返却のため");
+				nowbon = false;
+				player.sendMessage("[BON] " + ChatColor.GREEN + "bonコマンドを途中で止められずに終えることができたため、ポイントを返却します！");
+				Pointjao.addjao(player, 10, "bonコマンドのポイント返却のため");
 				cancel();
 			}else{
-				if(stopwo){
+				if(stopbon){
 					Date Date = new Date();
 					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 					Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + text.get(text.size()-1));
-					nowwo = false;
-					stopwo = false;
+					nowbon = false;
+					stopbon = false;
 					cancel();
 				}
-				if(nowwo){
+				if(nowbon){
 					Date Date = new Date();
 					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 					Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + text.get(i));

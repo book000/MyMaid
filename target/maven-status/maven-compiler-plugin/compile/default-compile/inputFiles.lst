@@ -41,6 +41,7 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvEnder.jav
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Method.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\MyMaid.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\AFK.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\BON.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmd_Messenger.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnSignClick.java
@@ -82,7 +83,6 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Discordsend.
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Land.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Jao.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynmap_Teleporter.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\PPAP.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdmymaid.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Inv.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnExplosion.java
@@ -131,5 +131,6 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlaye
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynmap_Compass.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Head.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Prison.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\BugReport.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Pin.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdsearch.java
