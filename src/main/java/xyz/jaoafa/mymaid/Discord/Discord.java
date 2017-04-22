@@ -18,7 +18,6 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
-import sx.blah.discord.util.RequestBuffer;
 import xyz.jaoafa.mymaid.MyMaid;
 
 public class Discord {
@@ -121,21 +120,24 @@ public class Discord {
 		if(channel == null){
 			return false;
 		}
-		RequestBuffer.request(() ->{
-			try {
-				channel.sendMessage(message);
-			} catch (MissingPermissionsException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-				plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
-				//return false;
-			} catch (DiscordException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-				plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
-				//return false;
-			}
-		});
+		try {
+			channel.sendMessage(message);
+		} catch (MissingPermissionsException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
+			return false;
+		} catch (DiscordException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
+			return false;
+		}catch (RateLimitException e){
+			// Since I want to retry try to add it.
+			e.printStackTrace();
+			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
+			return false;
+		}
 		return true;
 	}
 

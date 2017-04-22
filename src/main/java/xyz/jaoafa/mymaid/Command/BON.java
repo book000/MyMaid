@@ -107,6 +107,7 @@ public class BON implements CommandExecutor {
 		public Message(String Msg, Player player){
 			i = 0;
 			this.Msg = Msg;
+			this.player = player;
 		}
 		@Override
 		public void run() {
