@@ -21,24 +21,25 @@ public class BugReport {
 	static String folder;
 	public static void start(){
 		plugin = MyMaid.getJavaPlugin();
-		Bukkit.getLogger().info("BugReportを起動しました。");
+		plugin.getLogger().info("BugReportを起動しました。");
 	}
 
 	public static void first(){
 		String Path = plugin.getDataFolder() + File.separator + "bugreport" + File.separator;
 		File folder = new File(Path);
 		if(folder.exists()){
+			BugReport.folder = Path;
 			return;
 		}
 		if(folder.mkdir()){
-			Bukkit.getLogger().info("BugReportのリポートディレクトリの作成に成功しました。");
+			plugin.getLogger().info("BugReportのリポートディレクトリの作成に成功しました。");
 			BugReport.folder = Path;
 		}else{
-			Bukkit.getLogger().info("BugReportのリポートディレクトリの作成に失敗しました。");
+			plugin.getLogger().info("BugReportのリポートディレクトリの作成に失敗しました。");
 		}
 	}
 
-	public static String reportformat(String id){
+	private static String reportformat(String id){
 		String text = "システムエラーが発生しました。\n"
 				+ "報告IDは「" + id + "」です。\n"
 				+ "時間をおいて実行しても同様のエラーが発生する場合は管理部に報告IDを知らせてください。";
@@ -51,8 +52,9 @@ public class BugReport {
 		FileWrite(exception, file);
 		AdminSend(exception);
 		DiscordSend(exception, id);
+		plugin.getLogger().info("Bugreport: エラー発生。報告ID: 「" + id + "」");
 		exception.printStackTrace();
-		return id;
+		return reportformat(id);
 	}
 
 	private static String CreateReportID(){
@@ -72,8 +74,10 @@ public class BugReport {
 			FileWriter fw = new FileWriter(file);
 			PrintWriter pw = new PrintWriter(fw);
 			exception.printStackTrace(pw);
+			plugin.getLogger().info("Bugreport: ファイル書き込みに成功");
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
+			plugin.getLogger().info("Bugreport: ファイル書き込みに失敗");
 			e.printStackTrace();
 		}
 	}
@@ -91,8 +95,13 @@ public class BugReport {
 		StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter( sw );
         exception.printStackTrace(pw);
-		Discord.send("293856671799967744", "MyMaidでエラーが発生しました。" + "\n"
+		boolean res = Discord.send("293856671799967744", "MyMaidでエラーが発生しました。" + "\n"
 					+ sw.toString() + "\n"
 					+ "報告ID: " + id);
+		if(res){
+			plugin.getLogger().info("Bugreport: Discord送信に成功");
+		}else{
+			plugin.getLogger().info("Bugreport: Discord送信に成功");
+		}
 	}
 }
