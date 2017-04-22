@@ -112,6 +112,7 @@ import xyz.jaoafa.mymaid.Command.VarCmd;
 import xyz.jaoafa.mymaid.Command.Vote;
 import xyz.jaoafa.mymaid.Command.Vote_Add;
 import xyz.jaoafa.mymaid.Command.WO;
+import xyz.jaoafa.mymaid.Command.WTP;
 import xyz.jaoafa.mymaid.Command.Where;
 import xyz.jaoafa.mymaid.Command.WorldTeleport;
 import xyz.jaoafa.mymaid.Discord.Discord;
@@ -350,6 +351,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("where").setExecutor(new Where(this));
 		getCommand("wo").setExecutor(new WO(this));
 		getCommand("wt").setExecutor(new WorldTeleport(this));
+		getCommand("wtp").setExecutor(new WTP(this));
 	}
 	/**
 	 * スケジューリング
