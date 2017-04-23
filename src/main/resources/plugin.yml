@@ -376,3 +376,8 @@ commands:
       usage: /<command>
       permission: mymaid.wtp
       permission-message: You do not have permission to perform this command.
+   itemedit:
+      description: Item Edit
+      usage: /<command>
+      permission: mymaid.itemedit
+      permission-message: You do not have permission to perform this command.
