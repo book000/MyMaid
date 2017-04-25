@@ -105,9 +105,9 @@ public class MyBlock implements CommandExecutor {
 			}
 		}
 		Method.SendMessage(sender, cmd, "MyBlock HELP");
-		Method.SendMessage(sender, cmd, "/myblock on: あなたをプロックに変更します。");
+		Method.SendMessage(sender, cmd, "/myblock on: あなたをブロックに変更します。");
 		Method.SendMessage(sender, cmd, "/myblock off: あなたがブロックから戻します。");
-		Method.SendMessage(sender, cmd, "/myblock set [Block]: あなたのプロックを変えます。");
+		Method.SendMessage(sender, cmd, "/myblock set [Block]: あなたのブロックを変えます。");
 		return true;
 	}
 	private class MyBlockRunCheck extends BukkitRunnable {

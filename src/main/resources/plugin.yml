@@ -8,376 +8,438 @@ softdepend: [EEWAlert, PermissionsEx, WorldEdit, LunaChat, CoreProtect, Votifier
 website: https://jaoafa.com/
 commands:
    jf:
-      description: Say jaoafa
+      description: 「jao afa」と発言します。
       usage: /<command>
       permission: mymaid.jf
       permission-message: You do not have permission to perform this command.
    dt:
-      description: Teleport to dynmap location.
-      usage: /<command> [player] <location>
+      description: Dynmapのマーカー地点にテレポートします。
+      usage: /<command> [player] <MarkerName>
       permission: mymaid.dt
       permission-message: You do not have permission to perform this command.
    g:
-      description: Change your gamemode
+      description: ゲームモードを変更します。
       usage: /<command> <0|1|2|3>
       permission: mymaid.g
       permission-message: You do not have permission to perform this command.
    chat:
-      description: Make chat with fake player
+      description: 偽のプレイヤーをしゃべらせます。
       usage: /<command> <fake player> <message>
       permission: mymaid.chat
       permission-message: You do not have permission to perform this command.
    iphost:
-      description: Find out host name from ip address
-      usage: /<command>
+      description: IPアドレスからホスト名を逆引きします。
+      usage: /<command> <IP>
       permission: mymaid.iphost
       permission-message: You do not have permission to perform this command.
    data:
-      description: Show Server data
-      usage: /<command>
+      description: サーバデータやプレイヤーデータを表示します。
+      usage: /<command> [Player|UUID|IP|Host]
       permission: mymaid.data
       permission-message: You do not have permission to perform this command.
    tnt:
-      description: TNT Explode is what(philosophical)
-      usage: /<command>
+      description: TNT爆破の通知有効無効を設定します。
+      usage: /<command> <true|false>
       permission: mymaid.tnt
       permission-message: You do not have permission to perform this command.
    afk:
-      description: AFK is not AFK
+      description: AFK状態になるかそれを解除します。(トグル)
       usage: /<command>
       permission: mymaid.afk
       permission-message: You do not have permission to perform this command.
    j2:
-      description: Say jaojao
+      description: 「jaojao」と発言します。
       usage: /<command>
       permission: mymaid.j2
       permission-message: You do not have permission to perform this command.
    vote:
-      description: Check Vote
-      usage: /<command>
+      description: 投票状態を確認します。
+      usage: /<command> <Player|UUID>
       permission: mymaid.vote
       permission-message: You do not have permission to perform this command.
    voteadd:
-      description: Console only
-      usage: /<command>
+      description: 投票補填をします。コンソールからのみ使用可能。
+      usage: /<command> <Player>
       permission: mymaid.voteadd
       permission-message: You do not have permission to perform this command.
    sign:
-      description: Change sentence of sign
+      description: 看板のメッセージを変更します。
       usage: /<command> set <row number> <new message>
       permission: mymaid.sign
       permission-message: You do not have permission to perform this command.
    signlock:
-      description: Lock the sign
-      usage: /<command>
+      description: 看板を編集できないようにロックします。
+      usage: /<command> [reset]
       permission: mymaid.signlock
       permission-message: You do not have permission to perform this command.
    save-world:
-      description: Save the world
+      description: ワールドをセーブします。
       usage: /<command>
       permission: mymaid.save-world
       permission-message: You do not have permission to perform this command.
    head:
-      description: Give player skull to you
-      usage: /<command> <player>
+      description: プレイヤーの「頭」を与えます。
+      usage: /<command> [ToPlayer] <HeadPlayer>
       permission: mymaid.head
       permission-message: You do not have permission to perform this command.
    cmdb:
-      description: Give command block to you
-      usage: /<command>
+      description: コマンドブロックを与えます。
+      usage: /<command> [ToPlayer]
       permission: mymaid.cmdb
       permission-message: You do not have permission to perform this command.
    jail:
-      description: Put into eden of south
+      description: 南の楽園関連の処理をします。
       usage: |-
              
-             /<command> add <player> - Put player into jail
-             /<command> remove <player> - Release player from jail
-             /<command> list - Show jailer list
+             /<command> add <Player> [Reason] - プレイヤーを南の楽園に移動し、出られなくします。
+             /<command> remove <Player> - プレイヤーを南の楽園リストから削除します。
+             /<command> list - 南の楽園リストを表示します。
+             /<command> area <Player> <true|false> - プレイヤーが南の楽園から出られるかどうかを設定します。
+             /<command> block <Player> <true|false> - プレイヤーがコマンドを実行できるかを設定します。
+             /<command> lasttext <Text> - 遺言を残します。
       permission: mymaid.jail
       permission-message: You do not have permission to perform this command.
    access:
-      description: User Access Data
+      description: ユーザーのサイトアクセスデータを調べます。
       usage: /<command> <player>
       permission: mymaid.access
       permission-message: You do not have permission to perform this command.
    ja:
-      description: Say jaiuwa
+      description: 「jai uwa」と発言します。
       usage: /<command>
       permission: mymaid.ja
       permission-message: You do not have permission to perform this command.
    cmdsearch:
-      description: cmdblock search
-      usage: /<command>
+      description: コマンドブロックを検索します。
+      usage: |-
+             
+             /<command> start <Command...> - コマンドブロックを前方一致で検索します。
+             /<command> in <Command...> - コマンドブロックを部分一致で検索します。
+             /<command> end <Command...> - コマンドブロックを後方一致で検索します。
+             /<command> stop - コマンドブロックの検索を停止します。
       permission: mymaid.cmdsearch
       permission-message: You do not have permission to perform this command.
    skk:
-      description: SiKaKu reload
-      usage: /<command>
+      description: チャット欄の四角を再読み込みします。
+      usage: /<command> [Player]
       permission: mymaid.skk
       permission-message: You do not have permission to perform this command.
    makecmd:
-      description: Create command makes item
+      description: 手に持っているアイテムをコマンド化します。
       usage: /<command>
       permission: mymaid.makecmd
       permission-message: You do not have permission to perform this command.
    lag:
-      description: Last Lag data
+      description: 最後のログデータを表示します。
       usage: /<command>
       permission: mymaid.lag
       permission-message: You do not have permission to perform this command.
    mymaid_networkapi:
-      description: api(Rcon Only)
+      description: MyMaidのAPIコマンド。コンソールからのみ使用可能。
       usage: /<command>
       permission: mymaid.mymaid_networkapi
       permission-message: You do not have permission to perform this command.
    as:
-      description: Arrow Shotter!
+      description: Arrow Shotterという弓を打ち続ける機能を起動します。
       usage: /<command>
       permission: mymaid.as
       permission-message: You do not have permission to perform this command.
    ruleload:
-      description: Console Only
+      description: ルールの既読処理を行います。コンソールからのみ使用可能。
       usage: /<command>
       permission: mymaid.ruleload
       permission-message: You do not have permission to perform this command.
    report:
-      description: Message Send to Staff.
+      description: スタッフへ連絡をします。
       usage: /<command>
       permission: mymaid.report
       permission-message: You do not have permission to perform this command.
    explode:
-      description: Explode Off OR On
-      usage: /<command> X Y Z R
+      description: 爆発の有効化、無効化を設定します。
+      usage: /<command> <X> <Y> <Z> <R> <true|false>
       permission: mymaid.explode
       permission-message: You do not have permission to perform this command.
    e:
-      description: Explode Off
+      description: 100ブロック以内の爆発を無効化します。
       usage: /<command>
       permission: mymaid.e
       permission-message: You do not have permission to perform this command.
    player:
-      description: Player Permission
+      description: プレイヤーの権限グループを表示します。
       usage: /<command> [player]
       permission: mymaid.player
       permission-message: You do not have permission to perform this command.
    spawn:
-      description: Spawn Teleport
+      description: スポーン地点にテレポートします。
       usage: /<command>
       permission: mymaid.spawn
       permission-message: You do not have permission to perform this command.
    pexup:
-      description: Permission Up
-      usage: /<command>
+      description: 権限グループを「デフォルト」から「常連」に変更します。
+      usage: /<command> <Player>
       permission: mymaid.pexup
       permission-message: You do not have permission to perform this command.
    pin:
-      description: To authenticate the PIN code generated on the Web.
-      usage: /<command> [code]
+      description: PINコード認証します。
+      usage: /<command> <code>
       permission: mymaid.pin
       permission-message: You do not have permission to perform this command.
    inv:
-      description: Player Inventory Show
-      usage: /<command> [Player]
+      description: プレイヤーのインベントリを確認します。
+      usage: /<command> <Player>
       permission: mymaid.inv
       permission-message: You do not have permission to perform this command.
    invender:
-      description: Player Inventory Enderchest Show
-      usage: /<command> [Player]
+      description: プレイヤーのエンダーチェストを確認します。
+      usage: /<command> <Player>
       permission: mymaid.invender
       permission-message: You do not have permission to perform this command.
    invedit:
-      description: Player Inventory Editer
-      usage: /<command> [Player]
+      description: プレイヤーのインベントリを編集します。
+      usage: /<command> <Player>
       permission: mymaid.invedit
       permission-message: You do not have permission to perform this command.
    unko:
-      description: unko?
-      usage: /<command> [Player]
+      description: unko...
+      usage: /<command>
       permission: mymaid.unko
       permission-message: You do not have permission to perform this command.
    guard:
-      description: guard
+      description: 下位互換
       usage: /<command>
       permission: mymaid.guard
       permission-message: You do not have permission to perform this command.
    invsave:
-      description: Inventory Save
-      usage: /<command>
+      description: プレイヤーのインベントリをセーブします。
+      usage: /<command> <Player>
       permission: mymaid.invsave
       permission-message: You do not have permission to perform this command.
    invload:
-      description: Inventory Load
-      usage: /<command>
+      description: プレイヤーのインベントリをロードします。
+      usage: /<command> <Player>
       permission: mymaid.invload
       permission-message: You do not have permission to perform this command.
    var:
-      description: Var Set
-      usage: /<command>
+      description: 変数関連の処理をします。
+      usage: |-
+             
+             /<command> text <VarName> <Text> - 変数を定義します。
+             /<command> plus <VarName1> <VarName2> - 変数同士を足し算します。
+             /<command> minus <VarName1> <VarName2> - 変数同士を引き算します。
+             /<command> list - 変数をリスト表示します。
       permission: mymaid.var
       permission-message: You do not have permission to perform this command.
    varcmd:
-      description: VarIn Cmd Run
+      description: 変数を使用してコマンドを実行します。
       usage: /<command>
       permission: mymaid.varcmd
       permission-message: You do not have permission to perform this command.
    ded:
-      description: Teleport to ded
+      description: 死亡地点にテレポートします。
       usage: /<command>
       permission: mymaid.ded
       permission-message: You do not have permission to perform this command.
    .:
-      description: .
-      usage: /<command>
+      description: ピリオド連投を行います。
+      usage: /<command> <TimeSecond>
       permission: mymaid.dot
       permission-message: You do not have permission to perform this command.
    dedmsg:
-      description: dedmsg
-      usage: /<command>
+      description: 指定範囲内での死亡時のメッセージを変更します
+      usage: /<command> <Message>
       permission: mymaid.dedmsg
       permission-message: You do not have permission to perform this command.
    dynamic:
-      description: dynamic teleport
+      description: ダイナミックテレポートをします。
       usage: /<command>
       permission: mymaid.dynamic
       permission-message: You do not have permission to perform this command.
    where:
-      description: where
-      usage: /<command>
+      description: 指定範囲内がどの市町村の範囲か設定したり、確認できたりします。
+      usage: |-
+             
+             /<command> - いまいる地点の名前とプレイヤーを表示します。
+             /<command> add <Name> [Message] - WorldEditで選択した範囲を<Name>として設定します
+             /<command> delete <Name> - <Name>を削除します。
       permission: mymaid.where
       permission-message: You do not have permission to perform this command.
    eye:
-      description: Eye
-      usage: /<command>
+      description: 指定したプレイヤーを目で追いかけます。
+      usage: /<command> <Player>
       permission: mymaid.eye
       permission-message: You do not have permission to perform this command.
    quiz:
-      description: Quiz
-      usage: /<command>
+      description: クイズを出題したり答えたりします。
+      usage: |-
+             
+             /<command> q <Question> <Answer...> - クイズを作成します。
+             /<command> a <QuestionID> <AnswerID> - クイズの回答を発表します。
+             /<command> <QuestionID> <AnswerID> - クイズに答えます。
       permission: mymaid.quiz
       permission-message: You do not have permission to perform this command.
    dc:
-      description: Dynmap Compass
-      usage: /<command>
+      description: Dynmapのマーカー地点にコンパスのターゲットを設定します。
+      usage: |-
+             
+             /<command> set <MarkerName> - コンパスのターゲットをDynmapのマーカー地点に設定します。
+             /<command> show - コンパスのターゲットが設定されているDynmapのマーカー地点名を表示します。
+             /<command> clear - コンパスのターゲットをリセットします。
       permission: mymaid.dc
       permission-message: You do not have permission to perform this command.
    ck:
-      description: ck
+      description: 近くにある未乗車中のトロッコを削除します。
       usage: /<command>
       permission: mymaid.ck
       permission-message: You do not have permission to perform this command.
    color:
-      description: SKK Color Change
-      usage: /<command>
+      description: チャット欄の四角色を変更します。
+      usage: |-
+             
+             /<command> set <Color> - チャット欄の四角色を<Color>に変更します。
+             /<command> show - チャット欄の四角色を表示します。
       permission: mymaid.color
       permission-message: You do not have permission to perform this command.
    gettissue:
-      description: Get TissueMan
+      description: ティッシュマンを入手します。
       usage: /<command>
       permission: mymaid.gettissue
       permission-message: You do not have permission to perform this command.
    jao:
-      description: jao Point Check
-      usage: /<command>
+      description: jaoポイントをチェックします。
+      usage: /<command> [Player]
       permission: mymaid.jao
       permission-message: You do not have permission to perform this command.
    mymaid:
-      description: MyMaid Config
+      description: MyMaid関連の処理を行います。
       usage: /<command>
       permission: mymaid.mymaid
       permission-message: You do not have permission to perform this command.
    discordsend:
-      description: discordsend
+      description: Discordを通じてスタッフへ連絡をします。
       usage: /<command>
       permission: mymaid.discordsend
       permission-message: You do not have permission to perform this command.
    upgallery:
-      description: Upload Gallery
-      usage: /<command>
+      description: ギャラリーサイトに画像をアップロードします。
+      usage: /<command> <Title> <URL> <Description>
       permission: mymaid.upgallery
       permission-message: You do not have permission to perform this command.
    home:
-      description: Home
-      usage: /<command>
+      description: ホームにテレポートします。
+      usage: /<command> [Name]
       permission: mymaid.home
       permission-message: You do not have permission to perform this command.
    sethome:
-      description: SetHome
-      usage: /<command>
+      description: ホームをセットします。
+      usage: /<command> [Name]
       permission: mymaid.sethome
       permission-message: You do not have permission to perform this command.
    land:
-      description: Land
-      usage: /<command>
+      description: ReJao_Afaワールド関連
+      usage: |-
+             
+             /<command> - いま居る場所の土地所有者を確認します。
+             /<command> new - 土地を登録します。(管理部のみ)
+             /<command> list - 自分が所有する土地を表示します
+             /<command> get <LandID> - 土地IDの土地を取得します。(1人につき10つの土地が取得可能)
+             /<command> sell <LandID> - 土地IDの土地を売ります。(現在所有している土地のみ)
+             /<command> tp <LandID> - 土地IDの土地中心にテレポートします。
+             /<command> search <LandID> - 土地IDの土地について調べます。
+             /<command> newmark <LandID> - ランドマークを登録します。(管理部のみ)
       permission: mymaid.land
       permission-message: You do not have permission to perform this command.
    discordlink:
-      description: Discord Account Connect to Minecraft Account.
-      usage: /<command>
+      description: DiscordのアカウントとMinecraftのアカウントを連携します。
+      usage: /<command> <AuthID>
       permission: mymaid.discordlink
       permission-message: You do not have permission to perform this command.
    wt:
-      description: World Teleport
-      usage: /<command>
+      description: ワールドを移動します。
+      usage: /<command> <WorldNumber|WorldName>
       permission: mymaid.wt
       permission-message: You do not have permission to perform this command.
    myblock:
-      description: My Block
-      usage: /<command>
+      description: ブロックに変身します。
+      usage: |-
+             
+             /<command> on - あなたをブロックに変更します。
+             /<command> set <Block> - あなたのブロックを変えます。
+             /<command> off - あなたがブロックから戻します。
       permission: mymaid.myblock
       permission-message: You do not have permission to perform this command.
    mymob:
-      description: My Mob
-      usage: /<command>
+      description: モブに変身します。
+      usage: |-
+             
+             /<command> on - あなたを他モブに変更します。
+             /<command> set <Mob> - あなたの他モブを変えます。
+             /<command> off - あなたが他モブから戻します。
       permission: mymaid.mymob
       permission-message: You do not have permission to perform this command.
    autoheal:
-      description: Auto Respawn
+      description: 指定範囲内での死亡時に自動的にリスポーンします。
       usage: /<command>
       permission: mymaid.autoheal
       permission-message: You do not have permission to perform this command.
    wo:
-      description: WO.
+      description: 'とても変な世界を作り上げます。警告: 「を」と言わない限り危険です。'
       usage: /<command>
       permission: mymaid.wo
       permission-message: You do not have permission to perform this command.
    messenger:
-      description: Auto Message Messenger
-      usage: /<command>
+      description: 定期メッセージ関連
+      usage: |-
+             
+             /<command> list - メッセージのリストを表示します。
+             /<command> broadcast - メッセージを今すぐランダムに1つ放送します。
+             /<command> broadcast <MessageID> - メッセージを今すぐMessageIDのメッセージを放送します。
+             /<command> add <Message> - メッセージを追加します。
+             /<command> del <MessageID> - 指定されたメッセージIDのメッセージを削除します
       permission: mymaid.messenger
       permission-message: You do not have permission to perform this command.
    nuke:
-      description: Nuke...?Nuke...!
+      description: 持っているアイテムをばらまく
       usage: /<command>
       permission: mymaid.nuke
       permission-message: You do not have permission to perform this command.
    account:
-      description: jao Account
+      description: jaoアカウントについて表示します
       usage: /<command>
       permission: mymaid.account
       permission-message: You do not have permission to perform this command.
    dedrain:
-      description: ded rain
-      usage: /<command>
+      description: 雨を降らすかどうか設定します。
+      usage: /<command> [true|false]
       permission: mymaid.dedrain
       permission-message: You do not have permission to perform this command.
    cmb:
-      description: Command Block Editer
-      usage: /<command>
+      description: コマンドブロックを編集します。
+      usage: |-
+             
+             /<command> - 選択したコマンドブロックの情報を表示します
+             /<command> i - コマンドブロックのログを表示します
+             /<command> clear - コマンドブロックの選択を解除します
+             /<command> set <Command> - Commandを選択したコマンドブロックに書き込みます
       permission: mymaid.cmb
       permission-message: You do not have permission to perform this command.
    bon:
-      description: BON!! BON!!
+      description: 'とても変な世界を作り上げます。警告: 「を」と言わない限り危険です。'
       usage: /<command>
       permission: mymaid.bon
       permission-message: You do not have permission to perform this command.
    wtp:
-      description: Beyond the world TelePort 
-      usage: /<command>
+      description: ワールドを超えてテレポートできます。
+      usage: |-
+             
+             /<command> <World> <X> <Y> <Z> - <World>の<X> <Y> <Z>座標にテレポートします。
+             /<command> <Player> <World> <X> <Y> <Z> - <Player>を<World>の<X> <Y> <Z>座標にテレポートします。
       permission: mymaid.wtp
       permission-message: You do not have permission to perform this command.
    itemedit:
-      description: Item Edit
-      usage: /<command>
+      description: アイテムの名前などを変更できます
+      usage: |-
+             
+             /<command> name <Name...> - 持っているアイテムのNameを変更します。
+             /<command> lore <Lore...> - 持っているアイテムのLoreを変更します。
       permission: mymaid.itemedit
       permission-message: You do not have permission to perform this command.
