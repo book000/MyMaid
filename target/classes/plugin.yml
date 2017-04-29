@@ -443,3 +443,8 @@ commands:
              /<command> lore <Lore...> - 持っているアイテムのLoreを変更します。
       permission: mymaid.itemedit
       permission-message: You do not have permission to perform this command.
+   card:
+      description: カードゲームで使用するガチャ券を得ます。
+      usage: /<command>
+      permission: mymaid.card
+      permission-message: You do not have permission to perform this command.
