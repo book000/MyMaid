@@ -2,6 +2,7 @@ package xyz.jaoafa.mymaid.Discord;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.regex.Pattern;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -181,14 +182,14 @@ public class Discord {
 			return message;
 		}
 		for (IRole role : guild.getRoles()) {
-			message = message.replaceAll("@" + role.getName(), "<@&" + role.getID() + ">");
+			message = message.replaceAll("@" + Pattern.quote(role.getName()), "<@&" + role.getID() + ">");
 		}
 
 		for (IUser user : guild.getUsers()){
 			if(!(user.getNicknameForGuild(guild).orElseGet(()->"").equalsIgnoreCase(""))){
-				message = message.replaceAll("@" + user.getNicknameForGuild(guild).get(), "<@" + user.getID() + ">");
+				message = message.replaceAll("@" + Pattern.quote(user.getNicknameForGuild(guild).get()), "<@" + user.getID() + ">");
 			}
-			message = message.replaceAll("@" + user.getName(), "<@" + user.getID() + ">");
+			message = message.replaceAll("@" + Pattern.quote(user.getName()), "<@" + user.getID() + ">");
 		}
 		return message;
 	}
