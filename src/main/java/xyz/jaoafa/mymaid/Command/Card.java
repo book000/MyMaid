@@ -64,7 +64,7 @@ public class Card implements CommandExecutor {
 		cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
 		cal.add(Calendar.DAY_OF_MONTH, 1);
 		cal.set(Calendar.HOUR_OF_DAY, 10);
-		long tomorrow10 = cal.getTimeInMillis() / 1000L;
+		//long tomorrow10 = cal.getTimeInMillis() / 1000L;
 
 		Statement statement;
 		try {
@@ -97,7 +97,7 @@ public class Card implements CommandExecutor {
 			return true;
 		}
 
-		int flag = 0;
+		int flag = 5;
 
 		if(yestday22 <= now && now < today10){
 			// 昨日22時～今日10時まで
@@ -119,10 +119,8 @@ public class Card implements CommandExecutor {
 			flag = 4;
 		}
 
-		if(today22 <= now && now < tomorrow10){
-			// 今日22時～明日10時まで
-			flag = 5;
-		}
+
+		//Bukkit.broadcastMessage(""+flag);
 
 		statement = MySQL.check(statement);
 		UUID uuid = player.getUniqueId();
@@ -204,7 +202,7 @@ public class Card implements CommandExecutor {
 					}else{
 						// 取得済み
 						Method.SendMessage(sender, cmd, "既に「22時～10時」のカードを配布済みです！");
-						Method.SendMessage(sender, cmd, "次は「22時～10時」です。");
+						Method.SendMessage(sender, cmd, "次は「10時～12時」です。");
 						return true;
 					}
 				}
