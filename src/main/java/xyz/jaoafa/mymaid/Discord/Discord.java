@@ -165,7 +165,27 @@ public class Discord {
 		send(channel, message);
 		return true;
 	}
-
+	public static boolean isChannel(String channelid_or_name){
+		IChannel channel = null;
+		for (IChannel one : guild.getChannels()) {
+			if(!one.getID().equalsIgnoreCase(channelid_or_name)){
+				continue;
+			}
+			channel = one;
+        }
+		if(channel == null){
+			for (IChannel one : guild.getChannels()) {
+				if(!one.getName().equalsIgnoreCase(channelid_or_name)){
+					continue;
+				}
+				channel = one;
+	        }
+		}
+		if(channel == null){
+			return false;
+		}
+		return true;
+	}
 	public static Queue<String> SendData = new ArrayDeque<String>();
 	public static BukkitTask task = null;
 	public static void Queuesend(String message){

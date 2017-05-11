@@ -13,9 +13,25 @@ public class Discordsend implements CommandExecutor {
 	public Discordsend(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-	String old = "";
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length >= 1){
+			if(Discord.isChannel(args[0])){
+				String name = sender.getName();
+				String text = "";
+				int c = 1;
+				while(args.length > c){
+					text += args[c];
+					if(args.length != (c+1)){
+						text+=" ";
+					}
+					c++;
+				}
+				text = Discord.format(text);
+				String SendMessage = "**" + name + "**: " + text;
+				Discord.send(args[0], SendMessage);
+				Method.SendMessage(sender, cmd, "送信しました。");
+				return true;
+			}
 			String name = sender.getName();
 			String text = "";
 			int c = 0;
@@ -26,18 +42,10 @@ public class Discordsend implements CommandExecutor {
 				}
 				c++;
 			}
-			/*
-			if(old.equalsIgnoreCase(text)){
-				Method.SendMessage(sender, cmd, "前回通報された内容と同じです。");
-				return true;
-			}
-			*/
-			//Method.url_jaoplugin("disreport", "p="+name+"&t="+text);
 			text = Discord.format(text);
 			String SendMessage = "**" + name + "**: " + text;
 			Discord.send("223582668132974594", SendMessage);
 			Method.SendMessage(sender, cmd, "送信しました。");
-			old = text;
 			return true;
 		}
 		return true;
