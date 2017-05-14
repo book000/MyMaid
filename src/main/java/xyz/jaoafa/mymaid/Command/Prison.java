@@ -23,6 +23,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 
 public class Prison implements CommandExecutor, TabCompleter {
@@ -432,7 +433,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 
 			filewriter.close();
 		}catch(IOException e){
-			System.out.println(e);
+			BugReport.report(e);
 		}
 	}
 }

@@ -27,8 +27,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class OnAsyncPlayerPreLoginEvent implements Listener {
 	JavaPlugin plugin;
@@ -50,12 +52,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 		try {
 			obj = (JSONObject) parser.parse(data);
 		} catch (ParseException e2) {
-			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
-					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。");
-					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "jsonを解析できませんでした。Nubescoサーバが停止しているか、予期しないエラーがlogin2.phpで起きた可能性があります。");
-				}
-			}
+			BugReport.report(e2);
 			return;
 		}
 		if(((String) obj.get("message")).equalsIgnoreCase("subaccount")){
@@ -146,10 +143,9 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>Compromised Account(不正アカウント)");
 					}
 				}
+				Discord.send("223582668132974594", "***" + e.getName() + "***: MCJPPvPにてCompromised Account(不正アカウント)と判定しログインを規制しました。");
 				return;
 			}
-		}else{
-
 		}
 
 		if(((String) obj.get("message")).equalsIgnoreCase("fban_kick")){

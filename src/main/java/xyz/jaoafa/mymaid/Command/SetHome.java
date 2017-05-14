@@ -12,6 +12,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
@@ -37,10 +38,7 @@ public class SetHome implements CommandExecutor {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-				Method.SendMessage(sender, cmd, "再度実行しなおすと動作するかもしれません。");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return true;
 			}
 		} catch (SQLException e) {
@@ -88,10 +86,7 @@ public class SetHome implements CommandExecutor {
 				return true;
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-				Method.SendMessage(sender, cmd, "再度実行しなおすと動作するかもしれません。");
+				Method.SendMessage(sender, cmd, BugReport.report(e));
 				return true;
 			}
 		}

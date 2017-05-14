@@ -103,7 +103,7 @@ public class OnVotifierEvent implements Listener {
         }
         Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + "プレイヤー「" + name + "」が投票をしました！(現在の投票数:" + i + "回)");
         Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + "投票をよろしくお願いします！ https://bitly.com/jfvote");
-        Discord.Queuesend("プレイヤー「" + name + "」が投票をしました！(現在の投票数:" + i + "回)");
-        Discord.Queuesend("投票をよろしくお願いします！ https://bitly.com/jfvote");
+        Discord.send("プレイヤー「" + name + "」が投票をしました！(現在の投票数:" + i + "回)");
+        Discord.send("投票をよろしくお願いします！ https://bitly.com/jfvote");
     }
 }

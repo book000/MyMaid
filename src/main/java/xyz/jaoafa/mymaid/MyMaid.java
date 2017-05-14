@@ -34,6 +34,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -992,7 +993,13 @@ public class MyMaid extends JavaPlugin implements Listener {
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
-						AFK.tnt.put(player.getName(), new AFK.afking(plugin, player).runTaskTimer(plugin, 0L, 5L));
+						try{
+							BukkitTask task = new AFK.afking(plugin, player).runTaskTimer(plugin, 0L, 5L);
+							AFK.tnt.put(player.getName(), task);
+						}catch(java.lang.NoClassDefFoundError e){
+							BugReport.report(e);
+							AFK.tnt.put(player.getName(), null);
+						}
 						String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.DARK_GRAY + player.getName());
 						player.setPlayerListName(listname);
 					}

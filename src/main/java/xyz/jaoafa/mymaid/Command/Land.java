@@ -36,6 +36,7 @@ import com.sk89q.worldedit.regions.CuboidRegionSelector;
 import com.sk89q.worldedit.regions.RegionSelector;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
@@ -67,14 +68,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return basicjao;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return basicjao;
 		}
 
@@ -119,9 +118,7 @@ public class Land implements CommandExecutor, Listener {
 			*/
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return basicjao;
 		}
 
@@ -205,16 +202,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 
@@ -300,16 +293,12 @@ public class Land implements CommandExecutor, Listener {
 					statement = MyMaid.c.createStatement();
 				} catch (ClassNotFoundException | SQLException e1) {
 					// TODO 自動生成された catch ブロック
-					e1.printStackTrace();
-					Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-					Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+					Method.SendMessage(sender, cmd, BugReport.report(e));
 					return;
 				}
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e));
 				return;
 			}
 
@@ -350,9 +339,7 @@ public class Land implements CommandExecutor, Listener {
 				return;
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-				e.printStackTrace();
+				Method.SendMessage(sender, cmd, BugReport.report(e));
 				return;
 			} catch (IncompleteRegionException e){
 				Method.SendMessage(sender, cmd, "範囲を2つ指定してください。");
@@ -376,16 +363,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 
@@ -403,7 +386,7 @@ public class Land implements CommandExecutor, Listener {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 		}
 	}
 
@@ -426,16 +409,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 
@@ -491,9 +470,7 @@ public class Land implements CommandExecutor, Listener {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-			e.printStackTrace();
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 	}
@@ -517,16 +494,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 
@@ -597,9 +570,7 @@ public class Land implements CommandExecutor, Listener {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-			e.printStackTrace();
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 	}
@@ -623,16 +594,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 
@@ -653,9 +620,7 @@ public class Land implements CommandExecutor, Listener {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-			e.printStackTrace();
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 	}
@@ -678,16 +643,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 
@@ -744,9 +705,7 @@ public class Land implements CommandExecutor, Listener {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-			e.printStackTrace();
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 	}
@@ -774,16 +733,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 
@@ -796,9 +751,7 @@ public class Land implements CommandExecutor, Listener {
 			Method.SendMessage(sender, cmd, "ランドマークを追加しました。");
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return;
 		}
 	}
@@ -827,16 +780,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+				BugReport.report(e1);
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+			BugReport.report(e);
 			return;
 		}
 
@@ -863,9 +812,7 @@ public class Land implements CommandExecutor, Listener {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+			BugReport.report(e);
 			event.setCancelled(true);
 			return;
 		}
@@ -892,16 +839,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+				BugReport.report(e1);
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+			BugReport.report(e);
 			return;
 		}
 
@@ -928,9 +871,7 @@ public class Land implements CommandExecutor, Listener {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+			BugReport.report(e);
 			event.setCancelled(true);
 			return;
 		}
@@ -957,16 +898,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+				BugReport.report(e);
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+			BugReport.report(e);
 			return;
 		}
 
@@ -993,9 +930,7 @@ public class Land implements CommandExecutor, Listener {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+			BugReport.report(e);
 			event.setCancelled(true);
 			return;
 		}
@@ -1022,16 +957,12 @@ public class Land implements CommandExecutor, Listener {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+				BugReport.report(e1);
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+			BugReport.report(e);
 			return;
 		}
 
@@ -1058,9 +989,7 @@ public class Land implements CommandExecutor, Listener {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-			player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+			BugReport.report(e);
 			event.setCancelled(true);
 			return;
 		}
@@ -1093,13 +1022,13 @@ public class Land implements CommandExecutor, Listener {
 				event.setCancelled(true);
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
+				BugReport.report(e1);
 				event.setCancelled(true);
 				return;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
+			BugReport.report(e);
 			return;
 		}
 
@@ -1152,13 +1081,13 @@ public class Land implements CommandExecutor, Listener {
 					event.setCancelled(true);
 				} catch (ClassNotFoundException | SQLException e1) {
 					// TODO 自動生成された catch ブロック
-					e1.printStackTrace();
+					BugReport.report(e1);
 					event.setCancelled(true);
 					return;
 				}
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
+				BugReport.report(e);
 				return;
 			}
 
@@ -1187,7 +1116,7 @@ public class Land implements CommandExecutor, Listener {
 				}
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
+				BugReport.report(e);
 				event.setCancelled(true);
 				return;
 			}
@@ -1221,16 +1150,12 @@ public class Land implements CommandExecutor, Listener {
 					statement = MyMaid.c.createStatement();
 				} catch (ClassNotFoundException | SQLException e1) {
 					// TODO 自動生成された catch ブロック
-					e1.printStackTrace();
-					player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(ClassNotFoundException/SQLException)");
-					player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+					BugReport.report(e1);
 					return;
 				}
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+				BugReport.report(e);
 				return;
 			}
 
@@ -1257,9 +1182,7 @@ public class Land implements CommandExecutor, Listener {
 				}
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+				BugReport.report(e);
 				event.setCancelled(true);
 				return;
 			}
@@ -1287,16 +1210,12 @@ public class Land implements CommandExecutor, Listener {
 					statement = MyMaid.c.createStatement();
 				} catch (ClassNotFoundException | SQLException e1) {
 					// TODO 自動生成された catch ブロック
-					e1.printStackTrace();
-					player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(ClassNotFoundException/SQLException)");
-					player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+					BugReport.report(e1);
 					return;
 				}
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+				BugReport.report(e);
 				return;
 			}
 
@@ -1323,9 +1242,7 @@ public class Land implements CommandExecutor, Listener {
 				}
 			} catch (SQLException e) {
 				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "操作に失敗しました。(SQLException)");
-				player.sendMessage("[LAND] " + ChatColor.GREEN + "詳しくはサーバコンソールをご確認ください");
+				BugReport.report(e);
 				event.setCancelled(true);
 				return;
 			}

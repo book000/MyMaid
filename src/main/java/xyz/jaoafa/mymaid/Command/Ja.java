@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
@@ -86,8 +87,11 @@ public class Ja implements CommandExecutor {
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": jai");
 		Discord.send("**" + Msg + "**: jai");
-		new jai_uwa(Msg, player).runTaskLater(plugin, 60);
-
+		try{
+			new jai_uwa(Msg, player).runTaskLater(plugin, 60);
+		}catch(java.lang.NoClassDefFoundError e){
+			Method.SendMessage(sender, cmd, BugReport.report(e));
+		}
 		return true;
 	}
 	private class jai_uwa extends BukkitRunnable{

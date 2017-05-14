@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.CommandBlock;
@@ -21,6 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.json.simple.JSONObject;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.BugReport;
 
 public class OnMyMaidCommandblockLogs implements Listener {
 	JavaPlugin plugin;
@@ -127,12 +127,7 @@ public class OnMyMaidCommandblockLogs implements Listener {
                 }
     		}.runTaskAsynchronously(plugin);
 		}catch(java.lang.NoClassDefFoundError e){
-			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
-					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
-					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
-				}
-			}
+			BugReport.report(e);
 		}
 
     }

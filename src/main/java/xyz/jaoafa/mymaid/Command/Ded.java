@@ -33,6 +33,7 @@ public class Ded implements CommandExecutor {
 		Location loc = ded.get(player.getName());
 		player.teleport(loc);
 		Method.SendMessage(sender, cmd, loc.getBlockX() + " " + loc.getBlockY() + " " + loc.getBlockZ() + "にテレポートしました。");
+		Method.SendMessage(sender, cmd, "警告!! PvP等での「/ded」コマンドの利用は原則禁止です！多く使用すると迷惑行為として認識される場合もあります！");
 		return true;
 	}
 }

@@ -12,6 +12,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 
 public class Ip_To_Host implements CommandExecutor {
@@ -54,8 +55,7 @@ public class Ip_To_Host implements CommandExecutor {
 
 			}catch(Exception e){
 				//例外処理が発生したら、表示する
-				System.out.println(e);
-				Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
+				Method.SendMessage(sender, cmd, BugReport.report(e));
 				return true;
 			}
 	}

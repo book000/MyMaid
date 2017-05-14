@@ -22,6 +22,8 @@ public class BugReport {
 	public static void start(){
 		plugin = MyMaid.getJavaPlugin();
 		plugin.getLogger().info("BugReportを起動しました。");
+
+		first();
 	}
 
 	public static void first(){
@@ -46,7 +48,7 @@ public class BugReport {
 		return text;
 	}
 
-	public static String report(Exception exception){
+	public static String report(Throwable exception){
 		String id = CreateReportID();
 		File file = getReportFile(id);
 		FileWrite(exception, file);
@@ -69,7 +71,7 @@ public class BugReport {
 		return file;
 	}
 
-	private static void FileWrite(Exception exception, File file){
+	private static void FileWrite(Throwable exception, File file){
 		try {
 			FileWriter fw = new FileWriter(file);
 			PrintWriter pw = new PrintWriter(fw);
@@ -82,7 +84,7 @@ public class BugReport {
 		}
 	}
 
-	private static void AdminSend(Exception exception){
+	private static void AdminSend(Throwable exception){
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 			if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 				p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。");
@@ -91,17 +93,18 @@ public class BugReport {
 		}
 	}
 
-	private static void DiscordSend(Exception exception, String id){
+	private static void DiscordSend(Throwable exception, String id){
 		StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter( sw );
+        PrintWriter pw = new PrintWriter(sw);
         exception.printStackTrace(pw);
 		boolean res = Discord.send("293856671799967744", "MyMaidでエラーが発生しました。" + "\n"
-					+ sw.toString() + "\n"
-					+ "報告ID: " + id);
+					+ "```" + sw.toString() + "```\n"
+					+ "Cause: `" + exception.getCause() + "`\n"
+					+ "報告ID: `" + id + "`");
 		if(res){
 			plugin.getLogger().info("Bugreport: Discord送信に成功");
 		}else{
-			plugin.getLogger().info("Bugreport: Discord送信に成功");
+			plugin.getLogger().info("Bugreport: Discord送信に失敗");
 		}
 	}
 }

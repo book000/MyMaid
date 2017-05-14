@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 
 public class InvLoad implements CommandExecutor {
@@ -35,46 +36,50 @@ public class InvLoad implements CommandExecutor {
 					Method.SendMessage(sender, cmd, "プレイヤー「" + player.getName() + "」を復旧できません。");
 					return true;
 				}
-				Map<Integer, Map<String, Object>> pi = InvSave.Saveinv.get(player.getName());
-				Map<Integer, Map<String, Object>> armor = InvSave.Savearmor.get(player.getName());
-				Location bed = InvSave.Savebed.get(player.getName());
+				try{
+					Map<Integer, Map<String, Object>> pi = InvSave.Saveinv.get(player.getName());
+					Map<Integer, Map<String, Object>> armor = InvSave.Savearmor.get(player.getName());
+					Location bed = InvSave.Savebed.get(player.getName());
 
-				player.getInventory().clear();
+					player.getInventory().clear();
 
-				for(Map.Entry<Integer, Map<String, Object>> data : pi.entrySet()) {
-					ItemStack item = new ItemStack((Material)data.getValue().get("Material"));
-					item.setAmount((Integer)data.getValue().get("Amount"));
-					item.setData((MaterialData)data.getValue().get("Data"));
-					item.setDurability((short)data.getValue().get("Durability"));
-					item.addEnchantments((Map<Enchantment, Integer>)data.getValue().get("Enchantments"));
-					item.setItemMeta((ItemMeta)data.getValue().get("ItemMeta"));
-					player.getInventory().setItem(data.getKey(), item);
-				}
-				for(Map.Entry<Integer, Map<String, Object>> data : armor.entrySet()) {
-					ItemStack item = new ItemStack((Material)data.getValue().get("Material"));
-					item.setAmount((Integer)data.getValue().get("Amount"));
-					item.setData((MaterialData)data.getValue().get("Data"));
-					item.setDurability((short)data.getValue().get("Durability"));
-					item.addEnchantments((Map<Enchantment, Integer>)data.getValue().get("Enchantments"));
-					item.setItemMeta((ItemMeta)data.getValue().get("ItemMeta"));
-					if(data.getKey() == 0){
-						player.getInventory().setHelmet(item);
-					}else if(data.getKey() == 1){
-						player.getInventory().setChestplate(item);
-					}else if(data.getKey() == 2){
-						player.getInventory().setLeggings(item);
-					}else if(data.getKey() == 3){
-						player.getInventory().setBoots(item);
-					}else{
-						Bukkit.broadcastMessage(data.getKey() + " " + data.getValue().get("Material"));
+					for(Map.Entry<Integer, Map<String, Object>> data : pi.entrySet()) {
+						ItemStack item = new ItemStack((Material)data.getValue().get("Material"));
+						item.setAmount((Integer)data.getValue().get("Amount"));
+						item.setData((MaterialData)data.getValue().get("Data"));
+						item.setDurability((short)data.getValue().get("Durability"));
+						item.addEnchantments((Map<Enchantment, Integer>)data.getValue().get("Enchantments"));
+						item.setItemMeta((ItemMeta)data.getValue().get("ItemMeta"));
+						player.getInventory().setItem(data.getKey(), item);
 					}
-				}
-				player.setBedSpawnLocation(bed, true);
-				Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-					public void run() {
-						player.updateInventory();
+					for(Map.Entry<Integer, Map<String, Object>> data : armor.entrySet()) {
+						ItemStack item = new ItemStack((Material)data.getValue().get("Material"));
+						item.setAmount((Integer)data.getValue().get("Amount"));
+						item.setData((MaterialData)data.getValue().get("Data"));
+						item.setDurability((short)data.getValue().get("Durability"));
+						item.addEnchantments((Map<Enchantment, Integer>)data.getValue().get("Enchantments"));
+						item.setItemMeta((ItemMeta)data.getValue().get("ItemMeta"));
+						if(data.getKey() == 0){
+							player.getInventory().setHelmet(item);
+						}else if(data.getKey() == 1){
+							player.getInventory().setChestplate(item);
+						}else if(data.getKey() == 2){
+							player.getInventory().setLeggings(item);
+						}else if(data.getKey() == 3){
+							player.getInventory().setBoots(item);
+						}else{
+							Bukkit.broadcastMessage(data.getKey() + " " + data.getValue().get("Material"));
+						}
 					}
-				}, 01L);
+					player.setBedSpawnLocation(bed, true);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+						public void run() {
+							player.updateInventory();
+						}
+					}, 01L);
+				}catch(Exception e){
+					Method.SendMessage(sender, cmd, BugReport.report(e));
+				}
 				Method.SendMessage(sender, cmd, "プレイヤー「" + player.getName() + "」を復旧しました。");
 				return true;
 			}

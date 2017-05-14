@@ -26,6 +26,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
@@ -46,16 +47,12 @@ public class Data implements CommandExecutor {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return true;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-			e.printStackTrace();
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return true;
 		}
 		Statement statement2 = null;
@@ -68,16 +65,12 @@ public class Data implements CommandExecutor {
 				statement2 = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return true;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-			e.printStackTrace();
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return true;
 		}
 
@@ -304,9 +297,7 @@ public class Data implements CommandExecutor {
 						}
 					} catch (SQLException ex) {
 						// TODO 自動生成された catch ブロック
-						Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-						Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-						ex.printStackTrace();
+						Method.SendMessage(sender, cmd, BugReport.report(ex));
 						return true;
 					}
 				}
@@ -419,9 +410,7 @@ public class Data implements CommandExecutor {
 					}
 				} catch (SQLException ex) {
 					// TODO 自動生成された catch ブロック
-					Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-					Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
-					ex.printStackTrace();
+					Method.SendMessage(sender, cmd, BugReport.report(ex));
 					return true;
 				}
 			}

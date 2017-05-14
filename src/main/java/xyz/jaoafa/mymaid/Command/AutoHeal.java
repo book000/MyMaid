@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -31,7 +30,7 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.regions.CuboidRegionSelector;
 import com.sk89q.worldedit.regions.RegionSelector;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.Pointjao;
 
@@ -72,12 +71,7 @@ public class AutoHeal implements CommandExecutor {
 				}
 				new messageset(plugin, sender, cmd, regionSelector).runTask(plugin);
 			}catch(java.lang.NoClassDefFoundError e){
-				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
-						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
-						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
-					}
-				}
+				Method.SendMessage(sender, cmd, BugReport.report(e));
 			}
 
 			return true;
@@ -192,7 +186,7 @@ public class AutoHeal implements CommandExecutor {
 		    	filewriter.close();
 		    }catch(IOException e){
 		    	Method.SendMessage(sender, cmd, "設定できませんでした。");
-		    	System.out.println(e);
+		    	BugReport.report(e);
 				return;
 		    }
 			if (sender instanceof Player) {

@@ -24,6 +24,7 @@ import org.json.simple.parser.ParseException;
 
 import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
 import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand.EnumClientCommand;
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Command.Ded;
 
 public class OnPlayerDeathEvent implements Listener {
@@ -53,9 +54,9 @@ public class OnPlayerDeathEvent implements Listener {
 			}
 			br.close();
 		}catch(FileNotFoundException e1){
-			System.out.println(e1);
+			BugReport.report(e1);
 		}catch(IOException e1){
-			System.out.println(e1);
+			BugReport.report(e1);
 		}
 		JSONObject obj;
 		try {

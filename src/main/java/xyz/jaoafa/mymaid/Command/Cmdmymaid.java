@@ -32,6 +32,7 @@ import com.mojang.authlib.properties.Property;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.TileEntitySkull;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
@@ -113,7 +114,7 @@ public class Cmdmymaid implements CommandExecutor {
 					conf.load(reader);
 				} catch (IOException | InvalidConfigurationException e) {
 					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
+					Method.SendMessage(sender, cmd, BugReport.report(e));
 					return true;
 				}
 				MyMaid.conf = conf;

@@ -24,6 +24,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
@@ -91,9 +92,7 @@ public class Cmb implements Listener, CommandExecutor {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-			Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return true;
 		}
 
@@ -148,8 +147,7 @@ public class Cmb implements Listener, CommandExecutor {
 					return true;
 				} catch (SQLException e) {
 					// TODO 自動生成された catch ブロック
-					Method.SendMessage(sender, cmd, "操作に失敗しました。(SQLException)");
-					Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+					Method.SendMessage(sender, cmd, BugReport.report(e));
 					return true;
 				}
 			}else if(args[0].equalsIgnoreCase("clear")){

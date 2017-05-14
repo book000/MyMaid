@@ -11,7 +11,6 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
@@ -77,23 +76,12 @@ public class Card implements CommandExecutor {
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
-				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
-						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。(NoVote/ClassNotFoundException | SQLException)通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
-						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
-					}
-				}
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				return true;
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
-					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。(NoVote/SQLException)通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
-					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
-				}
-			}
+			Method.SendMessage(sender, cmd, BugReport.report(e));
 			return true;
 		}
 

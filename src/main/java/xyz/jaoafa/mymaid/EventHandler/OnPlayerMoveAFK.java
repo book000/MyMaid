@@ -26,7 +26,9 @@ public class OnPlayerMoveAFK implements Listener {
 		if(!AFK.tnt.containsKey(player.getName())){
 			return;
 	   	}
-		AFK.tnt.get(player.getName()).cancel();
+		if(AFK.tnt.get(player.getName()) != null){
+			AFK.tnt.get(player.getName()).cancel();
+		}
 		AFK.tnt.remove(player.getName());
 		ItemStack[] is = player.getInventory().getArmorContents();
 		if(is[3].getType() == Material.ICE){

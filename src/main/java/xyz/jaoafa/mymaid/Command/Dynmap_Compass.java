@@ -22,6 +22,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.Pointjao;
 
@@ -54,7 +55,7 @@ public class Dynmap_Compass implements CommandExecutor, TabCompleter {
 				try {
 					location = codec.encode(location);
 				} catch (EncoderException e1) {
-
+					Method.SendMessage(sender, cmd, BugReport.report(e1));
 				}
 				try{
 					URL url=new URL("http://toma.webcrow.jp/jaoget.php?location=" + location);
@@ -93,8 +94,7 @@ public class Dynmap_Compass implements CommandExecutor, TabCompleter {
 
 				}catch(Exception e){
 					//例外処理が発生したら、表示する
-					System.out.println(e);
-					Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
+					Method.SendMessage(sender, cmd, BugReport.report(e));
 				}
 				return true;
 			}else{

@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Discord.Discord;
@@ -43,11 +44,12 @@ public class AFK implements CommandExecutor{
 			player.getInventory().setArmorContents(after);
 			player.updateInventory();
 			Method.SendMessage(sender, cmd, "AFK false");
-			try {
-				tnt.get(player.getName()).cancel();
-			}catch(Exception e){
-
+			if(tnt.containsKey(player.getName())){
+				if(tnt.get(player.getName()) != null){
+					tnt.get(player.getName()).cancel();
+				}
 			}
+			AFK.tnt.remove(player.getName());
 			MyMaid.TitleSender.resetTitle(player);
 			Discord.send(sender.getName() + " is now online!");
 			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + sender.getName() + " is now online!");
@@ -64,17 +66,24 @@ public class AFK implements CommandExecutor{
 			Method.SendMessage(sender, cmd, "AFK true");
 			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
 			Discord.send(player.getName() + " is afk!");
-			try {
-				tnt.get(player.getName()).cancel();
-			}catch(Exception e){
-
+			if(tnt.containsKey(player.getName())){
+				if(tnt.get(player.getName()) != null){
+					tnt.get(player.getName()).cancel();
+				}
 			}
+			AFK.tnt.remove(player.getName());
 			String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.DARK_GRAY + player.getName());
 			player.setPlayerListName(listname);
 			MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 			MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
 			MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
-			tnt.put(player.getName(), new afking(plugin, player).runTaskTimer(plugin, 0L, 5L));
+			try{
+				BukkitTask task = new AFK.afking(plugin, player).runTaskTimer(plugin, 0L, 5L);
+				AFK.tnt.put(player.getName(), task);
+			}catch(java.lang.NoClassDefFoundError e){
+				BugReport.report(e);
+				AFK.tnt.put(player.getName(), null);
+			}
 		}
 		return true;
 	}
@@ -94,8 +103,6 @@ public class AFK implements CommandExecutor{
 				listname.replaceAll(player.getName(), ChatColor.DARK_GRAY + player.getName());
 				player.setPlayerListName(listname);
 			}
-
 		}
-
 	}
 }

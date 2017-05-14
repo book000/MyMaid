@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
@@ -40,9 +41,7 @@ public class Home implements CommandExecutor, TabCompleter {
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
-				e1.printStackTrace();
-				Method.SendMessage(sender, cmd, "操作に失敗しました。(ClassNotFoundException/SQLException)");
-				Method.SendMessage(sender, cmd, "詳しくはサーバコンソールをご確認ください");
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 				Method.SendMessage(sender, cmd, "再度実行しなおすと動作するかもしれません。");
 				return true;
 			}

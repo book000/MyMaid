@@ -26,6 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Discord.Discord;
@@ -57,7 +58,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 			try {
 				location = codec.encode(location);
 			} catch (EncoderException e1) {
-
+				Method.SendMessage(sender, cmd, BugReport.report(e1));
 			}
 			try{
 				URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?location=" + location);
@@ -117,8 +118,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 
 			}catch(Exception e){
 				//例外処理が発生したら、表示する
-				e.printStackTrace();
-				Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
+				Method.SendMessage(sender, cmd, BugReport.report(e));
 			}
 		}else if(args.length >= 2){
 			String p;
@@ -138,7 +138,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 					try {
 						location = codec.encode(location);
 					} catch (EncoderException e1) {
-
+						Method.SendMessage(sender, cmd, BugReport.report(e1));
 					}
 					try{
 						URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?location=" + location);
@@ -194,8 +194,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 
 					}catch(Exception e){
 						//例外処理が発生したら、表示する
-						System.out.println(e);
-						Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
+						Method.SendMessage(sender, cmd, BugReport.report(e));
 					}
 					return true;
 				}
@@ -231,8 +230,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 					return Arrays.asList(datas);
 				}catch(Exception e){
 					//例外処理が発生したら、表示する
-					System.out.println(e);
-					Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
+					Method.SendMessage(sender, cmd, BugReport.report(e));
 				}
             } else{
             	try{
@@ -256,8 +254,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 					return Arrays.asList(datas);
 				}catch(Exception e){
 					//例外処理が発生したら、表示する
-					System.out.println(e);
-					Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
+					Method.SendMessage(sender, cmd, BugReport.report(e));
 				}
             }
         }else if(args.length == 1){
@@ -283,8 +280,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 					return Arrays.asList(datas);
 				}catch(Exception e){
 					//例外処理が発生したら、表示する
-					System.out.println(e);
-					Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
+					Method.SendMessage(sender, cmd, BugReport.report(e));
 
 				}
         	}

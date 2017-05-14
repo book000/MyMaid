@@ -19,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
@@ -47,10 +48,11 @@ public class OnQuitGame implements Listener {
 			}
   			MyBlock.myblock.remove(player.getName());
   		}
-  		try {
-  			AFK.tnt.get(player.getName()).cancel();
-  		}catch(NullPointerException e){
-
+  		if(AFK.tnt.containsKey(player.getName())){
+  			if(AFK.tnt.get(player.getName()) != null){
+  				AFK.tnt.get(player.getName()).cancel();
+  			}
+  			AFK.tnt.remove(player.getName());
   		}
   		player.sendMessage("[AFK] " + ChatColor.GREEN + "AFK false");
   		MyMaid.TitleSender.resetTitle(player);
@@ -83,12 +85,7 @@ public class OnQuitGame implements Listener {
 		try{
 			new netaccess(plugin, player).runTaskAsynchronously(plugin);
 		}catch(java.lang.NoClassDefFoundError e){
-			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
-					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
-					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
-				}
-			}
+			BugReport.report(e);
 		}
   	}
 	private class netaccess extends BukkitRunnable{
