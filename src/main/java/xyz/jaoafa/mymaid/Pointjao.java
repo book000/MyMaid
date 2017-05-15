@@ -141,7 +141,7 @@ public class Pointjao {
 			Savejao();
 		} catch (Exception e1) {
 			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
+			BugReport.report(e1);
 			player.sendMessage("[POINT] " + ChatColor.GREEN + "システムの処理に失敗しました。開発者にお問い合わせください。");
 		}
 		player.sendMessage("[POINT] " + ChatColor.GREEN + addjao + "ポイントを追加しました。現在" + newjao + "ポイント持っています。");
@@ -151,7 +151,7 @@ public class Pointjao {
 			UpdateQuery("INSERT INTO jaopoint (player, uuid, type, point, reason, nowpoint, description, date) VALUES ('" + player.getName() + "', '" + player.getUniqueId().toString() +"', '" +  type + "', " + addjao + ", '" + reason + "', " + newjao + ", 'プラグイン', '" + sdf.format(new Date()) + "');");
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
+			BugReport.report(e);
 			player.sendMessage("[POINT] " + ChatColor.GREEN + "明細の書き込みに失敗しました。開発者に連絡を行ってください。");
 		}
 		return true;
@@ -179,7 +179,7 @@ public class Pointjao {
 			UpdateQuery("INSERT INTO jaopoint (player, uuid, type, point, reason, nowpoint, description, date) VALUES ('', '" + uuid +"', '" +  type + "', " + addjao + ", '" + reason + "', " + newjao + ", 'プラグイン', '" + sdf.format(new Date()) + "');");
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
+			BugReport.report(e);
 		}
 		return true;
 	}
@@ -205,7 +205,7 @@ public class Pointjao {
 
 	    	filewriter.close();
 	    }catch(IOException e){
-	    	e.printStackTrace();
+	    	BugReport.report(e);
 	    	throw new Exception("IOException");
 	    }
 		return true;
@@ -234,10 +234,10 @@ public class Pointjao {
 			}
 			br.close();
 		}catch(FileNotFoundException e1){
-			e1.printStackTrace();
+			BugReport.report(e1);
 			throw new FileNotFoundException(e1.getMessage());
 		}catch(IOException e1){
-			e1.printStackTrace();
+			BugReport.report(e1);
 			throw new IOException(e1.getMessage());
 		}
 		JSONObject obj;
@@ -271,11 +271,11 @@ public class Pointjao {
 				MyMaid.c = MySQL.openConnection();
 				statement = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
-				e1.printStackTrace();
+				BugReport.report(e1);
 				throw new Exception("ClassNotFound/SQLException");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			BugReport.report(e);
 			throw new Exception("SQLException");
 		}
 		statement = MySQL.check(statement);

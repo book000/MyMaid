@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
@@ -95,7 +96,11 @@ public class WO implements CommandExecutor {
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.GRAY + "■" + ChatColor.WHITE + player.getName());
 		}
 		Msg = Msg + ": ";
-		new Message(Msg, player).runTaskTimer(plugin, 0, 20);
+		try{
+			new Message(Msg, player).runTaskTimer(plugin, 0, 20);
+		}catch(java.lang.NoClassDefFoundError e){
+			BugReport.report(e);
+		}
 		return true;
 	}
 	private class Message extends BukkitRunnable{

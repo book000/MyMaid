@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
@@ -183,14 +184,20 @@ public class Unko implements CommandExecutor {
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": "+text);
 
+		Throwable ex = null;
+
 		for(Player to: Bukkit.getServer().getOnlinePlayers()) {
 			try{
 				new Unko_Unko(plugin, player, to).runTaskLater(plugin, (20 * count));
 			}catch(java.lang.NoClassDefFoundError e){
 				player.getWorld().playSound(to.getLocation().add(0, 2, 0), Sound.GHAST_SCREAM,10,1);
 				player.getWorld().playEffect(to.getLocation().add(0, 2, 0), Effect.HEART, 0);
+				ex = e;
 			}
 			count++;
+		}
+		if(ex != null){
+			BugReport.report(ex);
 		}
 		return true;
 	}

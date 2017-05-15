@@ -53,9 +53,9 @@ public class WorldTeleport implements CommandExecutor {
 				return true;
 			}else if(args[0].equalsIgnoreCase("3")){
 				// ReJao_Afa
-				World world = Bukkit.getServer().getWorld("sandbox");
+				World world = Bukkit.getServer().getWorld("SandBox");
 				if(world == null){
-					Method.SendMessage(sender, cmd, "「sandbox」ワールドの取得に失敗しました。");
+					Method.SendMessage(sender, cmd, "「SandBox」ワールドの取得に失敗しました。");
 					return true;
 				}
 				Location loc = new Location(world, 0, 0, 0, 0, 0);
@@ -63,7 +63,7 @@ public class WorldTeleport implements CommandExecutor {
 				loc = new Location(world, 0, y, 0, 0, 0);
 				loc.add(0.5f,0f,0.5f);
 				player.teleport(loc);
-				Method.SendMessage(sender, cmd, "「sandbox」ワールドにテレポートしました。");
+				Method.SendMessage(sender, cmd, "「SandBox」ワールドにテレポートしました。");
 				return true;
 			}else{
 				World world = Bukkit.getServer().getWorld(args[0]);
@@ -122,10 +122,10 @@ public class WorldTeleport implements CommandExecutor {
 				Method.SendMessage(play, cmd, "「ReJao_Afa」ワールドにテレポートしました。");
 				return true;
 			}else if(args[0].equalsIgnoreCase("3")){
-				// ReJao_Afa
-				World world = Bukkit.getServer().getWorld("sandbox");
+				// SandBox
+				World world = Bukkit.getServer().getWorld("Sandbox");
 				if(world == null){
-					Method.SendMessage(sender, cmd, "「sandbox」ワールドの取得に失敗しました。");
+					Method.SendMessage(sender, cmd, "「SandBox」ワールドの取得に失敗しました。");
 					return true;
 				}
 				Location loc = new Location(world, 0, 0, 0, 0, 0);
@@ -133,7 +133,7 @@ public class WorldTeleport implements CommandExecutor {
 				loc = new Location(world, 0, y, 0, 0, 0);
 				loc.add(0.5f,0f,0.5f);
 				play.teleport(loc);
-				Method.SendMessage(sender, cmd, "「sandbox」ワールドにテレポートしました。");
+				Method.SendMessage(sender, cmd, "「SandBox」ワールドにテレポートしました。");
 				return true;
 			}else{
 				World world = Bukkit.getServer().getWorld(args[1]);
