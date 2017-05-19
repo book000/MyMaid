@@ -10,6 +10,7 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
+import xyz.jaoafa.mymaid.MyMaid;
 
 public class DiscordChatEvent {
 	JavaPlugin plugin;
@@ -42,5 +43,7 @@ public class DiscordChatEvent {
         }
 		String author = event.getMessage().getAuthor().getNicknameForGuild(Discord.guild).orElseGet(() -> event.getMessage().getAuthor().getName());
 		Bukkit.broadcastMessage(ChatColor.AQUA + "(Discord) " + ChatColor.RESET + author + ": " + content);
+		org.bukkit.entity.Player fake = Bukkit.getPlayer("test");
+		MyMaid.dynmap.chat(fake, content);
 	}
 }

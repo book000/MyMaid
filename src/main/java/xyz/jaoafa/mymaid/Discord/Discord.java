@@ -72,6 +72,7 @@ public class Discord {
 
 		plugin.getServer().getPluginManager().registerEvents(new BukkitChatEvent(plugin), plugin);
 		plugin.getServer().getPluginManager().registerEvents(new BukkitListener(plugin), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new OnDynmapWebChat(plugin), plugin);
 	}
 
 	public void end(){

@@ -40,6 +40,7 @@ import org.json.simple.parser.JSONParser;
 
 import com.github.ucchyocean.lc.LunaChat;
 import com.github.ucchyocean.lc.LunaChatAPI;
+import com.github.ucchyocean.lc.bridge.DynmapBridge;
 import com.github.ucchyocean.lc.channel.Channel;
 import com.github.ucchyocean.lc.channel.ChannelPlayer;
 import com.ittekikun.plugin.eewalert.EEWAlert;
@@ -183,6 +184,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	private static JavaPlugin instance;
 	private static MyMaid mymaid;
 	public static Discord discord = null;
+	public static DynmapBridge dynmap;
 	/**
 	 * プラグインが起動したときに呼び出し
 	 * @author mine_book000
@@ -199,6 +201,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		Load_Plugin("EEWAlert");
 		Load_Plugin("PermissionsEx");
 		Load_Plugin("WorldEdit");
+		Load_Plugin("dynmap");
 		Load_Plugin("LunaChat");
 		Load_Plugin("CoreProtect");
 		Load_Plugin("Votifier");
@@ -254,7 +257,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		mymaid = this;
 
 		BugReport.start();
-	}
+		dynmap = DynmapBridge.load(getJavaPlugin()); // nullが帰ってくるかも?
+}
 	/**
 	 * 連携プラグイン確認
 	 * @author mine_book000
