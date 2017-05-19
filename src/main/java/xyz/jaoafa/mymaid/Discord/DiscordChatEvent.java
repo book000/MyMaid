@@ -43,7 +43,7 @@ public class DiscordChatEvent {
         }
 		String author = event.getMessage().getAuthor().getNicknameForGuild(Discord.guild).orElseGet(() -> event.getMessage().getAuthor().getName());
 		Bukkit.broadcastMessage(ChatColor.AQUA + "(Discord) " + ChatColor.RESET + author + ": " + content);
-		org.bukkit.entity.Player fake = Bukkit.getPlayer("test");
-		MyMaid.dynmap.chat(fake, content);
+		org.bukkit.entity.Player fake = Bukkit.getPlayer(author);
+		MyMaid.dynmapbridge.chat(fake, content);
 	}
 }

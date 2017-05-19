@@ -1,4 +1,5 @@
 config.yml
+**/*.class
 
 /target/
 /server/*

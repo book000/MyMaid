@@ -184,7 +184,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	private static JavaPlugin instance;
 	private static MyMaid mymaid;
 	public static Discord discord = null;
-	public static DynmapBridge dynmap;
+	public static DynmapBridge dynmapbridge;
 	/**
 	 * プラグインが起動したときに呼び出し
 	 * @author mine_book000
@@ -257,7 +257,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		mymaid = this;
 
 		BugReport.start();
-		dynmap = DynmapBridge.load(getJavaPlugin()); // nullが帰ってくるかも?
+		dynmapbridge = DynmapBridge.load(getJavaPlugin()); // nullが帰ってくるかも?
 }
 	/**
 	 * 連携プラグイン確認

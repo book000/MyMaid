@@ -1,32 +1,29 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.net.URLCodec;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
+import org.dynmap.DynmapAPI;
+import org.dynmap.markers.Marker;
+import org.dynmap.markers.MarkerAPI;
+import org.dynmap.markers.MarkerIcon;
+import org.dynmap.markers.MarkerSet;
 
-import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Discord.Discord;
@@ -36,357 +33,538 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 	public Dynmap_Teleporter(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-
-	public static Map<String,Boolean> dynamic = new HashMap<String,Boolean>();
-	public static Map<String,BukkitTask> dynamic_teleporter = new HashMap<String,BukkitTask>();
-	private BukkitTask task = null;
-	private int taskcount = 0;
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-	    URLCodec codec = new URLCodec();
-		if(args.length == 0){
-			Method.SendMessage(sender, cmd, "このコマンドは1つまたは2つの引数が必要です。");
-			return false;
-		}else if(args.length == 1){
-			// コマンド実行者がプレイヤーかどうか
-			if (!(sender instanceof Player)) {
-				Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
-				Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
-				return true;
-			}
-			String location = args[0];
-			Player player = (Player) sender;
-			try {
-				location = codec.encode(location);
-			} catch (EncoderException e1) {
-				Method.SendMessage(sender, cmd, BugReport.report(e1));
-			}
-			try{
-				URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?location=" + location);
-				// URL接続
-				HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-				connect.setRequestMethod("GET");//プロトコルの設定
-				InputStream in=connect.getInputStream();//ファイルを開く
-				String data;//ネットから読んだデータを保管する変数を宣言
-				if(location.equalsIgnoreCase("list")){
-					Method.SendMessage(sender, cmd, "----- Location List -----");
-					data = readString(in);//1行読み取り
-					while (data != null) {//読み取りが成功していれば
-						data = codec.decode(data, StandardCharsets.UTF_8.name());
-						Method.SendMessage(sender, cmd, data);
-						data = readString(in);//次を読み込む
-					}
-					Method.SendMessage(sender, cmd, "-------------------------");
-					return true;
-				}else{
-					data = readString(in);
-					if(data.equalsIgnoreCase("NOLOCATION")){
-						Method.SendMessage(sender, cmd, "その名前の場所は登録されていません。/dt listで場所を確認してください。");
-						return true;
-					}else{
-						String[] datas = data.split(",", 0);
-						String x = datas[0];
-						String y = datas[1];
-						String z = datas[2];
-						String world = datas[3];
-						location = codec.decode(location, StandardCharsets.UTF_8.name());
-						if(dynamic.containsKey(player.getName())){
-							if(dynamic_teleporter.containsKey(player.getName())){
-								Method.SendMessage(sender, cmd, "ダイナミックテレポート失敗	: 現在テレポート中です。");
-								return true;
-							}else if(task != null){
-								Method.SendMessage(sender, cmd, "ダイナミックテレポート失敗	: 現在他の方がテレポート中です。");
-								return true;
-							}else{
-								Method.SendMessage(sender, cmd, "ダイナミックテレポートしています…");
-								player.setFlying(true);
-								Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
-								dynamic_teleporter.put(player.getName(), new upteleport(plugin, player, location, loc).runTaskTimer(plugin, 0, 5));
-								return true;
-							}
-						}else{
-							MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
-							MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
-							Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
-							loc.add(0.5f,0f,0.5f);
-							player.teleport(loc);
-							Discord.send("*[" + player.getName() + ": " + player.getName() + " to " + location + "]*");
-							Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
-							return true;
-						}
-					}
-				}
-
-			}catch(Exception e){
-				//例外処理が発生したら、表示する
-				Method.SendMessage(sender, cmd, BugReport.report(e));
-			}
-		}else if(args.length >= 2){
-			String p;
-			p = args[0];
-			String text = "";
-			int c = 1;
-			while(args.length > c){
-				text += args[c];
-				if(args.length != (c+1)){
-					text+=" ";
-				}
-				c++;
-			}
-			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-				if(player.getName().equalsIgnoreCase(p)) {
-					String location = text;
-					try {
-						location = codec.encode(location);
-					} catch (EncoderException e1) {
-						Method.SendMessage(sender, cmd, BugReport.report(e1));
-					}
-					try{
-						URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?location=" + location);
-						// URL接続
-						HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-						connect.setRequestMethod("GET");//プロトコルの設定
-						InputStream in=connect.getInputStream();//ファイルを開く
-						String data;//ネットから読んだデータを保管する変数を宣言
-						if(location.equalsIgnoreCase("list")){
-							Method.SendMessage(sender, cmd, "----- Location List -----");
-							data = readString(in);//1行読み取り
-							while (data != null) {//読み取りが成功していれば
-								data = codec.decode(data, StandardCharsets.UTF_8.name());
-								Method.SendMessage(sender, cmd, data);
-								data = readString(in);//次を読み込む
-							}
-							Method.SendMessage(sender, cmd, "-------------------------");
-							return true;
-						}else{
-							data = readString(in);
-							if(data.equalsIgnoreCase("NOLOCATION")){
-								Method.SendMessage(sender, cmd, "その名前の場所は登録されていません。/dt listで場所を確認してください。");
-								return true;
-							}else{
-								String[] datas = data.split(",", 0);
-								String x = datas[0];
-								String y = datas[1];
-								String z = datas[2];
-								String world = datas[3];
-								location = codec.decode(location, StandardCharsets.UTF_8.name());
-								if(dynamic.containsKey(player.getName())){
-									if(dynamic_teleporter.containsKey(player.getName())){
-										Method.SendMessage(sender, cmd, "ダイナミックテレポート失敗	: 現在テレポート中です。");
-									}else{
-										Method.SendMessage(sender, cmd, "ダイナミックテレポートしています…");
-										player.setFlying(true);
-										Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
-										dynamic_teleporter.put(player.getName(), new upteleport(plugin, player, location, loc).runTaskTimer(plugin, 0, 1));
-										return true;
-									}
-								}else{
-									MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
-									MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
-									Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
-									loc.add(0.5f,0f,0.5f);
-									player.teleport(loc);
-									Discord.send("*[" + sender.getName() + ": " + player.getName() + " to " + location + "]*");
-									Bukkit.broadcastMessage(ChatColor.GRAY + "[" + sender.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
-									return true;
-								}
-							}
-						}
-
-					}catch(Exception e){
-						//例外処理が発生したら、表示する
-						Method.SendMessage(sender, cmd, BugReport.report(e));
-					}
-					return true;
-				}
-			}
-			Method.SendMessage(sender, cmd, "ユーザーが見つかりません");
+		Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+		if(dynmap == null || !dynmap.isEnabled()){
+			Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
 			return true;
 		}
-		return false;
-	}
+		DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+		MarkerAPI markerapi = dynmapapi.getMarkerAPI();
 
-	String[] datas;
-    URLCodec codec = new URLCodec();
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-		if (args.length == 2) {
-            if (args[1].length() == 0) { // /testまで
-            	try{
-					URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?tab=all");
-					// URL接続
-					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-					connect.setRequestMethod("GET");//プロトコルの設定
-					InputStream in=connect.getInputStream();//ファイルを開く
+		if(args.length == 1){
+			if(args[0].equalsIgnoreCase("add")){
+				// 一つではaddは使えない
+				Method.SendMessage(sender, cmd, "マーカーの追加には/dt add <MarkerName> <MarkerType>を使用します。");
+				return true;
+			}else if(args[0].equalsIgnoreCase("del")){
+				// 一つではdelは使えない
+				Method.SendMessage(sender, cmd, "マーカーの削除には/dt add <MarkerName>を使用します。");
+				return true;
+			}else if(args[0].equalsIgnoreCase("list")){
+				Set<Marker> Markers = new HashSet<Marker>();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						Markers.add(marker);
+					}
+				}
 
-					String data;//ネットから読んだデータを保管する変数を宣言
-					data = readString(in);
-					if(data == null){
-						return null;
-					}
-					data = codec.decode(data, StandardCharsets.UTF_8.name());
-					if(!data.contains(",")){
-						return Collections.singletonList(data);
-					}
-					datas = data.split(",", 0);
-					return Arrays.asList(datas);
-				}catch(Exception e){
-					//例外処理が発生したら、表示する
-					Method.SendMessage(sender, cmd, BugReport.report(e));
-				}
-            } else{
-            	try{
-					URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?tab=" + args[1]);
-					// URL接続
-					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-					connect.setRequestMethod("GET");//プロトコルの設定
-					connect.setRequestProperty("Accept-Language", "jp");
-					connect.setRequestProperty("Content-Type","text/html;charset=utf-8");
-					InputStream in=connect.getInputStream();//ファイルを開く
-					String data;//ネットから読んだデータを保管する変数を宣言
-					data = readString(in);
-					if(data == null){
-						return null;
-					}
-					data = codec.decode(data, StandardCharsets.UTF_8.name());
-					if(!data.contains(",")){
-						return Collections.singletonList(data);
-					}
-					datas = data.split(",", 0);
-					return Arrays.asList(datas);
-				}catch(Exception e){
-					//例外処理が発生したら、表示する
-					Method.SendMessage(sender, cmd, BugReport.report(e));
-				}
-            }
-        }else if(args.length == 1){
-        	if (args[0].length() != 0 && cmd.getName().equalsIgnoreCase("dt")) {
-        		try{
-					URL url=new URL("http://nubesco.jaoafa.com/plugin/dt/get.php?tab=" + args[0]);
-					// URL接続
-					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-					connect.setRequestMethod("GET");//プロトコルの設定
-					connect.setRequestProperty("Accept-Language", "jp");
-					connect.setRequestProperty("Content-Type","text/html;charset=utf-8");
-					InputStream in=connect.getInputStream();//ファイルを開く
-					String data;//ネットから読んだデータを保管する変数を宣言
-					data = readString(in);
-					if(data == null){
-						return null;
-					}
-					data = codec.decode(data, StandardCharsets.UTF_8.name());
-					if(!data.contains(",")){
-						return Collections.singletonList(data);
-					}
-					datas = data.split(",", 0);
-					return Arrays.asList(datas);
-				}catch(Exception e){
-					//例外処理が発生したら、表示する
-					Method.SendMessage(sender, cmd, BugReport.report(e));
+				int count = 0;
+				int page = 1;
+				int startcount = (page - 1) * 10;
+				int endcount = page * 10;
+				int maxpage = Markers.size() / 10;
 
+				Method.SendMessage(sender, cmd, "Marker List: " + page + "page / " + maxpage + "page");
+				Method.SendMessage(sender, cmd, "-------------------------");
+
+				for(Marker marker : Markers){
+					if(count <= startcount){
+						count++;
+						continue;
+					}
+					if(count > endcount){
+						break;
+					}
+
+					Method.SendMessage(sender, cmd, "[" + count + "|" + marker.getWorld() + "/" + marker.getMarkerSet().getMarkerSetLabel() + "]" + marker.getLabel() + " X:" + marker.getX() + " Y:" + marker.getY() + " Z:" + marker.getY());
+					count++;
 				}
-        	}
-        }
-        //JavaPlugin#onTabComplete()を呼び出す
-        return plugin.onTabComplete(sender, cmd, alias, args);
-	}
-	//InputStreamより１行だけ読む（読めなければnullを返す）
-	static String readString(InputStream in){
-		try{
-			int l;//呼んだ長さを記録
-			int a;//読んだ一文字の記録に使う
-			byte b[]=new byte[2048];//呼んだデータを格納
-			a=in.read();//１文字読む
-			if (a<0) return null;//ファイルを読みっていたら、nullを返す
-			l=0;
-			while(a>10){//行の終わりまで読む
-				if (a>=' '){//何かの文字であれば、バイトに追加
-					b[l]=(byte)a;
-					l++;
-				}
-				a=in.read();//次を読む
-			}
-			return new String(b,0,l);//文字列に変換
-		}catch(IOException e){
-			//Errが出たら、表示してnull値を返す
-			System.out.println("Err="+e);
-			return null;
-		}
-	}
-	private Location getTeleportToLoc(Player player, Location loc, Location toloc, String location){
-		if(loc.getBlockX() > toloc.getBlockX()) {
-			//現在位置よりも行きたい方向はX:-1
-			loc.add(-1, 0, 0);
-		}else if(loc.getBlockX() < toloc.getBlockX()) {
-			//現在位置よりも行きたい方向はX:+1
-			loc.add(1, 0, 0);
-		}else if(loc.getBlockY() > toloc.getBlockY()) {
-			//現在位置よりも行きたい方向はY:-1
-			loc.add(0, -1, 0);
-		}else if(loc.getBlockY() < toloc.getBlockY()){
-			//現在位置よりも行きたい方向はY:+1
-			loc.add(0, 1, 0);
-		}else if(loc.getBlockZ() > toloc.getBlockZ()){
-			//現在位置よりも行きたい方向はZ:-1
-			loc.add(0, 0, -1);
-		}else if(loc.getBlockZ() < toloc.getBlockZ()) {
-			//現在位置よりも行きたい方向はZ:+1
-			loc.add(0, 0, 1);
-		}else{
-			return null;
-		}
-		if (!loc.getBlock().getType().isSolid() && !loc.clone().add(0, 1, 0).getBlock().getType().isSolid()){
-			player.teleport(loc);
-			return loc;
-		}else{
-			loc.add(0, 1, 0);
-			if(taskcount > 4){
-				player.sendMessage("[DT] " + ChatColor.GREEN + "ダイナミックテレポート失敗	: 不明なエラー");
-				task.cancel();
-				task = null;
-				return null;
-			}
-			taskcount++;
-			return getTeleportToLoc(player, loc, toloc, location);
-		}
-	}
-	private class upteleport extends BukkitRunnable{
-		Player player;
-		String location;
-		Location toloc;
-    	public upteleport(JavaPlugin plugin, Player player, String location, Location toloc) {
-    		this.player = player;
-    		this.location = location;
-    		this.toloc = toloc;
-    	}
-		@Override
-		public void run() {
-			task = new teleport(plugin, player, location, toloc).runTaskTimer(plugin, 0, 5);
-		}
-	}
-	private class teleport extends BukkitRunnable{
-		Player player;
-		String location;
-		Location toloc;
-    	public teleport(JavaPlugin plugin, Player player, String location, Location toloc) {
-    		this.player = player;
-    		this.location = location;
-    		this.toloc = toloc;
-    	}
-		@Override
-		public void run() {
-			Location loc = player.getLocation();
-			if((loc = getTeleportToLoc(player, loc, toloc, location)) == null){
-				if(dynamic_teleporter.containsKey(player.getName())){
-					player.playSound(player.getLocation(), Sound.ANVIL_USE, 1, 1);
-		        	MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
-					MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + location + "!");
-					Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + location + " にワープしました]");
-					dynamic_teleporter.get(player.getName()).cancel();
-					dynamic_teleporter.remove(player.getName());
+				Method.SendMessage(sender, cmd, "-------------------------");
+				Method.SendMessage(sender, cmd, startcount + " - " + endcount + " / " + Markers.size());
+				if(page != maxpage){
+					Method.SendMessage(sender, cmd, "次のページを見るには「/dt list " + (page + 1) + "」を実行します。");
 				}
 			}else{
-				cancel();
-			}
+				// addとかdelとか以外 => マーカー名？
+				// /dt <MarkerName>
+				if(!(sender instanceof Player)){
+					Method.SendMessage(sender, cmd, "このコマンドはサーバ内から実行可能です。");
+					return true;
+				}
+				Player player = (Player) sender;
+				String markerlabel = args[0];
 
+				Map<String, Marker> Markers = new HashMap<String, Marker>();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						Markers.put(marker.getLabel(), marker);
+					}
+				}
+				if(Markers.containsKey(markerlabel)){
+					Marker marker = Markers.get(markerlabel);
+					World world = Bukkit.getWorld(marker.getWorld());
+					double x = marker.getX();
+					double y = marker.getY();
+					double z = marker.getZ();
+					Location loc = new Location(world, x, y, z);
+					loc.add(0.5f, 0f, 0.5f);
+					player.teleport(loc);
+					MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
+					MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + markerlabel + "!");
+					Discord.send("*[" + player.getName() + ": " + player.getName() + " to " + markerlabel + "]*");
+					Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + markerlabel + " にワープしました]");
+					return true;
+				}else{
+					// 見つからなかった
+					Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」は見つかりませんでした。");
+					return true;
+				}
+			}
+		}else if(args.length == 2){
+			if(args[0].equalsIgnoreCase("add")){
+				// 二つではaddは使えない
+				Method.SendMessage(sender, cmd, "マーカーの追加には/dt add <MarkerName> <MarkerType>を使用します。");
+				return true;
+			}else if(args[0].equalsIgnoreCase("del")){
+				// マーカーの削除
+				// /dt del <MarkerName>
+				String markerlabel = args[1];
+				Map<String, Marker> Markers = new HashMap<String, Marker>();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						Markers.put(marker.getLabel(), marker);
+					}
+				}
+				if(Markers.containsKey(markerlabel)){
+					Marker marker = Markers.get(markerlabel);
+					String world = marker.getWorld();
+					double x = marker.getX();
+					double y = marker.getY();
+					double z = marker.getZ();
+					marker.deleteMarker();
+					Method.SendMessage(sender, cmd, "マーカー「" + markerlabel +"(" + world + ", " + x + ", " + y + ", " + z + ")」を削除しました。");
+					return true;
+				}else{
+					// 見つからなかった
+					Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」は見つかりませんでした。");
+					return true;
+				}
+			}else if(args[0].equalsIgnoreCase("list")){
+				Set<Marker> Markers = new HashSet<Marker>();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						Markers.add(marker);
+					}
+				}
+
+				int count = 0;
+				int page = Integer.parseInt(args[1]);
+				int startcount = (page - 1) * 10;
+				int endcount = page * 10;
+				int maxpage = (Markers.size() / 10) + 1;
+
+				if(page < 0){
+					Method.SendMessage(sender, cmd, "表示できるマーカーがありません。");
+					return true;
+				}else if(startcount >= Markers.size()){
+					Method.SendMessage(sender, cmd, "表示できるマーカーがありません。");
+					return true;
+				}
+
+				Method.SendMessage(sender, cmd, "Marker List: " + page + "page / " + maxpage + "page");
+				Method.SendMessage(sender, cmd, "-------------------------");
+
+				for(Marker marker : Markers){
+					if(count <= startcount){
+						count++;
+						continue;
+					}
+					if(count > endcount){
+						break;
+					}
+
+					Method.SendMessage(sender, cmd, "[" + count + "|" + marker.getWorld() + "/" + marker.getMarkerSet().getMarkerSetLabel() + "]" + marker.getLabel() + " X:" + marker.getX() + " Y:" + marker.getY() + " Z:" + marker.getY());
+					count++;
+				}
+				Method.SendMessage(sender, cmd, "-------------------------");
+				Method.SendMessage(sender, cmd, startcount + " - " + endcount + " / " + Markers.size());
+				if(page != maxpage){
+					Method.SendMessage(sender, cmd, "次のページを見るには「/dt list " + (page + 1) + "」を実行します。");
+				}
+
+
+			}else{
+				// addとかdelとか以外 => プレイヤー名？
+				// /dt <Player> <MarkerName>
+				String playername = args[0];
+				Player player = Bukkit.getPlayer(playername);
+				if(player == null){
+					Method.SendMessage(sender, cmd, "指定されたプレイヤー「" + playername +"」は見つかりませんでした。");
+					return true;
+				}else if(!player.isOnline()){
+					Method.SendMessage(sender, cmd, "指定されたプレイヤー「" + playername +"」はオフラインです。");
+					return true;
+				}
+				String markerlabel = args[1];
+
+				Map<String, Marker> Markers = new HashMap<String, Marker>();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						Markers.put(marker.getLabel(), marker);
+					}
+				}
+				if(Markers.containsKey(markerlabel)){
+					Marker marker = Markers.get(markerlabel);
+					World world = Bukkit.getWorld(marker.getWorld());
+					double x = marker.getX();
+					double y = marker.getY();
+					double z = marker.getZ();
+					Location loc = new Location(world, x, y, z);
+					loc.add(0.5f, 0f, 0.5f);
+					player.teleport(loc);
+					MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
+					MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + markerlabel + "!");
+					Discord.send("*[" + sender.getName() + ": " + player.getName() + " to " + markerlabel + "]*");
+					Bukkit.broadcastMessage(ChatColor.GRAY + "[" + sender.getName() + ": " + player.getName() + " は " + markerlabel + " にワープしました]");
+					return true;
+				}else{
+					// 見つからなかった
+					Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」は見つかりませんでした。");
+					return true;
+				}
+			}
+		}else if(args.length >= 3){
+			if(args[0].equalsIgnoreCase("add")){
+				// マーカーの追加
+				if(!(sender instanceof Player)){
+					Method.SendMessage(sender, cmd, "このコマンドはサーバ内から実行可能です。");
+					return true;
+				}
+				Player player = (Player) sender;
+				Location loc = player.getLocation();
+				String markerlabel = args[1];
+				String markertype = args[2];
+
+				Map<String, MarkerSet> MarkersTypes = new HashMap<String, MarkerSet>();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					MarkersTypes.put(markerset.getMarkerSetLabel(), markerset);
+				}
+
+				if(!MarkersTypes.containsKey(markertype)){
+					// マーカータイプが見つからなかった
+					Method.SendMessage(sender, cmd, "指定されたマーカータイプ「" + markertype +"」は見つかりませんでした。");
+					return true;
+				}
+
+				MarkerSet MarkerType = MarkersTypes.get(markertype);
+
+				Map<String, Marker> Markers = new HashMap<String, Marker>();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						Markers.put(marker.getLabel(), marker);
+					}
+				}
+				String MarkerIconDef = MarkerIcon.DEFAULT;
+				MarkerIcon markericondef = null;
+				for(MarkerIcon icon : markerapi.getMarkerIcons()){
+					if(icon.getMarkerIconID().equals(MarkerIconDef)){
+						markericondef = icon;
+					}
+				}
+				if(markericondef == null){
+					Method.SendMessage(sender, cmd, "デフォルトマーカーアイコンが存在しませんでした。");
+					return true;
+				}
+				Marker marker = MarkerType.createMarker(null, markerlabel, loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(), markericondef, true);
+
+				if(marker == null){
+					Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」を作成できませんでした。");
+					return true;
+				}
+				Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」を作成しました。");
+
+				if(Markers.containsKey(markerlabel)){
+					Method.SendMessage(sender, cmd, "ヒント: 同じMarkerNameのマーカーが他にもあるようです。");
+					Method.SendMessage(sender, cmd, "正常にテレポートできない可能性があります。");
+					return true;
+				}
+				return true;
+			}else{
+				// addとかdelとか以外 => プレイヤー名？
+				// /dt <Player> <MarkerName>
+				String playername = args[0];
+				Player player = Bukkit.getPlayer(playername);
+				if(player == null){
+					Method.SendMessage(sender, cmd, "指定されたプレイヤー「" + playername +"」は見つかりませんでした。");
+					return true;
+				}else if(!player.isOnline()){
+					Method.SendMessage(sender, cmd, "指定されたプレイヤー「" + playername +"」はオフラインです。");
+					return true;
+				}
+				String markerlabel = "";
+				int c = 1;
+				while(args.length > c){
+					markerlabel += args[c];
+					if(args.length != (c+1)){
+						markerlabel += " ";
+					}
+					c++;
+				}
+				Map<String, Marker> Markers = new HashMap<String, Marker>();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						Markers.put(marker.getLabel(), marker);
+					}
+				}
+				if(Markers.containsKey(markerlabel)){
+					Marker marker = Markers.get(markerlabel);
+					World world = Bukkit.getWorld(marker.getWorld());
+					double x = marker.getX();
+					double y = marker.getY();
+					double z = marker.getZ();
+					Location loc = new Location(world, x, y, z);
+					loc.add(0.5f, 0f, 0.5f);
+					player.teleport(loc);
+					MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
+					MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + markerlabel + "!");
+					Discord.send("*[" + sender.getName() + ": " + player.getName() + " to " + markerlabel + "]*");
+					Bukkit.broadcastMessage(ChatColor.GRAY + "[" + sender.getName() + ": " + player.getName() + " は " + markerlabel + " にワープしました]");
+					return true;
+				}else{
+					// 見つからなかった
+					Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」は見つかりませんでした。");
+					return true;
+				}
+			}
 		}
+		Method.SendMessage(sender, cmd, "---- Dynmap Teleporter ----");
+		Method.SendMessage(sender, cmd, "/dt [Player] <MarkerName...>: MarkerNameにテレポートします。Playerを指定した場合はそのPlayerをテレポートさせます。");
+		Method.SendMessage(sender, cmd, "/dt add <MarkerName> <MarkerType>: Markerを追加します。");
+		Method.SendMessage(sender, cmd, "/dt add <MarkerName> <MarkerType>: Markerを削除します。");
+		return true;
+	}
+
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+		if (args.length == 1) {
+			if (args[0].length() == 0) { // /dtまで
+				Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+				if(dynmap == null || !dynmap.isEnabled()){
+					Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+					return plugin.onTabComplete(sender, cmd, alias, args);
+				}
+
+				List<String> tablist = new ArrayList<String>();
+				tablist.add("add");
+				tablist.add("del");
+				tablist.add("list");
+
+				DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+				MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						tablist.add(marker.getLabel());
+					}
+				}
+				return tablist;
+			}else{
+				Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+				if(dynmap == null || !dynmap.isEnabled()){
+					Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+					return plugin.onTabComplete(sender, cmd, alias, args);
+				}
+
+				List<String> tablist = new ArrayList<String>();
+				tablist.add("add");
+				tablist.add("del");
+				tablist.add("list");
+
+				DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+				MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						tablist.add(marker.getLabel());
+					}
+				}
+				List<String> tablistFor = new ArrayList<String>();
+				tablistFor.addAll(tablist);
+				for(String tab : tablistFor){
+					if(!tab.toLowerCase().startsWith(args[0].toLowerCase())){
+						tablist.remove(tab);
+					}
+				}
+				if(tablist.size() == 0){
+					return plugin.onTabComplete(sender, cmd, alias, args);
+				}
+				return tablist;
+			}
+		}else if(args.length == 2){
+			if (args[1].length() == 0) { // /dt ~まで
+				if(args[0].equalsIgnoreCase("del")){
+					Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+					if(dynmap == null || !dynmap.isEnabled()){
+						Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+
+					List<String> tablist = new ArrayList<String>();
+					DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+					MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+					for(MarkerSet markerset : markerapi.getMarkerSets()){
+						for(Marker marker : markerset.getMarkers()){
+							tablist.add(marker.getLabel());
+						}
+					}
+					return tablist;
+				}else{
+					Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+					if(dynmap == null || !dynmap.isEnabled()){
+						Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+
+					Player player = Bukkit.getPlayer(args[0]);
+					if(player == null){
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}else if(!player.isOnline()){
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+
+
+					List<String> tablist = new ArrayList<String>();
+					DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+					MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+
+					for(MarkerSet markerset : markerapi.getMarkerSets()){
+						for(Marker marker : markerset.getMarkers()){
+							tablist.add(marker.getLabel());
+						}
+					}
+					List<String> tablistFor = new ArrayList<String>();
+					tablistFor.addAll(tablist);
+					for(String tab : tablistFor){
+						if(!tab.toLowerCase().startsWith(args[1].toLowerCase())){
+							tablist.remove(tab);
+						}
+					}
+					if(tablist.size() == 0){
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+					return tablist;
+				}
+			}else{
+				if(args[0].equalsIgnoreCase("del")){
+					Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+					if(dynmap == null || !dynmap.isEnabled()){
+						Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+
+					List<String> tablist = new ArrayList<String>();
+					DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+					MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+					for(MarkerSet markerset : markerapi.getMarkerSets()){
+						for(Marker marker : markerset.getMarkers()){
+							tablist.add(marker.getLabel());
+						}
+					}
+					List<String> tablistFor = new ArrayList<String>();
+					tablistFor.addAll(tablist);
+					for(String tab : tablistFor){
+						if(!tab.startsWith(args[1])){
+							tablist.remove(tab);
+						}
+					}
+					if(tablist.size() == 0){
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+					return tablist;
+				}else{
+					Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+					if(dynmap == null || !dynmap.isEnabled()){
+						Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+
+					Player player = Bukkit.getPlayer(args[0]);
+					if(player == null){
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}else if(!player.isOnline()){
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+
+
+					List<String> tablist = new ArrayList<String>();
+					DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+					MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+
+					for(MarkerSet markerset : markerapi.getMarkerSets()){
+						for(Marker marker : markerset.getMarkers()){
+							tablist.add(marker.getLabel());
+						}
+					}
+					List<String> tablistFor = new ArrayList<String>();
+					tablistFor.addAll(tablist);
+					for(String tab : tablistFor){
+						if(!tab.toLowerCase().startsWith(args[1].toLowerCase())){
+							tablist.remove(tab);
+						}
+					}
+					if(tablist.size() == 0){
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+					return tablist;
+				}
+			}
+		}else if(args.length == 3){
+			if (args[2].length() == 0) { // /dt ~ ~まで
+				if(args[0].equalsIgnoreCase("add")){
+					// <MarkerType>を出す
+					Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+					if(dynmap == null || !dynmap.isEnabled()){
+						Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+
+					List<String> tablist = new ArrayList<String>();
+					DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+					MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+
+					for(MarkerSet markerset : markerapi.getMarkerSets()){
+						tablist.add(markerset.getMarkerSetLabel());
+					}
+					return tablist;
+				}
+			}else{
+				if(args[0].equalsIgnoreCase("add")){
+					Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+					if(dynmap == null || !dynmap.isEnabled()){
+						Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+
+					List<String> tablist = new ArrayList<String>();
+					DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+					MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+
+					for(MarkerSet markerset : markerapi.getMarkerSets()){
+						tablist.add(markerset.getMarkerSetLabel());
+					}
+					List<String> tablistFor = new ArrayList<String>();
+					tablistFor.addAll(tablist);
+					for(String tab : tablistFor){
+						if(!tab.toLowerCase().startsWith(args[2].toLowerCase())){
+							tablist.remove(tab);
+						}
+					}
+					if(tablist.size() == 0){
+						return plugin.onTabComplete(sender, cmd, alias, args);
+					}
+					return tablist;
+				}
+			}
+		}
+		//JavaPlugin#onTabComplete()を呼び出す
+		return plugin.onTabComplete(sender, cmd, alias, args);
 	}
 }
