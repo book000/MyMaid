@@ -22,21 +22,20 @@ import sx.blah.discord.util.RateLimitException;
 import xyz.jaoafa.mymaid.MyMaid;
 
 public class Discord {
-	static JavaPlugin plugin;
+	JavaPlugin plugin;
 	String token;
 	public static IDiscordClient client = null;
 	static IGuild guild = null;
 	static IChannel channel = null;
 
 	public Discord(JavaPlugin plugin, String token) {
-		Discord.plugin = plugin;
+		this.plugin = plugin;
 		this.token = token;
 	}
 
-
 	public void start(){
 		try {
-			client = new ClientBuilder().withToken(token).build();
+			setClient(new ClientBuilder().withToken(token).build());
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -102,17 +101,17 @@ public class Discord {
 		} catch (MissingPermissionsException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
 			return false;
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
 			return false;
 		}catch (RateLimitException e){
 			// Since I want to retry try to add it.
 			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
 			return false;
 		}
 		return true;
@@ -127,17 +126,17 @@ public class Discord {
 		} catch (MissingPermissionsException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
 			return false;
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
 			return false;
 		}catch (RateLimitException e){
 			// Since I want to retry try to add it.
 			e.printStackTrace();
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
 			return false;
 		}
 		return true;
@@ -160,7 +159,7 @@ public class Discord {
 	        }
 		}
 		if(channel == null){
-			plugin.getLogger().info("Discordへのメッセージ送信に失敗しました。(指定されたチャンネルが見つかりません。)");
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(指定されたチャンネルが見つかりません。)");
 			return false;
 		}
 		send(channel, message);
@@ -194,12 +193,12 @@ public class Discord {
 		if(task != null){
 			return;
 		}
-		task = new MyMaid.QueueDiscordSendData(plugin).runTaskTimer(plugin, 0, 10);
+		task = new MyMaid.QueueDiscordSendData(MyMaid.getJavaPlugin()).runTaskTimer(MyMaid.getJavaPlugin(), 0, 10);
 	}
 
 	public static String format(String message){
 		if(guild == null){
-			plugin.getLogger().info("Discordサーバへの接続に失敗しました。(Guildが見つかりません。)");
+			MyMaid.getJavaPlugin().getLogger().info("Discordサーバへの接続に失敗しました。(Guildが見つかりません。)");
 			return message;
 		}
 		for (IRole role : guild.getRoles()) {
@@ -223,7 +222,7 @@ public class Discord {
 
 		if(event.getGuild().getID().equalsIgnoreCase("189377932429492224")){
 			plugin.getLogger().info("DiscordGuildを選択しました。" + event.getGuild().getName());
-			Discord.guild = event.getGuild();
+			setGuild(event.getGuild());
 		}
 
 		if(guild == null){
@@ -243,5 +242,11 @@ public class Discord {
 			plugin.getLogger().info("Discordサーバへの接続に失敗しました。(Channelが見つかりません。)");
 		}
 		plugin.getLogger().info("Discordサーバへの接続に完了しました。ID: " + event.getClient().getOurUser().getName());
+	}
+	private void setClient(IDiscordClient client){
+		Discord.client = client;
+	}
+	private void setGuild(IGuild guild){
+		Discord.guild = guild;
 	}
 }

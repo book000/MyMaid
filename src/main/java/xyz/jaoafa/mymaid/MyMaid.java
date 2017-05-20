@@ -29,6 +29,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -144,8 +145,6 @@ import xyz.jaoafa.mymaid.EventHandler.OnJoin;
 import xyz.jaoafa.mymaid.EventHandler.OnLunaChatChannelMemberChangedEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnMyMaidCommandblockLogs;
 import xyz.jaoafa.mymaid.EventHandler.OnMyMaidJoinLeftChatCmdLogs;
-import xyz.jaoafa.mymaid.EventHandler.OnPlayerBedEnterEvent;
-import xyz.jaoafa.mymaid.EventHandler.OnPlayerBedLeaveEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerBucketEmptyEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommand;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommandPreprocessEvent;
@@ -404,8 +403,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnLunaChatChannelMemberChangedEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnMyMaidCommandblockLogs(this), this);
 		getServer().getPluginManager().registerEvents(new OnMyMaidJoinLeftChatCmdLogs(this), this);
-		getServer().getPluginManager().registerEvents(new OnPlayerBedEnterEvent(this), this);
-		getServer().getPluginManager().registerEvents(new OnPlayerBedLeaveEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerBucketEmptyEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerCommand(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerCommandPreprocessEvent(this), this);
@@ -623,7 +620,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		ItemStack Ekusas83 = new ItemStack(Material.SKULL_ITEM);
 		SkullMeta skullMeta_Ekusas83 = (SkullMeta) Ekusas83.getItemMeta();
 		Ekusas83.setDurability((short) 3);
-		skullMeta_Ekusas83.setDisplayName("Ekusas83");
 		skullMeta_Ekusas83.setOwner("Ekusas83");
 		Ekusas83.setItemMeta(skullMeta_Ekusas83);
 		ShapedRecipe Ekusas83_sr = new ShapedRecipe(Ekusas83);
@@ -648,7 +644,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		ItemStack X4Z = new ItemStack(Material.SKULL_ITEM);
 		SkullMeta skullMeta_X4Z = (SkullMeta) X4Z.getItemMeta();
 		X4Z.setDurability((short) 3);
-		skullMeta_X4Z.setDisplayName("X4Z");
 		skullMeta_X4Z.setOwner("X4Z");
 		X4Z.setItemMeta(skullMeta_X4Z);
 		ShapedRecipe X4Z_sr = new ShapedRecipe(X4Z);
@@ -670,7 +665,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		ItemStack X5Z = new ItemStack(Material.SKULL_ITEM);
 		SkullMeta skullMeta_X5Z = (SkullMeta) X5Z.getItemMeta();
 		X5Z.setDurability((short) 3);
-		skullMeta_X5Z.setDisplayName("X5Z");
 		skullMeta_X5Z.setOwner("X5Z");
 		X5Z.setItemMeta(skullMeta_X5Z);
 		ShapedRecipe X5Z_sr = new ShapedRecipe(X5Z);
@@ -698,7 +692,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		ItemStack X6Z = new ItemStack(Material.SKULL_ITEM);
 		SkullMeta skullMeta_X6Z = (SkullMeta) X6Z.getItemMeta();
 		X6Z.setDurability((short) 3);
-		skullMeta_X6Z.setDisplayName("X6Z");
 		skullMeta_X6Z.setOwner("X6Z");
 		X6Z.setItemMeta(skullMeta_X6Z);
 		ShapedRecipe X6Z_sr = new ShapedRecipe(X6Z);
@@ -720,7 +713,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		ItemStack X8Z = new ItemStack(Material.SKULL_ITEM);
 		SkullMeta skullMeta_X8Z = (SkullMeta) X8Z.getItemMeta();
 		X8Z.setDurability((short) 3);
-		skullMeta_X8Z.setDisplayName("X8Z");
 		skullMeta_X8Z.setOwner("X8Z");
 		X8Z.setItemMeta(skullMeta_X8Z);
 		ShapedRecipe X8Z_sr = new ShapedRecipe(X8Z);
@@ -732,6 +724,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		getServer().addRecipe(X8Z_sr);
 		// -------------------------------------------- //
+
+		FurnaceRecipe test = new FurnaceRecipe(X4Z, X5Z.getData());
+		getServer().addRecipe(test);
 	}
 
 	public static Map<String, String> cac = new HashMap<String, String>();
@@ -749,6 +744,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 			InputStream in = urlCon.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 			String jstr = reader.readLine();
+
+			if(jstr == null){
+				return;
+			}
 
 			// 不要な配列[]を除去、},{でsplitするために一時トークンを付与
 			String[] banlist = jstr.replace("[", "").replace("]", "").replace("},{", "}},{{").split(Pattern.quote("},{"));

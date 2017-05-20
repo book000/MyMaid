@@ -1,28 +1,25 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.net.URLCodec;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.dynmap.DynmapAPI;
+import org.dynmap.markers.Marker;
+import org.dynmap.markers.MarkerAPI;
+import org.dynmap.markers.MarkerSet;
 
-import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.Pointjao;
 
@@ -33,7 +30,14 @@ public class Dynmap_Compass implements CommandExecutor, TabCompleter {
 	}
 	public static Map<String, String> dcdata = new HashMap<String, String>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		URLCodec codec = new URLCodec();
+		Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+		if(dynmap == null || !dynmap.isEnabled()){
+			Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+			return true;
+		}
+		DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+		MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+
 		if(args.length >= 2){
 			if(args[0].equalsIgnoreCase("set")){
 				if (!(sender instanceof Player)) {
@@ -42,67 +46,46 @@ public class Dynmap_Compass implements CommandExecutor, TabCompleter {
 					return true;
 				}
 				Player player = (Player) sender;
+
 				int c = 1;
-				String text = "";
+				String markerlabel = "";
 				while(args.length > c){
-					text += args[c];
+					markerlabel += args[c];
 					if(args.length != (c+1)){
-						text+=" ";
+						markerlabel+=" ";
 					}
 					c++;
 				}
-				String location = text;
-				try {
-					location = codec.encode(location);
-				} catch (EncoderException e1) {
-					Method.SendMessage(sender, cmd, BugReport.report(e1));
+				Map<String, Marker> Markers = new HashMap<String, Marker>();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						Markers.put(marker.getLabel(), marker);
+					}
 				}
-				try{
-					URL url=new URL("http://toma.webcrow.jp/jaoget.php?location=" + location);
-					// URL接続
-					HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-					connect.setRequestMethod("GET");//プロトコルの設定
-					InputStream in=connect.getInputStream();//ファイルを開く
-					String data;//ネットから読んだデータを保管する変数を宣言
-
-					data = readString(in);
-					if(data.equalsIgnoreCase("NOLOCATION")){
-						Method.SendMessage(sender, cmd, "その名前の場所は登録されていません。");
-						return true;
-					}else{
-						String[] datas = data.split(",", 0);
-						String x = datas[0];
-						String y = datas[1];
-						String z = datas[2];
-						String world = datas[3];
-						location = codec.decode(location, StandardCharsets.UTF_8.name());
-
-						Location loc = new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(z));
-						loc.add(0.5f,0f,0.5f);
-						int use = 10;
-						if(!Pointjao.hasjao(player, use)){
-						 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
-						 	 return true;
-						}
-						Pointjao.usejao(player, use, "dcコマンド実行の為");
-						dcdata.put(player.getName(), location);
-						player.setCompassTarget(loc);
-						Method.SendMessage(sender, cmd, "コンパスの方向をDynmapのマーカー地点「" + location + "」にセットしました。");
-						Method.SendMessage(sender, cmd, "リセットするには/dc clearを実行してください。");
+				if(Markers.containsKey(markerlabel)){
+					Marker marker = Markers.get(markerlabel);
+					World world = Bukkit.getWorld(marker.getWorld());
+					double x = marker.getX();
+					double y = marker.getY();
+					double z = marker.getZ();
+					Location loc = new Location(world, x, y, z);
+					loc.add(0.5f, 0f, 0.5f);
+					int use = 10;
+					if(!Pointjao.hasjao(player, use)){
+						Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
 						return true;
 					}
-
-				}catch(Exception e){
-					//例外処理が発生したら、表示する
-					Method.SendMessage(sender, cmd, BugReport.report(e));
+					Pointjao.usejao(player, use, "dcコマンド実行の為");
+					dcdata.put(player.getName(), markerlabel);
+					player.setCompassTarget(loc);
+					Method.SendMessage(sender, cmd, "コンパスの方向をDynmapのマーカー地点「" + markerlabel + "」にセットしました。");
+					Method.SendMessage(sender, cmd, "リセットするには/dc clearを実行してください。");
+					return true;
+				}else{
+					// 見つからなかった
+					Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」は見つかりませんでした。");
+					return true;
 				}
-				return true;
-			}else{
-				Method.SendMessage(sender, cmd, "--- Dynmap Compass Help ---");
-				Method.SendMessage(sender, cmd, "/dc set <DynmapMarkerName>: コンパスの方向をDynmapのマーカー地点に設定します。");
-				Method.SendMessage(sender, cmd, "/dc show: コンパスの方向が設定されているDynmapのマーカー地点名を表示します。");
-				Method.SendMessage(sender, cmd, "/dc clear: コンパスの方向をリセットします。");
-				return true;
 			}
 		}else if(args.length == 1){
 			if(args[0].equalsIgnoreCase("show")){
@@ -132,101 +115,76 @@ public class Dynmap_Compass implements CommandExecutor, TabCompleter {
 				player.setCompassTarget(player.getWorld().getSpawnLocation());
 				Method.SendMessage(sender, cmd, "コンパスの方向をリセットしました。");
 				return true;
-			}else{
-				Method.SendMessage(sender, cmd, "--- Dynmap Compass Help ---");
-				Method.SendMessage(sender, cmd, "/dc set <DynmapMarkerName>: コンパスの方向をDynmapのマーカー地点に設定します。");
-				Method.SendMessage(sender, cmd, "/dc show: コンパスの方向が設定されているDynmapのマーカー地点名を表示します。");
-				Method.SendMessage(sender, cmd, "/dc clear: コンパスの方向をリセットします。");
-				return true;
 			}
-		}else{
-			Method.SendMessage(sender, cmd, "--- Dynmap Compass Help ---");
-			Method.SendMessage(sender, cmd, "/dc set <DynmapMarkerName>: コンパスの方向をDynmapのマーカー地点に設定します。");
-			Method.SendMessage(sender, cmd, "/dc show: コンパスの方向が設定されているDynmapのマーカー地点名を表示します。");
-			Method.SendMessage(sender, cmd, "/dc clear: コンパスの方向をリセットします。");
-			return true;
 		}
+		Method.SendMessage(sender, cmd, "--- Dynmap Compass Help ---");
+		Method.SendMessage(sender, cmd, "/dc set <DynmapMarkerName>: コンパスの方向をDynmapのマーカー地点に設定します。");
+		Method.SendMessage(sender, cmd, "/dc show: コンパスの方向が設定されているDynmapのマーカー地点名を表示します。");
+		Method.SendMessage(sender, cmd, "/dc clear: コンパスの方向をリセットします。");
+		return true;
 	}
-	//InputStreamより１行だけ読む（読めなければnullを返す）
-		static String readString(InputStream in){
-			try{
-				int l;//呼んだ長さを記録
-				int a;//読んだ一文字の記録に使う
-				byte b[]=new byte[2048];//呼んだデータを格納
-				a=in.read();//１文字読む
-				if (a<0) return null;//ファイルを読みっていたら、nullを返す
-				l=0;
-				while(a>10){//行の終わりまで読む
-					if (a>=' '){//何かの文字であれば、バイトに追加
-						b[l]=(byte)a;
-						l++;
-					}
-					a=in.read();//次を読む
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+		if (args.length == 2) {
+			if (args[0].equalsIgnoreCase("set") && args[1].length() == 0) { // /testまで
+				Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+				if(dynmap == null || !dynmap.isEnabled()){
+					Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+					return plugin.onTabComplete(sender, cmd, alias, args);
 				}
-				return new String(b,0,l);//文字列に変換
-			}catch(IOException e){
-				//Errが出たら、表示してnull値を返す
-				System.out.println("Err="+e);
-				return null;
+
+				List<String> tablist = new ArrayList<String>();
+				tablist.add("add");
+				tablist.add("del");
+				tablist.add("list");
+
+				DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+				MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						tablist.add(marker.getLabel());
+					}
+				}
+				return tablist;
+			}
+		}else if (args.length == 3) {
+			if (args[0].equalsIgnoreCase("set") && args[1].length() != 0) { // /testまで
+				Plugin dynmap = plugin.getServer().getPluginManager().getPlugin("dynmap");
+				if(dynmap == null || !dynmap.isEnabled()){
+					Method.SendMessage(sender, cmd, "Dynmapプラグインが停止中、もしくは存在しないため、このコマンドを利用できません。");
+					return plugin.onTabComplete(sender, cmd, alias, args);
+				}
+
+				Player player = Bukkit.getPlayer(args[0]);
+				if(player == null){
+					return plugin.onTabComplete(sender, cmd, alias, args);
+				}else if(!player.isOnline()){
+					return plugin.onTabComplete(sender, cmd, alias, args);
+				}
+
+
+				List<String> tablist = new ArrayList<String>();
+				DynmapAPI dynmapapi = (DynmapAPI)dynmap;
+				MarkerAPI markerapi = dynmapapi.getMarkerAPI();
+
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						tablist.add(marker.getLabel());
+					}
+				}
+				List<String> tablistFor = new ArrayList<String>();
+				tablistFor.addAll(tablist);
+				for(String tab : tablistFor){
+					if(!tab.toLowerCase().startsWith(args[1].toLowerCase())){
+						tablist.remove(tab);
+					}
+				}
+				if(tablist.size() == 0){
+					return plugin.onTabComplete(sender, cmd, alias, args);
+				}
+				return tablist;
 			}
 		}
-		String[] datas;
-	    URLCodec codec = new URLCodec();
-	    public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-			if (args.length == 2) {
-	            if (args[0].equalsIgnoreCase("set") && args[1].length() == 0) { // /testまで
-	            	try{
-						URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=all");
-						// URL接続
-						HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-						connect.setRequestMethod("GET");//プロトコルの設定
-						InputStream in=connect.getInputStream();//ファイルを開く
-
-						String data;//ネットから読んだデータを保管する変数を宣言
-						data = readString(in);
-						if(data == null){
-							return null;
-						}
-						data = codec.decode(data, StandardCharsets.UTF_8.name());
-						if(!data.contains(",")){
-							return Collections.singletonList(data);
-						}
-						datas = data.split(",", 0);
-						return Arrays.asList(datas);
-					}catch(Exception e){
-						//例外処理が発生したら、表示する
-						System.out.println(e);
-						Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
-					}
-	            }
-			}else if (args.length == 3) {
-				if (args[0].equalsIgnoreCase("set") && args[1].length() != 0) { // /testまで
-		            	try{
-							URL url=new URL("http://toma.webcrow.jp/jaoget.php?tab=" + args[1]);
-							// URL接続
-							HttpURLConnection connect = (HttpURLConnection)url.openConnection();//サイトに接続
-							connect.setRequestMethod("GET");//プロトコルの設定
-							InputStream in=connect.getInputStream();//ファイルを開く
-
-							String data;//ネットから読んだデータを保管する変数を宣言
-							data = readString(in);
-							if(data == null){
-								return null;
-							}
-							data = codec.decode(data, StandardCharsets.UTF_8.name());
-							if(!data.contains(",")){
-								return Collections.singletonList(data);
-							}
-							datas = data.split(",", 0);
-							return Arrays.asList(datas);
-						}catch(Exception e){
-							//例外処理が発生したら、表示する
-							System.out.println(e);
-							Method.SendMessage(sender, cmd, "エラーが発生しました。詳しくはサーバーログを確認してください。");
-						}
-		          }
-	        }
-	        //JavaPlugin#onTabComplete()を呼び出す
-	        return plugin.onTabComplete(sender, cmd, alias, args);
-		}
+		//JavaPlugin#onTabComplete()を呼び出す
+		return plugin.onTabComplete(sender, cmd, alias, args);
+	}
 }

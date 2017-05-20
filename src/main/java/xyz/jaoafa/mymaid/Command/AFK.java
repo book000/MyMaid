@@ -100,7 +100,7 @@ public class AFK implements CommandExecutor{
 			player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
 			String listname = player.getPlayerListName();
 			if(!listname.contains(ChatColor.DARK_GRAY + player.getName())){
-				listname.replaceAll(player.getName(), ChatColor.DARK_GRAY + player.getName());
+				listname = listname.replaceAll(player.getName(), ChatColor.DARK_GRAY + player.getName());
 				player.setPlayerListName(listname);
 			}
 		}

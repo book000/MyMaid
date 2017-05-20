@@ -3,6 +3,7 @@ package xyz.jaoafa.mymaid.Command;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -61,7 +62,7 @@ public class Data implements CommandExecutor {
 		} catch (NullPointerException e) {
 			MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
 			try {
-				MyMaid.c = MySQL.openConnection();
+				setMyMaidConnection(MySQL.openConnection());
 				statement2 = MyMaid.c.createStatement();
 			} catch (ClassNotFoundException | SQLException e1) {
 				// TODO 自動生成された catch ブロック
@@ -82,7 +83,7 @@ public class Data implements CommandExecutor {
 				try {
 					ResultSet res = statement.executeQuery("SELECT * FROM log WHERE host LIKE '" + args[0] + "'");
 					ResultSetMetaData rsmd = res.getMetaData();
-				    int count = rsmd.getColumnCount();
+					int count = rsmd.getColumnCount();
 					if(count != 0){
 						ArrayList<String> players = new ArrayList<String>();
 						Method.SendMessage(sender, cmd, "--- ホスト「" + args[0] + "」からのデータ(部分一致検索) ---");
@@ -117,7 +118,7 @@ public class Data implements CommandExecutor {
 					try {
 						ResultSet res = statement.executeQuery("SELECT * FROM log WHERE ip = '" + ia.getHostAddress() + "' ORDER BY id DESC");
 						ResultSetMetaData rsmd = res.getMetaData();
-					    int count = rsmd.getColumnCount();
+						int count = rsmd.getColumnCount();
 						if(count != 0){
 							ArrayList<String> players = new ArrayList<String>();
 							Method.SendMessage(sender, cmd, "--- IPアドレス「" + ia.getHostAddress() + "」からのデータ ---");
@@ -152,7 +153,7 @@ public class Data implements CommandExecutor {
 					try {
 						ResultSet res = statement.executeQuery("SELECT * FROM log WHERE host = '" + ia.getHostAddress() + "' ORDER BY id DESC");
 						ResultSetMetaData rsmd = res.getMetaData();
-					    int count = rsmd.getColumnCount();
+						int count = rsmd.getColumnCount();
 						if(count != 0){
 							ArrayList<String> players = new ArrayList<String>();
 							Method.SendMessage(sender, cmd, "--- ホスト「" + ia.getHostName() + "」からのデータ ---");
@@ -190,7 +191,7 @@ public class Data implements CommandExecutor {
 					try {
 						ResultSet res = statement.executeQuery("SELECT * FROM log WHERE uuid = '" + args[0] + "' ORDER BY id DESC");
 						ResultSetMetaData rsmd = res.getMetaData();
-					    int count = rsmd.getColumnCount();
+						int count = rsmd.getColumnCount();
 						if(count != 0){
 
 							Method.SendMessage(sender, cmd, "--- UUID「" + args[0] + "」からのデータ ---");
@@ -305,7 +306,7 @@ public class Data implements CommandExecutor {
 				try {
 					ResultSet res = statement.executeQuery("SELECT * FROM log WHERE player = '" + args[0] + "' ORDER BY id DESC");
 					ResultSetMetaData rsmd = res.getMetaData();
-				    int count = rsmd.getColumnCount();
+					int count = rsmd.getColumnCount();
 					if(count != 0){
 						Method.SendMessage(sender, cmd, "--- Player「" + args[0] + "」からのデータ ---");
 						if(!res.next()){
@@ -470,22 +471,25 @@ public class Data implements CommandExecutor {
 		return true;
 	}
 	public boolean isMatch(String str1, String str2) {
-	    if(str1.matches(".*" + str2 + ".*")) {
-	        return true;
-	    }
-	    else {
-	        return false;
-	    }
+		if(str1.matches(".*" + str2 + ".*")) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	private long[] formatDuration( long millis ) {
-        long days = TimeUnit.MILLISECONDS.toDays( millis );
-        millis -= TimeUnit.DAYS.toMillis( days );
-        long hours = TimeUnit.MILLISECONDS.toHours( millis );
-        millis -= TimeUnit.HOURS.toMillis( hours );
-        long minutes = TimeUnit.MILLISECONDS.toMinutes( millis );
-        millis -= TimeUnit.MINUTES.toMillis( minutes );
-        long seconds = TimeUnit.MILLISECONDS.toSeconds( millis );
+		long days = TimeUnit.MILLISECONDS.toDays( millis );
+		millis -= TimeUnit.DAYS.toMillis( days );
+		long hours = TimeUnit.MILLISECONDS.toHours( millis );
+		millis -= TimeUnit.HOURS.toMillis( hours );
+		long minutes = TimeUnit.MILLISECONDS.toMinutes( millis );
+		millis -= TimeUnit.MINUTES.toMillis( minutes );
+		long seconds = TimeUnit.MILLISECONDS.toSeconds( millis );
 
-        return new long[]{ days, hours, minutes, seconds };
-}
+		return new long[]{ days, hours, minutes, seconds };
+	}
+	private void setMyMaidConnection(Connection c){
+		MyMaid.c = c;
+	}
 }

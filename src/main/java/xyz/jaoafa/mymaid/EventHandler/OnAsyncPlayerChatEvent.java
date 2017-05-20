@@ -48,7 +48,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 			}
 		}
 		if(e.getMessage().equals(".")){
-			if(DOT.bed.containsKey(e.getPlayer().getName())){
+			if(e.getPlayer().isSleeping()){
 				e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
 				e.setCancelled(true);
 			}else{
@@ -94,21 +94,12 @@ public class OnAsyncPlayerChatEvent implements Listener {
 			}
 		}else{
 			if(DOT.run.containsKey(e.getPlayer().getName())){
-				if(DOT.bed.containsKey(e.getPlayer().getName())){
+				if(e.getPlayer().isSleeping()){
 					e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
 					e.setCancelled(true);
 				}else{
 					DOT.unsuccess.put(e.getPlayer().getName(), DOT.unsuccess.get(e.getPlayer().getName()) + 1);
 				}
-			}else{
-				/*
-				if(DOT.bed.containsKey(e.getPlayer().getName())){
-					e.getPlayer().sendMessage("[.] " + ChatColor.GREEN + "ベットで寝ながらは違反だゾ！");
-					e.setCancelled(true);
-				}else{
-					DOT.unsuccess.put(e.getPlayer().getName(), 1);
-				}
-				*/
 			}
 		}
 		if(!DOT.dotcount_stop.containsKey(e.getPlayer().getName())){

@@ -25,8 +25,6 @@ public class DOT implements CommandExecutor {
 	public static Map<String, Boolean> kana = new HashMap<String, Boolean>();
 	//連投実行中か
 	public static Map<String, BukkitTask> run = new HashMap<String, BukkitTask>();
-	//ベットで寝ているか
-	public static Map<String, Boolean> bed = new HashMap<String, Boolean>();
 	//成功回数
 	public static Map<String, Integer> success = new HashMap<String, Integer>();
 	//失敗回数
@@ -46,7 +44,7 @@ public class DOT implements CommandExecutor {
 			return true;
 		}
 		Player player = (Player) sender;
-		if(bed.containsKey(player.getName())){
+		if(player.isSleeping()){
 			Method.SendMessage(sender, cmd, "ベットで寝ながらは違反だゾ！");
 			return true;
 		}
