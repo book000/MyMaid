@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -202,6 +203,10 @@ public class OnPlayerCommand implements Listener {
     			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + color + "■" + ChatColor.WHITE + player.getName() +  ": " + text);
     			e.setCancelled(true);
     			return;
+    		}
+    		if(args[0].equalsIgnoreCase("/tp") && args[1].equalsIgnoreCase("jaotan")){
+    			Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は jaotan にワープしました]");
+    			player.teleport(new Location(Bukkit.getWorld("Jao_Afa"), 0, 77, 0));
     		}
     	}
 	}

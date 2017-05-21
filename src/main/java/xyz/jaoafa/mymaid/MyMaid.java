@@ -1244,7 +1244,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 			String strmods;
 			if(builder.length() == 0){
-				strmods = "not found";
+				strmods = "Vanilla";
 			}else{
 				strmods = builder.substring(0, builder.length() - 1);
 			}
