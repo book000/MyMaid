@@ -20,6 +20,8 @@ public class OnPlayerKickEvent implements Listener {
 	public void onPlayerKickEvent(PlayerKickEvent e){
 		if(e.getReason().equals("disconnect.spam")){
 			e.setCancelled(true);
+		}else if(e.getReason().equals("Illegal characters in chat")){
+			e.setCancelled(true);
 		}else{
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
