@@ -257,7 +257,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		BugReport.start();
 		dynmapbridge = DynmapBridge.load(getJavaPlugin()); // nullが帰ってくるかも?
-}
+	}
 	/**
 	 * 連携プラグイン確認
 	 * @author mine_book000
@@ -876,6 +876,15 @@ public class MyMaid extends JavaPlugin implements Listener {
 		@Override
 		public void run() {
 			Messenger.RandomBroadcastMessage();
+
+			//ついでにjaoポイント保存
+			try {
+				Pointjao.Savejao();
+			} catch (Exception e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+				getLogger().info("jaoPointのセーブに失敗しました。");
+			}
 		}
 	}
 
@@ -1050,9 +1059,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 	public static class dot extends BukkitRunnable{
 		Player player;
-    	public dot(JavaPlugin plugin, Player player) {
-    		this.player = player;
-    	}
+		public dot(JavaPlugin plugin, Player player) {
+			this.player = player;
+		}
 		@Override
 		public void run() {
 			if(DOT.dotto.containsKey(player.getName())){
@@ -1072,9 +1081,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 	public static class doom extends BukkitRunnable{
 		Player player;
-    	public doom(JavaPlugin plugin, Player player) {
-    		this.player = player;
-    	}
+		public doom(JavaPlugin plugin, Player player) {
+			this.player = player;
+		}
 		@Override
 		public void run() {
 			if(DOT.doom.containsKey(player.getName())){
@@ -1114,11 +1123,11 @@ public class MyMaid extends JavaPlugin implements Listener {
 		Player player;
 		LunaChatAPI lunachatapi;
 		int section;
-    	public dot_section(JavaPlugin plugin, Player player, LunaChatAPI lunachatapi, int section) {
-    		this.player = player;
-    		this.lunachatapi = lunachatapi;
-    		this.section = section;
-    	}
+		public dot_section(JavaPlugin plugin, Player player, LunaChatAPI lunachatapi, int section) {
+			this.player = player;
+			this.lunachatapi = lunachatapi;
+			this.section = section;
+		}
 		@Override
 		public void run() {
 			//Bukkit.broadcastMessage(DOT.success.toString() + DOT.unsuccess.toString());
@@ -1163,9 +1172,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 	public static class QueueDiscordSendData extends BukkitRunnable{
 		JavaPlugin plugin;
-    	public QueueDiscordSendData(JavaPlugin plugin) {
-    		this.plugin = plugin;
-    	}
+		public QueueDiscordSendData(JavaPlugin plugin) {
+			this.plugin = plugin;
+		}
 		@Override
 		public void run() {
 			String senddata = Discord.SendData.poll();
@@ -1187,9 +1196,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 	}
 	public static class usemodget extends BukkitRunnable{
 		Player player;
-    	public usemodget(JavaPlugin plugin, Player player) {
-    		this.player = player;
-    	}
+		public usemodget(JavaPlugin plugin, Player player) {
+			this.player = player;
+		}
 		@Override
 		public void run() {
 			Statement statement;

@@ -50,6 +50,7 @@ public class Discord {
 		//リスナー
 		client.getDispatcher().registerListener(this);
 		client.getDispatcher().registerListener(new DiscordChatEvent(plugin));
+		client.getDispatcher().registerListener(new OnTypingEvent(plugin));
 
 		try {
 			client.login();
