@@ -15,7 +15,6 @@ import com.github.ucchyocean.lc.channel.ChannelPlayer;
 
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
-import xyz.jaoafa.mymaid.MyMaid.doom;
 import xyz.jaoafa.mymaid.MyMaid.dot;
 import xyz.jaoafa.mymaid.Command.BON;
 import xyz.jaoafa.mymaid.Command.Color;
@@ -118,6 +117,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 				}
 			}
 		}
+		/*
 		if(!DOT.dotcount_stop.containsKey(e.getPlayer().getName())){
 			if(!DOT.doomtask.containsKey(e.getPlayer().getName())){
 				DOT.doom.put(e.getPlayer().getName(), 1);
@@ -126,6 +126,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 				DOT.doom.put(e.getPlayer().getName(), DOT.doom.get(e.getPlayer().getName()) + 1);
 			}
 		}
+		*/
 		String Msg = e.getFormat();
 		if(e.getPlayer().hasPermission("mymaid.pex.limited")){
 				Msg = e.getFormat().replaceFirst("%1", ChatColor.BLACK + "■" + ChatColor.WHITE + "%1");

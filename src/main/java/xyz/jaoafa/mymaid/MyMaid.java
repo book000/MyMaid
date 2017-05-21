@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +41,6 @@ import org.json.simple.parser.JSONParser;
 import com.github.ucchyocean.lc.LunaChat;
 import com.github.ucchyocean.lc.LunaChatAPI;
 import com.github.ucchyocean.lc.bridge.DynmapBridge;
-import com.github.ucchyocean.lc.channel.Channel;
 import com.github.ucchyocean.lc.channel.ChannelPlayer;
 import com.ittekikun.plugin.eewalert.EEWAlert;
 
@@ -1080,7 +1078,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 
 	}
-
+	/*
 	public static class doom extends BukkitRunnable{
 		Player player;
 		public doom(JavaPlugin plugin, Player player) {
@@ -1120,7 +1118,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 
 	}
-
+	*/
 	public static class dot_section extends BukkitRunnable{
 		Player player;
 		LunaChatAPI lunachatapi;
