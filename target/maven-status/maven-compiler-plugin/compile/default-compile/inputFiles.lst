@@ -35,8 +35,8 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Database.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockIgniteEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnInventoryClickEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Discord\SendMessage.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBedEnterEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Var.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Discord\OnTypingEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBannedEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvEnder.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Method.java
@@ -77,7 +77,6 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlock
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\ItemEdit.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Pointjao.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Guard.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBedLeaveEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnWeatherChangeEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Jf.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\E.java
@@ -127,6 +126,7 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\Menu.ja
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\ConfLang.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnJoin.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\TS.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynamic.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvLoad.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvSave.java

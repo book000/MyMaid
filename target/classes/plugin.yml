@@ -448,3 +448,8 @@ commands:
       usage: /<command>
       permission: mymaid.card
       permission-message: You do not have permission to perform this command.
+   ts:
+      description: 周囲32ブロックに雷を落とします。
+      usage: /<command>
+      permission: mymaid.ts
+      permission-message: You do not have permission to perform this command.

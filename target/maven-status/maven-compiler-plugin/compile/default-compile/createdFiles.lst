@@ -42,7 +42,6 @@ xyz\jaoafa\mymaid\Discord\Discord.class
 xyz\jaoafa\mymaid\EventHandler\OnPlayerTeleportEvent.class
 xyz\jaoafa\mymaid\MyMaid$doom.class
 xyz\jaoafa\mymaid\Command\WO$Message.class
-xyz\jaoafa\mymaid\EventHandler\OnPlayerBedEnterEvent.class
 xyz\jaoafa\mymaid\Command\VarCmd.class
 xyz\jaoafa\mymaid\MyMaid$Dynmap_Update_Render.class
 xyz\jaoafa\mymaid\Command\Nuke.class
@@ -68,7 +67,6 @@ xyz\jaoafa\mymaid\Command\Prison$JailType.class
 xyz\jaoafa\mymaid\Command\MyBlock.class
 xyz\jaoafa\mymaid\EventHandler\OnPlayerKickEvent.class
 xyz\jaoafa\mymaid\EventHandler\OnBlockRedstoneEvent.class
-xyz\jaoafa\mymaid\EventHandler\OnPlayerBedLeaveEvent.class
 xyz\jaoafa\mymaid\Language.class
 xyz\jaoafa\mymaid\MyMaid$Dynmap_Update_Render_User.class
 xyz\jaoafa\mymaid\Command\Access$netaccess.class
@@ -127,7 +125,6 @@ xyz\jaoafa\mymaid\EventHandler\OnPlayerItemHeldEvent.class
 xyz\jaoafa\mymaid\MyMaid$dot_section.class
 xyz\jaoafa\mymaid\EventHandler\EyeMove.class
 xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerPreLoginEvent$DisAllowLoginType.class
-xyz\jaoafa\mymaid\Command\Dynmap_Teleporter$teleport.class
 xyz\jaoafa\mymaid\Command\RuleLoad.class
 xyz\jaoafa\mymaid\EventHandler\OnPlayerBucketEmptyEvent.class
 xyz\jaoafa\mymaid\Command\Access.class
@@ -169,7 +166,6 @@ xyz\jaoafa\mymaid\Command\Unko$Unko_Unko.class
 xyz\jaoafa\mymaid\Command\ArrowShotter$ShootCmdb.class
 xyz\jaoafa\mymaid\EventHandler\OnBannedEvent.class
 xyz\jaoafa\mymaid\Command\WO.class
-xyz\jaoafa\mymaid\Command\Dynmap_Teleporter$upteleport.class
 xyz\jaoafa\mymaid\MyMaid$usemodget.class
 xyz\jaoafa\mymaid\Command\Jf.class
 xyz\jaoafa\mymaid\EventHandler\MoveLocationName.class

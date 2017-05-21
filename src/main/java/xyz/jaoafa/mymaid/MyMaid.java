@@ -110,6 +110,7 @@ import xyz.jaoafa.mymaid.Command.SetHome;
 import xyz.jaoafa.mymaid.Command.SignLock;
 import xyz.jaoafa.mymaid.Command.Spawn;
 import xyz.jaoafa.mymaid.Command.TNTReload;
+import xyz.jaoafa.mymaid.Command.TS;
 import xyz.jaoafa.mymaid.Command.Unko;
 import xyz.jaoafa.mymaid.Command.UpGallery;
 import xyz.jaoafa.mymaid.Command.Var;
@@ -349,6 +350,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("spawn").setExecutor(new Spawn(this));
 		getCommand("skk").setExecutor(new SSK(this));
 		getCommand("tnt").setExecutor(new TNTReload(this));
+		getCommand("ts").setExecutor(new TS(this));
 		getCommand("unko").setExecutor(new Unko(this));
 		getCommand("upgallery").setExecutor(new UpGallery(this));
 		getCommand("var").setExecutor(new Var(this));
