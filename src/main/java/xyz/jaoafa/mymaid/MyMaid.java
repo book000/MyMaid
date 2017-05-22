@@ -109,6 +109,7 @@ import xyz.jaoafa.mymaid.Command.SignLock;
 import xyz.jaoafa.mymaid.Command.Spawn;
 import xyz.jaoafa.mymaid.Command.TNTReload;
 import xyz.jaoafa.mymaid.Command.TS;
+import xyz.jaoafa.mymaid.Command.Testment;
 import xyz.jaoafa.mymaid.Command.Unko;
 import xyz.jaoafa.mymaid.Command.UpGallery;
 import xyz.jaoafa.mymaid.Command.Var;
@@ -120,6 +121,7 @@ import xyz.jaoafa.mymaid.Command.WTP;
 import xyz.jaoafa.mymaid.Command.Where;
 import xyz.jaoafa.mymaid.Command.WorldTeleport;
 import xyz.jaoafa.mymaid.Discord.Discord;
+import xyz.jaoafa.mymaid.EventHandler.AntiJaoium;
 import xyz.jaoafa.mymaid.EventHandler.DefaultCheck;
 import xyz.jaoafa.mymaid.EventHandler.EyeMove;
 import xyz.jaoafa.mymaid.EventHandler.Menu;
@@ -128,9 +130,6 @@ import xyz.jaoafa.mymaid.EventHandler.NoWither;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerChatEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBannedEvent;
-import xyz.jaoafa.mymaid.EventHandler.OnBlockBreakEvent;
-import xyz.jaoafa.mymaid.EventHandler.OnBlockIgniteEvent;
-import xyz.jaoafa.mymaid.EventHandler.OnBlockPlaceEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockRedstoneEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBowClickEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBreak;
@@ -139,24 +138,18 @@ import xyz.jaoafa.mymaid.EventHandler.OnEntityChangeBlockEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnExplosion;
 import xyz.jaoafa.mymaid.EventHandler.OnFrom;
 import xyz.jaoafa.mymaid.EventHandler.OnHeadClick;
-import xyz.jaoafa.mymaid.EventHandler.OnInventoryClickEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnJoin;
 import xyz.jaoafa.mymaid.EventHandler.OnLunaChatChannelMemberChangedEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnMyMaidCommandblockLogs;
 import xyz.jaoafa.mymaid.EventHandler.OnMyMaidJoinLeftChatCmdLogs;
-import xyz.jaoafa.mymaid.EventHandler.OnPlayerBucketEmptyEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommand;
-import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommandPreprocessEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommandSendAdmin;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerDeathEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerGameModeChangeEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerInteractEvent;
-import xyz.jaoafa.mymaid.EventHandler.OnPlayerItemHeldEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerJoinEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerKickEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveAFK;
-import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveEvent;
-import xyz.jaoafa.mymaid.EventHandler.OnPlayerPickupItemEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerTeleportEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnQuitGame;
 import xyz.jaoafa.mymaid.EventHandler.OnServerCommandEvent;
@@ -165,6 +158,8 @@ import xyz.jaoafa.mymaid.EventHandler.OnVehicleCreateEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnVotifierEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnWeatherChangeEvent;
 import xyz.jaoafa.mymaid.EventHandler.SpawnEggRegulation;
+import xyz.jaoafa.mymaid.Jail.Event;
+import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class MyMaid extends JavaPlugin implements Listener {
 	public static Boolean nextbakrender = false;
@@ -226,6 +221,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		Import_Command_Executor();
 		//jaopoint読み込み
 		Load_JaoPoint();
+		//Jail情報読み込み
+		Load_JailData();
 		//コンフィグ読み込み
 		Load_Config();
 		//レシピ(クラフト)追加
@@ -347,6 +344,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("signlock").setExecutor(new SignLock(this));
 		getCommand("spawn").setExecutor(new Spawn(this));
 		getCommand("skk").setExecutor(new SSK(this));
+		getCommand("testment").setExecutor(new Testment(this));
 		getCommand("tnt").setExecutor(new TNTReload(this));
 		getCommand("ts").setExecutor(new TS(this));
 		getCommand("unko").setExecutor(new Unko(this));
@@ -379,6 +377,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	private void Import_Listener(){
 		//Listener
 		getServer().getPluginManager().registerEvents(this, this);
+		getServer().getPluginManager().registerEvents(new AntiJaoium(this), this);
 		getServer().getPluginManager().registerEvents(new DefaultCheck(this), this);
 		getServer().getPluginManager().registerEvents(new EyeMove(this), this);
 		getServer().getPluginManager().registerEvents(new Menu(this), this);
@@ -387,9 +386,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnAsyncPlayerChatEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnAsyncPlayerPreLoginEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnBannedEvent(this), this);
-		getServer().getPluginManager().registerEvents(new OnBlockBreakEvent(this), this);
-		getServer().getPluginManager().registerEvents(new OnBlockIgniteEvent(this), this);
-		getServer().getPluginManager().registerEvents(new OnBlockPlaceEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnBlockRedstoneEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnBowClickEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnBreak(this), this);
@@ -398,24 +394,18 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnExplosion(this), this);
 		getServer().getPluginManager().registerEvents(new OnFrom(this), this);
 		getServer().getPluginManager().registerEvents(new OnHeadClick(this), this);
-		getServer().getPluginManager().registerEvents(new OnInventoryClickEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnJoin(this), this);
 		getServer().getPluginManager().registerEvents(new OnLunaChatChannelMemberChangedEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnMyMaidCommandblockLogs(this), this);
 		getServer().getPluginManager().registerEvents(new OnMyMaidJoinLeftChatCmdLogs(this), this);
-		getServer().getPluginManager().registerEvents(new OnPlayerBucketEmptyEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerCommand(this), this);
-		getServer().getPluginManager().registerEvents(new OnPlayerCommandPreprocessEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerCommandSendAdmin(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerDeathEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerGameModeChangeEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerInteractEvent(this), this);
-		getServer().getPluginManager().registerEvents(new OnPlayerItemHeldEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerKickEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerMoveAFK(this), this);
-		getServer().getPluginManager().registerEvents(new OnPlayerMoveEvent(this), this);
-		getServer().getPluginManager().registerEvents(new OnPlayerPickupItemEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerTeleportEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnQuitGame(this), this);
 		getServer().getPluginManager().registerEvents(new OnServerCommandEvent(this), this);
@@ -426,6 +416,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new Land(this), this);
 		getServer().getPluginManager().registerEvents(new Cmb(this), this);
 		getServer().getPluginManager().registerEvents(new SpawnEggRegulation(this), this);
+
+		getServer().getPluginManager().registerEvents(new Event(this), this);
 	}
 	/**
 	 * コンフィグ読み込み
@@ -435,41 +427,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		ConfigurationSerialization.registerClass(SerializableLocation.class);
 		conf = getConfig();
 
-		if(conf.contains("prison")){
-			//Prison.prison = (Map<String,Boolean>) conf.getConfigurationSection("prison").getKeys(false);
-			Map<String, Object> pl = conf.getConfigurationSection("prison").getValues(true);
-			if(pl.size() != 0){
-				for(Entry<String, Object> p: pl.entrySet()){
-					Prison.prison.put(p.getKey(), (Boolean) p.getValue());
-				}
-			}
-		}else{
-			Prison.prison = new HashMap<String,Boolean>();
-			conf.set("prison",Prison.prison);
-		}
-		if(conf.contains("prison_block")){
-			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
-			Map<String, Object> pl = conf.getConfigurationSection("prison_block").getValues(true);
-			if(pl.size() != 0){
-				for(Entry<String, Object> p: pl.entrySet()){
-					Prison.prison_block.put(p.getKey(), (Boolean) p.getValue());
-				}
-			}
-		}else{
-			Prison.prison_block = new HashMap<String,Boolean>();
-			conf.set("prison_block",Prison.prison_block);
-		}
-		if(conf.contains("prison_lasttext")){
-			Map<String, Object> pl = conf.getConfigurationSection("prison_lasttext").getValues(true);
-			if(pl.size() != 0){
-				for(Entry<String, Object> p: pl.entrySet()){
-					Prison.jail_lasttext.put(p.getKey(), p.getValue().toString());
-				}
-			}
-		}else{
-			Prison.jail_lasttext = new HashMap<String,String>();
-			conf.set("prison_lasttext",Prison.jail_lasttext);
-		}
 		if(conf.contains("var")){
 			//Prison.prison_block = (Map<String,Boolean>) conf.getConfigurationSection("prison_block").getKeys(false);
 			Map<String, Object> var = conf.getConfigurationSection("var").getValues(true);
@@ -578,6 +535,20 @@ public class MyMaid extends JavaPlugin implements Listener {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 			getLogger().info("jaoPointのロードに失敗しました。");
+		}
+	}
+	/**
+	 * Jail情報読み込み
+	 * @author mine_book000
+	 */
+	private void Load_JailData(){
+		//jaoポイントをロード
+		try {
+			Jail.LoadJailData();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			getLogger().info("jail情報のロードに失敗しました。");
 		}
 	}
 	/**
@@ -727,6 +698,23 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		FurnaceRecipe test = new FurnaceRecipe(X4Z, X5Z.getData());
 		getServer().addRecipe(test);
+		FurnaceRecipe Jari_X4Z = new FurnaceRecipe(X4Z, Material.GRAVEL);
+		getServer().addRecipe(Jari_X4Z);
+		FurnaceRecipe Wheat_Bread = new FurnaceRecipe(new ItemStack(Material.BREAD), Material.WHEAT);
+		getServer().addRecipe(Wheat_Bread);
+		FurnaceRecipe Grass_Dirt = new FurnaceRecipe(new ItemStack(Material.GLASS), Material.DIRT);
+		getServer().addRecipe(Grass_Dirt);
+
+		ItemStack mine_book000 = new ItemStack(Material.SKULL_ITEM);
+		SkullMeta skullMeta_mine_book000 = (SkullMeta) mine_book000.getItemMeta();
+		mine_book000.setDurability((short) 3);
+		skullMeta_mine_book000.setOwner("mine_book000");
+		mine_book000.setItemMeta(skullMeta_mine_book000);
+
+		getServer().addRecipe(X8Z_sr);
+
+		FurnaceRecipe wooden_axe_mine_book000 = new FurnaceRecipe(mine_book000, Material.WOOD_AXE);
+		getServer().addRecipe(wooden_axe_mine_book000);
 	}
 
 	public static Map<String, String> cac = new HashMap<String, String>();
@@ -791,11 +779,17 @@ public class MyMaid extends JavaPlugin implements Listener {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 			getLogger().info("jaoPointのセーブに失敗しました。");
+			BugReport.report(e);
+		}
+		try {
+			Jail.SaveJailData();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			getLogger().info("jail情報のセーブに失敗しました。");
+			BugReport.report(e);
 		}
 
-		conf.set("prison",Prison.prison);
-		conf.set("prison_block",Prison.prison_block);
-		conf.set("prison_lasttext",Prison.jail_lasttext);
 		conf.set("var",Var.var);
 		Map<String,String> colorstr = new HashMap<String,String>();
 		for(Entry<String, ChatColor> p: Color.color.entrySet()){
@@ -884,6 +878,16 @@ public class MyMaid extends JavaPlugin implements Listener {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 				getLogger().info("jaoPointのセーブに失敗しました。");
+				BugReport.report(e);
+			}
+			//さらにJail情報も保存
+			try {
+				Jail.SaveJailData();
+			} catch (Exception e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+				getLogger().info("jail情報のセーブに失敗しました。");
+				BugReport.report(e);
 			}
 		}
 	}

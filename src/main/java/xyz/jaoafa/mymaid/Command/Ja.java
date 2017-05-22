@@ -17,6 +17,7 @@ import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
 import xyz.jaoafa.mymaid.Discord.Discord;
+import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class Ja implements CommandExecutor {
 	JavaPlugin plugin;
@@ -47,7 +48,7 @@ public class Ja implements CommandExecutor {
 		if(player.hasPermission("mymaid.pex.limited")){
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
 
-		}else if(Prison.prison.containsKey(player.getName())){
+		}else if(Jail.isJail(player)){
 			Msg = player.getName().replaceFirst(player.getName(), ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + player.getName());
 		}else if(Color.color.containsKey(player.getName())){
 			Msg = player.getName().replaceFirst(player.getName(), Color.color.get(player.getName()) + "■" + ChatColor.WHITE + player.getName());

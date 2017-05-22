@@ -27,7 +27,7 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
 import xyz.jaoafa.mymaid.Command.Color;
-import xyz.jaoafa.mymaid.Command.Prison;
+import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class Menu implements Listener {
 	JavaPlugin plugin;
@@ -52,7 +52,7 @@ public class Menu implements Listener {
 		String color = "";
 		if(player.hasPermission("mymaid.pex.limited")){
 			color = "BLACK";
-		}else if(Prison.prison.containsKey(player.getName())){
+		}else if(Jail.isJail(player)){
 			color = "DARK_GRAY";
 		}else if(Color.color.containsKey(player.getName())){
 			ChatColor colorcolor = Color.color.get(player.getName());

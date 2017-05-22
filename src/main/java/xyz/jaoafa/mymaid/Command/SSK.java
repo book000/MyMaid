@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class SSK implements CommandExecutor {
 	JavaPlugin plugin;
@@ -27,7 +28,7 @@ public class SSK implements CommandExecutor {
 	  		MyMaid.chatcolor.put(player.getName(), arr[1]);
 			if(player.hasPermission("mymaid.pex.limited")){
 				player.setPlayerListName(ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
-			}else if(Prison.prison.containsKey(player.getName())){
+			}else if(Jail.isJail(player)){
 				player.setPlayerListName(ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + player.getName());
 			}else if(MyMaid.chatcolor.containsKey(player.getName())){
 				int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));
@@ -71,7 +72,7 @@ public class SSK implements CommandExecutor {
 			  		MyMaid.chatcolor.put(player.getName(), arr[1]);
 					if(player.hasPermission("mymaid.pex.limited")){
 						player.setPlayerListName(ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
-					}else if(Prison.prison.containsKey(player.getName())){
+					}else if(Jail.isJail(player)){
 						player.setPlayerListName(ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + player.getName());
 					}else if(MyMaid.chatcolor.containsKey(player.getName())){
 						int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));

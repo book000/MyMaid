@@ -1,7 +1,6 @@
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedMsg.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Eye.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MakeCmd.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockPlaceEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmb.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\MoveLocationName.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\SpawnEggRegulation.java
@@ -32,8 +31,6 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnMyMai
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\RuleLoad.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Card.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Database.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockIgniteEvent.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnInventoryClickEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Discord\SendMessage.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Var.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Discord\OnTypingEvent.java
@@ -46,7 +43,6 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\BON.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmd_Messenger.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnSignClick.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerCommandPreprocessEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SignLock.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Vote.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Messenger.java
@@ -73,7 +69,6 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ip_To_Host.j
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Color.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerCommand.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Lag.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockBreakEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\ItemEdit.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Pointjao.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Guard.java
@@ -89,7 +84,6 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdmymaid.ja
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Inv.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnExplosion.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBowClickEvent.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerPickupItemEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\UpGallery.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\IpAddressUtils.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ck.java
@@ -100,7 +94,6 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Report.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnServerCommandEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnEEWReceiveEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Discord\BukkitChatEvent.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerBucketEmptyEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnVehicleCreateEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerTeleportEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveAFK.java
@@ -109,12 +102,12 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnVotif
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Chat.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\DefaultCheck.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBlockRedstoneEvent.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerItemHeldEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\MySQL.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DiscordLink.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Spawn.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\TNTReload.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Discord\OnDynmapWebChat.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Testment.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\WorldTeleport.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\WO.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedRain.java
@@ -124,8 +117,9 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlaye
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Quiz.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\Menu.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\ConfLang.java
-C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveEvent.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Jail\Event.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnJoin.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\AntiJaoium.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\TS.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Dynamic.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvLoad.java
@@ -138,3 +132,4 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Prison.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\BugReport.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Pin.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdsearch.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Jail\Jail.java

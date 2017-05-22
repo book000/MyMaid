@@ -453,3 +453,8 @@ commands:
       usage: /<command>
       permission: mymaid.ts
       permission-message: You do not have permission to perform this command.
+   testment:
+      description: jailコマンドで投獄された場合に遺言を残します。
+      usage: /<command>
+      permission: mymaid.testment
+      permission-message: You do not have permission to perform this command.

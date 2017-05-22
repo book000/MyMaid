@@ -17,8 +17,8 @@ import com.vexsoftware.votifier.model.VotifierEvent;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
-import xyz.jaoafa.mymaid.Command.Prison;
 import xyz.jaoafa.mymaid.Discord.Discord;
+import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class OnVotifierEvent implements Listener {
 	JavaPlugin plugin;
@@ -66,7 +66,7 @@ public class OnVotifierEvent implements Listener {
         	 */
         	if(player.hasPermission("mymaid.pex.limited")){
 				player.setPlayerListName(ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
-			}else if(Prison.prison.containsKey(player.getName())){
+			}else if(Jail.isJail(player)){
 				player.setPlayerListName(ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + player.getName());
 			}else if(MyMaid.chatcolor.containsKey(player.getName())){
 				int i1 = Integer.parseInt(i);

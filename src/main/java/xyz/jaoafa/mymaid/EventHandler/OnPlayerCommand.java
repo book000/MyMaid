@@ -14,8 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.MyMaid;
-import xyz.jaoafa.mymaid.Command.Prison;
 import xyz.jaoafa.mymaid.Discord.Discord;
+import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class OnPlayerCommand implements Listener {
 	JavaPlugin plugin;
@@ -32,7 +32,7 @@ public class OnPlayerCommand implements Listener {
     			ChatColor color = ChatColor.RESET;
 				if(player.hasPermission("mymaid.pex.limited")){
 					color = ChatColor.BLACK;
-    			}else if(Prison.prison.containsKey(player.getName())){
+    			}else if(Jail.isJail(player)){
     				color = ChatColor.DARK_GRAY;
     			}else if(MyMaid.chatcolor.containsKey(player.getName())){
     	  			int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));
@@ -156,7 +156,7 @@ public class OnPlayerCommand implements Listener {
     			ChatColor color = ChatColor.RESET;
 				if(player.hasPermission("mymaid.pex.limited")){
 					color = ChatColor.BLACK;
-    			}else if(Prison.prison.containsKey(player.getName())){
+    			}else if(Jail.isJail(player)){
     				color = ChatColor.DARK_GRAY;
     			}else if(MyMaid.chatcolor.containsKey(player.getName())){
     	  			int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));

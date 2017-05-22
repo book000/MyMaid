@@ -19,8 +19,8 @@ import xyz.jaoafa.mymaid.MyMaid.dot;
 import xyz.jaoafa.mymaid.Command.BON;
 import xyz.jaoafa.mymaid.Command.Color;
 import xyz.jaoafa.mymaid.Command.DOT;
-import xyz.jaoafa.mymaid.Command.Prison;
 import xyz.jaoafa.mymaid.Command.WO;
+import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class OnAsyncPlayerChatEvent implements Listener {
 	JavaPlugin plugin;
@@ -131,7 +131,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 		if(e.getPlayer().hasPermission("mymaid.pex.limited")){
 				Msg = e.getFormat().replaceFirst("%1", ChatColor.BLACK + "■" + ChatColor.WHITE + "%1");
 				e.setFormat(Msg);
-	  	}else if(Prison.prison.containsKey(e.getPlayer().getName())){
+	  	}else if(Jail.isJail(e.getPlayer())){
 			Msg = e.getFormat().replaceFirst("%1", ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + "%1");
 			e.setFormat(Msg);
 	  	}else if(Color.color.containsKey(e.getPlayer().getName())){

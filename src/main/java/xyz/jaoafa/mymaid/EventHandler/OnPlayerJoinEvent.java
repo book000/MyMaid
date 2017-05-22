@@ -27,7 +27,7 @@ import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
 import xyz.jaoafa.mymaid.Pointjao;
 import xyz.jaoafa.mymaid.Command.Color;
-import xyz.jaoafa.mymaid.Command.Prison;
+import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class OnPlayerJoinEvent implements Listener {
 	JavaPlugin plugin;
@@ -211,7 +211,7 @@ public class OnPlayerJoinEvent implements Listener {
 		public void run() {
 			if(player.hasPermission("mymaid.pex.limited")){
 				player.setPlayerListName(ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
-			}else if(Prison.prison.containsKey(player.getName())){
+			}else if(Jail.isJail(player)){
 				player.setPlayerListName(ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + player.getName());
 			}else if(Color.color.containsKey(player.getName())){
 				player.setPlayerListName(Color.color.get(player.getName()) + "■" + ChatColor.WHITE + player.getName());
