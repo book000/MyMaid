@@ -46,7 +46,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 					Method.SendMessage(sender, cmd, "プレイヤー情報を読み込めません。");
 					return true;
 				}
-				boolean after = Boolean.getBoolean(args[2]);
+				boolean after = Boolean.valueOf(args[2]);
 				Jail.JailArea(cmd, player, sender, after);
 				return true;
 			}else if(args[0].equalsIgnoreCase("block")){
@@ -55,7 +55,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 					Method.SendMessage(sender, cmd, "プレイヤー情報を読み込めません。");
 					return true;
 				}
-				boolean after = Boolean.getBoolean(args[2]);
+				boolean after = Boolean.valueOf(args[2]);
 				Jail.JailBlock(cmd, player, sender, after);
 				return true;
 			}else if(args[0].equalsIgnoreCase("add")){

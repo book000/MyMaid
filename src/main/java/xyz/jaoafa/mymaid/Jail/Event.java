@@ -33,7 +33,7 @@ public class Event implements Listener {
 		if(!Jail.isJail(player)){ // jailにいる
 			return;
 		}
-		if(!Jail.isJailArea(player)){ // 外に出られない
+		if(Jail.isJailArea(player)){ // 外に出られない
 			return;
 		}
 		World World = Bukkit.getServer().getWorld("Jao_Afa");
@@ -65,7 +65,7 @@ public class Event implements Listener {
 		Location prison = new Location(World, 1767, 70, 1767);
 		if(prison.distance(event.getBlock().getLocation()) <= 150){
 			if(event.getBlock().getType() == Material.COMMAND){
-				player.sendMessage("[PRISON] " + ChatColor.GREEN + "楽園にコマンドブロックを設置できません。");
+				player.sendMessage("[JAIL] " + ChatColor.GREEN + "楽園にコマンドブロックを設置できません。");
 				event.setCancelled(true);
 				return;
 			}
@@ -73,7 +73,7 @@ public class Event implements Listener {
 		if(!Jail.isJail(player)){ // jailにいる
 			return;
 		}
-		if(!Jail.isJailBlock(player)){ // ブロックを設置破壊できるか
+		if(Jail.isJailBlock(player)){ // ブロックを設置破壊できるか
 			return;
 		}
 		event.setCancelled(true);
@@ -95,7 +95,7 @@ public class Event implements Listener {
 		if(!Jail.isJail(player)){ // jailにいる
 			return;
 		}
-		if(!Jail.isJailBlock(player)){ // ブロックを設置破壊できるか
+		if(Jail.isJailBlock(player)){ // ブロックを設置破壊できるか
 			return;
 		}
 		event.setCancelled(true);

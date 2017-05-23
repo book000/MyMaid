@@ -126,17 +126,25 @@ public class Jail {
 	public static void SendList(CommandSender sender, Command cmd){
 		Method.SendMessage(sender, cmd, "------ 牢獄リスト ------");
 		for(String player : Jail){
-			String text;
+			String text = "";
 			if(area.containsKey(player)){
-				text = "過度移動許可";
+				if(area.get(player)){
+					text = "過度移動許可";
+				}else{
+					text = "過度移動不許可";
+				}
 			}else{
-				text = "過度移動不許可";
+				text = "情報無し";
 			}
 			text += " ";
 			if(block.containsKey(player)){
-				text += "設置破壊許可";
+				if(block.get(player)){
+					text += "設置破壊許可";
+				}else{
+					text += "設置破壊不許可";
+				}
 			}else{
-				text += "設置破壊不許可";
+				text += "情報無し";
 			}
 			Method.SendMessage(sender, cmd, player + " " + text);
 		}
