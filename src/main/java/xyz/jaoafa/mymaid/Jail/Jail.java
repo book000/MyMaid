@@ -251,6 +251,7 @@ public class Jail {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "じゃあな…！");
+		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を牢獄リストから削除しました。");
 		JailBackupSaveTxt(player.getName(), JailType.REMOVE, banned_by.getName(), "");
 		return true;
 	}
