@@ -86,6 +86,15 @@ public class Where implements CommandExecutor {
 				int y2 = Integer.parseInt(String.valueOf(one.getValue().get("y2")));
 				int z1 = Integer.parseInt(String.valueOf(one.getValue().get("z1")));
 				int z2 = Integer.parseInt(String.valueOf(one.getValue().get("z2")));
+				String world = "";
+				if(((String)one.getValue().get("world")).equalsIgnoreCase("")){
+					world = "Jao_Afa";
+				}else{
+					world = (String)one.getValue().get("world");
+				}
+				if(!loc.getWorld().getName().equalsIgnoreCase(world)){
+					continue;
+				}
 				if(x1 <= loc.getBlockX() && x2 >= loc.getBlockX()){
 					if(y1 <= loc.getBlockY() && y2 >= loc.getBlockY()){
 						if(z1 <= loc.getBlockZ() && z2 >= loc.getBlockZ()){
@@ -238,6 +247,15 @@ public class Where implements CommandExecutor {
 				int y2 = Integer.parseInt(String.valueOf(one.getValue().get("y2")));
 				int z1 = Integer.parseInt(String.valueOf(one.getValue().get("z1")));
 				int z2 = Integer.parseInt(String.valueOf(one.getValue().get("z2")));
+				String world = "";
+				if(((String)one.getValue().get("world")).equalsIgnoreCase("")){
+					world = "Jao_Afa";
+				}else{
+					world = (String)one.getValue().get("world");
+				}
+				if(!loc.getWorld().getName().equalsIgnoreCase(world)){
+					continue;
+				}
 				if(x1 <= loc.getBlockX() && x2 >= loc.getBlockX()){
 					if(y1 <= loc.getBlockY() && y2 >= loc.getBlockY()){
 						if(z1 <= loc.getBlockZ() && z2 >= loc.getBlockZ()){
@@ -427,6 +445,15 @@ public class Where implements CommandExecutor {
 				int y2 = Integer.parseInt(String.valueOf(one.getValue().get("y2")));
 				int z1 = Integer.parseInt(String.valueOf(one.getValue().get("z1")));
 				int z2 = Integer.parseInt(String.valueOf(one.getValue().get("z2")));
+				String world = "";
+				if(((String)one.getValue().get("world")).equalsIgnoreCase("")){
+					world = "Jao_Afa";
+				}else{
+					world = (String)one.getValue().get("world");
+				}
+				if(!loc.getWorld().getName().equalsIgnoreCase(world)){
+					continue;
+				}
 				if(x1 <= loc.getBlockX() && x2 >= loc.getBlockX()){
 					if(y1 <= loc.getBlockY() && y2 >= loc.getBlockY()){
 						if(z1 <= loc.getBlockZ() && z2 >= loc.getBlockZ()){
@@ -609,6 +636,15 @@ public class Where implements CommandExecutor {
 				int y2 = Integer.parseInt(String.valueOf(one.getValue().get("y2")));
 				int z1 = Integer.parseInt(String.valueOf(one.getValue().get("z1")));
 				int z2 = Integer.parseInt(String.valueOf(one.getValue().get("z2")));
+				String world = "";
+				if(((String)one.getValue().get("world")).equalsIgnoreCase("")){
+					world = "Jao_Afa";
+				}else{
+					world = (String)one.getValue().get("world");
+				}
+				if(!loc.getWorld().getName().equalsIgnoreCase(world)){
+					continue;
+				}
 				if(x1 <= loc.getBlockX() && x2 >= loc.getBlockX()){
 					if(y1 <= loc.getBlockY() && y2 >= loc.getBlockY()){
 						if(z1 <= loc.getBlockZ() && z2 >= loc.getBlockZ()){
