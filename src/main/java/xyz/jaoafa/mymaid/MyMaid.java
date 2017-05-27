@@ -238,7 +238,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		getLogger().info("--------------------------------------------------");
 
-		Discord.Queuesend("**Server Started.**");
+		Discord.send("**Server Started.**");
 	}
 	/**
 	 * 初期設定
@@ -1179,7 +1179,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 			MyMaid.lunachatapi.setPlayersJapanize(player.getName(), DOT.kana.get(player.getName()));
 		}
 	}
-
+	/*
 	public static class QueueDiscordSendData extends BukkitRunnable{
 		JavaPlugin plugin;
 		public QueueDiscordSendData(JavaPlugin plugin) {
@@ -1198,6 +1198,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 
 	}
+	*/
 	public static JavaPlugin getJavaPlugin(){
 		return instance;
 	}

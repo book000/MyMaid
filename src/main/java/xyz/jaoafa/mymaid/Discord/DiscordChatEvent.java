@@ -8,8 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.md_5.bungee.api.ChatColor;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IRole;
-import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.handle.obj.IEmoji;
 import xyz.jaoafa.mymaid.MyMaid;
 
 public class DiscordChatEvent {
@@ -22,10 +21,13 @@ public class DiscordChatEvent {
 		if(!event.getMessage().getChannel().getID().equalsIgnoreCase(Discord.channel.getID())){
 			return;
 		}
-		String content = event.getMessage().getContent();
-		List<IUser> mentions = event.getMessage().getMentions();
-		List<IRole> roleMentions = event.getMessage().getRoleMentions();
+		//String content = event.getMessage().getContent();
+		//List<IUser> mentions = event.getMessage().getMentions();
+		//List<IRole> roleMentions = event.getMessage().getRoleMentions();
+		List<IEmoji> emojis = event.getMessage().getGuild().getEmojis();
+		String content = event.getMessage().getFormattedContent();
 
+		 /*
 		for (IUser u : mentions) {
             String name = u.getNicknameForGuild(Discord.guild).get();
             String id = u.getID();
@@ -41,6 +43,14 @@ public class DiscordChatEvent {
 
             content = content.replaceAll("<@&" + roleId + ">", "@" + roleName);
         }
+        */
+		for(IEmoji emoji : emojis){
+			String EmojiName = emoji.getName();
+			String EmojiID = emoji.getID();
+
+			content = content.replaceAll("<:" + EmojiName + ":" + EmojiID + ">", ":" + EmojiName + ":");
+		}
+
 		String author = event.getMessage().getAuthor().getNicknameForGuild(Discord.guild).orElseGet(() -> event.getMessage().getAuthor().getName());
 		Bukkit.broadcastMessage(ChatColor.AQUA + "(Discord) " + ChatColor.RESET + author + ": " + content);
 		org.bukkit.entity.Player fake = Bukkit.getPlayer(author);

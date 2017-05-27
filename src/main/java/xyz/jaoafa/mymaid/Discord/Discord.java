@@ -206,6 +206,7 @@ public class Discord {
 	}
 	public static Queue<String> SendData = new ArrayDeque<String>();
 	public static BukkitTask task = null;
+	/*
 	public static void Queuesend(String message){
 		SendData.add(message);
 		if(task != null){
@@ -213,6 +214,7 @@ public class Discord {
 		}
 		task = new MyMaid.QueueDiscordSendData(MyMaid.getJavaPlugin()).runTaskTimer(MyMaid.getJavaPlugin(), 0, 10);
 	}
+	*/
 
 	public static String format(String message){
 		if(guild == null){
@@ -228,6 +230,9 @@ public class Discord {
 				message = message.replaceAll("@" + Pattern.quote(user.getNicknameForGuild(guild).get()), "<@" + user.getID() + ">");
 			}
 			message = message.replaceAll("@" + Pattern.quote(user.getName()), "<@" + user.getID() + ">");
+		}
+		for (IChannel channel : guild.getChannels()) {
+			message = message.replaceAll("#" + Pattern.quote(channel.getName()), "<#" + channel.getID() + ">");
 		}
 		return message;
 	}

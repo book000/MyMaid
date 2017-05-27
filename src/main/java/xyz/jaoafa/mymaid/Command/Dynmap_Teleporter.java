@@ -49,7 +49,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				return true;
 			}else if(args[0].equalsIgnoreCase("del")){
 				// 一つではdelは使えない
-				Method.SendMessage(sender, cmd, "マーカーの削除には/dt add <MarkerName>を使用します。");
+				Method.SendMessage(sender, cmd, "マーカーの削除には/dt del <MarkerName>を使用します。");
 				return true;
 			}else if(args[0].equalsIgnoreCase("list")){
 				Set<Marker> Markers = new HashSet<Marker>();
@@ -342,7 +342,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 		Method.SendMessage(sender, cmd, "---- Dynmap Teleporter ----");
 		Method.SendMessage(sender, cmd, "/dt [Player] <MarkerName...>: MarkerNameにテレポートします。Playerを指定した場合はそのPlayerをテレポートさせます。");
 		Method.SendMessage(sender, cmd, "/dt add <MarkerName> <MarkerType>: Markerを追加します。");
-		Method.SendMessage(sender, cmd, "/dt add <MarkerName> <MarkerType>: Markerを削除します。");
+		Method.SendMessage(sender, cmd, "/dt del <MarkerName> <MarkerType>: Markerを削除します。");
 		return true;
 	}
 
