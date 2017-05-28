@@ -9,6 +9,7 @@ import net.md_5.bungee.api.ChatColor;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IEmoji;
+import sx.blah.discord.handle.obj.IMessage.Attachment;
 import xyz.jaoafa.mymaid.MyMaid;
 
 public class DiscordChatEvent {
@@ -53,6 +54,12 @@ public class DiscordChatEvent {
 
 		String author = event.getMessage().getAuthor().getNicknameForGuild(Discord.guild).orElseGet(() -> event.getMessage().getAuthor().getName());
 		Bukkit.broadcastMessage(ChatColor.AQUA + "(Discord) " + ChatColor.RESET + author + ": " + content);
+
+		List<Attachment> embeds = event.getMessage().getAttachments();
+		for(Attachment embed : embeds){
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw @a [\"\",{\"text\":\"(Discord) \",\"color\":\"aqua\"},{\"text\":\"" + author + "(File): \",\"color\":\"none\"},{\"text\":\"" + embed.getFilename() + "\",\"underlined\":true,\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + embed.getUrl() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"" + embed.getUrl() +" を開きます。\"}]}},\"color\":\"none\"}]");
+		}
+
 		org.bukkit.entity.Player fake = Bukkit.getPlayer(author);
 		MyMaid.dynmapbridge.chat(fake, content);
 	}

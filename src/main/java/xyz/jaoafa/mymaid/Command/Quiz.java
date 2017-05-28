@@ -2,6 +2,7 @@ package xyz.jaoafa.mymaid.Command;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -61,8 +62,8 @@ public class Quiz implements CommandExecutor {
 					Player player = (Player) sender;
 					int use = 20;
 					if(!Pointjao.hasjao(player, use)){
-					 	 Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
-					 	 return true;
+						Method.SendMessage(sender, cmd, "このコマンドを使用するためのjaoPointが足りません。");
+						return true;
 					}
 					Pointjao.usejao(player, use, "quizコマンド実行でクイズを開始した為");
 				}
@@ -79,12 +80,6 @@ public class Quiz implements CommandExecutor {
 				Discord.send("回答選択: " + questions);
 				Discord.send("回答形式:「/quiz " + qid + " [1-" + quizcount + "]」");
 				return true;
-			}else{
-				Method.SendMessage(sender, cmd, "--- Quiz Help ---");
-				Method.SendMessage(sender, cmd, "/quiz q <Question> <Answer...>: クイズを作成します。");
-				Method.SendMessage(sender, cmd, "/quiz a <QuestionID> <AnswerID>: クイズの回答を発表します。");
-				Method.SendMessage(sender, cmd, "/quiz <QuestionID> <AnswerID>: クイズに答えます。");
-				return true;
 			}
 		}else if(args.length == 3){
 			if(args[0].equalsIgnoreCase("a")){
@@ -97,7 +92,7 @@ public class Quiz implements CommandExecutor {
 					sender.sendMessage("[QUIZ] " + ChatColor.GREEN + "クイズID(5桁の半角数字)を入力してください。");
 					return true;
 				}
-				*/
+				 */
 				int qid;
 				int aid;
 				try{
@@ -146,15 +141,8 @@ public class Quiz implements CommandExecutor {
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "答えは" + aid + "の「" + answer + "」でした。");
 				Bukkit.broadcastMessage("[QUIZ] " + ChatColor.GREEN + "回答 " + answers);
 				Discord.send("クイズ「" + question + "(クイズID:" + qid + ")」の解答が発表されました。");
-				Discord.send("質問: 「" + args[1] + "」");
 				Discord.send("答えは" + aid + "の「" + answer + "」でした。");
 				Discord.send("回答 " + answers);
-				return true;
-			}else{
-				Method.SendMessage(sender, cmd, "--- Quiz Help ---");
-				Method.SendMessage(sender, cmd, "/quiz q <Question> <Answer...>: クイズを作成します。");
-				Method.SendMessage(sender, cmd, "/quiz a <QuestionID> <AnswerID>: クイズの回答を発表します。");
-				Method.SendMessage(sender, cmd, "/quiz <QuestionID> <AnswerID>: クイズに答えます。");
 				return true;
 			}
 		}else if(args.length == 2){
@@ -166,7 +154,7 @@ public class Quiz implements CommandExecutor {
 				sender.sendMessage("[QUIZ] " + ChatColor.GREEN + "クイズID(5桁の半角数字)を入力してください。");
 				return true;
 			}
-			*/
+			 */
 			int qid;
 			int aid;
 			try{
@@ -201,12 +189,36 @@ public class Quiz implements CommandExecutor {
 
 			sender.sendMessage("[QUIZ] " + ChatColor.GREEN + "「" + question + "」に「" + answer + "」と回答しました。");
 			return true;
-		}else{
-			Method.SendMessage(sender, cmd, "--- Quiz Help ---");
-			Method.SendMessage(sender, cmd, "/quiz q <Question> <Answer...>: クイズを作成します。");
-			Method.SendMessage(sender, cmd, "/quiz a <QuestionID> <AnswerID>: クイズの回答を発表します。");
-			Method.SendMessage(sender, cmd, "/quiz <QuestionID> <AnswerID>: クイズに答えます。");
-			return true;
+		}else if(args.length == 1){
+			if(args[0].equalsIgnoreCase("list")){
+				Method.SendMessage(sender, cmd, "--- Quiz List ---");
+				for(Entry<Integer, Map<String, String>> e : quiz.entrySet()) { // <クイズID, Map<key, Value>>
+					int id = e.getKey();
+					Map<String, String> data = e.getValue();
+					String player = data.get("player");
+					String question = data.get("question");
+					Method.SendMessage(sender, cmd, "Question: " + question);
+					Method.SendMessage(sender, cmd, "  " + "Player: " + player);
+					Method.SendMessage(sender, cmd, "  " + "QuestionID: " + id);
+					int c = 1;
+					while(true){
+						if(!Quiz.answer.get(id).containsKey(c)){
+							break;
+						}
+						String answer = quiz.get(id).get(""+c);
+						int ans = Quiz.answer.get(id).get(c);
+						Method.SendMessage(sender, cmd, "  " + c + ": " + answer + " (" + ans + " vote)");
+						c++;
+					}
+				}
+				return true;
+			}
 		}
+		Method.SendMessage(sender, cmd, "--- Quiz Help ---");
+		Method.SendMessage(sender, cmd, "/quiz q <Question> <Answer...>: クイズを作成します。");
+		Method.SendMessage(sender, cmd, "/quiz a <QuestionID> <AnswerID>: クイズの回答を発表します。");
+		Method.SendMessage(sender, cmd, "/quiz <QuestionID> <AnswerID>: クイズに答えます。");
+		Method.SendMessage(sender, cmd, "/quiz list: 現在出題中のクイズを表示します。");
+		return true;
 	}
 }

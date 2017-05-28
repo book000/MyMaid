@@ -31,6 +31,7 @@ import org.json.simple.parser.ParseException;
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class Jail {
 	private static Set<String> Jail = new HashSet<String>();
@@ -68,9 +69,10 @@ public class Jail {
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "あと、「/testment <LastText>」で遺言を残せるよ！");
 
-		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=");
+		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=&nosend");
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を牢獄リストに追加しました。");
 		JailBackupSaveTxt(player.getName(), JailType.ADD, banned_by.getName(), "");
+		Discord.send("223582668132974594", "***EBan[追加]***: プレイヤー「" + player.getName() +"」が「" + banned_by.getName() +"」によってJailリストに追加されました。");
 		return true;
 	}
 
@@ -112,9 +114,10 @@ public class Jail {
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "あと、「/testment <LastText>」で遺言を残せるよ！");
 
-		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=" + reason);
+		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=" + reason + "&nosend");
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + reason + "」という理由で牢獄リストに追加しました。");
 		JailBackupSaveTxt(player.getName(), JailType.ADD, banned_by.getName(), reason);
+		Discord.send("223582668132974594", "***EBan[追加]***: プレイヤー「" + player.getName() +"」が「" + banned_by.getName() +"」によって「" + reason + "」という理由でJailリストに追加されました。");
 		return true;
 	}
 
@@ -155,9 +158,10 @@ public class Jail {
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "あと、「/testment <LastText>」で遺言を残せるよ！");
 
-		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=" + reason);
+		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=" + reason + "&nosend");
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + reason + "」という理由で牢獄リストに追加しました。");
 		JailBackupSaveTxt(player.getName(), JailType.ADD, banned_by.getName(), reason);
+		Discord.send("223582668132974594", "***EBan[追加]***: プレイヤー「" + player.getName() +"」が「" + banned_by.getName() +"」によって「" + reason + "」という理由でJailリストに追加されました。");
 		return true;
 	}
 
@@ -219,6 +223,7 @@ public class Jail {
 		lasttext.put(player.getName(), true);
 		Method.url_jaoplugin("eban", "p=" + player.getName() + "&lasttext=" + LastText.replaceAll(" ", "_"));
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」が遺言を残しました。遺言:「" + LastText +"」");
+		Discord.send("223582668132974594", "***EBan[遺言]***: プレイヤー「" + player.getName() +"」が「" + LastText + "」という遺言を残しました。");
 		JailBackupSaveTxt(player.getName(), JailType.LASTTEXT, "", LastText);
 		return true;
 	}
@@ -241,9 +246,11 @@ public class Jail {
 		area.put(player.getName(), after);
 		if(after){
 			Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を範囲外に移動できるよう設定しました。");
+			Discord.send("223582668132974594", "***EBan[範囲外移動]***: プレイヤー「" + player.getName() +"」が範囲外に移動できるよう設定しました。");
 			JailBackupSaveTxt(player.getName(), JailType.AREATRUE, banned_by.getName(), "");
 		}else{
 			Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を範囲外に移動できないよう設定しました。");
+			Discord.send("223582668132974594", "***EBan[範囲外移動]***: プレイヤー「" + player.getName() +"」が範囲外に移動できないよう設定しました。");
 			JailBackupSaveTxt(player.getName(), JailType.AREAFALSE, banned_by.getName(), "");
 		}
 		return true;
@@ -267,9 +274,11 @@ public class Jail {
 		block.put(player.getName(), after);
 		if(after){
 			Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」がブロックを設置破壊できるよう設定しました。");
+			Discord.send("223582668132974594", "***EBan[ブロック編集]***: プレイヤー「" + player.getName() +"」がブロックを設置破壊できるよう設定しました。");
 			JailBackupSaveTxt(player.getName(), JailType.BLOCKTRUE, banned_by.getName(), "");
 		}else{
 			Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」がブロックを設置破壊できるよう設定しました。");
+			Discord.send("223582668132974594", "***EBan[ブロック編集]***: プレイヤー「" + player.getName() +"」がブロックを設置破壊できるよう設定しました。");
 			JailBackupSaveTxt(player.getName(), JailType.BLOCKFALSE, banned_by.getName(), "");
 		}
 		return true;
@@ -297,6 +306,7 @@ public class Jail {
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "じゃあな…！");
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を牢獄リストから削除しました。");
 		JailBackupSaveTxt(player.getName(), JailType.REMOVE, banned_by.getName(), "");
+		Discord.send("223582668132974594", "***EBan[削除]***: プレイヤー「" + player.getName() +"」が「" + banned_by.getName() + "」によってJailリストから削除されました");
 		return true;
 	}
 
