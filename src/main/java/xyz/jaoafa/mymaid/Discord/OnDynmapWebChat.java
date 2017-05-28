@@ -16,7 +16,7 @@ public class OnDynmapWebChat implements Listener {
 		String message = event.getMessage();
 		message = Discord.format(message);
 
-		String SendMessage = "**" + player + "**: " + message;
+		String SendMessage = "**[WEB]" + player + "**: " + message;
 
 		Discord.send(SendMessage);
 	}
