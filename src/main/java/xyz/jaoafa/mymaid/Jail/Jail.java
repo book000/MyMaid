@@ -17,6 +17,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -87,6 +88,49 @@ public class Jail {
 		if(Jail.contains(player.getName())){
 			// 既に牢獄にいるので無理
 			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
+			return false;
+		}
+		Jail.add(player.getName());
+		block.put(player.getName(), false); // 設置破壊不可
+		area.put(player.getName(), false); // 範囲外移動
+		lasttext.put(player.getName(), false); // まだ遺言を残してない
+
+		if(InvRemove){
+			player.getInventory().clear();
+			player.getEnderChest().clear();
+		}
+
+		World Jao_Afa = Bukkit.getServer().getWorld("Jao_Afa");
+		Location minami = new Location(Jao_Afa, 1767, 70, 1767);
+		player.teleport(minami); // テレポート
+
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "やあ。" + player.getName() + "クン。どうも君はなにかをして南の楽園に来てしまったみたいなんだ");
+		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "話を聞けば、「" + reason + "」という理由でここにきたみたいだね。");
+		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "ちょっとやったことを反省してみるのもいいかもしれないね");
+		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
+		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "あと、「/testment <LastText>」で遺言を残せるよ！");
+
+		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=" + reason);
+		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + reason + "」という理由で牢獄リストに追加しました。");
+		JailBackupSaveTxt(player.getName(), JailType.ADD, banned_by.getName(), reason);
+		return true;
+	}
+
+	/**
+	 * Jailに理由つきでプレイヤーを追加
+	 * @param cmd コマンド情報
+	 * @param player プレイヤー
+	 * @param banned_by 追加したプレイヤー
+	 * @param reason 理由
+	 * @param InvRemove インベントリを削除するか
+	 * @return 実行できたかどうか
+	 * @author mine_book000
+	*/
+	public static boolean JailAdd(Player player, OfflinePlayer banned_by, String reason, boolean InvRemove){
+		if(Jail.contains(player.getName())){
+			// 既に牢獄にいるので無理
 			return false;
 		}
 		Jail.add(player.getName());

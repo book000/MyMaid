@@ -25,6 +25,7 @@ public class AntiJaoium implements Listener {
 	public AntiJaoium(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void InvClick(InventoryClickEvent event) {
 		if (!(event.getWhoClicked() instanceof Player)) {
@@ -99,9 +100,10 @@ public class AntiJaoium implements Listener {
 		}
 		if(jaoium){
 			Bukkit.broadcastMessage("[jaoium_Checker] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」からjaoiumと同等の性能を持つアイテムが検出されました。");
-			Jail.JailAdd(player, Bukkit.getPlayer("jaotan"), "jaoium所持", true);
+			Jail.JailAdd(player, Bukkit.getOfflinePlayer("jaotan"), "jaoium所持", true);
 		}
 	}
+	@SuppressWarnings("deprecation")
 	@EventHandler(ignoreCancelled = true)
     public void onPlayerItemHeldEvent(PlayerItemHeldEvent event){
 		Player player = event.getPlayer();
@@ -173,11 +175,13 @@ public class AntiJaoium implements Listener {
 		}
 		if(jaoium){
 			Bukkit.broadcastMessage("[jaoium_Checker] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」からjaoiumと同等の性能を持つアイテムが検出されました。");
-			Jail.JailAdd(player, Bukkit.getPlayer("jaotan"), "jaoium所持", true);
+			Jail.JailAdd(player, Bukkit.getOfflinePlayer("jaotan"), "jaoium所持", true);
 		}
 	}
+
+    @SuppressWarnings("deprecation")
 	@EventHandler(ignoreCancelled = true)
-    public void onPlayerInteractEvent(PlayerInteractEvent event){
+	public void onPlayerInteractEvent(PlayerInteractEvent event){
 		Player player = event.getPlayer();
 		Inventory inventory = player.getInventory();
 		Inventory enderchestinventory = player.getEnderChest();
@@ -247,9 +251,10 @@ public class AntiJaoium implements Listener {
 		}
 		if(jaoium){
 			Bukkit.broadcastMessage("[jaoium_Checker] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」からjaoiumと同等の性能を持つアイテムが検出されました。");
-			Jail.JailAdd(player, Bukkit.getPlayer("jaotan"), "jaoium所持", true);
+			Jail.JailAdd(player, Bukkit.getOfflinePlayer("jaotan"), "jaoium所持", true);
 		}
 	}
+	@SuppressWarnings("deprecation")
 	@EventHandler
     public void onProjectileLaunchEvent(ProjectileLaunchEvent event){
 		if (!(event.getEntity().getShooter() instanceof org.bukkit.entity.Player)) {
@@ -324,10 +329,11 @@ public class AntiJaoium implements Listener {
 		}
 		if(jaoium){
 			Bukkit.broadcastMessage("[jaoium_Checker] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」からjaoiumと同等の性能を持つアイテムが検出されました。");
-			Jail.JailAdd(player, Bukkit.getPlayer("jaotan"), "jaoium所持", true);
+			Jail.JailAdd(player, Bukkit.getOfflinePlayer("jaotan"), "jaoium所持", true);
 			event.setCancelled(true);
 		}
 	}
+	@SuppressWarnings("deprecation")
 	@EventHandler
     public void onPotionSplashEvent(PotionSplashEvent event){
 		if (!(event.getEntity().getShooter() instanceof org.bukkit.entity.Player)) {
@@ -402,7 +408,7 @@ public class AntiJaoium implements Listener {
 		}
 		if(jaoium){
 			Bukkit.broadcastMessage("[jaoium_Checker] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」からjaoiumと同等の性能を持つアイテムが検出されました。");
-			Jail.JailAdd(player, Bukkit.getPlayer("jaotan"), "jaoium所持", true);
+			Jail.JailAdd(player, Bukkit.getOfflinePlayer("jaotan"), "jaoium所持", true);
 			event.setCancelled(true);
 		}
 	}
