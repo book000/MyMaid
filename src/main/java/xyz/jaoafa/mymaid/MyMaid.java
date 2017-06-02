@@ -897,6 +897,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 				getLogger().info("jail情報のセーブに失敗しました。");
 				BugReport.report(e);
 			}
+			//どうせならSKK情報も
+			SKKColors.Save();
 		}
 	}
 

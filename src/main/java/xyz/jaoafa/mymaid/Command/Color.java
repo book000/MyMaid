@@ -29,27 +29,42 @@ public class Color implements CommandExecutor, TabCompleter {
 			return true;
 		}
 		Player player = (Player) sender;
-  		if(SKKColors.getPlayerVoteCount(player) < 200){
-  			Method.SendMessage(sender, cmd, "投票数が200回を超えていないため、四角色を変更する権限がありません。");
-			return true;
-  		}
 		if(args.length == 1){
-			if(args[0].equalsIgnoreCase("show")){
+			if(args[0].equalsIgnoreCase("showcolor")){
+				if(SKKColors.getPlayerVoteCount(player) < 200){
+		  			Method.SendMessage(sender, cmd, "投票数が200回を超えていないため、四角色を閲覧する権限がありません。");
+					return true;
+		  		}
 				if(color.get(player.getName()) == null){
 					Method.SendMessage(sender, cmd, "デフォルト色のLIGHT_PURPLEに指定されています。");
 					return true;
 				}else{
-					Method.SendMessage(sender, cmd, "「" + color.get(player.getName()) + "■" + ChatColor.GREEN + "」に指定されています。");
+					Method.SendMessage(sender, cmd, "「" + color.get(player.getName()) + "■" + ChatColor.GREEN + " (" + color.get(player.getName()).name() +")」に指定されています。");
 					return true;
 				}
-			}else{
-				Method.SendMessage(sender, cmd, "--- Color Help ---");
-				Method.SendMessage(sender, cmd, "/color show: 現在指定している四角色を表示します。");
-				Method.SendMessage(sender, cmd, "/color set <Color>: 四角色を変更します。");
+			}else if(args[0].equalsIgnoreCase("deljointext")){
+				if(SKKColors.getPlayerVoteCount(player) < 300){
+		  			Method.SendMessage(sender, cmd, "投票数が300回を超えていないため、最終文字列を削除する権限がありません。");
+					return true;
+		  		}
+				SKKColors.delPlayerJoinMsgLastMsg(player);
+				Method.SendMessage(sender, cmd, "ログインメッセージの最終文字列を削除しました。");
+				return true;
+			}else if(args[0].equalsIgnoreCase("showjointext")){
+				if(SKKColors.getPlayerVoteCount(player) < 300){
+		  			Method.SendMessage(sender, cmd, "投票数が300回を超えていないため、最終文字列を閲覧する権限がありません。");
+					return true;
+		  		}
+				String Message = SKKColors.getPlayerJoinMsgLastText(player);
+				Method.SendMessage(sender, cmd, "現在、ログインメッセージの最終文字列は「" + Message + "」に設定されています。");
 				return true;
 			}
 		}else if(args.length == 2){
-			if(args[0].equalsIgnoreCase("set")){
+			if(args[0].equalsIgnoreCase("setcolor")){
+				if(SKKColors.getPlayerVoteCount(player) < 200){
+		  			Method.SendMessage(sender, cmd, "投票数が200回を超えていないため、四角色を変更する権限がありません。");
+					return true;
+		  		}
 				ChatColor color;
 				if(args[1].equalsIgnoreCase("AQUA")){
 					color = ChatColor.AQUA;
@@ -91,18 +106,24 @@ public class Color implements CommandExecutor, TabCompleter {
 				player.setPlayerListName(Color.color.get(player.getName()) + "■" + ChatColor.WHITE + player.getName());
 				Method.SendMessage(sender, cmd, "四角色を「" + color + "■" + ChatColor.GREEN + "」に変更しました。");
 				return true;
-			}else{
-				Method.SendMessage(sender, cmd, "--- Color Help ---");
-				Method.SendMessage(sender, cmd, "/color show: 現在指定している四角色を表示します。");
-				Method.SendMessage(sender, cmd, "/color set <Color>: 四角色を変更します。");
+			}else if(args[0].equalsIgnoreCase("setjointext")){
+				if(SKKColors.getPlayerVoteCount(player) < 300){
+		  			Method.SendMessage(sender, cmd, "投票数が300回を超えていないため、最終文字列を追加・変更する権限がありません。");
+					return true;
+		  		}
+				SKKColors.setPlayerJoinMsgLastMsg(player, args[1]);
+				Method.SendMessage(sender, cmd, "ログインメッセージの最終文字列を「" + args[1] + "」に変更しました。");
 				return true;
 			}
-		}else{
-			Method.SendMessage(sender, cmd, "--- Color Help ---");
-			Method.SendMessage(sender, cmd, "/color show: 現在指定している四角色を表示します。");
-			Method.SendMessage(sender, cmd, "/color set <Color>: 四角色を変更します。");
-			return true;
 		}
+		Method.SendMessage(sender, cmd, "--- Color Help ---");
+		Method.SendMessage(sender, cmd, "/color showcolor: 現在指定している四角色を表示します。");
+		Method.SendMessage(sender, cmd, "/color setcolor <Color>: 四角色を変更します。");
+		Method.SendMessage(sender, cmd, "/color showjointext: ログインメッセージの最終文字列を表示します。");
+		Method.SendMessage(sender, cmd, "/color setjointext <Text>: ログインメッセージの最終文字列を変更します。");
+		Method.SendMessage(sender, cmd, "/color deljointext: ログインメッセージの最終文字列を削除します。");
+
+		return true;
 	}
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {

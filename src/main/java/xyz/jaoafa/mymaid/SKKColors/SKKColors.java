@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -28,6 +29,7 @@ import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class SKKColors {
 	public static Map<String, Integer> votecount = new HashMap<String, Integer>();
+	public static Map<String, String> LastText = new HashMap<String, String>();
 	static List<String> MessageList = new ArrayList<String>();
 	static JavaPlugin plugin;
 	static File file;
@@ -36,7 +38,7 @@ public class SKKColors {
 	 * デフォルトのログインメッセージリストを返します。
 	 * @return デフォルトのログインメッセージリスト
 	 * @author mine_book000
-	*/
+	 */
 	private static List<String> DefaultJoinMessageList(){
 		List<String> MessageList = new ArrayList<String>();
 		MessageList.add("the New Generation");
@@ -118,7 +120,7 @@ public class SKKColors {
 	 * @param plugin プラグインのJavaPluginを指定
 	 * @return 初期設定を完了したかどうか
 	 * @author mine_book000
-	*/
+	 */
 	public static boolean first(JavaPlugin plugin){
 		SKKColors.plugin = plugin;
 		// 設定ファイルがなければ作成
@@ -145,10 +147,11 @@ public class SKKColors {
 	 * ログインメッセージをセーブします。
 	 * @return 完了したかどうか
 	 * @author mine_book000
-	*/
+	 */
 	public static boolean Save(){
 		FileConfiguration data = YamlConfiguration.loadConfiguration(file);
 		data.set("JoinMessageList", MessageList);
+		data.set("LastText", LastText);
 		try {
 			data.save(file);
 			return true;
@@ -163,15 +166,26 @@ public class SKKColors {
 	 * ログインメッセージをロードします。
 	 * @return 完了したかどうか
 	 * @author mine_book000
-	*/
+	 */
 	public static boolean Load(){
 		FileConfiguration data = YamlConfiguration.loadConfiguration(file);
 		if(data.contains("JoinMessageList")){
 			MessageList = data.getStringList("JoinMessageList");
-			return true;
 		}else{
 			return false;
 		}
+		if(data.contains("LastText")){
+			Map<String, Object> LastText = data.getConfigurationSection("LastText").getValues(true);
+			if(LastText.size() != 0){
+				for(Entry<String, Object> p: LastText.entrySet()){
+					String LastTextStr = (String) p.getValue();
+					SKKColors.LastText.put(p.getKey(), LastTextStr);
+				}
+			}
+		}else{
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -179,7 +193,7 @@ public class SKKColors {
 	 * @param player 取得するプレイヤー
 	 * @return 展開されているかどうか
 	 * @author mine_book000
-	*/
+	 */
 	public static boolean CheckExistPlayerSKKColor(Player player){
 		return votecount.containsKey(player.getName());
 	}
@@ -189,7 +203,7 @@ public class SKKColors {
 	 * @param player 再取得するプレイヤー
 	 * @return 再取得できたかどうか
 	 * @author mine_book000
-	*/
+	 */
 	public static boolean UpdatePlayerSKKColor(Player player){
 		Statement statement;
 		try {
@@ -232,7 +246,7 @@ public class SKKColors {
 	 * @param player 取得するプレイヤー
 	 * @return チャットの四角のChatColor
 	 * @author mine_book000
-	*/
+	 */
 	public static ChatColor getPlayerSKKChatColor(Player player){
 		if(PermissionsEx.getUser(player).inGroup("Limited")){
 			return ChatColor.BLACK;
@@ -308,7 +322,7 @@ public class SKKColors {
 	 * @param Message 処理する文字列
 	 * @return 処理された文字列
 	 * @author mine_book000
-	*/
+	 */
 	public static String ReplacePlayerSKKChatColor(Player player, String oldstr, String Message){
 		Message = Message.replaceFirst(oldstr, getPlayerSKKChatColor(player) + "■" + ChatColor.WHITE + oldstr);
 		return Message;
@@ -319,7 +333,7 @@ public class SKKColors {
 	 * @param player 取得するプレイヤー
 	 * @return TabListに表示するべき文字列
 	 * @author mine_book000
-	*/
+	 */
 	@SuppressWarnings("deprecation")
 	public static String getPlayerSKKTabListString(Player player){
 		Team team = Bukkit.getServer().getScoreboardManager().getMainScoreboard().getPlayerTeam(player);
@@ -335,7 +349,7 @@ public class SKKColors {
 	 * メモリ上に展開されているプレイヤー投票数を基にTabに表示する処理をします。
 	 * @param player 処理するプレイヤー
 	 * @author mine_book000
-	*/
+	 */
 	public static void setPlayerSKKTabList(Player player){
 		player.setPlayerListName(getPlayerSKKTabListString(player));
 	}
@@ -346,7 +360,7 @@ public class SKKColors {
 	 * @param Message 処理する文字列
 	 * @return 処理された文字列
 	 * @author mine_book000
-	*/
+	 */
 	public static String getPlayerSKKJoinMessage(Player player){
 		if(PermissionsEx.getUser(player).inGroup("Limited")){
 			return ChatColor.RED + player.getName() + ChatColor.YELLOW + " joined the game.";
@@ -373,6 +387,9 @@ public class SKKColors {
 				vote--;
 				o++;
 			}
+			if(!getPlayerJoinMsgLastText(player).equals("")){
+				result += " " + getPlayerJoinMsgLastText(player);
+			}
 			result += " VIP (" + i + ")";
 		}
 		return ChatColor.YELLOW + player.getName() + ChatColor.YELLOW + ", " + ChatColor.YELLOW + result + " joined the game.";
@@ -383,7 +400,7 @@ public class SKKColors {
 	 * @param player 取得するプレイヤー
 	 * @return 投票数
 	 * @author mine_book000
-	*/
+	 */
 	public static int getPlayerVoteCount(Player player){
 		if(votecount.containsKey(player.getName())){
 			return votecount.get(player.getName());
@@ -395,6 +412,23 @@ public class SKKColors {
 				return 0;
 			}
 		}
+	}
 
+
+	public static String getPlayerJoinMsgLastText(Player player){
+		if(LastText.containsKey(player.getUniqueId().toString())){
+			return LastText.get(player.getUniqueId().toString());
+		}else{
+			return "";
+		}
+	}
+
+	public static void setPlayerJoinMsgLastMsg(Player player, String next){
+		LastText.put(player.getUniqueId().toString(), next);
+		Save();
+	}
+	public static void delPlayerJoinMsgLastMsg(Player player){
+		LastText.remove(player.getUniqueId().toString());
+		Save();
 	}
 }
