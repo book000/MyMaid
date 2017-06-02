@@ -163,11 +163,12 @@ import xyz.jaoafa.mymaid.EventHandler.OnWeatherChangeEvent;
 import xyz.jaoafa.mymaid.EventHandler.SpawnEggRegulation;
 import xyz.jaoafa.mymaid.Jail.Event;
 import xyz.jaoafa.mymaid.Jail.Jail;
+import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class MyMaid extends JavaPlugin implements Listener {
 	public static Boolean nextbakrender = false;
 
-	public static Map<String,String> chatcolor = new HashMap<String,String>();
+
 	public static TitleSender TitleSender;
 	public static FileConfiguration conf;
 	public static LunaChatAPI lunachatapi;
@@ -255,6 +256,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		mymaid = this;
 
 		BugReport.start();
+		SKKColors.first(this);
 		dynmapbridge = DynmapBridge.load(getJavaPlugin()); // nullが帰ってくるかも?
 	}
 	/**

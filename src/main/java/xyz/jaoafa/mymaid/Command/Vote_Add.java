@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
-import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class Vote_Add implements CommandExecutor {
 	JavaPlugin plugin;
@@ -35,9 +35,8 @@ public class Vote_Add implements CommandExecutor {
 			if(p.getName().equalsIgnoreCase(args[0])) {
 				String name = p.getName();
 				UUID uuid = p.getUniqueId();
-				String i = Method.url_jaoplugin("vote", "p="+name+"&u="+uuid);
-				MyMaid.chatcolor.put(name, i);
-
+				Method.url_jaoplugin("vote", "p="+name+"&u="+uuid);
+				SKKColors.UpdatePlayerSKKColor(p);
 			}
 		}
 		return true;

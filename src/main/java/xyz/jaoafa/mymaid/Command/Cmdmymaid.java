@@ -11,6 +11,7 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.Pointjao;
 import xyz.jaoafa.mymaid.Jail.Jail;
+import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class Cmdmymaid implements CommandExecutor {
 	JavaPlugin plugin;
@@ -106,12 +107,26 @@ public class Cmdmymaid implements CommandExecutor {
 				return true;
 			}else if(args[0].equalsIgnoreCase("jailsave")){
 				try {
-					Pointjao.Savejao();
+					Jail.SaveJailData();
 					Method.SendMessage(sender, cmd, "MyMaid Jail Data Saved!");
 				} catch (Exception e) {
 					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 					Method.SendMessage(sender, cmd, "MyMaid Jail Data Save Err...");
+				}
+				return true;
+			}else if(args[0].equalsIgnoreCase("skkload")){
+				if(SKKColors.Load()){
+					Method.SendMessage(sender, cmd, "MyMaid SKK Data Loaded!");
+				}else{
+					Method.SendMessage(sender, cmd, "MyMaid SKK Data Load Err...");
+				}
+				return true;
+			}else if(args[0].equalsIgnoreCase("skksave")){
+				if(SKKColors.Save()){
+					Method.SendMessage(sender, cmd, "MyMaid SKK Data Saved!");
+				}else{
+					Method.SendMessage(sender, cmd, "MyMaid SKK Data Save Err...");
 				}
 				return true;
 			}
@@ -124,6 +139,8 @@ public class Cmdmymaid implements CommandExecutor {
 		Method.SendMessage(sender, cmd, "/mymaid pointsave: jaoポイントデータをセーブします。");
 		Method.SendMessage(sender, cmd, "/mymaid jailload: Jail情報をロードします。");
 		Method.SendMessage(sender, cmd, "/mymaid jailsave: Jail情報をセーブします。");
+		Method.SendMessage(sender, cmd, "/mymaid skkload: 投票数ログインメッセージ情報をロードします。");
+		Method.SendMessage(sender, cmd, "/mymaid skksave: 投票数ログインメッセージ情報をセーブします。");
 		return true;
 	}
 }

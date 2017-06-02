@@ -13,9 +13,8 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
-import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Discord.Discord;
-import xyz.jaoafa.mymaid.Jail.Jail;
+import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class OnPlayerCommand implements Listener {
 	JavaPlugin plugin;
@@ -29,43 +28,7 @@ public class OnPlayerCommand implements Listener {
     	String[] args = command.split(" ", 0);
     	if(args.length == 1){
     		if(args[0].equalsIgnoreCase("/god")){
-    			ChatColor color = ChatColor.RESET;
-				if(player.hasPermission("mymaid.pex.limited")){
-					color = ChatColor.BLACK;
-    			}else if(Jail.isJail(player)){
-    				color = ChatColor.DARK_GRAY;
-    			}else if(MyMaid.chatcolor.containsKey(player.getName())){
-    	  			int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));
-    				if(i >= 0 && i <= 5){
-    					color = ChatColor.WHITE;
-    				}else if(i >= 6 && i <= 19){
-    					color = ChatColor.DARK_BLUE;
-    				}else if(i >= 20 && i <= 33){
-    					color = ChatColor.BLUE;
-    				}else if(i >= 34 && i <= 47){
-    					color = ChatColor.AQUA;
-    				}else if(i >= 48 && i <= 61){
-    					color = ChatColor.DARK_AQUA;
-    				}else if(i >= 62 && i <= 76){
-    					color = ChatColor.DARK_GREEN;
-    				}else if(i >= 77 && i <= 89){
-    					color = ChatColor.GREEN;
-    				}else if(i >= 90 && i <= 103){
-    					color = ChatColor.YELLOW;
-    				}else if(i >= 104 && i <= 117){
-    					color = ChatColor.GOLD;
-    				}else if(i >= 118 && i <= 131){
-    					color = ChatColor.RED;
-    				}else if(i >= 132 && i <= 145){
-    					color = ChatColor.DARK_RED;
-    				}else if(i >= 146 && i <= 159){
-    					color = ChatColor.DARK_PURPLE;
-    				}else if(i >= 160){
-    					color = ChatColor.LIGHT_PURPLE;
-    				}
-    			}else{
-    				color = ChatColor.GRAY;
-    			}
+    			ChatColor color = SKKColors.getPlayerSKKChatColor(player);
     			Date Date = new Date();
     			SimpleDateFormat H = new SimpleDateFormat("H");
     			SimpleDateFormat m = new SimpleDateFormat("m");
@@ -153,43 +116,7 @@ public class OnPlayerCommand implements Listener {
         		}
         	}
     		if(args[0].equalsIgnoreCase("//calc") || args[0].equalsIgnoreCase("/worldedit:/calc")){
-    			ChatColor color = ChatColor.RESET;
-				if(player.hasPermission("mymaid.pex.limited")){
-					color = ChatColor.BLACK;
-    			}else if(Jail.isJail(player)){
-    				color = ChatColor.DARK_GRAY;
-    			}else if(MyMaid.chatcolor.containsKey(player.getName())){
-    	  			int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));
-    				if(i >= 0 && i <= 5){
-    					color = ChatColor.WHITE;
-    				}else if(i >= 6 && i <= 19){
-    					color = ChatColor.DARK_BLUE;
-    				}else if(i >= 20 && i <= 33){
-    					color = ChatColor.BLUE;
-    				}else if(i >= 34 && i <= 47){
-    					color = ChatColor.AQUA;
-    				}else if(i >= 48 && i <= 61){
-    					color = ChatColor.DARK_AQUA;
-    				}else if(i >= 62 && i <= 76){
-    					color = ChatColor.DARK_GREEN;
-    				}else if(i >= 77 && i <= 89){
-    					color = ChatColor.GREEN;
-    				}else if(i >= 90 && i <= 103){
-    					color = ChatColor.YELLOW;
-    				}else if(i >= 104 && i <= 117){
-    					color = ChatColor.GOLD;
-    				}else if(i >= 118 && i <= 131){
-    					color = ChatColor.RED;
-    				}else if(i >= 132 && i <= 145){
-    					color = ChatColor.DARK_RED;
-    				}else if(i >= 146 && i <= 159){
-    					color = ChatColor.DARK_PURPLE;
-    				}else if(i >= 160){
-    					color = ChatColor.LIGHT_PURPLE;
-    				}
-    			}else{
-    				color = ChatColor.GRAY;
-    			}
+    			ChatColor color = SKKColors.getPlayerSKKChatColor(player);
     			Date Date = new Date();
     			SimpleDateFormat H = new SimpleDateFormat("H");
     			SimpleDateFormat m = new SimpleDateFormat("m");

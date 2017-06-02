@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -24,10 +23,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
-import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
-import xyz.jaoafa.mymaid.Command.Color;
-import xyz.jaoafa.mymaid.Jail.Jail;
+import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class Menu implements Listener {
 	JavaPlugin plugin;
@@ -49,72 +46,7 @@ public class Menu implements Listener {
 		skullMeta_player_head.setOwner(player.getName());
 		skullMeta_player_head.setDisplayName(player.getName() + "のデータ");
 
-		String color = "";
-		if(player.hasPermission("mymaid.pex.limited")){
-			color = "BLACK";
-		}else if(Jail.isJail(player)){
-			color = "DARK_GRAY";
-		}else if(Color.color.containsKey(player.getName())){
-			ChatColor colorcolor = Color.color.get(player.getName());
-			if(colorcolor == ChatColor.WHITE){
-				color = "WHITE";
-			}else if(colorcolor == ChatColor.DARK_BLUE){
-				color = "DARK_BLUE";
-			}else if(colorcolor == ChatColor.BLUE){
-				color = "BLUE";
-			}else if(colorcolor == ChatColor.AQUA){
-				color = "AQUA";
-			}else if(colorcolor == ChatColor.DARK_AQUA){
-				color = "DARK_AQUA";
-			}else if(colorcolor == ChatColor.DARK_GREEN){
-				color = "DARK_GREEN";
-			}else if(colorcolor == ChatColor.GREEN){
-				color = "GREEN";
-			}else if(colorcolor == ChatColor.YELLOW){
-				color = "YELLOW";
-			}else if(colorcolor == ChatColor.GOLD){
-				color = "GOLD";
-			}else if(colorcolor == ChatColor.RED){
-				color = "RED";
-			}else if(colorcolor == ChatColor.DARK_RED){
-				color = "DARK_RED";
-			}else if(colorcolor == ChatColor.DARK_PURPLE){
-				color = "DARK_PURPLE";
-			}else if(colorcolor == ChatColor.LIGHT_PURPLE){
-				color = "LIGHT_PURPLE";
-			}
-		}else if(MyMaid.chatcolor.containsKey(player.getName())){
-  			int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));
-			if(i >= 0 && i <= 5){
-				color = "WHITE";
-			}else if(i >= 6 && i <= 19){
-				color = "DARK_BLUE";
-			}else if(i >= 20 && i <= 33){
-				color = "BLUE";
-			}else if(i >= 34 && i <= 47){
-				color = "AQUA";
-			}else if(i >= 48 && i <= 61){
-				color = "DARK_AQUA";
-			}else if(i >= 62 && i <= 76){
-				color = "DARK_GREEN";
-			}else if(i >= 77 && i <= 89){
-				color = "GREEN";
-			}else if(i >= 90 && i <= 103){
-				color = "YELLOW";
-			}else if(i >= 104 && i <= 117){
-				color = "GOLD";
-			}else if(i >= 118 && i <= 131){
-				color = "RED";
-			}else if(i >= 132 && i <= 145){
-				color = "DARK_RED";
-			}else if(i >= 146 && i <= 159){
-				color = "DARK_PURPLE";
-			}else if(i >= 160){
-				color = "LIGHT_PURPLE";
-			}
-		}else{
-			color = "GRAY";
-		}
+		String color = SKKColors.getPlayerSKKChatColor(player).name();
 		String nowGroup = "";
 		Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
 		for(String group : groups){
@@ -127,7 +59,7 @@ public class Menu implements Listener {
 		lore.add("UUID: " + player.getUniqueId());
 		lore.add("権限: " + nowGroup);
 		lore.add("jaoポイント: " + Pointjao.getjao(player) + "jao");
-		lore.add("投票回数: " + MyMaid.chatcolor.get(player.getName()) + "回");
+		lore.add("投票回数: " + SKKColors.getPlayerVoteCount(player) + "回");
 		lore.add("色: " + color);
 		skullMeta_player_head.setLore(lore);
 		player_head.setItemMeta(skullMeta_player_head);

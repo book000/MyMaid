@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
-import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class Color implements CommandExecutor, TabCompleter {
 	JavaPlugin plugin;
@@ -29,7 +29,7 @@ public class Color implements CommandExecutor, TabCompleter {
 			return true;
 		}
 		Player player = (Player) sender;
-  		if(Integer.parseInt(MyMaid.chatcolor.get(player.getName())) < 200){
+  		if(SKKColors.getPlayerVoteCount(player) < 200){
   			Method.SendMessage(sender, cmd, "投票数が200回を超えていないため、四角色を変更する権限がありません。");
 			return true;
   		}

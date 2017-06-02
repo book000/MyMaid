@@ -19,9 +19,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
-import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
-import xyz.jaoafa.mymaid.Jail.Jail;
+import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 
 public class Unko implements CommandExecutor {
@@ -143,47 +142,10 @@ public class Unko implements CommandExecutor {
 		}
 		Pointjao.usejao(player, use, "unkoコマンド実行の為");
 
-		String Msg = "";
-		if(player.hasPermission("mymaid.pex.limited")){
-			Msg = player.getName().replaceFirst(player.getName(), ChatColor.BLACK + "■" + ChatColor.WHITE + player.getName());
-
-		}else if(Jail.isJail(player)){
-			Msg = player.getName().replaceFirst(player.getName(), ChatColor.DARK_GRAY + "■" + ChatColor.WHITE + player.getName());
-		}else if(MyMaid.chatcolor.containsKey(player.getName())){
-			int i = Integer.parseInt(MyMaid.chatcolor.get(player.getName()));
-			if(i >= 0 && i <= 5){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.WHITE + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 6 && i <= 19){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.DARK_BLUE + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 20 && i <= 33){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.BLUE + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 34 && i <= 47){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.AQUA + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 48 && i <= 61){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.DARK_AQUA + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 62 && i <= 76){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.DARK_GREEN + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 77 && i <= 89){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.GREEN + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 90 && i <= 103){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.YELLOW + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 104 && i <= 117){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.GOLD + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 118 && i <= 131){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.RED + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 132 && i <= 145){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.DARK_RED + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 146 && i <= 159){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.DARK_PURPLE + "■" + ChatColor.WHITE + player.getName());
-			}else if(i >= 160){
-				Msg = player.getName().replaceFirst(player.getName(), ChatColor.LIGHT_PURPLE + "■" + ChatColor.WHITE + player.getName());
-			}
-		}else{
-			Msg = player.getName().replaceFirst(player.getName(), ChatColor.GRAY + "■" + ChatColor.WHITE + player.getName());
-		}
+		String Msg = SKKColors.getPlayerSKKChatColor(player) + "■" + ChatColor.WHITE + player.getName();
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": "+text);
+		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + Msg + ": " + text);
 
 		Throwable ex = null;
 
