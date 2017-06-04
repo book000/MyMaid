@@ -38,7 +38,7 @@ public class AntiJaoium implements Listener {
 	private boolean isjaoium(List<PotionEffect> list){
 		Boolean jaoium = false;
 		for (PotionEffect po : list) {
-			if(po.getType() == PotionEffectType.HEAL){
+			if(po.getType().equals(PotionEffectType.HEAL)){
 				if(po.getAmplifier() == 29){
 					// アウト
 					jaoium = true;
@@ -48,8 +48,8 @@ public class AntiJaoium implements Listener {
 					jaoium = true;
 				}
 			}
-			if(po.getType() == PotionEffectType.HEALTH_BOOST){
-				if(po.getAmplifier() == 249){
+			if(po.getType().equals(PotionEffectType.HEALTH_BOOST)){
+				if(po.getAmplifier() == -7){
 					// アウト
 					jaoium = true;
 				}
@@ -66,8 +66,8 @@ public class AntiJaoium implements Listener {
 	private boolean isjaoium_indispenser(List<PotionEffect> list){
 		Boolean jaoium = false;
 		for (PotionEffect po : list) {
-			if(po.getType() == PotionEffectType.HEALTH_BOOST){
-				if(po.getAmplifier() == 249){
+			if(po.getType().equals(PotionEffectType.HEALTH_BOOST)){
+				if(po.getAmplifier() == -7){
 					// アウト
 					jaoium = true;
 				}
