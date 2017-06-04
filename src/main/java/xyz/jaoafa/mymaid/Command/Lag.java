@@ -12,10 +12,6 @@ public class Lag implements CommandExecutor {
 	public Lag(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-
-	/* onCommand jf
-	 * jao afaします。
-	 * /jf */
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		//String tps = Method.getTPS1m();
 		//Method.SendMessage(sender, cmd, tps);

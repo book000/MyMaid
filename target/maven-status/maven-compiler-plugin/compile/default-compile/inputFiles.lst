@@ -53,6 +53,7 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Gamemode_Cha
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\InvEdit.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\WTP.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerGameModeChangeEvent.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\SelectorChecker.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ja.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\SerializableLocation.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnMyMaidJoinLeftChatCmdLogs.java
@@ -88,6 +89,7 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnExplo
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBowClickEvent.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\UpGallery.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\IpAddressUtils.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\SKKColors\SKKColors.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Ck.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Language.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\VarCmd.java
@@ -121,6 +123,7 @@ C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Quiz.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\Menu.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\ConfLang.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Jail\Event.java
+C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\ParseSelector.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnJoin.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\AntiJaoium.java
 C:\Users\tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\TS.java

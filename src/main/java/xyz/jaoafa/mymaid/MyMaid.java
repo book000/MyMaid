@@ -104,6 +104,7 @@ import xyz.jaoafa.mymaid.Command.Report;
 import xyz.jaoafa.mymaid.Command.RuleLoad;
 import xyz.jaoafa.mymaid.Command.SSK;
 import xyz.jaoafa.mymaid.Command.SaveWorld;
+import xyz.jaoafa.mymaid.Command.SelectorChecker;
 import xyz.jaoafa.mymaid.Command.SetHome;
 import xyz.jaoafa.mymaid.Command.SignLock;
 import xyz.jaoafa.mymaid.Command.Spawn;
@@ -344,6 +345,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("report").setExecutor(new Report(this));
 		getCommand("ruleload").setExecutor(new RuleLoad(this));
 		getCommand("save-world").setExecutor(new SaveWorld(this));
+		getCommand("selector").setExecutor(new SelectorChecker(this));
 		getCommand("sethome").setExecutor(new SetHome(this));
 		getCommand("sign").setExecutor(new xyz.jaoafa.mymaid.Command.Sign(this));
 		getCommand("signlock").setExecutor(new SignLock(this));

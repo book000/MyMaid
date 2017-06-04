@@ -458,3 +458,8 @@ commands:
       usage: /<command>
       permission: mymaid.testment
       permission-message: You do not have permission to perform this command.
+   selector:
+      description: Selectorが適切かどうか調べます。
+      usage: /<command> <Selector>
+      permission: mymaid.selector
+      permission-message: You do not have permission to perform this command.

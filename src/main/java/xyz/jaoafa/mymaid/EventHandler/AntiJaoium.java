@@ -1,5 +1,6 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -29,6 +30,8 @@ public class AntiJaoium implements Listener {
 	public AntiJaoium(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+	List<Integer> HEAL_jaoium = new ArrayList<Integer>();
+	List<Integer> HEALTH_BOOST_jaoium = new ArrayList<Integer>();
 	/**
 	 * jaoiumと判定されるアイテムかどうか
 	 * @param list PotionEffectのList
@@ -36,24 +39,23 @@ public class AntiJaoium implements Listener {
 	 * @author mine_book000
 	 */
 	private boolean isjaoium(List<PotionEffect> list){
+
+		HEAL_jaoium.add(29);
+		HEAL_jaoium.add(125);
+		HEAL_jaoium.add(253);
+
+		HEALTH_BOOST_jaoium.add(-7);
+
 		Boolean jaoium = false;
 		for (PotionEffect po : list) {
 			if(po.getType().equals(PotionEffectType.HEAL)){
-				if(po.getAmplifier() == 29){
-					// アウト
-					jaoium = true;
-				}
-				if(po.getAmplifier() == 125){
-					// アウト
-					jaoium = true;
-				}
-				if(po.getAmplifier() == 253){
+				if(HEAL_jaoium.contains(po.getAmplifier())){
 					// アウト
 					jaoium = true;
 				}
 			}
 			if(po.getType().equals(PotionEffectType.HEALTH_BOOST)){
-				if(po.getAmplifier() == -7){
+				if(HEALTH_BOOST_jaoium.contains(po.getAmplifier())){
 					// アウト
 					jaoium = true;
 				}
@@ -71,6 +73,14 @@ public class AntiJaoium implements Listener {
 		Boolean jaoium = false;
 		for (PotionEffect po : list) {
 			if(po.getType().equals(PotionEffectType.HEALTH_BOOST)){
+				if(po.getAmplifier() == 132){
+					// アウト
+					jaoium = true;
+				}
+				if(po.getAmplifier() == 134){
+					// アウト
+					jaoium = true;
+				}
 				if(po.getAmplifier() == -7){
 					// アウト
 					jaoium = true;
