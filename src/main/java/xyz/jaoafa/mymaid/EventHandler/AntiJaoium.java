@@ -47,6 +47,10 @@ public class AntiJaoium implements Listener {
 					// アウト
 					jaoium = true;
 				}
+				if(po.getAmplifier() == 253){
+					// アウト
+					jaoium = true;
+				}
 			}
 			if(po.getType().equals(PotionEffectType.HEALTH_BOOST)){
 				if(po.getAmplifier() == -7){
