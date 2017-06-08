@@ -375,7 +375,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
 		new AFKChecker(this).runTaskTimer(this, 0L, 1200L);
 		new AutoMessage().runTaskTimer(this, 0L, 12000L);
-		new TPSChange().runTaskTimer(this, 0L, 1200L);
+		//new TPSChange().runTaskTimer(this, 0L, 1200L);
 	}
 	/**
 	 * リスナー設定
@@ -908,6 +908,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	 * TPS更新(1分毎)
 	 * @author mine_book000
 	 */
+	/*
 	private class TPSChange extends BukkitRunnable{
 		@Override
 		public void run() {
@@ -949,6 +950,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		}
 	}
+	*/
 
 	/**
 	 * Dynmapの自動レンダリング(30分毎)
