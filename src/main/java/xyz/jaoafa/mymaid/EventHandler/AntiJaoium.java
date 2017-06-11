@@ -40,6 +40,7 @@ public class AntiJaoium implements Listener {
 	 */
 	private boolean isjaoium(List<PotionEffect> list){
 
+		HEAL_jaoium.add(-3);
 		HEAL_jaoium.add(29);
 		HEAL_jaoium.add(125);
 		HEAL_jaoium.add(253);
