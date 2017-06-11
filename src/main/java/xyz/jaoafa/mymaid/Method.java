@@ -23,9 +23,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 /**
@@ -360,7 +365,6 @@ public class Method {
 	 * @param footer フッダー
 	 * @author mine_book000
 	 */
-	/*
 	public static void setPlayerListHeaderFooterByJSON(Player player, String header, String footer) {
 
 		CraftPlayer cplayer = (CraftPlayer) player;
@@ -385,7 +389,6 @@ public class Method {
 
 		connection.sendPacket(packet);
 	}
-	*/
 
 	/**
 	 * PlayerのTabリストのヘッダーを取得する
