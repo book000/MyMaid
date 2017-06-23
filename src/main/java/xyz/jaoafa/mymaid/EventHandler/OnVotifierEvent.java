@@ -1,6 +1,7 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -51,6 +52,16 @@ public class OnVotifierEvent implements Listener {
         	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			Date Date = new Date();
         	Pointjao.addjao(player, VOTEPOINT, sdf.format(Date) + "の投票ボーナス");
+
+        	Calendar start = Calendar.getInstance();
+			start.set(2017, 7, 1, 0, 0, 0);
+			Calendar end = Calendar.getInstance();
+			end.set(2017, 7, 14, 23, 59, 59);
+			if(Method.isPeriod(start, end)){
+				Pointjao.addjao(player, 10, "七夕投票イベント");
+				Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + player.getName() + "さんが投票し、七夕イベントボーナスを追加で20ポイントポイント追加しました。");
+    			Discord.send(player.getName() + "さんが投票し、七夕イベントボーナスを追加で20ポイント追加しました。");
+			}
 
         	//SimpleDateFormat date = new SimpleDateFormat("yyyy-MM");
         	/*

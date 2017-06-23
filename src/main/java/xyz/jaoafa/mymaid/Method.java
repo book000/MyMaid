@@ -504,5 +504,16 @@ public class Method {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 指定された期間内かどうか
+	 * @param start 期間の開始
+	 * @param end 期間の終了
+	 * @return 期間内ならtrue、期間外ならfalse
+	 * @see http://www.yukun.info/blog/2009/02/java-jsp-gregoriancalendar-period.html
+	 */
+	public static boolean isPeriod(Calendar start, Calendar end){
+		Calendar cur = Calendar.getInstance();
+		return cur.after(start) && cur.before(end);
+	}
 
 }

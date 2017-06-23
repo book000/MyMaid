@@ -164,7 +164,14 @@ public class OnPlayerJoinEvent implements Listener {
 				Pointjao.addjao(event.getPlayer(), random);
 			}
 			 */
-
+			Calendar start = Calendar.getInstance();
+			start.set(2017, 7, 1, 0, 0, 0);
+			Calendar end = Calendar.getInstance();
+			end.set(2017, 7, 14, 23, 59, 59);
+			if(Method.isPeriod(start, end)){
+				event.getPlayer().sendMessage("[MyMaid] " + ChatColor.GREEN + "サーバからのプレゼントです！七夕ですね！織姫と彦星は今年も逢えるのでしょうか…？");
+				Pointjao.addjao(event.getPlayer(), 10, "七夕ログインイベント");
+			}
 		}
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -192,6 +199,7 @@ public class OnPlayerJoinEvent implements Listener {
 			new TabListSKKReloader(plugin, p).runTaskLater(plugin, 20L);
 		}
 	}
+
 	private class TabListSKKReloader extends BukkitRunnable{
 		Player player;
 		public TabListSKKReloader(JavaPlugin plugin, Player player) {
