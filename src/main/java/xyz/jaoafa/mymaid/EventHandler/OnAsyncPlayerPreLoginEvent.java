@@ -55,6 +55,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			BugReport.report(e2);
 			return;
 		}
+		String location = ((String) obj.get("location"));
 		if(((String) obj.get("message")).equalsIgnoreCase("subaccount")){
 			String player = ((String) obj.get("player"));
 			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, ChatColor.RED + "[Login Denied! Reason: SubAccount]\n"
@@ -213,6 +214,11 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 		Bukkit.getLogger().info("PlayerIP:"+e.getAddress());
 		Bukkit.getLogger().info("PlayerHost:"+host);
 		Bukkit.getLogger().info("------------------------------------------");
+		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+			if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				p.sendMessage("[MyMaid] " + ChatColor.GREEN + "LocationData: " + e.getName() + " -> " + location);
+			}
+		}
 	}
 	private class netaccess extends BukkitRunnable{
 		String player;
