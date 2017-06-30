@@ -46,6 +46,18 @@ public class DiscordLink implements CommandExecutor {
 		}else if(result.equalsIgnoreCase("ok")){
 			Method.SendMessage(sender, cmd, "アカウントのリンクが完了しました。");
 			return true;
+		}else if(result.equalsIgnoreCase("AlreadyThis")){
+			Method.SendMessage(sender, cmd, "すでにあなたのMinecraftアカウントと接続されています。");
+			return true;
+		}else if(result.equalsIgnoreCase("AlreadyMC")){
+			Method.SendMessage(sender, cmd, "すでにあなたのMinecraftアカウントは別のDiscordアカウントに接続されています。");
+			return true;
+		}else if(result.equalsIgnoreCase("AlreadyDis")){
+			Method.SendMessage(sender, cmd, "アカウントリンク要求をしたDiscordアカウントは既に他のMinecraftアカウントと接続されています。");
+			return true;
+		}else if(result.equalsIgnoreCase("ANF")){
+			Method.SendMessage(sender, cmd, "アカウントリンク要求をしたDiscordアカウントは既に当サーバのDiscordチャンネルから退出しています。");
+			return true;
 		}else{
 			Method.SendMessage(sender, cmd, "不明なエラーが発生しました。");
 			return true;
