@@ -1,7 +1,7 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.Pointjao;
 import xyz.jaoafa.mymaid.Discord.Discord;
@@ -53,14 +54,17 @@ public class OnVotifierEvent implements Listener {
 			Date Date = new Date();
         	Pointjao.addjao(player, VOTEPOINT, sdf.format(Date) + "の投票ボーナス");
 
-        	Calendar start = Calendar.getInstance();
-			start.set(2017, 7, 1, 0, 0, 0);
-			Calendar end = Calendar.getInstance();
-			end.set(2017, 7, 14, 23, 59, 59);
-			if(Method.isPeriod(start, end)){
-				Pointjao.addjao(player, 10, "七夕投票イベント");
-				Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + player.getName() + "さんが投票し、七夕イベントボーナスを追加で20ポイントポイント追加しました。");
-    			Discord.send(player.getName() + "さんが投票し、七夕イベントボーナスを追加で20ポイント追加しました。");
+        	try {
+				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date start = format.parse("2017/07/01 00:00:00");
+				Date end = format.parse("2017/07/14 23:59:59");
+				if(Method.isPeriod(start, end)){
+					Pointjao.addjao(player, 10, "七夕投票イベント");
+					Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + player.getName() + "さんが投票し、七夕イベントボーナスを追加で20ポイントポイント追加しました。");
+	    			Discord.send(player.getName() + "さんが投票し、七夕イベントボーナスを追加で20ポイント追加しました。");
+				}
+			} catch (ParseException e) {
+				BugReport.report(e);
 			}
 
         	//SimpleDateFormat date = new SimpleDateFormat("yyyy-MM");

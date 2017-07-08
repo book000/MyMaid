@@ -32,6 +32,7 @@ import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -47,6 +48,7 @@ import com.ittekikun.plugin.eewalert.EEWAlert;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Access;
+import xyz.jaoafa.mymaid.Command.Actionbar;
 import xyz.jaoafa.mymaid.Command.ArrowShotter;
 import xyz.jaoafa.mymaid.Command.AutoHeal;
 import xyz.jaoafa.mymaid.Command.BON;
@@ -196,7 +198,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getLogger().info("Product by tomachi.");
 
 		//連携プラグインの確認
-		Load_Plugin("EEWAlert");
+		//Load_Plugin("EEWAlert");
 		Load_Plugin("PermissionsEx");
 		Load_Plugin("WorldEdit");
 		Load_Plugin("dynmap");
@@ -206,15 +208,26 @@ public class MyMaid extends JavaPlugin implements Listener {
 		Load_Plugin("MCBans");
 
 		//EEWAlertの設定
-		EEWAlert eew = (EEWAlert)getServer().getPluginManager().getPlugin("EEWAlert");
-		String eewnoticeold;
-		if(eew.eewAlertConfig.notificationMode){
-			eewnoticeold = "true";
+		Plugin plugin = getServer().getPluginManager().getPlugin("EEWAlert");
+		if(plugin != null){
+			getLogger().info("MyMaid Success(LOADED: EEWAlert)");
+			getLogger().info("Using EEWAlert");
+			EEWAlert eew = (EEWAlert)plugin;
+
+			String eewnoticeold;
+			if(eew.eewAlertConfig.notificationMode){
+				eewnoticeold = "true";
+			}else{
+				eewnoticeold = "false";
+			}
+			eew.eewAlertConfig.notificationMode = false;
+			getLogger().info("EEWAlertの通知動作設定を" + eewnoticeold + "からfalseに変更しました。");
+
+			getServer().getPluginManager().registerEvents(new OnEEWReceiveEvent(this), this);
 		}else{
-			eewnoticeold = "false";
+			getLogger().info("EEWAlertが導入されていないため地震速報は動作しません。");
 		}
-		eew.eewAlertConfig.notificationMode = false;
-		getLogger().info("EEWAlertの通知動作設定を" + eewnoticeold + "からfalseに変更しました。");
+
 
 		//初期設定(TitleSender, Lunachat設定)
 		FirstSetting();
@@ -282,6 +295,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	private void Import_Command_Executor(){
 		//Command Executor
 		getCommand("access").setExecutor(new Access(this));
+		getCommand("actionbar").setExecutor(new Actionbar(this));
 		getCommand("afk").setExecutor(new AFK(this));
 		getCommand("as").setExecutor(new ArrowShotter(this));
 		getCommand("autoheal").setExecutor(new AutoHeal(this));
@@ -396,7 +410,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnBlockRedstoneEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnBowClickEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnBreak(this), this);
-		getServer().getPluginManager().registerEvents(new OnEEWReceiveEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnEntityChangeBlockEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnExplosion(this), this);
 		getServer().getPluginManager().registerEvents(new OnFrom(this), this);
@@ -979,7 +992,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 		@Override
 		public void run() {
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "dynmap updaterender Jao_Afa " + player.getLocation().getBlockX() + " " + player.getLocation().getBlockZ() );
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "dynmap updaterender Jao_Afa " + this.player.getLocation().getBlockX() + " " + this.player.getLocation().getBlockZ() );
 		}
 	}
 
@@ -1024,7 +1037,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
 						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
 						try{
-							BukkitTask task = new AFK.afking(plugin, player).runTaskTimer(plugin, 0L, 5L);
+							BukkitTask task = new AFK.afking(this.plugin, player).runTaskTimer(this.plugin, 0L, 5L);
 							AFK.tnt.put(player.getName(), task);
 						}catch(java.lang.NoClassDefFoundError e){
 							BugReport.report(e);
@@ -1082,15 +1095,15 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 		@Override
 		public void run() {
-			if(DOT.dotto.containsKey(player.getName())){
-				int dot = DOT.dotto.get(player.getName());
+			if(DOT.dotto.containsKey(this.player.getName())){
+				int dot = DOT.dotto.get(this.player.getName());
 				if(dot != 1){
-					DOT.dotto.remove(player.getName());
-					DOT.dottotask.remove(player.getName());
-					Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + "'s DOTTO COUNTER: " + dot + "/1s");
+					DOT.dotto.remove(this.player.getName());
+					DOT.dottotask.remove(this.player.getName());
+					Bukkit.broadcastMessage(ChatColor.DARK_GRAY + this.player.getName() + "'s DOTTO COUNTER: " + dot + "/1s");
 				}else{
-					DOT.dotto.remove(player.getName());
-					DOT.dottotask.remove(player.getName());
+					DOT.dotto.remove(this.player.getName());
+					DOT.dottotask.remove(this.player.getName());
 				}
 			}
 		}
@@ -1150,41 +1163,41 @@ public class MyMaid extends JavaPlugin implements Listener {
 		public void run() {
 			//Bukkit.broadcastMessage(DOT.success.toString() + DOT.unsuccess.toString());
 			int success;
-			if(DOT.success.containsKey(player.getName())){
-				success = DOT.success.get(player.getName());
+			if(DOT.success.containsKey(this.player.getName())){
+				success = DOT.success.get(this.player.getName());
 			}else{
 				success = 0;
 			}
 			int unsuccess;
-			if(DOT.unsuccess.containsKey(player.getName())){
+			if(DOT.unsuccess.containsKey(this.player.getName())){
 				try{
-					unsuccess = DOT.unsuccess.get(player.getName());
+					unsuccess = DOT.unsuccess.get(this.player.getName());
 				}catch(NullPointerException e){
 					unsuccess = 0;
 				}
 			}else{
 				unsuccess = 0;
 			}
-			DOT.run.get(player.getName()).cancel();
-			DOT.run.remove(player.getName());
-			DOT.dotcount_stop.remove(player.getName());
-			DOT.success.remove(player.getName());
-			DOT.unsuccess.remove(player.getName());
-			lunachatapi.getChannel("_DOT_").removeMember(ChannelPlayer.getChannelPlayer(player.getName()));
-			if(section == 10){
-				String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
-				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
-			}else if(section == 60){
-				String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
-				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
-			}else if(section == 300){
-				String jyuni = Method.url_jaoplugin("dot", "p=" + player.getName() + "&u=" + player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + section + "s");
-				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			DOT.run.get(this.player.getName()).cancel();
+			DOT.run.remove(this.player.getName());
+			DOT.dotcount_stop.remove(this.player.getName());
+			DOT.success.remove(this.player.getName());
+			DOT.unsuccess.remove(this.player.getName());
+			this.lunachatapi.getChannel("_DOT_").removeMember(ChannelPlayer.getChannelPlayer(this.player.getName()));
+			if(this.section == 10){
+				String jyuni = Method.url_jaoplugin("dot", "p=" + this.player.getName() + "&u=" + this.player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + this.section + "s");
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + this.player.getName() + "のピリオド対決(" + this.section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			}else if(this.section == 60){
+				String jyuni = Method.url_jaoplugin("dot", "p=" + this.player.getName() + "&u=" + this.player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + this.section + "s");
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + this.player.getName() + "のピリオド対決(" + this.section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+			}else if(this.section == 300){
+				String jyuni = Method.url_jaoplugin("dot", "p=" + this.player.getName() + "&u=" + this.player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + this.section + "s");
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + this.player.getName() + "のピリオド対決(" + this.section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
 			}else{
-				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + player.getName() + "のピリオド対決(" + section + "秒例外部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(部門外のためrankingなし)");
+				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + this.player.getName() + "のピリオド対決(" + this.section + "秒例外部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(部門外のためrankingなし)");
 			}
 
-			MyMaid.lunachatapi.setPlayersJapanize(player.getName(), DOT.kana.get(player.getName()));
+			MyMaid.lunachatapi.setPlayersJapanize(this.player.getName(), DOT.kana.get(this.player.getName()));
 		}
 	}
 	/*
@@ -1254,7 +1267,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 			statement = MySQL.check(statement);
 
 
-			Set<String> mods = player.getListeningPluginChannels();
+			Set<String> mods = this.player.getListeningPluginChannels();
 			StringBuilder builder = new StringBuilder();
 			for(String mod : mods){
 				builder.append(mod).append(",");
@@ -1275,7 +1288,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 
 			try {
-				statement.executeUpdate("INSERT INTO usemod (id, player, uuid, mods, date) VALUES (NULL, '" + player.getName() + "', '" + player.getUniqueId().toString() + "', '" + strmods + "', '" + sdf.format(new Date()) + "');");
+				statement.executeUpdate("INSERT INTO usemod (id, player, uuid, mods, date) VALUES (NULL, '" + this.player.getName() + "', '" + this.player.getUniqueId().toString() + "', '" + strmods + "', '" + sdf.format(new Date()) + "');");
 			} catch (SQLException e1) {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();

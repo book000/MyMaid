@@ -29,9 +29,15 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 		*/
 		if(args.length != 2){
 			sender.sendMessage("args err");
+			return true;
 		}
 		if(args[0].equalsIgnoreCase("server/user")){
 			Player player = plugin.getServer().getPlayer(args[1]);
+
+			if(player == null){
+				sender.sendMessage("notfound");
+				return true;
+			}
 
 			double health = player.getHealth();
 			double maxhealth = player.getMaxHealth();
@@ -140,6 +146,7 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			obj.put("enderinvenory", endinvobj);
 			obj.put("foodlevel", foodlevel);
 			obj.put("world", world);
+			obj.put("afk", AFK.tnt.containsKey(player.getName()));
 			sender.sendMessage(obj.toJSONString());
 		}
 		return true;

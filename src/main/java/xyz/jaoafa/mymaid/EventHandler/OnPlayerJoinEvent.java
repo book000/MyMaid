@@ -3,6 +3,7 @@ package xyz.jaoafa.mymaid.EventHandler;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -164,13 +165,16 @@ public class OnPlayerJoinEvent implements Listener {
 				Pointjao.addjao(event.getPlayer(), random);
 			}
 			 */
-			Calendar start = Calendar.getInstance();
-			start.set(2017, 7, 1, 0, 0, 0);
-			Calendar end = Calendar.getInstance();
-			end.set(2017, 7, 14, 23, 59, 59);
-			if(Method.isPeriod(start, end)){
-				event.getPlayer().sendMessage("[MyMaid] " + ChatColor.GREEN + "サーバからのプレゼントです！七夕ですね！織姫と彦星は今年も逢えるのでしょうか…？");
-				Pointjao.addjao(event.getPlayer(), 10, "七夕ログインイベント");
+			try {
+				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date start = format.parse("2017/07/01 00:00:00");
+				Date end = format.parse("2017/07/14 23:59:59");
+				if(Method.isPeriod(start, end)){
+					event.getPlayer().sendMessage("[MyMaid] " + ChatColor.GREEN + "サーバからのプレゼントです！七夕ですね！織姫と彦星は今年も逢えるのでしょうか…？");
+					Pointjao.addjao(event.getPlayer(), 10, "七夕ログインイベント");
+				}
+			} catch (ParseException e) {
+				BugReport.report(e);
 			}
 		}
 		Date Date = new Date();

@@ -511,9 +511,15 @@ public class Method {
 	 * @return 期間内ならtrue、期間外ならfalse
 	 * @see http://www.yukun.info/blog/2009/02/java-jsp-gregoriancalendar-period.html
 	 */
-	public static boolean isPeriod(Calendar start, Calendar end){
-		Calendar cur = Calendar.getInstance();
-		return cur.after(start) && cur.before(end);
+	public static boolean isPeriod(Date start, Date end){
+		Date now = new Date();
+		if(now.after(start)){
+			if(now.before(end)){
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

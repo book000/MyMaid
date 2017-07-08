@@ -463,3 +463,9 @@ commands:
       usage: /<command> <Selector>
       permission: mymaid.selector
       permission-message: You do not have permission to perform this command.
+   actionbar:
+      description: アクションバーに文字列を表示します。
+      usage: /<command> [Player] <Text>
+      permission: mymaid.actionbar
+      permission-message: You do not have permission to perform this command.
+

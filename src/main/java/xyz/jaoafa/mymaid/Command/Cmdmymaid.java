@@ -1,5 +1,9 @@
 package xyz.jaoafa.mymaid.Command;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -131,6 +135,25 @@ public class Cmdmymaid implements CommandExecutor {
 				return true;
 			}
 		}
+
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date start = format.parse("2017/07/01 00:00:00");
+			Date end = format.parse("2017/07/14 23:59:59");
+			if(Method.isPeriod(start, end)){
+				Method.SendMessage(sender, cmd, "期間内");
+			}else{
+				Date now = new Date();
+				Method.SendMessage(sender, cmd, Boolean.toString(now.after(start)));
+				Method.SendMessage(sender, cmd, Boolean.toString(now.before(end)));
+
+			}
+		} catch (ParseException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+
+
 
 		Method.SendMessage(sender, cmd, "---- MyMaid Command ----");
 		Method.SendMessage(sender, cmd, "/mymaid jaoadd <Player> <JaoPoint>: 管理部からのポイント追加処理を行います。");
