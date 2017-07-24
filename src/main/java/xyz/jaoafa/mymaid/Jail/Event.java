@@ -69,6 +69,13 @@ public class Event implements Listener {
 				event.setCancelled(true);
 				return;
 			}
+			if(!PermissionsEx.getUser(player).inGroup("Admin")){
+				if(!PermissionsEx.getUser(player).inGroup("Moderator")){
+					player.sendMessage("[JAIL] " + ChatColor.GREEN + "楽園にブロックを設置できません。");
+					event.setCancelled(true);
+					return;
+				}
+			}
 		}
 		if(!Jail.isJail(player)){ // jailにいる
 			return;
@@ -90,6 +97,20 @@ public class Event implements Listener {
 			if(event.getBlock().getType() == Material.COMMAND){
 				player.sendMessage("[COMMANDCHECK] " + ChatColor.GREEN + "QPPE権限ではコマンドブロックを破壊することができません。");
 				event.setCancelled(true);
+			}
+		}
+		if(!player.getLocation().getWorld().getName().equalsIgnoreCase("Jao_Afa")){
+			return;
+		}
+		World World = Bukkit.getServer().getWorld("Jao_Afa");
+		Location prison = new Location(World, 1767, 70, 1767);
+		if(prison.distance(event.getBlock().getLocation()) <= 150){
+			if(!PermissionsEx.getUser(player).inGroup("Admin")){
+				if(!PermissionsEx.getUser(player).inGroup("Moderator")){
+					player.sendMessage("[JAIL] " + ChatColor.GREEN + "楽園でブロックを破壊できません。");
+					event.setCancelled(true);
+					return;
+				}
 			}
 		}
 		if(!Jail.isJail(player)){ // jailにいる
