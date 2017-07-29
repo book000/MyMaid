@@ -468,4 +468,10 @@ commands:
       usage: /<command> [Player] <Text>
       permission: mymaid.actionbar
       permission-message: You do not have permission to perform this command.
+   summer:
+      description: 2017年度の夏イベント用コマンドです。
+      usage: /<command> online [Player]
+      permission: mymaid.summer
+      permission-message: You do not have permission to perform this command.
+
 

@@ -6,7 +6,9 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -96,6 +98,23 @@ public class AFK implements CommandExecutor{
     	}
 		@Override
 		public void run() {
+
+			if(player.getWorld().getName().equalsIgnoreCase("Summer2017")){
+				player.sendMessage("[Summer2017] " + ChatColor.GREEN + "ワールド「Summer2017」ではAFK状態になることができません。");
+				player.sendMessage("[Summer2017] " + ChatColor.GREEN + "Jao_Afaワールドに移動します…");
+				World world = Bukkit.getServer().getWorld("Jao_Afa");
+				if(world == null){
+					player.sendMessage("[Summer2017] " + ChatColor.GREEN + "「Jao_Afa」ワールドの取得に失敗しました。");
+					return;
+				}
+				Location loc = new Location(world, 0, 0, 0, 0, 0);
+				int y = getGroundPos(loc);
+				loc = new Location(world, 0, y, 0, 0, 0);
+				loc.add(0.5f,0f,0.5f);
+				player.teleport(loc);
+				return;
+			}
+
 			//player.getWorld().playSound(player.getLocation(),Sound.EXPLODE,1,1);
 			player.getWorld().playEffect(player.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
 			String listname = player.getPlayerListName();
@@ -104,5 +123,39 @@ public class AFK implements CommandExecutor{
 				player.setPlayerListName(listname);
 			}
 		}
+	}
+	/**
+	 * 指定した地点の地面の高さを返す
+	 *
+	 * @param loc
+	 *            地面を探したい場所の座標
+	 * @return 地面の高さ（Y座標）
+	 *
+	 * http://www.jias.jp/blog/?57
+	 */
+	private static int getGroundPos(Location loc) {
+
+	    // 最も高い位置にある非空気ブロックを取得
+	    loc = loc.getWorld().getHighestBlockAt(loc).getLocation();
+
+	    // 最後に見つかった地上の高さ
+	    int ground = loc.getBlockY();
+
+	    // 下に向かって探索
+	    for (int y = loc.getBlockY(); y != 0; y--) {
+	        // 座標をセット
+	        loc.setY(y);
+
+	        // そこは太陽光が一定以上届く場所で、非固体ブロックで、ひとつ上も非固体ブロックか
+	        if (loc.getBlock().getLightFromSky() >= 8
+	                && !loc.getBlock().getType().isSolid()
+	                && !loc.clone().add(0, 1, 0).getBlock().getType().isSolid()) {
+	            // 地上の高さとして記憶しておく
+	            ground = y;
+	        }
+	    }
+
+	    // 地上の高さを返す
+	    return ground;
 	}
 }

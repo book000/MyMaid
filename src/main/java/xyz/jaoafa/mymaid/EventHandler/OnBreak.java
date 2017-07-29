@@ -16,7 +16,7 @@ public class OnBreak implements Listener {
 	}
 	@EventHandler
 	public void onBreak(BlockBreakEvent e){
-		if(e.getBlock().getWorld().getName().equalsIgnoreCase("Summer2016")){
+		if(e.getBlock().getWorld().getName().equalsIgnoreCase("Summer2017")){
 			return;
 		}
 		Player player = e.getPlayer();
@@ -26,7 +26,11 @@ public class OnBreak implements Listener {
 		if(e.getBlock().getType() == Material.CROPS){
 			Crops block = (Crops)e.getBlock().getState().getData();
 			if(block.getState() == CropState.RIPE){
-				if(player.getItemInHand().getType() != Material.DIAMOND_SWORD){
+				if(player.getItemInHand().getType() != Material.DIAMOND_SWORD &&
+					player.getItemInHand().getType() != Material.GOLD_SWORD &&
+					player.getItemInHand().getType() != Material.IRON_SWORD &&
+					player.getItemInHand().getType() != Material.STONE_SWORD &&
+					player.getItemInHand().getType() != Material.WOOD_SWORD){
 					e.setCancelled(true);
 				}
 			}
