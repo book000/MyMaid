@@ -54,7 +54,6 @@ public class OnQuitGame implements Listener {
   			}
   			AFK.tnt.remove(player.getName());
   		}
-  		player.sendMessage("[AFK] " + ChatColor.GREEN + "AFK false");
   		MyMaid.TitleSender.resetTitle(player);
   		ItemStack[] is = player.getInventory().getArmorContents();
 		if(is[3].getType() == Material.ICE){

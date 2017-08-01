@@ -29,6 +29,7 @@ public class AFK implements CommandExecutor{
 		this.plugin = plugin;
 	}
 	public static Map<String,BukkitTask> tnt = new HashMap<String,BukkitTask>();
+	public static Map<String, Location> loc = new HashMap<String, Location>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
@@ -57,6 +58,11 @@ public class AFK implements CommandExecutor{
 			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + sender.getName() + " is now online!");
 			String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.WHITE + player.getName());
 			player.setPlayerListName(listname);
+
+			if(loc.containsKey(player.getName())){
+				player.teleport(loc.get(player.getName()));
+				loc.remove(player.getName());
+			}
 		}else{
 			ItemStack[] after={
 					new ItemStack(is[0]),
@@ -107,6 +113,7 @@ public class AFK implements CommandExecutor{
 					player.sendMessage("[Summer2017] " + ChatColor.GREEN + "「Jao_Afa」ワールドの取得に失敗しました。");
 					return;
 				}
+				AFK.loc.put(player.getName(), player.getLocation());
 				Location loc = new Location(world, 0, 0, 0, 0, 0);
 				int y = getGroundPos(loc);
 				loc = new Location(world, 0, y, 0, 0, 0);
