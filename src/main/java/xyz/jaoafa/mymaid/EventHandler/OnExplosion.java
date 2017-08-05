@@ -1,7 +1,6 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
 import java.util.Map;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,8 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
-import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.Command.Explode;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class OnExplosion implements Listener {
 	JavaPlugin plugin;
@@ -25,14 +24,14 @@ public class OnExplosion implements Listener {
 		this.plugin = plugin;
 	}
 
-	public static Boolean tntexplode = true;
+	public static Boolean tntexplode = true; // 通知をするかしないか
 
 	@EventHandler(ignoreCancelled = true)
-	public void onEntityExplodeEvent(EntityExplodeEvent e){
+	public void onEntityExplodeEvent(EntityExplodeEvent event){
 		Location location;
 		try{
 			BlockState states = null;
-			for(Block block : e.blockList()){
+			for(Block block : event.blockList()){
 				states = block.getState();
 				break;
 			}
@@ -40,34 +39,34 @@ public class OnExplosion implements Listener {
 				return;
 			}
 			location = states.getLocation();
-		}catch(java.lang.NullPointerException e1) {
+		}catch(java.lang.NullPointerException e) {
 			tntexplode = false;
 			return;
 		}
-		try{
+		try{ // 存在しないのかなんなのかぬるぽが発生するのでtrycatch
 			int x = location.getBlockX();
 			int y = location.getBlockY();
 			int z = location.getBlockZ();
 			for(Map.Entry<Location, Integer> explode : Explode.explode.entrySet()) {
-				double distance;
-				try {
-					distance = location.distance(explode.getKey());
-				}catch(Exception e1) {
-					continue;
+				if(!location.getWorld().getName().equalsIgnoreCase(explode.getKey().getWorld().getName())){
+					// ワールドが違ったらめんどくさいのでreturn
+					return;
 				}
-				if(distance < explode.getValue()){
-					e.setCancelled(true);
+				double distance = location.distance(explode.getKey());
+
+				if(distance < explode.getValue()){ // TNT無効化範囲より中だったらイベントキャンセル(破壊オフ)してreturn
+					event.setCancelled(true);
 					return;
 				}
 			}
 
-			double min = 1.79769313486231570E+308;
-			Player min_player = null;
+			double min = Double.MAX_VALUE; // 一番遠い範囲を設定
+			Player min_player = null; // 一番近いプレイヤーを代入するための変数
 			for(Player player: Bukkit.getServer().getOnlinePlayers()){
-				org.bukkit.Location location_p = player.getLocation();
-				if(location.getWorld().getName().equals(location_p.getWorld().getName())){
+				Location location_p = player.getLocation(); // プレイヤーの現在地
+				if(location.getWorld().getName().equals(location_p.getWorld().getName())){ // ワールド同じかどうか
 					double distance = location.distance(location_p);
-					if(distance < min){
+					if(distance < min){ // 近ければ代入、これを繰り返すことで一番近い人を探す
 						min = distance;
 						min_player = player;
 					}
@@ -76,13 +75,13 @@ public class OnExplosion implements Listener {
 			if(min_player == null){
 				return;
 			}
-			if(min_player.hasPermission("mymaid.pex.default") || min_player.hasPermission("mymaid.pex.provisional")){
-				e.setCancelled(true);
+			if(PermissionsEx.getUser(min_player).inGroup("Default") || PermissionsEx.getUser(min_player).inGroup("QPPE")){
+				event.setCancelled(true);
 				return;
 			}
-			if(tntexplode){
-				if(min < 20 && min_player.hasPermission("pin_code_auth.joinmsg")){
-					// 無視
+			if(tntexplode){ // 通知オンなら通知確認処理後通知
+				if(min < 20 && (PermissionsEx.getUser(min_player).inGroup("Admin") || PermissionsEx.getUser(min_player).inGroup("Moderator"))){
+					// 20ブロック以内でAdminとModeratorがいたら無視
 				}else{
 					tntexplode = false;
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
@@ -90,15 +89,12 @@ public class OnExplosion implements Listener {
 							p.sendMessage("[" + ChatColor.RED + "TNT" + ChatColor.WHITE + "] " + ChatColor.GREEN + min_player.getName() + "の近く(" + min + "block)の" + x + " " + y + " " + z + "地点["+location.getWorld().getName()+"]にてTNTが爆発し、ブロックが破壊されました。確認して下さい。");
 						}
 					}
-					Bukkit.getLogger().info(min_player.getName() + " near(" + min + "block) [" + x + " " + y + " " + z + " "+location.getWorld().getName()+"] TNTExploded.");
-					String name = min_player.getName();
-					UUID uuid = min_player.getUniqueId();
-					Method.url_jaoplugin("tnt", "p="+name+"&u="+uuid+"&x="+x+"&y="+y+"&z="+z+"&w="+location.getWorld().getName());
+					Discord.send("223582668132974594", "***TNTを検知しました。***\nPlayer: " + min_player.getName() + "(の近く)\nXYZ: " + x + " " + y + " " + z + " [" + location.getWorld().getName() + " - " + event.getEntityType().name() + "]");
 					new TNT_Explode_Reset(plugin).runTaskLater(plugin, 1200L);
 					Bukkit.getLogger().info("TNT Exploded notice off");
 				}
 			}
-		}catch(java.lang.NullPointerException e1) {
+		}catch(java.lang.NullPointerException e) {
 			tntexplode = false;
 			new TNT_Explode_Reset(plugin).runTaskLater(plugin, 1200L);
 		}
