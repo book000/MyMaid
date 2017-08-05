@@ -75,7 +75,7 @@ public class OnExplosion implements Listener {
 			if(min_player == null){
 				return;
 			}
-			if(PermissionsEx.getUser(min_player).inGroup("Default") || PermissionsEx.getUser(min_player).inGroup("QPPE")){
+			if(PermissionsEx.getUser(min_player).inGroup("QPPE")){
 				event.setCancelled(true);
 				return;
 			}
