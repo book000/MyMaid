@@ -13,6 +13,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,78 +26,154 @@ import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Discord.Discord;
 
-public class AFK implements CommandExecutor{
-	JavaPlugin plugin;
+public class AFK implements CommandExecutor, Listener{
+	static JavaPlugin plugin;
 	public AFK(JavaPlugin plugin) {
-		this.plugin = plugin;
+		AFK.plugin = plugin;
 	}
-	public static Map<String,BukkitTask> tnt = new HashMap<String,BukkitTask>();
-	public static Map<String, Location> loc = new HashMap<String, Location>();
+	private static Map<String, BukkitTask> afking = new HashMap<String, BukkitTask>();
+	private static Map<String, ItemStack> head = new HashMap<String, ItemStack>();
+	private static Map<String, Location> loc = new HashMap<String, Location>();
+
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
-			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
-		final Player player = (Player) sender;
-		ItemStack[] is = player.getInventory().getArmorContents();
-		if(is[3].getType() == Material.ICE){
-			ItemStack[] after={
-					new ItemStack(is[0]),
-					new ItemStack(is[1]),
-					new ItemStack(is[2]),
-					new ItemStack(Material.AIR)};
-			player.getInventory().setArmorContents(after);
-			player.updateInventory();
-			Method.SendMessage(sender, cmd, "AFK false");
-			if(tnt.containsKey(player.getName())){
-				if(tnt.get(player.getName()) != null){
-					tnt.get(player.getName()).cancel();
-				}
-			}
-			AFK.tnt.remove(player.getName());
-			MyMaid.TitleSender.resetTitle(player);
-			Discord.send(sender.getName() + " is now online!");
-			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + sender.getName() + " is now online!");
-			String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.WHITE + player.getName());
-			player.setPlayerListName(listname);
+		Player player = (Player) sender;
 
-			if(loc.containsKey(player.getName())){
-				player.teleport(loc.get(player.getName()));
-				loc.remove(player.getName());
-			}
+		if(!getAFKing(player)){
+			// NOT AFKなら NOT AFK→AFK
+			setAFK_True(player);
 		}else{
-			ItemStack[] after={
-					new ItemStack(is[0]),
-					new ItemStack(is[1]),
-					new ItemStack(is[2]),
-					new ItemStack(Material.ICE)};
-			player.getInventory().setArmorContents(after);
-			player.updateInventory();
-			Method.SendMessage(sender, cmd, "AFK true");
-			Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
-			Discord.send(player.getName() + " is afk!");
-			if(tnt.containsKey(player.getName())){
-				if(tnt.get(player.getName()) != null){
-					tnt.get(player.getName()).cancel();
-				}
-			}
-			AFK.tnt.remove(player.getName());
-			String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.DARK_GRAY + player.getName());
-			player.setPlayerListName(listname);
-			MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
-			MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
-			MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
-			try{
-				BukkitTask task = new AFK.afking(plugin, player).runTaskTimer(plugin, 0L, 5L);
-				AFK.tnt.put(player.getName(), task);
-			}catch(java.lang.NoClassDefFoundError e){
-				BugReport.report(e);
-				AFK.tnt.put(player.getName(), null);
-			}
+			// AFKなら AFK→NOT AFK
+			setAFK_False(player);
 		}
 		return true;
 	}
+
+	/**
+	 * プレイヤーをAFKにする
+	 *
+	 * @param player 設定するプレイヤー
+	 * @author mine_book000
+	 */
+	public static void setAFK_True(Player player){
+		if(getHeadICE(player)){
+			ItemStack[] is = player.getInventory().getArmorContents();
+			head.put(player.getName(), is[3]);
+			ItemStack[] headice = {
+					new ItemStack(is[0]),
+					new ItemStack(is[1]),
+					new ItemStack(is[2]),
+					new ItemStack(Material.ICE)
+				};
+			player.getInventory().setArmorContents(headice);
+			player.updateInventory();
+		}
+
+		Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
+		Discord.send(player.getName() + " is afk!");
+
+		String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.DARK_GRAY + player.getName());
+		player.setPlayerListName(listname);
+
+		MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
+		MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
+		MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
+
+		try{
+			BukkitTask task = new AFK.afking(plugin, player).runTaskTimer(plugin, 0L, 5L);
+			AFK.afking.put(player.getName(), task);
+		}catch(java.lang.NoClassDefFoundError e){
+			BugReport.report(e);
+			AFK.afking.put(player.getName(), null);
+		}
+	}
+
+	/**
+	 * プレイヤーのAFKを解除する
+	 *
+	 * @param player 解除するプレイヤー
+	 * @author mine_book000
+	 */
+	public static void setAFK_False(Player player){
+		if(head.containsKey(player.getName())){
+			if(head.get(player.getName()) != null){
+				ItemStack[] is = player.getInventory().getArmorContents();
+				ItemStack[] noheadice = {
+						new ItemStack(is[0]),
+						new ItemStack(is[1]),
+						new ItemStack(is[2]),
+						new ItemStack(head.get(player.getName()))
+					};
+				player.getInventory().setArmorContents(noheadice);
+				player.updateInventory();
+			}
+		}
+
+		if(afking.get(player.getName()) != null){
+			afking.get(player.getName()).cancel();
+		}
+		afking.remove(player.getName());
+
+		Discord.send(player.getName() + " is now online!");
+		Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is now online!");
+
+		String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.WHITE + player.getName());
+		player.setPlayerListName(listname);
+
+		MyMaid.TitleSender.resetTitle(player);
+
+		if(loc.containsKey(player.getName())){
+			player.teleport(loc.get(player.getName()));
+			loc.remove(player.getName());
+		}
+	}
+
+	/**
+	 * プレイヤーがAFKかどうか調べる
+	 *
+	 * @param player 調べるプレイヤー
+	 * @return AFKかどうか
+	 * @author mine_book000
+	 */
+	public static boolean getAFKing(Player player){
+		if(afking.containsKey(player.getName())){
+			if(afking.get(player.getName()) != null){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * ICEを頭にかぶせてもよいか調べる
+	 *
+	 * @param player 調べるプレイヤー
+	 * @return かぶせてよいか
+	 * @author mine_book000
+	 */
+	static boolean getHeadICE(Player player){
+		if(player.getWorld().getName().equalsIgnoreCase("Summer2017")){
+			return false;
+		}
+		return true;
+	}
+
+	@EventHandler
+	public void onPlayerMoveEvent(PlayerMoveEvent event){
+		Player player = event.getPlayer();
+
+		MyMaid.afktime.put(player.getName(), System.currentTimeMillis()); // 動いたら更新する
+
+		if(!getAFKing(player)){
+			return;
+	   	}
+
+		setAFK_False(player);
+	}
+
 	static public class afking extends BukkitRunnable{
 		JavaPlugin plugin;
 		Player player;

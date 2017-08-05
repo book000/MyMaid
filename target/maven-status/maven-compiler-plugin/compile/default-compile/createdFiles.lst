@@ -44,7 +44,6 @@ xyz\jaoafa\mymaid\Command\Nuke.class
 xyz\jaoafa\mymaid\EventHandler\OnPlayerCommandSendAdmin.class
 xyz\jaoafa\mymaid\EventHandler\OnWeatherChangeEvent.class
 xyz\jaoafa\mymaid\EventHandler\OnFrom.class
-xyz\jaoafa\mymaid\EventHandler\OnPlayerMoveAFK.class
 xyz\jaoafa\mymaid\EventHandler\OnVotifierEvent.class
 xyz\jaoafa\mymaid\EventHandler\OnPlayerJoinEvent.class
 xyz\jaoafa\mymaid\EventHandler\OnHeadClick.class

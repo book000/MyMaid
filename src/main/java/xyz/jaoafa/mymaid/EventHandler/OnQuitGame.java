@@ -8,13 +8,11 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -48,23 +46,9 @@ public class OnQuitGame implements Listener {
 			}
   			MyBlock.myblock.remove(player.getName());
   		}
-  		if(AFK.tnt.containsKey(player.getName())){
-  			if(AFK.tnt.get(player.getName()) != null){
-  				AFK.tnt.get(player.getName()).cancel();
-  			}
-  			AFK.tnt.remove(player.getName());
+  		if(AFK.getAFKing(player)){
+  			AFK.setAFK_False(player);
   		}
-  		MyMaid.TitleSender.resetTitle(player);
-  		ItemStack[] is = player.getInventory().getArmorContents();
-		if(is[3].getType() == Material.ICE){
-			ItemStack[] after={
-					new ItemStack(is[0]),
-					new ItemStack(is[1]),
-					new ItemStack(is[2]),
-					new ItemStack(Material.AIR)};
-			player.getInventory().setArmorContents(after);
-			player.updateInventory();
-		}
 		//Dynmap_Teleporter.dynamic_teleporter.get(player.getName()).cancel();
 		//Dynmap_Teleporter.dynamic_teleporter.remove(player.getName());
 		Date Date = new Date();

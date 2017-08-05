@@ -35,7 +35,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -154,7 +153,6 @@ import xyz.jaoafa.mymaid.EventHandler.OnPlayerInteractEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerItemConsumeEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerJoinEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerKickEvent;
-import xyz.jaoafa.mymaid.EventHandler.OnPlayerMoveAFK;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerTeleportEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPotionSplashEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnProjectileLaunchEvent;
@@ -390,7 +388,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 	private void Import_Task(){
 		new World_saver().runTaskTimer(this, 0L, 36000L);
 		new Dynmap_Update_Render().runTaskTimer(this, 0L, 36000L);
-		new AFKChecker(this).runTaskTimer(this, 0L, 1200L);
+		new AFKChecker().runTaskTimer(this, 0L, 1200L);
 		new AutoMessage().runTaskTimer(this, 0L, 12000L);
 		//new TPSChange().runTaskTimer(this, 0L, 1200L);
 	}
@@ -429,7 +427,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnPlayerItemConsumeEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerJoinEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerKickEvent(this), this);
-		getServer().getPluginManager().registerEvents(new OnPlayerMoveAFK(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerTeleportEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPotionSplashEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnProjectileLaunchEvent(this), this);
@@ -443,6 +440,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new Land(this), this);
 		getServer().getPluginManager().registerEvents(new Cmb(this), this);
 		getServer().getPluginManager().registerEvents(new SpawnEggRegulation(this), this);
+
+		getServer().getPluginManager().registerEvents(new AFK(this), this);
 
 		getServer().getPluginManager().registerEvents(new Event(this), this);
 	}
@@ -1006,49 +1005,26 @@ public class MyMaid extends JavaPlugin implements Listener {
 	 * @author mine_book000
 	 */
 	private class AFKChecker extends BukkitRunnable{
-		JavaPlugin plugin;
-		public AFKChecker(JavaPlugin plugin) {
-			this.plugin = plugin;
+		public AFKChecker() {
 		}
 		@Override
 		public void run() {
 			if(nextbakrender){
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-					if(AFK.tnt.containsKey(player.getName())){
-						continue;
+					if(AFK.getAFKing(player)){
+						continue; // AFKかどうかを調べるのでAFKは無視
 					}
 					if(!afktime.containsKey(player.getName())){
-						continue;
+						continue; // AFKタイムが設定されてないと処理しようがないので無視
 					}
 					if(player.getGameMode() == GameMode.SPECTATOR){
-						continue;
+						continue; // スペクテイターモードは誰かにくっついて動いててもMoveイベント発生しないので無視
 					}
 					long nowtime = System.currentTimeMillis();
 					long lastmovetime = afktime.get(player.getName());
-					long sa = nowtime - lastmovetime;
+					long sa = nowtime - lastmovetime; // 前回移動した時間から現在の時間の差を求めて3分差があったらAFK扱い
 					if(sa >= 180000){
-						ItemStack[] is = player.getInventory().getArmorContents();
-						ItemStack[] after={
-								new ItemStack(is[0]),
-								new ItemStack(is[1]),
-								new ItemStack(is[2]),
-								new ItemStack(Material.ICE)};
-						player.getInventory().setArmorContents(after);
-						player.updateInventory();
-						Bukkit.broadcastMessage(ChatColor.DARK_GRAY + player.getName() + " is afk!");
-						Discord.send(player.getName() + " is afk!");
-						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
-						MyMaid.TitleSender.sendTitle(player, ChatColor.RED + "AFK NOW!", ChatColor.BLUE + "" + ChatColor.BOLD + "When you are back, please enter the command '/afk'.");
-						MyMaid.TitleSender.setTime_tick(player, 0, 99999999, 0);
-						try{
-							BukkitTask task = new AFK.afking(this.plugin, player).runTaskTimer(this.plugin, 0L, 5L);
-							AFK.tnt.put(player.getName(), task);
-						}catch(java.lang.NoClassDefFoundError e){
-							BugReport.report(e);
-							AFK.tnt.put(player.getName(), null);
-						}
-						String listname = player.getPlayerListName().replaceAll(player.getName(), ChatColor.DARK_GRAY + player.getName());
-						player.setPlayerListName(listname);
+						AFK.setAFK_True(player);
 					}
 				}
 			}

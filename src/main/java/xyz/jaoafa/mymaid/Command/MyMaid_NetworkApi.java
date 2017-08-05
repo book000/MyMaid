@@ -146,7 +146,7 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 			obj.put("enderinvenory", endinvobj);
 			obj.put("foodlevel", foodlevel);
 			obj.put("world", world);
-			obj.put("afk", AFK.tnt.containsKey(player.getName()));
+			obj.put("afk", AFK.getAFKing(player));
 			sender.sendMessage(obj.toJSONString());
 		}
 		return true;
