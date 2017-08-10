@@ -1,40 +1,23 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.CommandBlock;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
-import xyz.jaoafa.mymaid.MyMaid;
-import xyz.jaoafa.mymaid.MySQL;
 
 public class Cmb implements Listener, CommandExecutor {
 	JavaPlugin plugin;
 	public Cmb(JavaPlugin plugin){
 		this.plugin = plugin;
 	}
-
+/*
 	private static boolean UseCheckCommand(String command){
 		List<String> commands = new ArrayList<String>();
 		commands.add("tellraw");
@@ -65,10 +48,13 @@ public class Cmb implements Listener, CommandExecutor {
 			return false;
 		}
 	}
-
+*/
 	public static Map<String, Location> SelectCMB = new HashMap<String, Location>();
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		Method.SendMessage(sender, cmd, "このコマンドは一時的にサポートを停止しています。");
+		return true;
+		/*
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			return true;
@@ -251,7 +237,10 @@ public class Cmb implements Listener, CommandExecutor {
 		Method.SendMessage(sender, cmd, "/cmb clear: コマンドブロックの選択を解除します");
 		Method.SendMessage(sender, cmd, "/cmb set <Command>: Commandを選択したコマンドブロックに書き込みます");
 		return true;
+
+		*/
 	}
+	/*
 	@EventHandler
 	public void onCMBClick(PlayerInteractEvent event) {
 	    if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
@@ -265,4 +254,5 @@ public class Cmb implements Listener, CommandExecutor {
 	        event.setCancelled(true);
 	    }
 	}
+	*/
 }
