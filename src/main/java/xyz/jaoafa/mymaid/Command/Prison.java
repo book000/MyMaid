@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,12 +21,18 @@ public class Prison implements CommandExecutor, TabCompleter {
 	public Prison(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if(args.length == 2){
 			if(args[0].equalsIgnoreCase("add")){
 				Player player = Bukkit.getPlayer(args[1]);
 				if(player == null){
-					Method.SendMessage(sender, cmd, "プレイヤー情報を読み込めません。");
+					OfflinePlayer offplayer = Bukkit.getOfflinePlayer(args[1]);
+					if(offplayer == null){
+						Method.SendMessage(sender, cmd, "プレイヤー情報を読み込めません。");
+						return true;
+					}
+					Jail.JailAdd(offplayer, sender);
 					return true;
 				}
 				Jail.JailAdd(player, sender);
@@ -60,10 +67,6 @@ public class Prison implements CommandExecutor, TabCompleter {
 				return true;
 			}else if(args[0].equalsIgnoreCase("add")){
 				Player player = Bukkit.getPlayer(args[1]);
-				if(player == null){
-					Method.SendMessage(sender, cmd, "プレイヤー情報を読み込めません。");
-					return true;
-				}
 				String text = "";
 				int c = 2;
 				while(args.length > c){
@@ -73,6 +76,16 @@ public class Prison implements CommandExecutor, TabCompleter {
 					}
 					c++;
 				}
+				if(player == null){
+					OfflinePlayer offplayer = Bukkit.getOfflinePlayer(args[1]);
+					if(offplayer == null){
+						Method.SendMessage(sender, cmd, "プレイヤー情報を読み込めません。");
+						return true;
+					}
+					Jail.JailAdd(offplayer, sender, text);
+					return true;
+				}
+
 				Jail.JailAdd(player, sender, text, false);
 				return true;
 			}

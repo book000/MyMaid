@@ -77,6 +77,32 @@ public class Jail {
 	}
 
 	/**
+	 * Jailにプレイヤーを追加
+	 * @param cmd コマンド情報
+	 * @param player オフラインのプレイヤー
+	 * @param banned_by 追加したプレイヤー
+	 * @return 実行できたかどうか
+	 * @author mine_book000
+	*/
+	public static boolean JailAdd(OfflinePlayer player, CommandSender banned_by){
+		if(Jail.contains(player.getName())){
+			// 既に牢獄にいるので無理
+			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
+			return false;
+		}
+		Jail.add(player.getName());
+		block.put(player.getName(), false); // 設置破壊不可
+		area.put(player.getName(), false); // 範囲外移動
+		lasttext.put(player.getName(), false); // まだ遺言を残してない
+
+		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=&nosend");
+		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を牢獄リストに追加しました。");
+		JailBackupSaveTxt(player.getName(), JailType.ADD, banned_by.getName(), "");
+		Discord.send("223582668132974594", "***EBan[追加]***: プレイヤー「" + player.getName() +"」が「" + banned_by.getName() +"」によってJailリストに追加されました。");
+		return true;
+	}
+
+	/**
 	 * Jailに理由つきでプレイヤーを追加
 	 * @param cmd コマンド情報
 	 * @param player プレイヤー
@@ -113,6 +139,34 @@ public class Jail {
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "ちょっとやったことを反省してみるのもいいかもしれないね");
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "あ、そうだ、今の君に人権はないよ。");
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "あと、「/testment <LastText>」で遺言を残せるよ！");
+
+		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=" + reason + "&nosend");
+		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + reason + "」という理由で牢獄リストに追加しました。");
+		JailBackupSaveTxt(player.getName(), JailType.ADD, banned_by.getName(), reason);
+		Discord.send("223582668132974594", "***EBan[追加]***: プレイヤー「" + player.getName() +"」が「" + banned_by.getName() +"」によって「" + reason + "」という理由でJailリストに追加されました。");
+		return true;
+	}
+
+	/**
+	 * Jailに理由つきでプレイヤーを追加
+	 * @param cmd コマンド情報
+	 * @param player オフラインのプレイヤー
+	 * @param banned_by 追加したプレイヤー
+	 * @param reason 理由
+	 * @param InvRemove インベントリを削除するか
+	 * @return 実行できたかどうか
+	 * @author mine_book000
+	*/
+	public static boolean JailAdd(OfflinePlayer player, CommandSender banned_by, String reason){
+		if(Jail.contains(player.getName())){
+			// 既に牢獄にいるので無理
+			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
+			return false;
+		}
+		Jail.add(player.getName());
+		block.put(player.getName(), false); // 設置破壊不可
+		area.put(player.getName(), false); // 範囲外移動
+		lasttext.put(player.getName(), false); // まだ遺言を残してない
 
 		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=" + reason + "&nosend");
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + reason + "」という理由で牢獄リストに追加しました。");
