@@ -70,6 +70,10 @@ public class OnMyMaidJoinLeftChatCmdLogs implements Listener {
 	            			}
 	            		}
 	            		obj.put("time", sdfall.format(new Date()));
+	            		obj.put("world", player.getWorld().getName());
+	            		obj.put("x", player.getLocation().getBlockX());
+	            		obj.put("y", player.getLocation().getBlockY());
+	            		obj.put("z", player.getLocation().getBlockZ());
 	            	}else if(type.equalsIgnoreCase("chat")){
 	            		obj.put("type", "chat");
 	            		obj.put("player", player.getName());
@@ -81,6 +85,10 @@ public class OnMyMaidJoinLeftChatCmdLogs implements Listener {
 	            			}
 	            		}
 	            		obj.put("time", sdfall.format(new Date()));
+	            		obj.put("world", player.getWorld().getName());
+	            		obj.put("x", player.getLocation().getBlockX());
+	            		obj.put("y", player.getLocation().getBlockY());
+	            		obj.put("z", player.getLocation().getBlockZ());
 	            	}else if(type.equalsIgnoreCase("command")){
 	            		obj.put("type", "command");
 	            		obj.put("player", player.getName());
@@ -92,6 +100,10 @@ public class OnMyMaidJoinLeftChatCmdLogs implements Listener {
 	            			}
 	            		}
 	            		obj.put("time", sdfall.format(new Date()));
+	            		obj.put("world", player.getWorld().getName());
+	            		obj.put("x", player.getLocation().getBlockX());
+	            		obj.put("y", player.getLocation().getBlockY());
+	            		obj.put("z", player.getLocation().getBlockZ());
 	            	}else if(type.equalsIgnoreCase("left")){
 	            		obj.put("type", "left");
 	            		obj.put("player", player.getName());
@@ -102,6 +114,10 @@ public class OnMyMaidJoinLeftChatCmdLogs implements Listener {
 	            			}
 	            		}
 	            		obj.put("time", sdfall.format(new Date()));
+	            		obj.put("world", player.getWorld().getName());
+	            		obj.put("x", player.getLocation().getBlockX());
+	            		obj.put("y", player.getLocation().getBlockY());
+	            		obj.put("z", player.getLocation().getBlockZ());
 	            	}
 
 	            	String str = obj.toJSONString();
@@ -211,4 +227,5 @@ public class OnMyMaidJoinLeftChatCmdLogs implements Listener {
 		}
 
 	}
+
 }

@@ -72,12 +72,12 @@ public class OnMyMaidCommandblockLogs implements Listener {
 					return;
 				}
 
-				log(plugin, cmdb.getCommand(), min_player, min, cmdb.getX(), cmdb.getY(), cmdb.getZ());
+				log(plugin, cmdb.getCommand(), min_player, min, cmdb.getWorld().getName(), cmdb.getX(), cmdb.getY(), cmdb.getZ());
     		}
         }
     }
     @SuppressWarnings("unchecked")
-    void log(final JavaPlugin plugin, final String command, final Player player, final double distance, final int x, final int y, final int z) {
+    void log(final JavaPlugin plugin, final String command, final Player player, final double distance, final String world, final int x, final int y, final int z) {
     	try{new BukkitRunnable() {
     		@Override
     		public void run() {
@@ -92,7 +92,8 @@ public class OnMyMaidCommandblockLogs implements Listener {
     			}
     			play = play.substring(0, play.length() - 2);
 
-        		obj.put("x", x);
+    			obj.put("world", world);
+    			obj.put("x", x);
         		obj.put("y", y);
         		obj.put("z", z);
         		obj.put("command", command);
