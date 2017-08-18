@@ -3,7 +3,6 @@ package xyz.jaoafa.mymaid.EventHandler;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -13,6 +12,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -164,7 +164,7 @@ public class OnPlayerJoinEvent implements Listener {
 
 				Pointjao.addjao(event.getPlayer(), random);
 			}
-			 */
+
 			try {
 				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Date start = format.parse("2017/07/01 00:00:00");
@@ -176,6 +176,7 @@ public class OnPlayerJoinEvent implements Listener {
 			} catch (ParseException e) {
 				BugReport.report(e);
 			}
+			*/
 		}
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -201,6 +202,12 @@ public class OnPlayerJoinEvent implements Listener {
 
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 			new TabListSKKReloader(plugin, p).runTaskLater(plugin, 20L);
+		}
+
+		if(PermissionsEx.getUser(event.getPlayer()).inGroup("Limited")){
+			// Limitedは強制的に初期スポへ
+			Location location = Bukkit.getWorld("Jao_Afa").getSpawnLocation();
+			event.getPlayer().teleport(location);
 		}
 	}
 

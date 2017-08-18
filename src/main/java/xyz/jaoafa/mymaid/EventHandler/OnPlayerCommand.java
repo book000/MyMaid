@@ -48,7 +48,6 @@ public class OnPlayerCommand implements Listener {
 				return;
 			}
 		}else if(args.length >= 2){
-
 			List<String> LeastOne = new ArrayList<String>();
 			LeastOne.add("r");
 			LeastOne.add("type");

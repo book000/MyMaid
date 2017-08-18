@@ -32,7 +32,6 @@ public class OnJoin implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer(); // Joinしたプレイヤー
 
-
 		String tps1m = Method.getTPS1m();
 		String tps5m = Method.getTPS5m();
 		String tps15m = Method.getTPS15m();
