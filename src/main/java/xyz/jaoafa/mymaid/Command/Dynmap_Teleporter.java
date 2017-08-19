@@ -119,6 +119,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				}else{
 					// 見つからなかった
 					Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」は見つかりませんでした。");
+					Method.SendMessage(sender, cmd, "マーカー名は大文字小文字を区別します。もう一度間違っていないか確認してください。");
 					return true;
 				}
 			}
@@ -149,6 +150,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				}else{
 					// 見つからなかった
 					Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」は見つかりませんでした。");
+					Method.SendMessage(sender, cmd, "マーカー名は大文字小文字を区別します。もう一度間違っていないか確認してください。");
 					return true;
 				}
 			}else if(args[0].equalsIgnoreCase("list")){
@@ -232,6 +234,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				}else{
 					// 見つからなかった
 					Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」は見つかりませんでした。");
+					Method.SendMessage(sender, cmd, "マーカー名は大文字小文字を区別します。もう一度間違っていないか確認してください。");
 					return true;
 				}
 			}
@@ -335,6 +338,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				}else{
 					// 見つからなかった
 					Method.SendMessage(sender, cmd, "指定されたマーカー「" + markerlabel +"」は見つかりませんでした。");
+					Method.SendMessage(sender, cmd, "マーカー名は大文字小文字を区別します。もう一度間違っていないか確認してください。");
 					return true;
 				}
 			}
