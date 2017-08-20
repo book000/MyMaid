@@ -136,7 +136,11 @@ public class OnPlayerJoinEvent implements Listener {
 		if(point.equalsIgnoreCase("YES")){
 			SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
 			Date Date = new Date();
-			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + event.getPlayer().getName() + "は本日初ログインです。");
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					p.sendMessage("[TodayFirstCheck] " + ChatColor.GREEN + event.getPlayer().getName() + "は本日初ログインです。");
+				}
+			}
 			Pointjao.addjao(event.getPlayer(), 10, date.format(Date) + "のログインボーナス");
 
 			/*

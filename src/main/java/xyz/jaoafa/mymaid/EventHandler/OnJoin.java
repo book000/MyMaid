@@ -80,6 +80,10 @@ public class OnJoin implements Listener {
 		}else{
 			return;
 		}
+		if(!player.hasPlayedBefore()){
+			// ログイン初
+			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + player.getName() + "さんは当サーバに初ログインです。はじめまして！");
+		}
 
 		String data = Method.url_jaoplugin("access", "i="+ip);
 		if(data.equalsIgnoreCase("NO")){
