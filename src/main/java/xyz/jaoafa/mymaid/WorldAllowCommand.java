@@ -20,6 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class WorldAllowCommand implements Listener {
 	public WorldAllowCommand() {
@@ -73,6 +74,7 @@ public class WorldAllowCommand implements Listener {
 						p.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + player.getName() + "がワールド「" + world.getName() + "」で使用禁止されているコマンド「" + Firstarg + "」を使用しようとしました。");
 					}
 				}
+				Discord.send("293856671799967744", "[***CommandCheck***]" + player.getName() + "がワールド「" + world.getName() + "」で使用禁止されているコマンド「" + Firstarg + "」を使用しようとしました。");
 				event.setCancelled(true);
 				return;
 			}
@@ -87,6 +89,7 @@ public class WorldAllowCommand implements Listener {
 						p.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + player.getName() + "がワールド「" + world.getName() + "」で使用禁止されているコマンド「" + Firstarg + "」を使用しようとしました。");
 					}
 				}
+				Discord.send("293856671799967744", "[***CommandCheck***]" + player.getName() + "がワールド「" + world.getName() + "」で使用禁止されているコマンド「" + Firstarg + "」を使用しようとしました。");
 				event.setCancelled(true);
 				return;
 			}
