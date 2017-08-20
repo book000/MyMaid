@@ -37,8 +37,10 @@ public class OnPlayerDeathEvent implements Listener {
 	public void onPlayerDeathEvent(PlayerDeathEvent e){
 		Player player = e.getEntity();
 		Location loc = player.getLocation();
-		Ded.ded.put(player.getName(), loc);
-		player.sendMessage("[DED] " + ChatColor.GREEN + "死亡した場所に戻るには「/ded」コマンドが使用できます。");
+		if(!player.getWorld().getName().equalsIgnoreCase("Summer2017")){
+			Ded.ded.put(player.getName(), loc);
+			player.sendMessage("[DED] " + ChatColor.GREEN + "死亡した場所に戻るには「/ded」コマンドが使用できます。");
+		}
 
 		JSONParser parser = new JSONParser();
 		String json = "";
