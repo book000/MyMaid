@@ -1,9 +1,5 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.Pointjao;
+import xyz.jaoafa.mymaid.WorldAllowCommand;
 import xyz.jaoafa.mymaid.Jail.Jail;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
@@ -133,27 +130,22 @@ public class Cmdmymaid implements CommandExecutor {
 					Method.SendMessage(sender, cmd, "MyMaid SKK Data Save Err...");
 				}
 				return true;
+			}else if(args[0].equalsIgnoreCase("worldcmdload")){
+				if(WorldAllowCommand.Load()){
+					Method.SendMessage(sender, cmd, "MyMaid WorldCommand Data Loaded!");
+				}else{
+					Method.SendMessage(sender, cmd, "MyMaid WorldCommand Data Load Err...");
+				}
+				return true;
+			}else if(args[0].equalsIgnoreCase("worldcmdsave")){
+				if(WorldAllowCommand.Save()){
+					Method.SendMessage(sender, cmd, "MyMaid WorldCommand Data Saved!");
+				}else{
+					Method.SendMessage(sender, cmd, "MyMaid WorldCommand Data Save Err...");
+				}
+				return true;
 			}
 		}
-
-		try {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Date start = format.parse("2017/07/01 00:00:00");
-			Date end = format.parse("2017/07/14 23:59:59");
-			if(Method.isPeriod(start, end)){
-				Method.SendMessage(sender, cmd, "期間内");
-			}else{
-				Date now = new Date();
-				Method.SendMessage(sender, cmd, Boolean.toString(now.after(start)));
-				Method.SendMessage(sender, cmd, Boolean.toString(now.before(end)));
-
-			}
-		} catch (ParseException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-
-
 
 		Method.SendMessage(sender, cmd, "---- MyMaid Command ----");
 		Method.SendMessage(sender, cmd, "/mymaid jaoadd <Player> <JaoPoint>: 管理部からのポイント追加処理を行います。");
@@ -164,6 +156,8 @@ public class Cmdmymaid implements CommandExecutor {
 		Method.SendMessage(sender, cmd, "/mymaid jailsave: Jail情報をセーブします。");
 		Method.SendMessage(sender, cmd, "/mymaid skkload: 投票数ログインメッセージ情報をロードします。");
 		Method.SendMessage(sender, cmd, "/mymaid skksave: 投票数ログインメッセージ情報をセーブします。");
+		Method.SendMessage(sender, cmd, "/mymaid worldcmdload: コマンドの使用可否情報をロードします。");
+		Method.SendMessage(sender, cmd, "/mymaid worldcmdsave: コマンドの使用可否情報をセーブします。");
 		return true;
 	}
 }

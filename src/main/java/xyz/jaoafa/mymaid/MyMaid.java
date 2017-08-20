@@ -271,6 +271,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		BugReport.start();
 		SKKColors.first(this);
+		if(WorldAllowCommand.first(this)){
+			getServer().getPluginManager().registerEvents(new WorldAllowCommand(), this);
+		}
 		dynmapbridge = DynmapBridge.load(getJavaPlugin()); // nullが帰ってくるかも?
 	}
 	/**

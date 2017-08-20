@@ -1,29 +1,29 @@
 package xyz.jaoafa.mymaid;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import xyz.jaoafa.mymaid.SKKColors.SKKColors;
+import net.md_5.bungee.api.ChatColor;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-public class WorldAllowCommand {
+public class WorldAllowCommand implements Listener {
+	public WorldAllowCommand() {
+	}
 	static JavaPlugin plugin;
 	static File file;
 	static Map<String, Map<String, List<String>>> WorldCommand = new HashMap<String, Map<String, List<String>>>();
@@ -37,6 +37,61 @@ public class WorldAllowCommand {
 	 * 「+command」はAllow(使用可能)
 	 * 「-command」はDisallow(使用不可能)
 	 */
+
+
+
+	@EventHandler(ignoreCancelled = true)
+	public void CommandAllowOrDisallowCheck(PlayerCommandPreprocessEvent event){
+		Player player = event.getPlayer();
+		String command = event.getMessage();
+		String[] args = command.split(" ", 0);
+		String Firstarg = StringUtils.stripStart(args[0], "/");
+		World world = player.getWorld();
+
+		// AdminとModeratorはチェストの例外
+		if(PermissionsEx.getUser(player).inGroup("Admin") || PermissionsEx.getUser(player).inGroup("Moderator")){
+			return;
+		}
+
+		// そのワールドに情報がなければ無視
+		if(!WorldCommand.containsKey(world.getName())){
+			return;
+		}
+
+		Map<String, List<String>> TypeList = WorldCommand.get(world.getName());
+		String DefaultAllCommand = TypeList.get("DefaultAllCommand").get(0);
+		List<String> CommandList = TypeList.get("CommandList");
+
+		if(DefaultAllCommand.equalsIgnoreCase("Allow")){
+			// すべてのコマンドをデフォルトAllow
+			// Disallowが設定されている場合のみDisallow処理
+			if(CommandList.contains("-" + Firstarg)){
+				player.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + "そのコマンド「" + Firstarg + "」はこのワールドで実行が制限されているため使用できません。");
+				player.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + "使用したい場合は管理部にお問い合わせください。");
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+						p.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + player.getName() + "がワールド「" + world.getName() + "」で使用禁止されているコマンド「" + Firstarg + "」を使用しようとしました。");
+					}
+				}
+				event.setCancelled(true);
+				return;
+			}
+		}else if(DefaultAllCommand.equalsIgnoreCase("Disallow")){
+			// すべてのコマンドをデフォルトDisallow
+			// Allowが設定されている場合のみAllow処理
+			if(!CommandList.contains("+" + Firstarg)){
+				player.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + "そのコマンド「" + Firstarg + "」はこのワールドで実行が制限されているため使用できません。");
+				player.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + "使用したい場合は管理部にお問い合わせください。");
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+						p.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + player.getName() + "がワールド「" + world.getName() + "」で使用禁止されているコマンド「" + Firstarg + "」を使用しようとしました。");
+					}
+				}
+				event.setCancelled(true);
+				return;
+			}
+		}
+	}
 
 	/**
 	 * 使用できるコマンド情報をロードしたりデータを保存したり初期設定をします。
@@ -65,7 +120,7 @@ public class WorldAllowCommand {
 	}
 
 	/**
-	 * ログインメッセージをセーブします。
+	 * コマンドの使用可否情報をセーブします。
 	 * @return 完了したかどうか
 	 * @author mine_book000
 	 */
@@ -77,11 +132,13 @@ public class WorldAllowCommand {
 				Map<String, List<String>> TypeList = WorldCommand.get(world.getName());
 				if(TypeList.containsKey("DefaultAllCommand") && TypeList.containsKey("CommandList")){
 					// ワールド設定欄があってその中の設定があるとき
+					List<String> DefaultAllCommand = TypeList.get("DefaultAllCommand");
+					List<String> CommandList = TypeList.get("CommandList");
 
-
+					data.set(world.getName() + "." + "DefaultAllCommand", DefaultAllCommand.get(0)); // 保存時はString
+					data.set(world.getName() + "." + "CommandList", CommandList); // 保存時もList
 				}else{
 					// ワールド設定欄があるのにその中の設定が存在しないとき
-
 					List<String> DefaultAllCommand = new ArrayList<String>();
 					// 本当はこんな管理したくないんだけどObject管理もそれはそれでアレなので.get(0)が判定ということで
 					DefaultAllCommand.add("Allow"); // DefaultAllCommandのDefault値はAllow
@@ -90,12 +147,11 @@ public class WorldAllowCommand {
 					List<String> CommandList = new ArrayList<String>();
 					TypeList.put("CommandList", CommandList);
 
-					data.set("DefaultAllCommand", DefaultAllCommand.get(0)); // 保存時はString
-					data.set("CommandList", CommandList); // 保存時もList
+					data.set(world.getName() + "." + "DefaultAllCommand", DefaultAllCommand.get(0)); // 保存時はString
+					data.set(world.getName() + "." + "CommandList", CommandList); // 保存時もList
 				}
 			}else{
 				// ワールド設定欄さえないとき
-
 				Map<String, List<String>> TypeList = new HashMap<String, List<String>>();
 				List<String> DefaultAllCommand = new ArrayList<String>();
 				// 本当はこんな管理したくないんだけどObject管理もそれはそれでアレなので.get(0)が判定ということで
@@ -105,10 +161,10 @@ public class WorldAllowCommand {
 				List<String> CommandList = new ArrayList<String>();
 				TypeList.put("CommandList", CommandList);
 
-				data.set("DefaultAllCommand", DefaultAllCommand.get(0)); // 保存時はString
-				data.set("CommandList", CommandList); // 保存時もList
+				WorldCommand.put(world.getName(), TypeList);
 
-
+				data.set(world.getName() + "." + "DefaultAllCommand", DefaultAllCommand.get(0)); // 保存時はString
+				data.set(world.getName() + "." + "CommandList", CommandList); // 保存時もList
 			}
 		}
 		try {
@@ -122,83 +178,26 @@ public class WorldAllowCommand {
 	}
 
 	/**
-	 * ログインメッセージをロードします。
+	 * コマンドの使用可否情報をロードします。
 	 * @return 完了したかどうか
 	 * @author mine_book000
 	 */
 	public static boolean Load(){
 		FileConfiguration data = YamlConfiguration.loadConfiguration(file);
-		if(data.contains("JoinMessageList")){
-			//MessageList = data.getStringList("JoinMessageList");
-		}else{
-			return false;
-		}
-		if(data.contains("LastText")){
-			Map<String, Object> LastText = data.getConfigurationSection("LastText").getValues(true);
-			if(LastText.size() != 0){
-				for(Entry<String, Object> p: LastText.entrySet()){
-					String LastTextStr = (String) p.getValue();
-					SKKColors.LastText.put(p.getKey(), LastTextStr);
-				}
-			}
-		}else{
-			return false;
-		}
-		return true;
-	}
 
-	/**
-	 * 使用できるコマンド情報をロードする。
-	 * @return 実行できたかどうか
-	 * @author mine_book000
-	 * @throws Exception 何かしらのExceptionが発生したときに発生(FileNotFoundException, IOException)
-	*/
-	public static boolean LoadWorldCommandData() throws Exception{
-		JSONParser parser = new JSONParser();
-		String json = "";
-		try{
-			JavaPlugin plugin = MyMaid.getJavaPlugin();
-	    	File file = new File(plugin.getDataFolder() + File.separator + "WorldCommand.json");
-			BufferedReader br = new BufferedReader(new FileReader(file));
-
-			String separator = System.getProperty("line.separator");
-
-			String str;
-			while((str = br.readLine()) != null){
-				json += str + separator;
-			}
-			br.close();
-		}catch(FileNotFoundException e1){
-			BugReport.report(e1);
-			throw new FileNotFoundException(e1.getMessage());
-		}catch(IOException e1){
-			BugReport.report(e1);
-			throw new IOException(e1.getMessage());
-		}
-
-		JSONObject obj;
-		try {
-			obj = (JSONObject) parser.parse(json);
-		} catch (ParseException e1) {
-			obj = new JSONObject();
-		}
-		Map<String, Map<String, String>> WorldCommand = new HashMap<String, Map<String, String>>();
-		//List<String> CommandList = new ArrayList<String>();
 		for(World world : Bukkit.getWorlds()){
-			if(obj.containsKey(world.getName())){
-				// 設定が存在する
-				JSONObject TypeList = (JSONObject) obj.get(world.getName());
-				if(TypeList.containsKey("DefaultAllCommand") && TypeList.containsKey("CommandList")){
-					continue;
-				}
-				// DefaultAllCommand: Allow / Disallow
-				// CommandList: JSONArray
-				String DefaultAllCommand = (String) TypeList.get("DefaultAllCommand");
-				JSONArray CommandList = (JSONArray) TypeList.get("CommandList");
-				for(Object o : CommandList){
-					//
-				}
+			if(data.contains(world.getName() + "." + "DefaultAllCommand") && data.contains(world.getName() + "." + "CommandList")){
+				Map<String, List<String>> TypeList = new HashMap<String, List<String>>();
 
+				List<String> DefaultAllCommand = new ArrayList<String>();
+				// 本当はこんな管理したくないんだけどObject管理もそれはそれでアレなので.get(0)が判定ということで
+				DefaultAllCommand.add(data.getString(world.getName() + "." + "DefaultAllCommand"));
+				TypeList.put("DefaultAllCommand", DefaultAllCommand);
+
+				List<String> CommandList = data.getStringList(world.getName() + "." + "CommandList");
+				TypeList.put("CommandList", CommandList);
+
+				WorldCommand.put(world.getName(), TypeList);
 			}
 		}
 		return true;
