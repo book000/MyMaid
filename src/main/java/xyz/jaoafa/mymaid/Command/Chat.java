@@ -87,6 +87,7 @@ public class Chat implements CommandExecutor {
 				c++;
 
 			}
+			text = ChatColor.translateAlternateColorCodes('&', text);
 			if(args[0].equalsIgnoreCase("jaotan")){
 				color = ChatColor.GOLD;
 			}

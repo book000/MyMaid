@@ -3,6 +3,7 @@ package xyz.jaoafa.mymaid.Command;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -46,6 +47,7 @@ public class ItemEdit implements CommandExecutor {
 					}
 					c++;
 				}
+				text = ChatColor.translateAlternateColorCodes('&', text);
 				meta.setDisplayName(text);
 				is.setItemMeta(meta);
 				player.getInventory().setItemInHand(is);
@@ -57,9 +59,11 @@ public class ItemEdit implements CommandExecutor {
 				List<String> lore = new ArrayList<String>();
 				int c = 1;
 				while(args.length > c){
-					lore.add(args[c]);
+					String text = ChatColor.translateAlternateColorCodes('&', args[c]);
+					lore.add(text);
 					c++;
 				}
+
 				meta.setLore(lore);
 				is.setItemMeta(meta);
 				player.getInventory().setItemInHand(is);

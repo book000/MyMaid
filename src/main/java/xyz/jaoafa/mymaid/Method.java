@@ -521,5 +521,4 @@ public class Method {
 
 		return false;
 	}
-
 }
