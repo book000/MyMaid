@@ -145,6 +145,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnJoin;
 import xyz.jaoafa.mymaid.EventHandler.OnLunaChatChannelMemberChangedEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnMyMaidCommandblockLogs;
 import xyz.jaoafa.mymaid.EventHandler.OnMyMaidJoinLeftChatCmdLogs;
+import xyz.jaoafa.mymaid.EventHandler.OnPlayerChangedWorldEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommand;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerCommandSendAdmin;
 import xyz.jaoafa.mymaid.EventHandler.OnPlayerDeathEvent;
@@ -422,6 +423,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnLunaChatChannelMemberChangedEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnMyMaidCommandblockLogs(this), this);
 		getServer().getPluginManager().registerEvents(new OnMyMaidJoinLeftChatCmdLogs(this), this);
+		getServer().getPluginManager().registerEvents(new OnPlayerChangedWorldEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerCommand(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerCommandSendAdmin(this), this);
 		getServer().getPluginManager().registerEvents(new OnPlayerDeathEvent(this), this);

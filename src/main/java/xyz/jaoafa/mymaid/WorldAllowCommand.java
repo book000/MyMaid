@@ -38,9 +38,6 @@ public class WorldAllowCommand implements Listener {
 	 * 「+command」はAllow(使用可能)
 	 * 「-command」はDisallow(使用不可能)
 	 */
-
-
-
 	@EventHandler(ignoreCancelled = true)
 	public void CommandAllowOrDisallowCheck(PlayerCommandPreprocessEvent event){
 		Player player = event.getPlayer();
