@@ -37,7 +37,7 @@ public class OnPlayerChangedWorldEvent implements Listener {
 			player.sendMessage("[WorldTips] " + ChatColor.GREEN + "ワールド詳細ページ: https://jaoafa.com/community/sandbox");
 		}else if(world.startsWith("Summer2017")){
 			player.sendMessage("[WorldTips] " + ChatColor.GREEN + "適用規約: サーバルール・方針・利用規約・Summer2017ワールドルール");
-			player.sendMessage("[WorldTips] " + ChatColor.GREEN + "ワールド関連記事: https://jaoafa.com/community/sandbox");
+			player.sendMessage("[WorldTips] " + ChatColor.GREEN + "ワールド関連記事: https://jaoafa.com/blog/tomachi/event201708");
 		}
 	}
 }
