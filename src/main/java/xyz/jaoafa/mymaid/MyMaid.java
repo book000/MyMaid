@@ -33,6 +33,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.json.simple.JSONObject;
@@ -44,6 +45,7 @@ import com.github.ucchyocean.lc.bridge.DynmapBridge;
 import com.github.ucchyocean.lc.channel.ChannelPlayer;
 import com.ittekikun.plugin.eewalert.EEWAlert;
 
+import net.milkbowl.vault.economy.Economy;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Access;
@@ -182,10 +184,11 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public static Connection c = null;
 	public static String sqluser;
 	public static String sqlpassword;
-	private static JavaPlugin instance;
-	private static MyMaid mymaid;
+	public static JavaPlugin instance = null;
+	public static MyMaid mymaid = null;
 	public static Discord discord = null;
 	public static DynmapBridge dynmapbridge;
+	public static Economy econ = null;
 	/**
 	 * プラグインが起動したときに呼び出し
 	 * @author mine_book000
@@ -207,6 +210,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		Load_Plugin("CoreProtect");
 		Load_Plugin("Votifier");
 		Load_Plugin("MCBans");
+		Load_Plugin("Vault");
 
 		//EEWAlertの設定
 		Plugin plugin = getServer().getPluginManager().getPlugin("EEWAlert");
@@ -276,6 +280,20 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getServer().getPluginManager().registerEvents(new WorldAllowCommand(), this);
 		}
 		dynmapbridge = DynmapBridge.load(getJavaPlugin()); // nullが帰ってくるかも?
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+        	getLogger().info("RegisteredServiceProvider<Economy> is null.");
+        	getLogger().info("Disable MyMaid...");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+        }
+        econ = rsp.getProvider();
+        if (econ == null) {
+        	getLogger().info("rsp.getProvider() is null.");
+        	getLogger().info("Disable MyMaid...");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+        }
 	}
 	/**
 	 * 連携プラグイン確認
