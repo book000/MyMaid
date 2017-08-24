@@ -136,6 +136,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerChatEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBannedEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBlockRedstoneEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnBoatNoDestroy;
 import xyz.jaoafa.mymaid.EventHandler.OnBowClickEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnBreak;
 import xyz.jaoafa.mymaid.EventHandler.OnEEWReceiveEvent;
@@ -431,6 +432,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnAsyncPlayerPreLoginEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnBannedEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnBlockRedstoneEvent(this), this);
+		getServer().getPluginManager().registerEvents(new OnBoatNoDestroy(this), this);
 		getServer().getPluginManager().registerEvents(new OnBowClickEvent(this), this);
 		getServer().getPluginManager().registerEvents(new OnBreak(this), this);
 		getServer().getPluginManager().registerEvents(new OnEntityChangeBlockEvent(this), this);
