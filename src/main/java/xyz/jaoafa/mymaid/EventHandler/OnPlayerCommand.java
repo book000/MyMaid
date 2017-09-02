@@ -241,6 +241,25 @@ public class OnPlayerCommand implements Listener {
 					}
 				}
 			}
+			if(args[0].equalsIgnoreCase("/pex")){
+				if(args[1].equalsIgnoreCase("promote")){
+					ChatColor color = SKKColors.getPlayerSKKChatColor(player);
+					Date Date = new Date();
+					SimpleDateFormat H = new SimpleDateFormat("H");
+					SimpleDateFormat m = new SimpleDateFormat("m");
+					SimpleDateFormat s = new SimpleDateFormat("s");
+					String Hs = H.format(Date);
+					String ms = m.format(Date);
+					String ss = s.format(Date);
+					String date = String.format("%02d", Integer.parseInt(Hs)) + ":" + String.format("%02d", Integer.parseInt(ms)) + ":" + String.format("%02d", Integer.parseInt(ss));
+					String text = "(◞‸◟) ｻﾊﾞｵﾁﾅｲｰﾅ? ﾎﾜｯｳｳﾞｼﾞｸｼﾞｸﾞｨﾝﾉﾝﾞﾝﾞﾝﾞﾝﾞﾍﾟﾗﾚｸﾞｼﾞｭﾁﾞ…ﾇﾇﾉｮｩﾂﾋﾞｮﾝﾇｽﾞｨｺｹｰｯﾝｦｯ…ｶﾅｼﾐ…";
+					OnMyMaidJoinLeftChatCmdLogs.log(plugin, "chat", player, text);
+					Bukkit.broadcastMessage(ChatColor.GRAY + "["+ date + "]" + color + "■" + ChatColor.WHITE + player.getName() +  ": " + text);
+					Discord.send("**" + player.getName() + "**: オ、オオwwwwwwwwオレアルファwwwwwwww最近めっちょふぁぼられてんねんオレwwwwwwwwエゴサとかかけるとめっちょ人気やねんwwwwァァァァァァァwwwクソアルファを見下しながら食べるエビフィレオは一段とウメェなァァァァwwwwwwww");
+					event.setCancelled(true);
+					return;
+				}
+			}
 			if(args[0].equalsIgnoreCase("//calc") || args[0].equalsIgnoreCase("/worldedit:/calc")){
 				ChatColor color = SKKColors.getPlayerSKKChatColor(player);
 				Date Date = new Date();

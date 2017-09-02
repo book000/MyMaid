@@ -181,6 +181,13 @@ public class OnSummer2017 implements Listener {
 	}
 
 	private boolean PointDistribution(Player player){
+		if(!Loaded){
+			try {
+				LoadSummerData();
+			} catch (Exception e) {
+				return false;
+			}
+		}
 		String uuid = player.getUniqueId().toString();
 		if(!summer2017online.containsKey(uuid)){
 			return false;
