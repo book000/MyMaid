@@ -258,6 +258,17 @@ public class OnPlayerCommand implements Listener {
 					Discord.send("**" + player.getName() + "**: オ、オオwwwwwwwwオレアルファwwwwwwww最近めっちょふぁぼられてんねんオレwwwwwwwwエゴサとかかけるとめっちょ人気やねんwwwwァァァァァァァwwwクソアルファを見下しながら食べるエビフィレオは一段とウメェなァァァァwwwwwwww");
 					event.setCancelled(true);
 					return;
+				}else{
+					if(
+							PermissionsEx.getUser(player).inGroup("Limited")
+						|| PermissionsEx.getUser(player).inGroup("QPPE")
+						|| PermissionsEx.getUser(player).inGroup("Default")
+						|| PermissionsEx.getUser(player).inGroup("Regular")
+					){
+						player.sendMessage("Unknown command. Type \"/help\" for help.");
+						event.setCancelled(true);
+						return;
+					}
 				}
 			}
 			if(args[0].equalsIgnoreCase("//calc") || args[0].equalsIgnoreCase("/worldedit:/calc")){
