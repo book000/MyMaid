@@ -59,6 +59,7 @@ import xyz.jaoafa.mymaid.Command.Ck;
 import xyz.jaoafa.mymaid.Command.Cmb;
 import xyz.jaoafa.mymaid.Command.Cmd_Account;
 import xyz.jaoafa.mymaid.Command.Cmd_Messenger;
+import xyz.jaoafa.mymaid.Command.Cmd_Respawn;
 import xyz.jaoafa.mymaid.Command.Cmdb;
 import xyz.jaoafa.mymaid.Command.Cmdmymaid;
 import xyz.jaoafa.mymaid.Command.Cmdsearch;
@@ -329,6 +330,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("cmb").setExecutor(new Cmb(this));
 		getCommand("account").setExecutor(new Cmd_Account(this));
 		getCommand("messenger").setExecutor(new Cmd_Messenger(this));
+		getCommand("respawn").setExecutor(new Cmd_Respawn(this));
 		getCommand("cmdb").setExecutor(new Cmdb(this));
 		getCommand("mymaid").setExecutor(new Cmdmymaid(this));
 		getCommand("cmdsearch").setExecutor(new Cmdsearch(this));

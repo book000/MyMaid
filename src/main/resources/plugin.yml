@@ -473,5 +473,10 @@ commands:
       usage: /<command> online [Player]
       permission: mymaid.summer
       permission-message: You do not have permission to perform this command.
+   respawn:
+      description: 指定したプレイヤーをリスポーンさせます。
+      usage: /<command> <Player>
+      permission: mymaid.respawn
+      permission-message: You do not have permission to perform this command.
 
 
