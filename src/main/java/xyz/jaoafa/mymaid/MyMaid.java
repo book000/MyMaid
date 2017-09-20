@@ -912,6 +912,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 					w.save();
 				}
 			}
+			Discord.getLinkedAccount();
 		}
 	}
 

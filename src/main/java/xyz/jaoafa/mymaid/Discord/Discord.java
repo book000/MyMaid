@@ -1,6 +1,11 @@
 package xyz.jaoafa.mymaid.Discord;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
 import java.util.regex.Pattern;
 
@@ -19,7 +24,9 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
+import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.MySQL;
 
 public class Discord {
 	JavaPlugin plugin;
@@ -73,6 +80,8 @@ public class Discord {
 		plugin.getServer().getPluginManager().registerEvents(new BukkitChatEvent(plugin), plugin);
 		plugin.getServer().getPluginManager().registerEvents(new BukkitListener(plugin), plugin);
 		plugin.getServer().getPluginManager().registerEvents(new OnDynmapWebChat(plugin), plugin);
+
+		getLinkedAccount();
 	}
 
 	public void end(){
@@ -216,11 +225,52 @@ public class Discord {
 	}
 	*/
 
+	// LinkedAccount: MinecraftID | DiscordID
+	public static Map<String, String> LinkedAccount = new HashMap<String, String>();
+	public static void getLinkedAccount(){
+		Statement statement;
+		try {
+			statement = MyMaid.c.createStatement();
+		} catch (NullPointerException e) {
+			MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+			try {
+				MyMaid.c = MySQL.openConnection();
+				statement = MyMaid.c.createStatement();
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO 自動生成された catch ブロック
+				BugReport.report(e1);
+				return;
+			}
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			return;
+		}
+		statement = MySQL.check(statement);
+		try {
+			ResultSet res = statement.executeQuery("SELECT * FROM discordlink");
+			while(res.next()){
+				String disid = res.getString("disid");
+				String player = res.getString("player");
+				LinkedAccount.put(player, disid);
+			}
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			BugReport.report(e);
+		}
+	}
+
 	public static String format(String message){
 		if(guild == null){
 			MyMaid.getJavaPlugin().getLogger().info("Discordサーバへの接続に失敗しました。(Guildが見つかりません。)");
 			return message;
 		}
+		for(Map.Entry<String, String> one : LinkedAccount.entrySet()){
+			String player = one.getKey();
+			String disid = one.getValue();
+			message = message.replaceAll("@" + Pattern.quote(player), "<@&" + disid + ">");
+		}
+
 		for (IRole role : guild.getRoles()) {
 			message = message.replaceAll("@" + Pattern.quote(role.getName()), "<@&" + role.getID() + ">");
 		}
