@@ -21,6 +21,7 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.handle.obj.Status;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
@@ -82,6 +83,7 @@ public class Discord {
 		plugin.getServer().getPluginManager().registerEvents(new OnDynmapWebChat(plugin), plugin);
 
 		getLinkedAccount();
+		Discord.setGame("Welcome to jao Minecraft Server.");
 	}
 
 	public void end(){
@@ -321,5 +323,8 @@ public class Discord {
 	}
 	private void setGuild(IGuild guild){
 		Discord.guild = guild;
+	}
+	public static void setGame(String game){
+		Discord.client.changeStatus(Status.game(game));
 	}
 }

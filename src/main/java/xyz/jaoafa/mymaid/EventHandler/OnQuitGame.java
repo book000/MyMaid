@@ -22,6 +22,7 @@ import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.MyBlock;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class OnQuitGame implements Listener {
 	JavaPlugin plugin;
@@ -54,6 +55,7 @@ public class OnQuitGame implements Listener {
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 現在『" + (Bukkit.getServer().getOnlinePlayers().size() - 1) + "人』がログインしています");
+		Discord.setGame("Online: " + (Bukkit.getServer().getOnlinePlayers().size() - 1) + " players.");
 		InetAddress ip = player.getAddress().getAddress();
 		String name = player.getName();
 		UUID uuid = player.getUniqueId();

@@ -27,6 +27,7 @@ import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
 import xyz.jaoafa.mymaid.Pointjao;
+import xyz.jaoafa.mymaid.Discord.Discord;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class OnPlayerJoinEvent implements Listener {
@@ -185,6 +186,7 @@ public class OnPlayerJoinEvent implements Listener {
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 現在『" + Bukkit.getServer().getOnlinePlayers().size() + "人』がログインしています。");
+		Discord.setGame("Online: " + Bukkit.getServer().getOnlinePlayers().size() + " players.");
 		if((MyMaid.maxplayer+1) == Bukkit.getServer().getOnlinePlayers().size()){
 			Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 最高ログイン人数を突破しました！おめでとうございます！前回のログイン人数突破は「" + MyMaid.maxplayertime + "」でした！");
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
