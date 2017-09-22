@@ -270,7 +270,7 @@ public class Discord {
 		for(Map.Entry<String, String> one : LinkedAccount.entrySet()){
 			String player = one.getKey();
 			String disid = one.getValue();
-			message = message.replaceAll("@" + Pattern.quote(player), "<@&" + disid + ">");
+			message = message.replaceAll("@" + Pattern.quote(player), "<@" + disid + ">");
 		}
 
 		for (IRole role : guild.getRoles()) {
