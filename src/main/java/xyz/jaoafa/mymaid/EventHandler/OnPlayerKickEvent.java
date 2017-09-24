@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class OnPlayerKickEvent implements Listener {
 	JavaPlugin plugin;
@@ -22,6 +23,11 @@ public class OnPlayerKickEvent implements Listener {
 			e.setCancelled(true);
 		}else if(e.getReason().equals("Illegal characters in chat")){
 			e.setCancelled(true);
+		}else if(e.getReason().equalsIgnoreCase("You are sending too many packets!") ||
+				e.getReason().equalsIgnoreCase("You are sending too many packets, :(")){
+			Discord.send("223582668132974594", "プレイヤー「" + e.getPlayer().getName() +"」がパケットを送信しすぎてKickされました。\n"
+					+ "ハッククライアントの可能性があります。\n"
+					+ "Reason: " + e.getReason());
 		}else{
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
