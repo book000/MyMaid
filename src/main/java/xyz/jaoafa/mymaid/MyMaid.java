@@ -69,6 +69,7 @@ import xyz.jaoafa.mymaid.Command.Data;
 import xyz.jaoafa.mymaid.Command.Ded;
 import xyz.jaoafa.mymaid.Command.DedMsg;
 import xyz.jaoafa.mymaid.Command.DedRain;
+import xyz.jaoafa.mymaid.Command.DelHome;
 import xyz.jaoafa.mymaid.Command.DiscordLink;
 import xyz.jaoafa.mymaid.Command.Discordsend;
 import xyz.jaoafa.mymaid.Command.Dynamic;
@@ -340,6 +341,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("ded").setExecutor(new Ded(this));
 		getCommand("dedmsg").setExecutor(new DedMsg(this));
 		getCommand("dedrain").setExecutor(new DedRain(this));
+		getCommand("delhome").setExecutor(new DelHome(this));
+		getCommand("delhome").setTabCompleter(new DelHome(this));
 		getCommand("discordlink").setExecutor(new DiscordLink(this));
 		getCommand("discordsend").setExecutor(new Discordsend(this));
 		getCommand(".").setExecutor(new DOT(this));

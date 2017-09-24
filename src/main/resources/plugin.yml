@@ -334,6 +334,11 @@ commands:
       usage: /<command> [Name]
       permission: mymaid.sethome
       permission-message: You do not have permission to perform this command.
+   delhome:
+      description: ホームを削除します。
+      usage: /<command> [Name]
+      permission: mymaid.delhome
+      permission-message: You do not have permission to perform this command.
    land:
       description: ReJao_Afaワールド関連
       usage: |-
