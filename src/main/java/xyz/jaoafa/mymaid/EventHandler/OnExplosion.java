@@ -89,7 +89,7 @@ public class OnExplosion implements Listener {
 							p.sendMessage("[" + ChatColor.RED + "TNT" + ChatColor.WHITE + "] " + ChatColor.GREEN + min_player.getName() + "の近く(" + min + "block)の" + x + " " + y + " " + z + "地点["+location.getWorld().getName()+"]にてTNTが爆発し、ブロックが破壊されました。確認して下さい。");
 						}
 					}
-					Discord.send("223582668132974594", "***TNTを検知しました。***\nPlayer: " + min_player.getName() + "(の近く)\nXYZ: " + x + " " + y + " " + z + " [" + location.getWorld().getName() + " - " + event.getEntityType().name() + "]");
+					Discord.send("223582668132974594", "<:tnt:246922178165997568>***TNTを検知しました。***\nPlayer: " + min_player.getName() + "(の近く)\nXYZ: " + x + " " + y + " " + z + " [" + location.getWorld().getName() + " - " + event.getEntityType().name() + "]");
 					new TNT_Explode_Reset(plugin).runTaskLater(plugin, 1200L);
 					Bukkit.getLogger().info("TNT Exploded notice off");
 				}

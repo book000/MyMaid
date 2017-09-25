@@ -25,7 +25,7 @@ public class OnPlayerKickEvent implements Listener {
 			e.setCancelled(true);
 		}else if(e.getReason().equalsIgnoreCase("You are sending too many packets!") ||
 				e.getReason().equalsIgnoreCase("You are sending too many packets, :(")){
-			Discord.send("223582668132974594", "プレイヤー「" + e.getPlayer().getName() +"」がパケットを送信しすぎてKickされました。\n"
+			Discord.send("223582668132974594", ":interrobang:プレイヤー「" + e.getPlayer().getName() +"」がパケットを送信しすぎてKickされました。\n"
 					+ "ハッククライアントの可能性があります。\n"
 					+ "Reason: " + e.getReason());
 		}else{
