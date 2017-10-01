@@ -106,6 +106,7 @@ import xyz.jaoafa.mymaid.Command.Pin;
 import xyz.jaoafa.mymaid.Command.Prison;
 import xyz.jaoafa.mymaid.Command.Quiz;
 import xyz.jaoafa.mymaid.Command.Report;
+import xyz.jaoafa.mymaid.Command.Rider;
 import xyz.jaoafa.mymaid.Command.RuleLoad;
 import xyz.jaoafa.mymaid.Command.SSK;
 import xyz.jaoafa.mymaid.Command.SaveWorld;
@@ -385,6 +386,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("jail").setTabCompleter(new Prison(this));
 		getCommand("quiz").setExecutor(new Quiz(this));
 		getCommand("report").setExecutor(new Report(this));
+		getCommand("rider").setExecutor(new Rider(this));
 		getCommand("ruleload").setExecutor(new RuleLoad(this));
 		getCommand("save-world").setExecutor(new SaveWorld(this));
 		getCommand("selector").setExecutor(new SelectorChecker(this));

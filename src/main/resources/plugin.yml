@@ -483,5 +483,10 @@ commands:
       usage: /<command> <Player>
       permission: mymaid.respawn
       permission-message: You do not have permission to perform this command.
+   rider:
+      description: プレイヤーに乗ります。
+      usage: /<command> <Player>
+      permission: mymaid.rider
+      permission-message: You do not have permission to perform this command.
 
 
