@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,6 +17,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -89,6 +91,19 @@ public class AntiJaoium implements Listener {
 			}
 		}
 		return jaoium;
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void ItemPickup(PlayerPickupItemEvent event) {
+		Player player = event.getPlayer();
+		Item item = event.getItem();
+		ItemStack hand = item.getItemStack();
+		if(hand.getType() == Material.POTION){
+			PotionMeta potion = (PotionMeta) hand.getItemMeta();
+			if(isjaoium(potion.getCustomEffects())){
+				player.sendMessage("[jaoium_Checker] " + ChatColor.GREEN + "あなたはjaoiumを拾いました。何か行動をする前に/clearをしないと、自動的に投獄されてしまうかもしれません！");
+			}
+		}
 	}
 
 	@SuppressWarnings("deprecation")
