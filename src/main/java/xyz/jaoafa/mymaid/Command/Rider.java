@@ -45,7 +45,7 @@ public class Rider implements CommandExecutor {
 					if(!(near instanceof LivingEntity)){
 						continue;
 					}
-					if(near.getType() != EntityType.PLAYER){
+					if(near.getType() == EntityType.PLAYER){
 						continue;
 					}
 					if(near.getName().equalsIgnoreCase(args[0])){
