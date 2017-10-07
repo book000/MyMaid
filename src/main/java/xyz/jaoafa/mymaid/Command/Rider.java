@@ -93,21 +93,25 @@ public class Rider implements CommandExecutor {
 			}else{
 				if (sender instanceof Player) {
 					Player player = (Player) sender;
-					List<Entity> NearEntitys = player.getNearbyEntities(15.0, 15.0, 15.0);
-					for(Entity near : NearEntitys){
-						if(near.getType() == EntityType.PLAYER){
+					List<Entity> WorldEntitys = player.getWorld().getEntities();
+					double d = Double.MAX_VALUE;
+					for(Entity e : WorldEntitys){
+						if(e.getType() == EntityType.PLAYER){
 							continue;
 						}
-						if(near.getName().equalsIgnoreCase(args[0])){
-							rider = near;
-							break;
+						if(!e.getName().equalsIgnoreCase(args[0])){
+							continue;
+						}
+						double distance = e.getLocation().distance(player.getLocation());
+						if(d > distance){
+							rider = e;
+							d = distance;
 						}
 					}
 					if(rider == null){
 						Method.SendMessage(sender, cmd, "指定されたプレイヤー・エンティティが見つかりませんでした。");
 						return true;
 					}
-					return true;
 				}else if (sender instanceof BlockCommandSender) {
 					BlockCommandSender cmdb = (BlockCommandSender) sender;
 					List<Entity> WorldEntitys = cmdb.getBlock().getWorld().getEntities();
@@ -141,14 +145,19 @@ public class Rider implements CommandExecutor {
 			}else{
 				if (sender instanceof Player) {
 					Player player = (Player) sender;
-					List<Entity> NearEntitys = player.getNearbyEntities(15.0, 15.0, 15.0);
-					for(Entity near : NearEntitys){
-						if(near.getType() == EntityType.PLAYER){
+					List<Entity> WorldEntitys = player.getWorld().getEntities();
+					double d = Double.MAX_VALUE;
+					for(Entity e : WorldEntitys){
+						if(e.getType() == EntityType.PLAYER){
 							continue;
 						}
-						if(near.getName().equalsIgnoreCase(args[1])){
-							riding = near;
-							break;
+						if(!e.getName().equalsIgnoreCase(args[1])){
+							continue;
+						}
+						double distance = e.getLocation().distance(player.getLocation());
+						if(d > distance){
+							riding = e;
+							d = distance;
 						}
 					}
 					if(riding == null){
