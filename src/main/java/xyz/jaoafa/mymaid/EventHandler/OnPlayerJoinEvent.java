@@ -108,16 +108,19 @@ public class OnPlayerJoinEvent implements Listener {
 					if(lasttime < today9){
 						player.sendMessage("[Vote] " + ChatColor.GREEN + "まだこのサーバに投票していないみたいです！");
 						player.sendMessage("[Vote] " + ChatColor.GREEN + "よろしければ投票をお願いします！ https://jaoafa.com/vote");
+						player.sendMessage("[Vote] " + ChatColor.GREEN + "投票したのに反映されていない！という場合はDiscordの#supportチャンネルにてお問い合わせください。");
 					}
 				}else{
 					if(lasttime < yesterday9){
 						player.sendMessage("[Vote] " + ChatColor.GREEN + "まだこのサーバに投票していないみたいです！");
 						player.sendMessage("[Vote] " + ChatColor.GREEN + "よろしければ投票をお願いします！ https://jaoafa.com/vote");
+						player.sendMessage("[Vote] " + ChatColor.GREEN + "投票したのに反映されていない！という場合はDiscordの#supportチャンネルにてお問い合わせください。");
 					}
 				}
 			}else{
 				player.sendMessage("[Vote] " + ChatColor.GREEN + "まだこのサーバに投票していないみたいです！");
 				player.sendMessage("[Vote] " + ChatColor.GREEN + "よろしければ投票をお願いします！ https://jaoafa.com/vote");
+				player.sendMessage("[Vote] " + ChatColor.GREEN + "投票したのに反映されていない！という場合はDiscordの#supportチャンネルにてお問い合わせください。");
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
