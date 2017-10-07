@@ -63,7 +63,9 @@ public class OnJoin implements Listener {
 
 		String tpsmsg = "[\"\",{\"text\":\"TPS\n\",\"color\":\"gold\"},{\"text\":\"1m: \",\"color\":\"red\"},{\"text\":\"" + tps1m + "\",\"color\":\"" + tps1mcolor + "\"},{\"text\":\"\n\",\"color\":\"\"},{\"text\":\"5m: \",\"color\":\"yellow\"},{\"text\":\"" + tps5m + "\",\"color\":\"" + tps5mcolor + "\"},{\"text\":\"\n\",\"color\":\"none\"},{\"text\":\"15m: \",\"color\":\"green\"},{\"text\":\"" + tps15m + "\",\"color\":\"" + tps15mcolor + "\"}]";
 
-		Method.setPlayerListHeaderFooterByJSON(player, "[\"\",{\"text\":\"jao \",\"color\":\"gold\"},{\"text\":\"Minecraft \",\"color\":\"yellow\"},{\"text\":\"Server\",\"color\":\"aqua\"}]", tpsmsg);
+		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+			Method.setPlayerListHeaderFooterByJSON(p, "[\"\",{\"text\":\"jao \",\"color\":\"gold\"},{\"text\":\"Minecraft \",\"color\":\"yellow\"},{\"text\":\"Server\",\"color\":\"aqua\"},{\"text\":\"\n\",\"color\":\"none\"},{\"text\":\"Online: \",\"color\":\"none\"},{\"text\":\"" + Bukkit.getServer().getOnlinePlayers().size() + "\",\"color\":\"none\"}]", tpsmsg);
+		}
 
 		try{
 			new MyMaid.usemodget(plugin, player).runTaskLater(plugin, 10L);

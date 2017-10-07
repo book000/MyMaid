@@ -56,6 +56,11 @@ public class OnQuitGame implements Listener {
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 現在『" + (Bukkit.getServer().getOnlinePlayers().size() - 1) + "人』がログインしています");
 		Discord.setGame("Online: " + (Bukkit.getServer().getOnlinePlayers().size() - 1) + " players.");
+		String header = "[\"\",{\"text\":\"jao \",\"color\":\"gold\"},{\"text\":\"Minecraft \",\"color\":\"yellow\"},{\"text\":\"Server\",\"color\":\"aqua\"},{\"text\":\"\n\",\"color\":\"none\"},{\"text\":\"Online: \",\"color\":\"none\"},{\"text\":\"" + (Bukkit.getServer().getOnlinePlayers().size() - 1) + "\",\"color\":\"none\"}]";
+		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+			String footer = Method.getPlayerListFooter(p);
+			Method.setPlayerListHeaderFooterByJSON(p, header, footer);
+		}
 		InetAddress ip = player.getAddress().getAddress();
 		String name = player.getName();
 		UUID uuid = player.getUniqueId();
