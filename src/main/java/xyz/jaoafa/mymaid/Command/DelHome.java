@@ -52,7 +52,7 @@ public class DelHome implements CommandExecutor, TabCompleter {
 		statement = MySQL.check(statement);
 
 		if(args.length == 1){
-			String name = args[1];
+			String name = args[0];
 			try {
 				ResultSet res = statement.executeQuery("SELECT * FROM home WHERE uuid = '" + player.getUniqueId().toString() + "' AND name = '" + name + "'");
 				if(res.next()){
