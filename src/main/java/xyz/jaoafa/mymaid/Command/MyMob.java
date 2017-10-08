@@ -195,19 +195,11 @@ public class MyMob implements CommandExecutor {
 				}
 				for(Entry<String, String> data : mymob.entrySet()) {
 				    Player player = Bukkit.getPlayer(data.getKey());
-				    if(player == null){
-				    	for(Player p: Bukkit.getServer().getOnlinePlayers()){
-							p.showPlayer(player);
-						}
-				    	mymob.remove(data.getKey());
-				    	return;
-				    }
 				    if(!player.isOnline()){
 				    	for(Player p: Bukkit.getServer().getOnlinePlayers()){
 							p.showPlayer(player);
 						}
 				    	mymob.remove(data.getKey());
-				    	return;
 				    }
 					for(Player p: Bukkit.getServer().getOnlinePlayers()){
 						p.hidePlayer(player);
