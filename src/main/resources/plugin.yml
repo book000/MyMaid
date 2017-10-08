@@ -488,5 +488,9 @@ commands:
       usage: /<command> <Player>
       permission: mymaid.rider
       permission-message: You do not have permission to perform this command.
+   hat:
+      description: 手に持っているアイテムを頭に乗せます
+      permission: mymaid.hat
+      permission-message: You do not have permission to perform this command.
 
 

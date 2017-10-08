@@ -81,6 +81,7 @@ import xyz.jaoafa.mymaid.Command.Eye;
 import xyz.jaoafa.mymaid.Command.Gamemode_Change;
 import xyz.jaoafa.mymaid.Command.Gettissue;
 import xyz.jaoafa.mymaid.Command.Guard;
+import xyz.jaoafa.mymaid.Command.Hat;
 import xyz.jaoafa.mymaid.Command.Head;
 import xyz.jaoafa.mymaid.Command.Home;
 import xyz.jaoafa.mymaid.Command.Inv;
@@ -358,6 +359,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("g").setExecutor(new Gamemode_Change(this));
 		getCommand("gettissue").setExecutor(new Gettissue(this));
 		getCommand("guard").setExecutor(new Guard(this));
+		getCommand("hat").setExecutor(new Hat(this));
 		getCommand("head").setExecutor(new Head(this));
 		getCommand("home").setExecutor(new Home(this));
 		getCommand("home").setTabCompleter(new Home(this));
