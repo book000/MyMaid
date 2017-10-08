@@ -172,6 +172,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnVehicleCreateEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnVotifierEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnWeatherChangeEvent;
 import xyz.jaoafa.mymaid.EventHandler.SpawnEggRegulation;
+import xyz.jaoafa.mymaid.EventHandler.SpectatorContinue;
 import xyz.jaoafa.mymaid.Jail.Event;
 import xyz.jaoafa.mymaid.Jail.Jail;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
@@ -474,6 +475,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new Land(this), this);
 		getServer().getPluginManager().registerEvents(new Cmb(this), this);
 		getServer().getPluginManager().registerEvents(new SpawnEggRegulation(this), this);
+		getServer().getPluginManager().registerEvents(new SpectatorContinue(this), this);
 
 		getServer().getPluginManager().registerEvents(new AFK(this), this);
 
