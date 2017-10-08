@@ -34,6 +34,7 @@ public class Hat implements CommandExecutor {
 		}
 		inv.setHelmet(hand);
 		player.setItemInHand(head);
+		Method.SendMessage(sender, cmd, "持っていたブロックを頭にのせました。");
 		return true;
 	}
 }
