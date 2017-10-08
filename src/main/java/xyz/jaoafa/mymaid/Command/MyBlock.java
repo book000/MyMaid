@@ -120,11 +120,19 @@ public class MyBlock implements CommandExecutor {
 				}
 				for(Entry<String, Material> data : myblock.entrySet()) {
 				    Player player = Bukkit.getPlayer(data.getKey());
+				    if(player == null){
+				    	for(Player p: Bukkit.getServer().getOnlinePlayers()){
+							p.showPlayer(player);
+						}
+				    	myblock.remove(data.getKey());
+				    	return;
+				    }
 				    if(!player.isOnline()){
 				    	for(Player p: Bukkit.getServer().getOnlinePlayers()){
 							p.showPlayer(player);
 						}
 				    	myblock.remove(data.getKey());
+				    	return;
 				    }
 					Material material = data.getValue();
 					for(Player p: Bukkit.getServer().getOnlinePlayers()){
