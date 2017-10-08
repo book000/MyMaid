@@ -8,6 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
@@ -15,7 +16,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 //https://github.com/book000/MyMaid/issues/11
-public class SpectatorContinue {
+public class SpectatorContinue implements Listener {
 	JavaPlugin plugin;
 	public SpectatorContinue(JavaPlugin plugin) {
 		this.plugin = plugin;
