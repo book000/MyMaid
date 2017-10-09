@@ -29,8 +29,10 @@ public class Hat implements CommandExecutor {
 			return true;
 		}
 		ItemStack head = inv.getHelmet();
-		if(head.getType() != Material.AIR){
-			inv.removeItem(head);
+		if(head != null){
+			if(head.getType() != Material.AIR){
+				inv.removeItem(head);
+			}
 		}
 		inv.setHelmet(hand);
 		player.setItemInHand(head);
