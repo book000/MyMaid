@@ -4,15 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 //https://github.com/book000/MyMaid/issues/11
@@ -21,24 +24,49 @@ public class SpectatorContinue implements Listener {
 	public SpectatorContinue(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-	Map<String, String> spectator = new HashMap<String, String>();
+	public static Map<String, String> spectator = new HashMap<String, String>();
 
 	@EventHandler
-	public void onPlayerClick(PlayerInteractAtEntityEvent event){
-		Player player = event.getPlayer();
-		Entity e = event.getRightClicked();
-		if(!(e instanceof Player)){
+	public void onPlayerClick(EntityDamageByEntityEvent event){
+		if(event.getEntityType() != EntityType.PLAYER){
 			return;
 		}
-		spectator.put(player.getName(), e.getName());
-		player.sendMessage("[Spectator] " + "あなたは「" + player.getName() + "」にくっつきました。");
+		Entity e_damager = event.getDamager(); // ダメージを与えた方?
+		Entity e_entity = event.getEntity(); // ダメージを受けた方?
+		if(!(e_damager instanceof Player)){
+			return;
+		}
+		if(!(e_entity instanceof Player)){
+			return;
+		}
+		Player damager = (Player) e_damager; // ダメージを与えた方?
+		Player entity = (Player) e_entity; // ダメージを受けた方?
+
+		if(spectator.containsKey(damager.getName())){
+			return;
+		}
+
+		if(damager.getGameMode() != GameMode.SPECTATOR){
+			return;
+		}
+
+		spectator.put(damager.getName(), entity.getName());
+		damager.sendMessage("[Spectator] " + ChatColor.GREEN + "あなたは「" + entity.getName() + "」にくっつきました。");
 	}
 
 	@EventHandler
 	public void onGameModeChange(PlayerGameModeChangeEvent event){
 		Player player = event.getPlayer();
 		if(player.getGameMode() == GameMode.SPECTATOR && event.getNewGameMode() != GameMode.SPECTATOR){
-			player.sendMessage("[Spectator] " + "あなたは「" + player.getName() + "」から離れました。");
+			if(player.getSpectatorTarget() == null){
+				return;
+			}
+			Entity e = player.getSpectatorTarget();
+			if(!(e instanceof Player)){
+				return;
+			}
+
+			player.sendMessage("[Spectator] " + ChatColor.GREEN + "あなたは「" + e.getName() + "」から離れました。");
 			if(spectator.containsKey(player.getName())){
 				spectator.remove(player.getName());
 			}
@@ -62,7 +90,7 @@ public class SpectatorContinue implements Listener {
 				continue;
 			}
 			p.setSpectatorTarget(player);
-			p.sendMessage("[Spectator] " + "あなたがくっついていたプレイヤー「" + name2 + "」が死亡したため再度");
+			p.sendMessage("[Spectator] " + ChatColor.GREEN + "あなたがくっついていたプレイヤー「" + name2 + "」が死亡したため再度くっつきました");
 		}
 	}
 
@@ -83,7 +111,29 @@ public class SpectatorContinue implements Listener {
 				continue;
 			}
 			p.setSpectatorTarget(player);
-			p.sendMessage("[Spectator] " + "あなたがくっついていたプレイヤー「" + name2 + "」が死亡したため再度");
+			p.sendMessage("[Spectator] " + ChatColor.GREEN + "あなたがくっついていたプレイヤー「" + name2 + "」が死亡したため再度くっつきました");
+		}
+	}
+
+	@EventHandler
+	public void onShift(PlayerToggleSneakEvent event){
+		Player player = event.getPlayer();
+		if(!event.isSneaking()){
+			return;
+		}
+		if(player.getGameMode() != GameMode.SPECTATOR){
+			return;
+		}
+		if(player.getSpectatorTarget() == null){
+			return;
+		}
+		Entity e = player.getSpectatorTarget();
+		if(!(e instanceof Player)){
+			return;
+		}
+		player.sendMessage("[Spectator] " + ChatColor.GREEN + "あなたは「" + e.getName() + "」から離れました。");
+		if(spectator.containsKey(player.getName())){
+			spectator.remove(player.getName());
 		}
 	}
 }

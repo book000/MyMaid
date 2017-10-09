@@ -26,6 +26,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.FurnaceRecipe;
@@ -424,6 +425,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		new AFKChecker().runTaskTimer(this, 0L, 1200L);
 		new AutoMessage().runTaskTimer(this, 0L, 12000L);
 		new TPSChange().runTaskTimer(this, 0L, 1200L);
+		new CheckCling().runTaskTimer(this, 0L, 20L);
 	}
 	/**
 	 * リスナー設定
@@ -1000,6 +1002,31 @@ public class MyMaid extends JavaPlugin implements Listener {
 				Method.setPlayerListHeaderFooterByJSON(player, header, tpsmsg);
 			}
 
+		}
+	}
+	/**
+	 * スペクテイターモードでのくっつき確認(1秒毎)
+	 * おもくなりそうなら削除？
+	 * @author mine_book000
+	 */
+	private class CheckCling extends BukkitRunnable{
+		@Override
+		public void run() {
+			// TODO 自動生成されたメソッド・スタブ
+			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+				if(player.getGameMode() != GameMode.SPECTATOR){
+					continue;
+				}
+				if(SpectatorContinue.spectator.containsKey(player.getName())){
+					continue;
+				}
+				Entity e = player.getSpectatorTarget();
+				if(e == null){
+					continue;
+				}
+				SpectatorContinue.spectator.put(player.getName(), e.getName());
+				player.sendMessage("[Spectator] " + ChatColor.GREEN + "あなたは「" + e.getName() + "」にくっつきました。");
+			}
 		}
 	}
 
