@@ -26,34 +26,72 @@ public class OnVotifierEvent implements Listener {
 	public OnVotifierEvent(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-	@SuppressWarnings("deprecation")
 	@EventHandler
-    public void onVotifierEvent(VotifierEvent event) {
+	public void onVotifierEvent(VotifierEvent event) {
 		final int VOTEPOINT = 20;
 
-        Vote vote = event.getVote();
-        String name = vote.getUsername();
-        String i;
-        if (Bukkit.getPlayer(vote.getUsername()) == null) {
-        	i = Method.url_jaoplugin("vote", "p="+name);
-        	String uuid = Method.url_jaoplugin("point", "p="+name);
-        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			Date Date = new Date();
-        	Pointjao.addjao("" + uuid, VOTEPOINT, sdf.format(Date) + "の投票ボーナス");
-        } else {
-        	Player player;
-        	if (Bukkit.getPlayer(name) == null) {
-        		player = Bukkit.getOfflinePlayer(name).getPlayer();
-            } else {
-            	player = Bukkit.getPlayer(name);
-            }
+		String oldVote = "取得できませんでした";
+		String newVote = "取得できませんでした";
 
-        	UUID uuid = player.getUniqueId();
-        	i = Method.url_jaoplugin("vote", "p="+name+"&u="+uuid);
-        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			Date Date = new Date();
-        	Pointjao.addjao(player, VOTEPOINT, sdf.format(Date) + "の投票ボーナス");
+		String oldjao = "取得できませんでした";
+		String newjao = "取得できませんでした";
 
+		Vote vote = event.getVote();
+		String name = vote.getUsername();
+		String i;
+		if (Bukkit.getPlayer(name) == null) {
+			String plusargs = "";
+
+			// ハロウィンイベント Issue #18
+			try {
+				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date start = format.parse("2017/10/15 09:00:00");
+				Date end = format.parse("2017/11/01 08:59:59");
+				if(Method.isPeriod(start, end)){
+					plusargs = "&pluscount=2"; // 2倍
+				}
+			} catch (ParseException e) {
+				BugReport.report(e);
+			}
+
+			i = Method.url_jaoplugin("vote", "p=" + name + plusargs);
+			String uuid = Method.url_jaoplugin("point", "p=" + name);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			Date Date = new Date();
+			oldjao = String.valueOf(Pointjao.getjao(uuid)) + "jao";
+			Pointjao.addjao(uuid, VOTEPOINT, sdf.format(Date) + "の投票ボーナス");
+			newjao = String.valueOf(Pointjao.getjao(uuid)) + "jao";
+		} else {
+			Player player = Bukkit.getPlayer(name);
+
+			if(player == null){
+				Discord.send("254166905852657675", ":outbox_tray:**エラー**: " + name + "のBukkit.getPlayerがnullを返却したため、投票処理が正常に行われませんでした。");
+				return;
+			}
+			SKKColors.UpdatePlayerSKKColor(player);
+			oldVote = String.valueOf(SKKColors.getPlayerVoteCount(player)) + "回";
+
+			String plusargs = "";
+
+			// ハロウィンイベント Issue #18
+			try {
+				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date start = format.parse("2017/10/15 09:00:00");
+				Date end = format.parse("2017/11/01 08:59:59");
+				if(Method.isPeriod(start, end)){
+					plusargs = "&pluscount=2"; // 2倍
+				}
+			} catch (ParseException e) {
+				BugReport.report(e);
+			}
+
+			UUID uuid = player.getUniqueId();
+			i = Method.url_jaoplugin("vote", "p=" + name + "&u=" + uuid + plusargs);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			Date Date = new Date();
+			Pointjao.addjao(player, VOTEPOINT, sdf.format(Date) + "の投票ボーナス");
+
+			/*
         	try {
 				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Date start = format.parse("2017/07/01 00:00:00");
@@ -66,9 +104,10 @@ public class OnVotifierEvent implements Listener {
 			} catch (ParseException e) {
 				BugReport.report(e);
 			}
+			 */
 
-        	//SimpleDateFormat date = new SimpleDateFormat("yyyy-MM");
-        	/*
+			//SimpleDateFormat date = new SimpleDateFormat("yyyy-MM");
+			/*
     		if(date.format(Date).equalsIgnoreCase("2017-02")){
     			Random rnd = new Random();
     			int random = rnd.nextInt(50)+1;
@@ -77,13 +116,20 @@ public class OnVotifierEvent implements Listener {
     			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + player.getName() + "さんが投票し、2月ポイント補填ボーナスを" + random + "ポイント追加しました。");
     			Discord.send(player.getName() + "さんが投票し、2月ポイント補填ボーナスを" + random + "ポイント追加しました。");
     		}
-        	 */
-        	SKKColors.UpdatePlayerSKKColor(player);
-
-        }
-        Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + "プレイヤー「" + name + "」が投票をしました！(現在の投票数:" + i + "回)");
-        Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + "投票をよろしくお願いします！ https://bitly.com/jfvote");
-        Discord.send("プレイヤー「" + name + "」が投票をしました！(現在の投票数:" + i + "回)");
-        Discord.send("投票をよろしくお願いします！ https://bitly.com/jfvote");
-    }
+			 */
+			SKKColors.UpdatePlayerSKKColor(player);
+			newVote = String.valueOf(SKKColors.getPlayerVoteCount(player)) + "回";
+		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + "プレイヤー「" + name + "」が投票をしました！(現在の投票数:" + i + "回)");
+		Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + "投票をよろしくお願いします！ https://bitly.com/jfvote");
+		Discord.send("プレイヤー「" + name + "」が投票をしました！(現在の投票数:" + i + "回)");
+		Discord.send("投票をよろしくお願いします！ https://bitly.com/jfvote");
+		Discord.send("254166905852657675", ":inbox_tray:**投票を受信しました。(" + format.format(new Date()) + ")**\n"
+					+ "プレイヤー: `"  + name + "`\n"
+					+ "投票前カウント: " + oldVote + "\n"
+					+ "投票後カウント: " + newVote + "\n"
+					+ "投票前jaoポイント: " + oldjao + "\n"
+					+ "投票後jaoポイント: " + newjao);
+	}
 }
