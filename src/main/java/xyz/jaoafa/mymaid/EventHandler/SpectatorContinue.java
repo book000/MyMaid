@@ -6,6 +6,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -17,6 +18,8 @@ import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import net.minecraft.server.v1_8_R3.PacketPlayOutCamera;
 
 //https://github.com/book000/MyMaid/issues/11
 public class SpectatorContinue implements Listener {
@@ -89,7 +92,10 @@ public class SpectatorContinue implements Listener {
 			if(p.getGameMode() != GameMode.SPECTATOR){
 				continue;
 			}
+			p.setSpectatorTarget(null);
 			p.setSpectatorTarget(player);
+			PacketPlayOutCamera camera = new PacketPlayOutCamera((net.minecraft.server.v1_8_R3.Entity) player);
+			((CraftPlayer)p).getHandle().playerConnection.sendPacket(camera);
 			p.sendMessage("[Spectator] " + ChatColor.GREEN + "あなたがくっついていたプレイヤー「" + name2 + "」が死亡したため再度くっつきました");
 		}
 	}
@@ -110,7 +116,10 @@ public class SpectatorContinue implements Listener {
 			if(p.getGameMode() != GameMode.SPECTATOR){
 				continue;
 			}
+			p.setSpectatorTarget(null);
 			p.setSpectatorTarget(player);
+			PacketPlayOutCamera camera = new PacketPlayOutCamera((net.minecraft.server.v1_8_R3.Entity) player);
+			((CraftPlayer)p).getHandle().playerConnection.sendPacket(camera);
 			p.sendMessage("[Spectator] " + ChatColor.GREEN + "あなたがくっついていたプレイヤー「" + name2 + "」が死亡したため再度くっつきました");
 		}
 	}
