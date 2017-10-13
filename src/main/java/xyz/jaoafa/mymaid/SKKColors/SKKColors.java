@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -242,6 +243,49 @@ public class SKKColors {
 	}
 
 	/**
+	 * メモリ上に展開されているオフラインプレイヤー投票数を再取得します。
+	 * @param offplayer 再取得するオフラインプレイヤー
+	 * @return 再取得できたかどうか
+	 * @author mine_book000
+	 */
+	public static boolean UpdatePlayerSKKColor(OfflinePlayer offplayer){
+		Statement statement;
+		try {
+			statement = MyMaid.c.createStatement();
+		} catch (NullPointerException e) {
+			MySQL MySQL = new MySQL("jaoafa.com", "3306", "jaoafa", MyMaid.sqluser, MyMaid.sqlpassword);
+			try {
+				MyMaid.c = MySQL.openConnection();
+				statement = MyMaid.c.createStatement();
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO 自動生成された catch ブロック
+				BugReport.report(e1);
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			BugReport.report(e);
+			return false;
+		}
+
+		statement = MySQL.check(statement);
+
+		UUID uuid = offplayer.getUniqueId();
+		try {
+			ResultSet res = statement.executeQuery("SELECT * FROM vote WHERE uuid = '" + uuid.toString() +"'");
+			if(res.next()){
+				int count = res.getInt("count");
+				votecount.put(offplayer.getName(), count);
+				return true;
+			}
+		}catch (SQLException e) {
+			BugReport.report(e);
+			return false;
+		}
+		return false;
+	}
+
+	/**
 	 * メモリ上に展開されているプレイヤー投票数を基にChatColorを返却します。
 	 * @param player 取得するプレイヤー
 	 * @return チャットの四角のChatColor
@@ -408,6 +452,25 @@ public class SKKColors {
 			UpdatePlayerSKKColor(player);
 			if(votecount.containsKey(player.getName())){
 				return votecount.get(player.getName());
+			}else{
+				return 0;
+			}
+		}
+	}
+
+	/**
+	 * メモリ上に展開されているオフラインプレイヤー投票数を返却します。
+	 * @param offplayer 取得するオフラインプレイヤー
+	 * @return 投票数
+	 * @author mine_book000
+	 */
+	public static int getPlayerVoteCount(OfflinePlayer offplayer){
+		if(votecount.containsKey(offplayer.getName())){
+			return votecount.get(offplayer.getName());
+		}else{
+			UpdatePlayerSKKColor(offplayer);
+			if(votecount.containsKey(offplayer.getName())){
+				return votecount.get(offplayer.getName());
 			}else{
 				return 0;
 			}

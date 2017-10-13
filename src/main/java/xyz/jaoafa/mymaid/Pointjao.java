@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONObject;
@@ -63,6 +64,19 @@ public class Pointjao {
 			jao.put(getuuidtostring(player), 0);
 		}
 		int now = jao.get(getuuidtostring(player));
+		return now;
+  	}
+	/**
+	 * オフラインプレイヤーからポイントを取得
+	 * @param offplayer 取得するプレイヤー
+	 * @return 取得したポイント
+	 * @author mine_book000
+	*/
+	public static int getjao(OfflinePlayer offplayer){
+		if(!jao.containsKey(offplayer.toString())){
+			jao.put(offplayer.toString(), 0);
+		}
+		int now = jao.get(offplayer.toString());
 		return now;
   	}
 	/**
@@ -153,6 +167,33 @@ public class Pointjao {
 			// TODO 自動生成された catch ブロック
 			BugReport.report(e);
 			player.sendMessage("[POINT] " + ChatColor.GREEN + "明細の書き込みに失敗しました。開発者に連絡を行ってください。");
+		}
+		return true;
+	}
+	/**
+	 * オフラインプレイヤーからポイントを減算
+	 * @param offplayer プレイヤー
+	 * @param addjao 減算するポイント
+	 * @return 実行できたかどうか
+	 * @author mine_book000
+	*/
+	public static boolean addjao(OfflinePlayer offplayer, int addjao, String reason){
+		int now = getjao(offplayer);
+		int newjao = now + addjao;
+		jao.put(offplayer.toString(), newjao);
+		try {
+			Savejao();
+		} catch (Exception e1) {
+			// TODO 自動生成された catch ブロック
+			BugReport.report(e1);
+		}
+		try {
+			String type = "Add";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			UpdateQuery("INSERT INTO jaopoint (player, uuid, type, point, reason, nowpoint, description, date) VALUES ('" + offplayer.getName() + "', '" + offplayer.getUniqueId().toString() +"', '" +  type + "', " + addjao + ", '" + reason + "', " + newjao + ", 'プラグイン', '" + sdf.format(new Date()) + "');");
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			BugReport.report(e);
 		}
 		return true;
 	}
