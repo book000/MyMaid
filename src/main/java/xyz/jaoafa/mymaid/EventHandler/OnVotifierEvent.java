@@ -133,7 +133,9 @@ public class OnVotifierEvent implements Listener {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			Date Date = new Date();
+			oldjao = String.valueOf(Pointjao.getjao(player));
 			Pointjao.addjao(player, VOTEPOINT, sdf.format(Date) + "の投票ボーナス");
+			newjao = String.valueOf(Pointjao.getjao(player));
 		}else if(Bukkit.getOfflinePlayer(uuid) != null){
 			OfflinePlayer offplayer = Bukkit.getOfflinePlayer(uuid);
 			if(offplayer == null){
@@ -152,7 +154,9 @@ public class OnVotifierEvent implements Listener {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			Date Date = new Date();
+			oldjao = String.valueOf(Pointjao.getjao(offplayer));
 			Pointjao.addjao(offplayer, VOTEPOINT, sdf.format(Date) + "の投票ボーナス");
+			newjao = String.valueOf(Pointjao.getjao(offplayer));
 		}else{
 			Discord.send("254166905852657675", ":outbox_tray:**投票受信エラー**: " + name + "のオフラインプレイヤーデータが取得できなかったため、投票処理が正常に行われませんでした。");
 			return;
