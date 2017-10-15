@@ -19,15 +19,15 @@ public class WTP implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if (!(sender instanceof Player)) {
-			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
-			return true;
-		}
-		Player player = (Player) sender;
 		// /wtp <World> <X> <Y> <Z> : 4
 		// /wtp <Player> <World> <X> <Y> <Z> : 5
 
 		if(args.length == 4){
+			if (!(sender instanceof Player)) {
+				Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
+				return true;
+			}
+			Player player = (Player) sender;
 			// /wtp <World> <X> <Y> <Z> : 4
 			String worldname = args[0];
 			World world = plugin.getServer().getWorld(worldname);
@@ -67,7 +67,6 @@ public class WTP implements CommandExecutor {
 			Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + locstr + " にワープしました]");
 			return true;
 		}else if(args.length == 5){
-
 			// /wtp <Player> <World> <X> <Y> <Z> : 5
 			Player tpplayer = plugin.getServer().getPlayer(args[0]);
 			if(tpplayer == null){
@@ -108,8 +107,8 @@ public class WTP implements CommandExecutor {
 			Location location = new Location(world, x, y, z);
 			tpplayer.teleport(location);
 			String locstr = x + ", " + y + ", " + z;
-			Discord.send("*[" + player.getName() + ": " + tpplayer.getName() + " to " + locstr + "]*");
-			Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + tpplayer.getName() + " は " + locstr + " にワープしました]");
+			Discord.send("*[" + sender.getName() + ": " + tpplayer.getName() + " to " + locstr + "]*");
+			Bukkit.broadcastMessage(ChatColor.GRAY + "[" + sender.getName() + ": " + tpplayer.getName() + " は " + locstr + " にワープしました]");
 			return true;
 		}
 		Method.SendMessage(sender, cmd, "----- WTP -----");
