@@ -73,10 +73,10 @@ public class Pointjao {
 	 * @author mine_book000
 	*/
 	public static int getjao(OfflinePlayer offplayer){
-		if(!jao.containsKey(offplayer.toString())){
-			jao.put(offplayer.toString(), 0);
+		if(!jao.containsKey(offplayer.getUniqueId().toString())){
+			jao.put(offplayer.getUniqueId().toString(), 0);
 		}
-		int now = jao.get(offplayer.toString());
+		int now = jao.get(offplayer.getUniqueId().toString());
 		return now;
   	}
 	/**
@@ -180,7 +180,7 @@ public class Pointjao {
 	public static boolean addjao(OfflinePlayer offplayer, int addjao, String reason){
 		int now = getjao(offplayer);
 		int newjao = now + addjao;
-		jao.put(offplayer.toString(), newjao);
+		jao.put(offplayer.getUniqueId().toString(), newjao);
 		try {
 			Savejao();
 		} catch (Exception e1) {
