@@ -16,6 +16,7 @@ import sx.blah.discord.Discord4J;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
+import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.impl.events.GuildCreateEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
@@ -171,6 +172,32 @@ public class Discord {
 		return true;
 	}
 
+
+	public static boolean send(IChannel channel, String message, EmbedObject embed){
+		if(channel == null){
+			return false;
+		}
+		try {
+			channel.sendMessage(message, embed, false);
+		} catch (MissingPermissionsException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
+			return false;
+		} catch (DiscordException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
+			return false;
+		}catch (RateLimitException e){
+			// Since I want to retry try to add it.
+			e.printStackTrace();
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
+			return false;
+		}
+		return true;
+	}
+
 	public static boolean send(String channelid_or_name, String message){
 		IChannel channel = null;
 		for (IChannel one : guild.getChannels()) {
@@ -194,6 +221,31 @@ public class Discord {
 		send(channel, message);
 		return true;
 	}
+
+	public static boolean send(String channelid_or_name, String message, EmbedObject embed){
+		IChannel channel = null;
+		for (IChannel one : guild.getChannels()) {
+			if(!one.getID().equalsIgnoreCase(channelid_or_name)){
+				continue;
+			}
+			channel = one;
+        }
+		if(channel == null){
+			for (IChannel one : guild.getChannels()) {
+				if(!one.getName().equalsIgnoreCase(channelid_or_name)){
+					continue;
+				}
+				channel = one;
+	        }
+		}
+		if(channel == null){
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(指定されたチャンネルが見つかりません。)");
+			return false;
+		}
+		send(channel, message, embed);
+		return true;
+	}
+
 	public static boolean isChannel(String channelid_or_name){
 		IChannel channel = null;
 		for (IChannel one : guild.getChannels()) {
