@@ -10,6 +10,7 @@ xyz\jaoafa\mymaid\EventHandler\OnBreak.class
 xyz\jaoafa\mymaid\Command\MyMob$MyBlockRunCheck.class
 xyz\jaoafa\mymaid\Command\Spawn.class
 xyz\jaoafa\mymaid\Command\Sign.class
+xyz\jaoafa\mymaid\Discord\Bot$1.class
 xyz\jaoafa\mymaid\Discord\BukkitChatEvent.class
 xyz\jaoafa\mymaid\Command\Jf$jao_afa.class
 xyz\jaoafa\mymaid\EventHandler\OnMyMaidCommandblockLogs.class

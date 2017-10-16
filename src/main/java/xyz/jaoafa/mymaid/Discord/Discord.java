@@ -60,6 +60,7 @@ public class Discord {
 		client.getDispatcher().registerListener(this);
 		client.getDispatcher().registerListener(new DiscordChatEvent(plugin));
 		client.getDispatcher().registerListener(new OnTypingEvent(plugin));
+		client.getDispatcher().registerListener(new Bot(plugin));
 
 		try {
 			client.login();
