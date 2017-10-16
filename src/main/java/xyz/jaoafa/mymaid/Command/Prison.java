@@ -46,7 +46,7 @@ public class Prison implements CommandExecutor, TabCompleter {
 				Jail.JailRemove(cmd, player, sender);
 				return true;
 			}
-		}else if(args.length == 3){
+		}else if(args.length >= 3){
 			if(args[0].equalsIgnoreCase("area")){
 				Player player = Bukkit.getPlayer(args[1]);
 				if(player == null){
