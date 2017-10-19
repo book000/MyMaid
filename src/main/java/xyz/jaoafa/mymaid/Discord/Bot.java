@@ -22,7 +22,6 @@ public class Bot {
 
 	/*
 	 * ヘルプコマンドは/jaohelp
-	 *
 	 */
 
 	@EventSubscriber
@@ -58,7 +57,7 @@ public class Bot {
 	public static enum Command {
 		changegame {
 			@Override
-			public void onCommand(final MessageReceivedEvent event, final String[] args) {
+			public void onCommand(MessageReceivedEvent event, String[] args) {
 				if(args.length == 1){
 					reply(event, "引数が足りません");
 					return;
@@ -75,13 +74,39 @@ public class Bot {
 		jaohelp {
 			@Override
 			public void onCommand(MessageReceivedEvent event, String[] args) {
-				String commands = Arrays.stream(Command.values()).filter(command -> command != Command.jaohelp).map(Command::name).collect(Collectors.joining(" "));
-				reply(event, "```" + commands + "```");
+				//String commands = Arrays.stream(Command.values()).filter(command -> command != Command.jaohelp).map(Command::name).collect(Collectors.joining(" "));
+				if(args.length == 1){
+					String commands = Arrays.stream(Command.values())
+						.map(Command::name)
+						.map(command -> "/" + command + ": " + EnumUtils.getEnum(Command.class, command).getHelpMessage())
+						.collect(Collectors.joining("\n"));
+					reply(event, "```" + commands + "```");
+				}else if(args.length == 2){
+					Command command = EnumUtils.getEnum(Command.class, args[2]);
+					if(command == null){
+						reply(event, "指定されたコマンドは存在しません");
+						return;
+					}
+					reply(event, "/" + command.toString() + ": " + command.getHelpMessage());
+				}
 			}
 			@Override
 			public String getHelpMessage(){
 				return "MyMaidで実装されているjaotanコマンドのヘルプを表示します。";
 			}
+		},
+		test {
+
+			@Override
+			public void onCommand(MessageReceivedEvent event, String[] args) {
+				reply(event, "(((（ ´◔ ω◔`）)))ほおおおおおおおおおおおおおおおおおおおおおおおｗｗｗｗｗｗｗｗｗｗｗ");
+			}
+
+			@Override
+			public String getHelpMessage() {
+				return "(((（ ´◔ ω◔`）)))ほおおおおおおおおおおおおおおおおおおおおおおおｗｗｗｗｗｗｗｗｗｗｗ";
+			}
+
 		};
 
 		public abstract void onCommand(MessageReceivedEvent event, String[] args);
