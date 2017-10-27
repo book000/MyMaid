@@ -6,9 +6,14 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
@@ -35,6 +40,21 @@ public class VarCmd implements CommandExecutor {
 		}
 		text = StringUtils.stripStart(text, "/");
 
+		// 「@p」のみ置き換える動作をする
+		if(sender instanceof Player){
+			Player player = (Player) sender;
+			NearestPlayer npr = new NearestPlayer(player.getLocation());
+			if(npr.getStatus()){
+				text = text.replaceAll("@" + "p" + "", npr.getPlayer().getName());
+			}
+		}else if(sender instanceof BlockCommandSender){
+			BlockCommandSender cmdb = (BlockCommandSender) sender;
+			NearestPlayer npr = new NearestPlayer(cmdb.getBlock().getLocation());
+			if(npr.getStatus()){
+				text = text.replaceAll("@" + "p" + "", npr.getPlayer().getName());
+			}
+		}
+
 		// ----- 事前定義(予約済み変数) ----- //
 
 		SimpleDateFormat sdf_Year = new SimpleDateFormat("yyyy");
@@ -53,6 +73,19 @@ public class VarCmd implements CommandExecutor {
 
 		text = text.replaceAll("\\$" + "PlayerCount" + "\\$", String.valueOf(Bukkit.getServer().getOnlinePlayers().size()));
 
+
+		for(Player p : Bukkit.getOnlinePlayers()){
+			if(!text.contains("$" + "Damager_" + p.getName() + "$")){
+				continue;
+			}
+			EntityDamageEvent ede = p.getLastDamageCause();
+			Entity e = ede.getEntity();
+			if(e == null){
+				continue;
+			}
+			String name = e.getName();
+			text = text.replaceAll("\\$" +  "Damager_" + p.getName() + "\\$", name);
+		}
 		// ----- 事前定義(予約済み変数) ----- //
 
 		for(Map.Entry<String, String> e : Var.var.entrySet()) {
@@ -62,5 +95,37 @@ public class VarCmd implements CommandExecutor {
 		Bukkit.dispatchCommand(sender, text);
 		Method.SendMessage(sender, cmd, "コマンド「" + text + "」を実行しました。");
 		return true;
+	}
+}
+class NearestPlayer {
+	Boolean status;
+	Player player = null;
+	double closest = -1;
+	public NearestPlayer(Location loc){
+		double closest = Double.MAX_VALUE;
+		Player closestp = null;
+		for(Player p : Bukkit.getOnlinePlayers()){
+			double dist = p.getLocation().distance(loc);
+			if(closest == Double.MAX_VALUE || dist < closest){
+				closest = dist;
+				closestp = p;
+			}
+		}
+		if(closestp == null){
+			this.status = false;
+		}else{
+			this.status = true;
+			this.player = closestp;
+			this.closest = closest;
+		}
+	}
+	public Boolean getStatus(){
+		return status;
+	}
+	public Player getPlayer(){
+		return player;
+	}
+	public Double getClosest(){
+		return closest;
 	}
 }
