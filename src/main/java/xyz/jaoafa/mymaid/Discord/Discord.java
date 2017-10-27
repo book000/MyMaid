@@ -153,7 +153,7 @@ public class Discord {
 		} catch (FileNotFoundException e) {
 			// Since I want to retry try to add it.
 			BugReport.report(e);
-			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(FileNotFoundException)");
 			return false;
 		}
 		return true;
