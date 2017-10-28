@@ -130,7 +130,7 @@ public class Discord {
 		return true;
 	}
 
-	public static boolean Filesend(String path){
+	public static boolean Filesend(IChannel channel, String path){
 		File file = new File(path);
 		if(!file.exists()){
 			return false;
@@ -161,6 +161,30 @@ public class Discord {
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(FileNotFoundException)");
 			return false;
 		}
+		return true;
+	}
+
+	public static boolean Filesend(String channelid_or_name, String path){
+		IChannel channel = null;
+		for (IChannel one : guild.getChannels()) {
+			if(!one.getID().equalsIgnoreCase(channelid_or_name)){
+				continue;
+			}
+			channel = one;
+        }
+		if(channel == null){
+			for (IChannel one : guild.getChannels()) {
+				if(!one.getName().equalsIgnoreCase(channelid_or_name)){
+					continue;
+				}
+				channel = one;
+	        }
+		}
+		if(channel == null){
+			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(指定されたチャンネルが見つかりません。)");
+			return false;
+		}
+		Filesend(channel, path);
 		return true;
 	}
 
