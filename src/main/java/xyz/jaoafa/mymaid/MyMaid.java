@@ -775,7 +775,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		skullMeta_mine_book000.setOwner("mine_book000");
 		mine_book000.setItemMeta(skullMeta_mine_book000);
 
-		getServer().addRecipe(X8Z_sr);
+		//getServer().addRecipe(X8Z_sr);
 
 		FurnaceRecipe wooden_axe_mine_book000 = new FurnaceRecipe(mine_book000, Material.WOOD_AXE);
 		getServer().addRecipe(wooden_axe_mine_book000);
@@ -1002,6 +1002,19 @@ public class MyMaid extends JavaPlugin implements Listener {
 				Method.setPlayerListHeaderFooterByJSON(player, header, tpsmsg);
 			}
 
+
+			// TPSと関係ないけど
+			SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+			Date Date = new Date();
+			if(date.format(Date).equalsIgnoreCase("2017-10-31")){
+				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+					if(player.getInventory().getHelmet() != new ItemStack(Material.JACK_O_LANTERN)){
+						player.sendMessage("[Halloween] 今日はハロウィン！当サーバでは頭にジャックオランタンをかぶせています！");
+						player.sendMessage("[Halloween] 今日一日は外してもすぐに再度かぶせられちゃうので我慢してね！");
+						player.getInventory().setHelmet(new ItemStack(Material.JACK_O_LANTERN));
+					}
+				}
+			}
 		}
 	}
 	/**

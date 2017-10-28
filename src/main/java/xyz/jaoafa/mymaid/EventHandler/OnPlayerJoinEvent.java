@@ -185,7 +185,9 @@ public class OnPlayerJoinEvent implements Listener {
 				BugReport.report(e);
 			}
 			*/
+
 		}
+
 		Date Date = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage(ChatColor.GRAY + "["+ timeFormat.format(Date) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan: 現在『" + Bukkit.getServer().getOnlinePlayers().size() + "人』がログインしています。");

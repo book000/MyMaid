@@ -15,6 +15,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import xyz.jaoafa.mymaid.Method;
@@ -87,6 +89,12 @@ public class VarCmd implements CommandExecutor {
 			String name = e.getName();
 			text = text.replaceAll("\\$" +  "Damager_" + p.getName() + "\\$", name);
 		}
+
+		ScoreboardManager sbm = Bukkit.getScoreboardManager();
+		Scoreboard sb = sbm.getMainScoreboard();
+		for(Objective obj : sb.getObjectives()){
+		}
+
 		// ----- 事前定義(予約済み変数) ----- //
 
 		for(Map.Entry<String, String> e : Var.var.entrySet()) {
@@ -106,6 +114,9 @@ class NearestPlayer {
 		double closest = Double.MAX_VALUE;
 		Player closestp = null;
 		for(Player p : Bukkit.getOnlinePlayers()){
+			if(!p.getWorld().equals(loc.getWorld())){
+				continue;
+			}
 			double dist = p.getLocation().distance(loc);
 			if(closest == Double.MAX_VALUE || dist < closest){
 				closest = dist;
