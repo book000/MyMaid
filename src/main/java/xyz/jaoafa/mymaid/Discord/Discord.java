@@ -49,7 +49,7 @@ public class Discord {
 			setClient(new ClientBuilder().withToken(token).build());
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			plugin.getLogger().info("Discordへの接続に失敗しました。(DiscordException Token)");
 			plugin.getLogger().info("Disable MyMaid...");
 			plugin.getServer().getPluginManager().disablePlugin(plugin);
@@ -68,14 +68,14 @@ public class Discord {
 			client.login();
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			plugin.getLogger().info("Discordへの接続に失敗しました。(Login DiscordException)");
 			plugin.getLogger().info("Disable MyMaid...");
 			plugin.getServer().getPluginManager().disablePlugin(plugin);
 			return;
 		} catch (RateLimitException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			plugin.getLogger().info("Discordへの接続に失敗しました。(Login RateLimitException)");
 			plugin.getLogger().info("Disable MyMaid...");
 			plugin.getServer().getPluginManager().disablePlugin(plugin);
@@ -95,7 +95,7 @@ public class Discord {
 			client.logout();
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			plugin.getLogger().info("Discordへの接続解除に失敗しました。");
 		}
 	}
@@ -108,17 +108,17 @@ public class Discord {
 			channel.sendMessage(message);
 		} catch (MissingPermissionsException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
 			return false;
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
 			return false;
 		}catch (RateLimitException e){
 			// Since I want to retry try to add it.
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
 			return false;
 		}
@@ -137,22 +137,22 @@ public class Discord {
 			channel.sendFile(file);
 		} catch (MissingPermissionsException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
 			return false;
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
 			return false;
 		}catch (RateLimitException e){
 			// Since I want to retry try to add it.
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
 			return false;
 		} catch (FileNotFoundException e) {
 			// Since I want to retry try to add it.
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(FileNotFoundException)");
 			return false;
 		}
@@ -167,17 +167,17 @@ public class Discord {
 			channel.sendMessage(message);
 		} catch (MissingPermissionsException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
 			return false;
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
 			return false;
 		}catch (RateLimitException e){
 			// Since I want to retry try to add it.
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
 			return false;
 		}
@@ -192,17 +192,17 @@ public class Discord {
 			channel.sendMessage(message);
 		} catch (MissingPermissionsException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
 			return false;
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
 			return false;
 		}catch (RateLimitException e){
 			// Since I want to retry try to add it.
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
 			return false;
 		}
@@ -218,17 +218,17 @@ public class Discord {
 			channel.sendMessage(message, embed, false);
 		} catch (MissingPermissionsException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(MissingPermissionsException)");
 			return false;
 		} catch (DiscordException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(DiscordException)");
 			return false;
 		}catch (RateLimitException e){
 			// Since I want to retry try to add it.
-			BugReport.report(e);
+			e.printStackTrace();
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(RateLimitException)");
 			return false;
 		}
@@ -334,7 +334,7 @@ public class Discord {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 			return;
 		}
 		statement = MySQL.check(statement);
@@ -347,7 +347,7 @@ public class Discord {
 			}
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
-			BugReport.report(e);
+			e.printStackTrace();
 		}
 	}
 
