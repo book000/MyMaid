@@ -215,6 +215,9 @@ public class Jail {
 		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=" + reason + "&nosend");
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + reason + "」という理由で牢獄リストに追加しました。");
 		Discord.send("223582668132974594", "***EBan[追加]***: プレイヤー「" + player.getName() +"」が「" + banned_by.getName() +"」によって「" + reason + "」という理由でJailリストに追加されました。");
+		if(banned_by.getName().equalsIgnoreCase("jaotan")){
+			Discord.Filesend(MyMaid.getJavaPlugin().getDataFolder() + File.separator + "jailadd.png");
+		}
 		JailBackupSaveTxt(player.getName(), JailType.ADD, banned_by.getName(), reason);
 		return true;
 	}
