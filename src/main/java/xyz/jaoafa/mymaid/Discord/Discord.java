@@ -87,7 +87,12 @@ public class Discord {
 		plugin.getServer().getPluginManager().registerEvents(new OnDynmapWebChat(plugin), plugin);
 
 		getLinkedAccount();
-		Discord.setGame("Welcome to jao Minecraft Server.");
+		try{
+			Discord.setGame("Welcome to jao Minecraft Server.");
+		}catch(java.lang.NullPointerException e){
+			// Nothing
+		}
+
 	}
 
 	public void end(){
