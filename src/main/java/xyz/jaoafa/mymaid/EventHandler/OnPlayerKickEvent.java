@@ -24,8 +24,10 @@ public class OnPlayerKickEvent implements Listener {
 	public void onPlayerKickEvent(PlayerKickEvent e){
 		if(e.getReason().equals("disconnect.spam")){
 			e.setCancelled(true);
+			return;
 		}else if(e.getReason().equals("Illegal characters in chat")){
 			e.setCancelled(true);
+			return;
 		}else if(e.getReason().equalsIgnoreCase("You are sending too many packets!") ||
 				e.getReason().equalsIgnoreCase("You are sending too many packets, :(")){
 			EmbedBuilder embed = new EmbedBuilder();
@@ -43,12 +45,12 @@ public class OnPlayerKickEvent implements Listener {
 			Discord.send("223582668132974594", ":interrobang:プレイヤー「" + e.getPlayer().getName() +"」がパケットを送信しすぎてKickされました。\n"
 					+ "ハッククライアントの可能性があります。\n"
 					+ "Reason: " + e.getReason());
-			*/
-		}else{
-			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
-					p.sendMessage("[KickReason] " + ChatColor.GREEN + e.getPlayer().getName() + " Kick Reason: 「" + e.getReason() + "」");
-				}
+			 */
+
+		}
+		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+			if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
+				p.sendMessage("[KickReason] " + ChatColor.GREEN + e.getPlayer().getName() + " Kick Reason: 「" + e.getReason() + "」");
 			}
 		}
 	}
