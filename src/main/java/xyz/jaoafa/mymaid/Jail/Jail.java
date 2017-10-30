@@ -486,7 +486,6 @@ public class Jail {
 		block.remove(offplayer.getUniqueId().toString());
 		area.remove(offplayer.getUniqueId().toString());
 
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + offplayer.getName() + "」を牢獄リストから削除しました。");
 		JailBackupSaveTxt(offplayer.getName(), JailType.REMOVE, banned_by.getName(), "");
 		Discord.send("223582668132974594", "***EBan[削除]***: プレイヤー「" + offplayer.getName() +"」が「" + banned_by.getName() + "」によってJailリストから削除されました");
