@@ -1243,14 +1243,18 @@ public class MyMaid extends JavaPlugin implements Listener {
 			if(this.section == 10){
 				String jyuni = Method.url_jaoplugin("dot", "p=" + this.player.getName() + "&u=" + this.player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + this.section + "s");
 				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + this.player.getName() + "のピリオド対決(" + this.section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+				Discord.send(this.player.getName() + "のピリオド対決(" + this.section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
 			}else if(this.section == 60){
 				String jyuni = Method.url_jaoplugin("dot", "p=" + this.player.getName() + "&u=" + this.player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + this.section + "s");
 				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + this.player.getName() + "のピリオド対決(" + this.section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+				Discord.send(this.player.getName() + "のピリオド対決(" + this.section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
 			}else if(this.section == 300){
 				String jyuni = Method.url_jaoplugin("dot", "p=" + this.player.getName() + "&u=" + this.player.getUniqueId() + "&success=" + success + "&unsuccess=" + unsuccess + "&" + this.section + "s");
 				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + this.player.getName() + "のピリオド対決(" + this.section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
+				Discord.send(this.player.getName() + "のピリオド対決(" + this.section + "秒部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(累計順位: " + jyuni + "位)");
 			}else{
 				Bukkit.broadcastMessage("[.] " + ChatColor.GREEN + this.player.getName() + "のピリオド対決(" + this.section + "秒例外部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(部門外のためrankingなし)");
+				Discord.send(this.player.getName() + "のピリオド対決(" + this.section + "秒例外部門)の結果: 成功回数" + success + " 失敗回数" + unsuccess + "(部門外のためrankingなし)");
 			}
 
 			MyMaid.lunachatapi.setPlayersJapanize(this.player.getName(), DOT.kana.get(this.player.getName()));
