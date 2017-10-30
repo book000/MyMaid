@@ -49,6 +49,15 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailAdd(Player player, CommandSender banned_by){
+		if(player == null){
+			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーは見つかりません。");
+			try{
+				throw new java.lang.NullPointerException("JailAdd Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいるので無理
 			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
@@ -86,6 +95,15 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailAdd(OfflinePlayer player, CommandSender banned_by){
+		if(player == null){
+			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーは見つかりません。");
+			try{
+				throw new java.lang.NullPointerException("JailAdd OfflinePlayer is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいるので無理
 			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
@@ -114,6 +132,15 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailAdd(Player player, CommandSender banned_by, String reason, boolean InvRemove){
+		if(player == null){
+			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーは見つかりません。");
+			try{
+				throw new java.lang.NullPointerException("JailAdd Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいるので無理
 			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
@@ -154,11 +181,19 @@ public class Jail {
 	 * @param player オフラインのプレイヤー
 	 * @param banned_by 追加したプレイヤー
 	 * @param reason 理由
-	 * @param InvRemove インベントリを削除するか
 	 * @return 実行できたかどうか
 	 * @author mine_book000
 	*/
 	public static boolean JailAdd(OfflinePlayer player, CommandSender banned_by, String reason){
+		if(player == null){
+			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーは見つかりません。");
+			try{
+				throw new java.lang.NullPointerException("JailAdd OfflinePlayer is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいるので無理
 			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
@@ -187,6 +222,22 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailAdd(Player player, OfflinePlayer banned_by, String reason, boolean InvRemove){
+		if(player == null){
+			try{
+				throw new java.lang.NullPointerException("JailAdd Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
+		if(banned_by == null){
+			try{
+				throw new java.lang.NullPointerException("JailAdd OfflinePlayer(banned_by) is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいるので無理
 			return false;
@@ -266,6 +317,14 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailLastText(Command cmd, Player player, String LastText){
+		if(player == null){
+			try{
+				throw new java.lang.NullPointerException("JailLastText Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(!Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいないので無理
 			Method.SendMessage(player, cmd, "あなたはすでに牢獄にいないため遺言を残せません。");
@@ -296,6 +355,14 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailArea(Command cmd, Player player, CommandSender banned_by, Boolean after){
+		if(player == null){
+			try{
+				throw new java.lang.NullPointerException("JailArea Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(!Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいないので無理
 			Method.SendMessage(banned_by, cmd, "指定されたプレイヤーはすでに牢獄にいないため設定できません。");
@@ -324,6 +391,14 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailBlock(Command cmd, Player player, CommandSender banned_by, Boolean after){
+		if(player == null){
+			try{
+				throw new java.lang.NullPointerException("JailBlock Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(!Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいないので無理
 			Method.SendMessage(banned_by, cmd, "指定されたプレイヤーはすでに牢獄にいないため設定できません。");
@@ -351,6 +426,14 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailRemove(Command cmd, Player player, CommandSender banned_by){
+		if(player == null){
+			try{
+				throw new java.lang.NullPointerException("JailRemove Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(!Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいないので無理
 			Method.SendMessage(banned_by, cmd, "指定されたプレイヤーはすでに牢獄にいないため削除できません。");
@@ -377,6 +460,22 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailRemove(OfflinePlayer offplayer, OfflinePlayer banned_by){
+		if(offplayer == null){
+			try{
+				throw new java.lang.NullPointerException("JailRemove OfflinePlayer(offplayer) is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
+		if(banned_by == null){
+			try{
+				throw new java.lang.NullPointerException("JailRemove OfflinePlayer(banned_by) is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(!Jail.contains(offplayer.getUniqueId().toString())){
 			// 既に牢獄にいないので無理
 			return false;
@@ -398,6 +497,14 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean isJail(Player player){
+		if(player == null){
+			try{
+				throw new java.lang.NullPointerException("isJail Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		return Jail.contains(player.getUniqueId().toString());
 	}
 
@@ -408,6 +515,14 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean isJail(OfflinePlayer offplayer){
+		if(offplayer == null){
+			try{
+				throw new java.lang.NullPointerException("isJail OfflinePlayer(offplayer) is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		return Jail.contains(offplayer.getUniqueId().toString());
 	}
 
@@ -418,6 +533,14 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean isJailArea(Player player){
+		if(player == null){
+			try{
+				throw new java.lang.NullPointerException("isJailArea Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(area.containsKey(player.getUniqueId().toString())){
 			if(area.get(player.getUniqueId().toString())){
 				return true;
@@ -436,6 +559,14 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean isJailBlock(Player player){
+		if(player == null){
+			try{
+				throw new java.lang.NullPointerException("isJailBlock Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
 		if(block.containsKey(player.getUniqueId().toString())){
 			if(block.get(player.getUniqueId().toString())){
 				return true;
