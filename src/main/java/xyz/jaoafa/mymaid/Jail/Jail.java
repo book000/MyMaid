@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -283,6 +284,14 @@ public class Jail {
 	public static void SendList(CommandSender sender, Command cmd){
 		Method.SendMessage(sender, cmd, "------ 牢獄リスト ------");
 		for(String player : Jail){
+			UUID uuid = UUID.fromString(player);
+			OfflinePlayer offplayer = Bukkit.getOfflinePlayer(uuid);
+			String name;
+			if(offplayer != null){
+				name = offplayer.getName();
+			}else{
+				name = player;
+			}
 			String text = "";
 			if(area.containsKey(player)){
 				if(area.get(player)){
@@ -303,7 +312,7 @@ public class Jail {
 			}else{
 				text += "情報無し";
 			}
-			Method.SendMessage(sender, cmd, player + " " + text);
+			Method.SendMessage(sender, cmd, name + " " + text);
 		}
 		Method.SendMessage(sender, cmd, "------------------------");
 	}
