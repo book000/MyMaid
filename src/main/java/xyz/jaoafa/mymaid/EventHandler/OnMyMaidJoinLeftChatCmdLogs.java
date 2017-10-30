@@ -133,6 +133,7 @@ public class OnMyMaidJoinLeftChatCmdLogs implements Listener {
 	            			try {
 	            				writer.close();
 	            			} catch (Exception e) {
+	            				// 「空のブロックにはコードまたはコメントを記述する必要があります」
 	            			}
 	            		}
 	            	}
@@ -212,6 +213,7 @@ public class OnMyMaidJoinLeftChatCmdLogs implements Listener {
 	            			try {
 	            				writer.close();
 	            			} catch (Exception e) {
+	            				// 「空のブロックにはコードまたはコメントを記述する必要があります」
 	            			}
 	            		}
 	            	}

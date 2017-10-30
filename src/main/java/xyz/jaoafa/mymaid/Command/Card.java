@@ -122,7 +122,9 @@ public class Card implements CommandExecutor {
 		is.setAmount(1);
 		ItemMeta meta = is.getItemMeta();
 		meta.setDisplayName("ガチャ券");
-		ArrayList<String> lore = new ArrayList<String>(){};
+		ArrayList<String> lore = new ArrayList<String>(){
+			// 「空のブロックにはコードまたはコメントを記述する必要があります」
+		};
 		lore.add("jaoカード場でガチャができるぞ！");
 		meta.setLore(lore);
 		is.setItemMeta(meta);

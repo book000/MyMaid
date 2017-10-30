@@ -70,7 +70,7 @@ public class OnJoin implements Listener {
 		try{
 			new MyMaid.usemodget(plugin, player).runTaskLater(plugin, 10L);
 		}catch(java.lang.NoClassDefFoundError e){
-
+			// 「空のブロックにはコードまたはコメントを記述する必要があります」
 		}
 		InetAddress ip = player.getAddress().getAddress();
 		if(PermissionsEx.getUser(player).inGroup("Limited")){

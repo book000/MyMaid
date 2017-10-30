@@ -72,7 +72,7 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 					}
 					invitemobj.put("enchant", enchant);
 				}catch(java.lang.NullPointerException e){
-
+					// 「空のブロックにはコードまたはコメントを記述する必要があります」
 				}
 
 				invobj.put(n, invitemobj);
@@ -98,7 +98,7 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 					}
 					invitemobj.put("enchant", enchant);
 				}catch(java.lang.NullPointerException e){
-
+					// 「空のブロックにはコードまたはコメントを記述する必要があります」
 				}
 				armorobj.put(n, invitemobj);
 			}
@@ -124,7 +124,7 @@ public class MyMaid_NetworkApi implements CommandExecutor {
 					}
 					invitemobj.put("enchant", enchant);
 				}catch(java.lang.NullPointerException e){
-
+					// 「空のブロックにはコードまたはコメントを記述する必要があります」
 				}
 
 				endinvobj.put(n, invitemobj);
