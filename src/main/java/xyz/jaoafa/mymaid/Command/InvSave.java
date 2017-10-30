@@ -45,7 +45,11 @@ public class InvSave implements CommandExecutor {
 								item.put("Amount", it.getAmount());
 								item.put("Data", it.getData());
 								item.put("Durability", it.getDurability());
-								item.put("Enchantments", it.getEnchantments());
+								try{
+									item.put("Enchantments", it.getEnchantments());
+								}catch(NullPointerException e){
+									// java.lang.NullPointerException: null key in entry: null=0 の回避(乱雑)
+								}
 								item.put("ItemMeta", it.getItemMeta());
 		                        inv.put(count, item);
 		                    }
