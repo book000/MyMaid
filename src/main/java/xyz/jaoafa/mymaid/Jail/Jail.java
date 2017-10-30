@@ -34,6 +34,7 @@ import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class Jail {
+	// 2017/10/30 Update: UUID管理に変更
 	private static Set<String> Jail = new HashSet<String>();
 	private static Map<String, Boolean> block = new HashMap<String, Boolean>();
 	private static Map<String, Boolean> area = new HashMap<String, Boolean>();
@@ -48,15 +49,15 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailAdd(Player player, CommandSender banned_by){
-		if(Jail.contains(player.getName())){
+		if(Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいるので無理
 			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
 			return false;
 		}
-		Jail.add(player.getName());
-		block.put(player.getName(), false); // 設置破壊不可
-		area.put(player.getName(), false); // 範囲外移動
-		lasttext.put(player.getName(), false); // まだ遺言を残してない
+		Jail.add(player.getUniqueId().toString());
+		block.put(player.getUniqueId().toString(), false); // 設置破壊不可
+		area.put(player.getUniqueId().toString(), false); // 範囲外移動
+		lasttext.put(player.getUniqueId().toString(), false); // まだ遺言を残してない
 
 		World Jao_Afa = Bukkit.getServer().getWorld("Jao_Afa");
 		Location minami = new Location(Jao_Afa, 1767, 70, 1767);
@@ -85,15 +86,15 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailAdd(OfflinePlayer player, CommandSender banned_by){
-		if(Jail.contains(player.getName())){
+		if(Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいるので無理
 			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
 			return false;
 		}
-		Jail.add(player.getName());
-		block.put(player.getName(), false); // 設置破壊不可
-		area.put(player.getName(), false); // 範囲外移動
-		lasttext.put(player.getName(), false); // まだ遺言を残してない
+		Jail.add(player.getUniqueId().toString());
+		block.put(player.getUniqueId().toString(), false); // 設置破壊不可
+		area.put(player.getUniqueId().toString(), false); // 範囲外移動
+		lasttext.put(player.getUniqueId().toString(), false); // まだ遺言を残してない
 
 		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=&nosend");
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を牢獄リストに追加しました。");
@@ -113,19 +114,19 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailAdd(Player player, CommandSender banned_by, String reason, boolean InvRemove){
-		if(Jail.contains(player.getName())){
+		if(Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいるので無理
 			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
 			return false;
 		}
-		Jail.add(player.getName());
-		block.put(player.getName(), false); // 設置破壊不可
-		area.put(player.getName(), false); // 範囲外移動
-		lasttext.put(player.getName(), false); // まだ遺言を残してない
+		Jail.add(player.getUniqueId().toString());
+		block.put(player.getUniqueId().toString(), false); // 設置破壊不可
+		area.put(player.getUniqueId().toString(), false); // 範囲外移動
+		lasttext.put(player.getUniqueId().toString(), false); // まだ遺言を残してない
 
 		if(InvRemove){
 			player.getInventory().clear();
-			player.getEnderChest().clear();
+			// player.getEnderChest().clear(); - さすがにエンダーチェスト消すのはかわいそうかなと思ってきた
 		}
 
 		World Jao_Afa = Bukkit.getServer().getWorld("Jao_Afa");
@@ -158,15 +159,15 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailAdd(OfflinePlayer player, CommandSender banned_by, String reason){
-		if(Jail.contains(player.getName())){
+		if(Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいるので無理
 			banned_by.sendMessage("[JAIL] " + ChatColor.GREEN + "指定されたプレイヤーはすでに牢獄にいるため追加できません。");
 			return false;
 		}
-		Jail.add(player.getName());
-		block.put(player.getName(), false); // 設置破壊不可
-		area.put(player.getName(), false); // 範囲外移動
-		lasttext.put(player.getName(), false); // まだ遺言を残してない
+		Jail.add(player.getUniqueId().toString());
+		block.put(player.getUniqueId().toString(), false); // 設置破壊不可
+		area.put(player.getUniqueId().toString(), false); // 範囲外移動
+		lasttext.put(player.getUniqueId().toString(), false); // まだ遺言を残してない
 
 		Method.url_jaoplugin("eban", "p=" + player.getName() +"&u=" + player.getUniqueId().toString() +"&b=" + banned_by.getName() + "&r=" + reason + "&nosend");
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を「" + reason + "」という理由で牢獄リストに追加しました。");
@@ -186,18 +187,18 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailAdd(Player player, OfflinePlayer banned_by, String reason, boolean InvRemove){
-		if(Jail.contains(player.getName())){
+		if(Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいるので無理
 			return false;
 		}
-		Jail.add(player.getName());
-		block.put(player.getName(), false); // 設置破壊不可
-		area.put(player.getName(), false); // 範囲外移動
-		lasttext.put(player.getName(), false); // まだ遺言を残してない
+		Jail.add(player.getUniqueId().toString());
+		block.put(player.getUniqueId().toString(), false); // 設置破壊不可
+		area.put(player.getUniqueId().toString(), false); // 範囲外移動
+		lasttext.put(player.getUniqueId().toString(), false); // まだ遺言を残してない
 
 		if(InvRemove){
 			player.getInventory().clear();
-			player.getEnderChest().clear();
+			// player.getEnderChest().clear(); - さすがにエンダーチェスト消すのはかわいそうかなと思ってきた
 		}
 
 		World Jao_Afa = Bukkit.getServer().getWorld("Jao_Afa");
@@ -265,19 +266,19 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailLastText(Command cmd, Player player, String LastText){
-		if(!Jail.contains(player.getName())){
+		if(!Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいないので無理
 			Method.SendMessage(player, cmd, "あなたはすでに牢獄にいないため遺言を残せません。");
 			return false;
 		}
-		if(lasttext.containsKey(player.getName())){
-			if(lasttext.get(player.getName())){
+		if(lasttext.containsKey(player.getUniqueId().toString())){
+			if(lasttext.get(player.getUniqueId().toString())){
 				// 既に残してる
 				Method.SendMessage(player, cmd, "あなたはすでに遺言を残しています。");
 				return false;
 			}
 		}
-		lasttext.put(player.getName(), true);
+		lasttext.put(player.getUniqueId().toString(), true);
 		Method.url_jaoplugin("eban", "p=" + player.getName() + "&lasttext=" + LastText.replaceAll(" ", "_"));
 		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」が遺言を残しました。遺言:「" + LastText +"」");
 		Discord.send("223582668132974594", "***EBan[遺言]***: プレイヤー「" + player.getName() +"」が「" + LastText + "」という遺言を残しました。");
@@ -295,12 +296,12 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailArea(Command cmd, Player player, CommandSender banned_by, Boolean after){
-		if(!Jail.contains(player.getName())){
+		if(!Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいないので無理
 			Method.SendMessage(banned_by, cmd, "指定されたプレイヤーはすでに牢獄にいないため設定できません。");
 			return false;
 		}
-		area.put(player.getName(), after);
+		area.put(player.getUniqueId().toString(), after);
 		if(after){
 			Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」を範囲外に移動できるよう設定しました。");
 			Discord.send("223582668132974594", "***EBan[範囲外移動]***: プレイヤー「" + player.getName() +"」が範囲外に移動できるよう設定しました。");
@@ -323,12 +324,12 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailBlock(Command cmd, Player player, CommandSender banned_by, Boolean after){
-		if(!Jail.contains(player.getName())){
+		if(!Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいないので無理
 			Method.SendMessage(banned_by, cmd, "指定されたプレイヤーはすでに牢獄にいないため設定できません。");
 			return false;
 		}
-		block.put(player.getName(), after);
+		block.put(player.getUniqueId().toString(), after);
 		if(after){
 			Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + player.getName() + "」がブロックを設置破壊できるよう設定しました。");
 			Discord.send("223582668132974594", "***EBan[ブロック編集]***: プレイヤー「" + player.getName() +"」がブロックを設置破壊できるよう設定しました。");
@@ -350,14 +351,14 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean JailRemove(Command cmd, Player player, CommandSender banned_by){
-		if(!Jail.contains(player.getName())){
+		if(!Jail.contains(player.getUniqueId().toString())){
 			// 既に牢獄にいないので無理
 			Method.SendMessage(banned_by, cmd, "指定されたプレイヤーはすでに牢獄にいないため削除できません。");
 			return false;
 		}
-		Jail.remove(player.getName());
-		block.remove(player.getName());
-		area.remove(player.getName());
+		Jail.remove(player.getUniqueId().toString());
+		block.remove(player.getUniqueId().toString());
+		area.remove(player.getUniqueId().toString());
 
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		player.sendMessage(ChatColor.GRAY + "["+ sdf.format(new Date()) + "]" + ChatColor.GOLD + "■jaotan" + ChatColor.WHITE +  ": " + "じゃあな…！");
@@ -368,13 +369,46 @@ public class Jail {
 	}
 
 	/**
+	 * Jailからプレイヤーを削除
+	 * @param cmd コマンド情報
+	 * @param offplayer プレイヤー
+	 * @param banned_by 実行者情報
+	 * @return 実行できたかどうか
+	 * @author mine_book000
+	*/
+	public static boolean JailRemove(OfflinePlayer offplayer, OfflinePlayer banned_by){
+		if(!Jail.contains(offplayer.getUniqueId().toString())){
+			// 既に牢獄にいないので無理
+			return false;
+		}
+		Jail.remove(offplayer.getUniqueId().toString());
+		block.remove(offplayer.getUniqueId().toString());
+		area.remove(offplayer.getUniqueId().toString());
+
+		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + offplayer.getName() + "」を牢獄リストから削除しました。");
+		JailBackupSaveTxt(offplayer.getName(), JailType.REMOVE, banned_by.getName(), "");
+		Discord.send("223582668132974594", "***EBan[削除]***: プレイヤー「" + offplayer.getName() +"」が「" + banned_by.getName() + "」によってJailリストから削除されました");
+		return true;
+	}
+
+	/**
 	 * Jailリストにいるかどうか調べる
 	 * @param player プレイヤー
 	 * @return 居たらtrue、居なかったらfalse
 	 * @author mine_book000
 	*/
 	public static boolean isJail(Player player){
-		return Jail.contains(player.getName());
+		return Jail.contains(player.getUniqueId().toString());
+	}
+
+	/**
+	 * Jailリストにいるかどうか調べる
+	 * @param offplayer プレイヤー
+	 * @return 居たらtrue、居なかったらfalse
+	 * @author mine_book000
+	*/
+	public static boolean isJail(OfflinePlayer offplayer){
+		return Jail.contains(offplayer.getUniqueId().toString());
 	}
 
 	/**
@@ -384,8 +418,8 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean isJailArea(Player player){
-		if(area.containsKey(player.getName())){
-			if(area.get(player.getName())){
+		if(area.containsKey(player.getUniqueId().toString())){
+			if(area.get(player.getUniqueId().toString())){
 				return true;
 			}else{
 				return false;
@@ -402,8 +436,8 @@ public class Jail {
 	 * @author mine_book000
 	*/
 	public static boolean isJailBlock(Player player){
-		if(block.containsKey(player.getName())){
-			if(block.get(player.getName())){
+		if(block.containsKey(player.getUniqueId().toString())){
+			if(block.get(player.getUniqueId().toString())){
 				return true;
 			}else{
 				return false;
@@ -536,7 +570,7 @@ public class Jail {
 	        this.name = name;
 	    }
 	}
-	private static void JailBackupSaveTxt(String player, JailType type, String by, String reason){
+	public static void JailBackupSaveTxt(String player, JailType type, String by, String reason){
 		try{
 			File file = new File(MyMaid.getInstance().getDataFolder() + File.separator + "jaillog.txt");
 
