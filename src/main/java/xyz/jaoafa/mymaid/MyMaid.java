@@ -1009,14 +1009,14 @@ public class MyMaid extends JavaPlugin implements Listener {
 			if(date.format(Date).equalsIgnoreCase("2017-10-31")){
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(player.getInventory().getHelmet() == null){
-						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + "今日はハロウィン！当サーバでは頭にジャックオランタンをかぶせています！");
-						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + "今日一日は外してもすぐに再度かぶせられちゃうので我慢してね！");
+						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + ChatColor.GREEN + "今日はハロウィン！当サーバでは頭にジャックオランタンをかぶせています！");
+						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + ChatColor.GREEN + "今日一日は外してもすぐに再度かぶせられちゃうので我慢してね！");
 						player.getInventory().setHelmet(new ItemStack(Material.JACK_O_LANTERN));
 						continue;
 					}
 					if(player.getInventory().getHelmet().getType() != Material.JACK_O_LANTERN){
-						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + "今日はハロウィン！当サーバでは頭にジャックオランタンをかぶせています！");
-						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + "今日一日は外してもすぐに再度かぶせられちゃうので我慢してね！");
+						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + ChatColor.GREEN + "今日はハロウィン！当サーバでは頭にジャックオランタンをかぶせています！");
+						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + ChatColor.GREEN + "今日一日は外してもすぐに再度かぶせられちゃうので我慢してね！");
 						player.getInventory().setHelmet(new ItemStack(Material.JACK_O_LANTERN));
 					}
 				}
