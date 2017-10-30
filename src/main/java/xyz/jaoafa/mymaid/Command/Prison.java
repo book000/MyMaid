@@ -40,7 +40,12 @@ public class Prison implements CommandExecutor, TabCompleter {
 			}else if(args[0].equalsIgnoreCase("remove")){
 				Player player = Bukkit.getPlayer(args[1]);
 				if(player == null){
-					Method.SendMessage(sender, cmd, "プレイヤー情報を読み込めません。");
+					OfflinePlayer offplayer = Bukkit.getOfflinePlayer(args[1]);
+					if(offplayer == null){
+						Method.SendMessage(sender, cmd, "プレイヤー情報を読み込めません。");
+						return true;
+					}
+					Jail.JailRemove(cmd, offplayer, sender);
 					return true;
 				}
 				Jail.JailRemove(cmd, player, sender);

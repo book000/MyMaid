@@ -468,6 +468,39 @@ public class Jail {
 	 * @return 実行できたかどうか
 	 * @author mine_book000
 	*/
+	public static boolean JailRemove(Command cmd, OfflinePlayer offplayer, CommandSender banned_by){
+		if(offplayer == null){
+			try{
+				throw new java.lang.NullPointerException("JailRemove Player is null...!");
+			}catch(java.lang.NullPointerException e){
+				BugReport.report(e);
+			}
+			return false;
+		}
+		if(!Jail.contains(offplayer.getUniqueId().toString())){
+			// 既に牢獄にいないので無理
+			Method.SendMessage(banned_by, cmd, "指定されたプレイヤーはすでに牢獄にいないため削除できません。");
+			return false;
+		}
+		Jail.remove(offplayer.getUniqueId().toString());
+		block.remove(offplayer.getUniqueId().toString());
+		area.remove(offplayer.getUniqueId().toString());
+
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		Bukkit.broadcastMessage("[JAIL] " + ChatColor.GREEN + "プレイヤー:「" + offplayer.getName() + "」を牢獄リストから削除しました。");
+		JailBackupSaveTxt(offplayer.getName(), JailType.REMOVE, banned_by.getName(), "");
+		Discord.send("223582668132974594", "***EBan[削除]***: プレイヤー「" + offplayer.getName() +"」が「" + banned_by.getName() + "」によってJailリストから削除されました");
+		return true;
+	}
+
+	/**
+	 * Jailからプレイヤーを削除
+	 * @param cmd コマンド情報
+	 * @param offplayer プレイヤー
+	 * @param banned_by 実行者情報
+	 * @return 実行できたかどうか
+	 * @author mine_book000
+	*/
 	public static boolean JailRemove(OfflinePlayer offplayer, OfflinePlayer banned_by){
 		if(offplayer == null){
 			try{
