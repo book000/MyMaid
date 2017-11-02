@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.DOT;
 
 public class BukkitChatEvent implements Listener {
@@ -20,6 +21,10 @@ public class BukkitChatEvent implements Listener {
 		Player player = event.getPlayer();
 
 		if(DOT.run.containsKey(player.getName())){
+			return;
+		}
+
+		if(MyMaid.PeriodMatchStatus && MyMaid.PMAPI.getPeriodRunning(player)){
 			return;
 		}
 

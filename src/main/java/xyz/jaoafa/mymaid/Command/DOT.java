@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Pointjao;
 
 public class DOT implements CommandExecutor {
@@ -38,6 +39,14 @@ public class DOT implements CommandExecutor {
 	public static Map<String,Integer> doom = new HashMap<String,Integer>();
 	public static Map<String,BukkitTask> doomtask = new HashMap<String,BukkitTask>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		if(MyMaid.PeriodMatchStatus){
+			// PeriodMatchプラグインが動作中
+			Method.SendMessage(sender, cmd, "このコマンドは現在無効化されています。");
+			Method.SendMessage(sender, cmd, "「/periodmatch:.」と実行すると幸せになれるかもしれません。");
+			return true;
+
+		}
+
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");

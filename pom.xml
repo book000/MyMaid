@@ -181,6 +181,15 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
 		</dependency>
+		<!-- PeriodMatch -->
+		<dependency>
+			<groupId>com.jaoafa</groupId>
+			<artifactId>PeriodMatch</artifactId>
+			<version>0.0.1</version>
+			<classifier>shaded</classifier>
+			<systemPath>${basedir}/lib/PeriodMatch-0.0.1.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
 	</dependencies>
 	<url>http://jaoafa.com/</url>
 </project>

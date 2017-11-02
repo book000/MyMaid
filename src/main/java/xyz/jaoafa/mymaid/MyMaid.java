@@ -45,6 +45,8 @@ import com.github.ucchyocean.lc.LunaChatAPI;
 import com.github.ucchyocean.lc.bridge.DynmapBridge;
 import com.github.ucchyocean.lc.channel.ChannelPlayer;
 import com.ittekikun.plugin.eewalert.EEWAlert;
+import com.jaoafa.PeriodMatch.PeriodMatch;
+import com.jaoafa.PeriodMatch.PeriodMatchAPI;
 
 import net.milkbowl.vault.economy.Economy;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
@@ -186,6 +188,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 	public static FileConfiguration conf;
 	public static LunaChatAPI lunachatapi;
 	public static LunaChat lunachat;
+	public static PeriodMatchAPI PMAPI;
+	public static boolean PeriodMatchStatus;
 	public static int maxplayer;
 	public static String maxplayertime;
 	public static Connection c = null;
@@ -240,6 +244,21 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getLogger().info("EEWAlertが導入されていないため地震速報は動作しません。");
 		}
 
+		Plugin PMPlugin = getServer().getPluginManager().getPlugin("PeriodMatch");
+		if(PMPlugin != null){
+			getLogger().info("MyMaid Success(LOADED: PeriodMatch)");
+			getLogger().info("Using PeriodMatch");
+
+			getLogger().info("PeriodMatchが導入されているためピリオド対決機能をオフにします。");
+			PeriodMatchStatus = true;
+			PeriodMatch periodmatch = (PeriodMatch)PMPlugin;
+			PMAPI = periodmatch.getPeriodMatchAPI();
+
+		}else{
+			getLogger().info("PeriodMatchが導入されていないためピリオド対決機能をオンにします。");
+			PeriodMatchStatus = false;
+		}
+
 
 		//初期設定(TitleSender, Lunachat設定)
 		FirstSetting();
@@ -277,6 +296,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		lunachat = (LunaChat)getServer().getPluginManager().getPlugin("LunaChat");
 		lunachatapi = lunachat.getLunaChatAPI();
 		Method.OnEnable_TPSSetting();
+
 
 		instance = this;
 		mymaid = this;
