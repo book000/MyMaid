@@ -73,6 +73,7 @@ xyz\jaoafa\mymaid\TitleSender.class
 xyz\jaoafa\mymaid\EventHandler\OnAsyncPlayerChatEvent.class
 xyz\jaoafa\mymaid\Command\Discordsend.class
 xyz\jaoafa\mymaid\Command\Vote.class
+xyz\jaoafa\mymaid\Command\CmdBot$1.class
 xyz\jaoafa\mymaid\Command\Guard.class
 xyz\jaoafa\mymaid\Command\Pexup.class
 xyz\jaoafa\mymaid\EventHandler\OnMyMaidJoinLeftChatCmdLogs$1.class

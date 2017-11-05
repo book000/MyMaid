@@ -60,6 +60,7 @@ import xyz.jaoafa.mymaid.Command.Card;
 import xyz.jaoafa.mymaid.Command.Chat;
 import xyz.jaoafa.mymaid.Command.Ck;
 import xyz.jaoafa.mymaid.Command.Cmb;
+import xyz.jaoafa.mymaid.Command.CmdBot;
 import xyz.jaoafa.mymaid.Command.Cmd_Account;
 import xyz.jaoafa.mymaid.Command.Cmd_Messenger;
 import xyz.jaoafa.mymaid.Command.Cmd_Respawn;
@@ -357,6 +358,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("messenger").setExecutor(new Cmd_Messenger(this));
 		getCommand("respawn").setExecutor(new Cmd_Respawn(this));
 		getCommand("cmdb").setExecutor(new Cmdb(this));
+		getCommand("bot").setExecutor(new CmdBot(this));
 		getCommand("mymaid").setExecutor(new Cmdmymaid(this));
 		getCommand("cmdsearch").setExecutor(new Cmdsearch(this));
 		getCommand("color").setExecutor(new Color(this));
@@ -605,6 +607,18 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getLogger().info("Discordへの接続に失敗しました。 [conf NotFound]");
 			getLogger().info("Disable MyMaid...");
 			getServer().getPluginManager().disablePlugin(this);
+		}
+		if(conf.contains("UserLocalAPIKEY")){
+			getLogger().info("Loaded UserLocalAPIKEY");
+			CmdBot.UserLocalAPIKEY = conf.getString("UserLocalAPIKEY");
+		}
+		if(conf.contains("A3RTAPIKEY")){
+			getLogger().info("Loaded A3RTAPIKEY");
+			CmdBot.A3RTAPIKEY = conf.getString("A3RTAPIKEY");
+		}
+		if(conf.contains("DocomoAPIKEY")){
+			getLogger().info("Loaded DocomoAPIKEY");
+			CmdBot.DocomoAPIKEY = conf.getString("DocomoAPIKEY");
 		}
 	}
 	/**

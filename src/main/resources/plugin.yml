@@ -492,5 +492,9 @@ commands:
       description: 手に持っているアイテムを頭に乗せます
       permission: mymaid.hat
       permission-message: You do not have permission to perform this command.
+   bot:
+      description: jaotanとサーバ内で会話できるように設定したり、解除したりできます。
+      permission: mymaid.bot
+      permission-message: You do not have permission to perform this command.
 
 

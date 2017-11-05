@@ -1,22 +1,29 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.ucchyocean.lc.channel.Channel;
 import com.github.ucchyocean.lc.channel.ChannelPlayer;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MyMaid.dot;
 import xyz.jaoafa.mymaid.Command.BON;
+import xyz.jaoafa.mymaid.Command.CmdBot;
 import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.WO;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
@@ -31,6 +38,24 @@ public class OnAsyncPlayerChatEvent implements Listener {
 	String oldtext = "";
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
+		if(!e.getMessage().equalsIgnoreCase(".")){
+			Player player = e.getPlayer();
+			if(CmdBot.isPlayerBotChat(player)){
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						String res = CmdBot.getBotChatResult(player, e.getMessage());
+						SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+						player.sendMessage(ChatColor.GRAY + "[" + timeFormat.format(new Date()) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan" +  ": " + res);
+						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+							if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
+								p.sendMessage("[Botjaotan] " + ChatColor.GREEN + "jaotan => " + player.getName() + ": " + res);
+							}
+						}
+					}
+				}.runTaskLater(plugin, 20);
+			}
+		}
 		if(e.getMessage().equalsIgnoreCase("afa") && oldtext.equalsIgnoreCase("jao")){
 			Method.SendTipsALL("このjao afaって言うのはこのサーバにログインした時にする挨拶だよ！やってみよう！");
 		}
@@ -125,7 +150,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 				DOT.doom.put(e.getPlayer().getName(), DOT.doom.get(e.getPlayer().getName()) + 1);
 			}
 		}
-		*/
+		 */
 
 		e.setFormat(SKKColors.ReplacePlayerSKKChatColor(e.getPlayer(), "%1", e.getFormat()));
 		oldtext = e.getMessage();
