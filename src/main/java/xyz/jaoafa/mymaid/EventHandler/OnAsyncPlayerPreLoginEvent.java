@@ -30,7 +30,6 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
-import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class OnAsyncPlayerPreLoginEvent implements Listener {
 	JavaPlugin plugin;
@@ -132,6 +131,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 			}
 			return;
 		}
+		/*
 		if(!((String) obj.get("message")).equalsIgnoreCase("CAUnCheck")){
 			if(MyMaid.cac.containsKey(e.getUniqueId().toString())){
 				e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, ChatColor.RED + "[Login Denied! Reason: Compromised Account]\n"
@@ -148,6 +148,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 				return;
 			}
 		}
+		*/
 
 		if(((String) obj.get("message")).equalsIgnoreCase("fban_kick")){
 			String message = ((String) obj.get("player"));

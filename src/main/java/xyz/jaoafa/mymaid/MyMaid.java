@@ -1169,7 +1169,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 			e.printStackTrace();
 		}
 	}
-
 	public static class dot extends BukkitRunnable{
 		Player player;
 		public dot(JavaPlugin plugin, Player player) {
@@ -1177,6 +1176,11 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 		@Override
 		public void run() {
+			if(MyMaid.PeriodMatchStatus){
+				// PeriodMatchプラグインが動作中
+				return;
+
+			}
 			if(DOT.dotto.containsKey(this.player.getName())){
 				int dot = DOT.dotto.get(this.player.getName());
 				if(dot != 1){
@@ -1243,6 +1247,11 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 		@Override
 		public void run() {
+			if(MyMaid.PeriodMatchStatus){
+				// PeriodMatchプラグインが動作中
+				return;
+
+			}
 			//Bukkit.broadcastMessage(DOT.success.toString() + DOT.unsuccess.toString());
 			int success;
 			if(DOT.success.containsKey(this.player.getName())){
