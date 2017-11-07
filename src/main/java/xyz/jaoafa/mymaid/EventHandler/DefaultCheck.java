@@ -17,6 +17,7 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -48,106 +49,106 @@ public class DefaultCheck implements Listener {
 		String item ="";
 		for(int n=0; n != is.length; n++)
 		{
-				if(is[n] == null){
-					continue;
-				}
-				ItemStack hand = is[n];
-				if(hand.getType() == Material.TNT){
-					flag = true;
-					if(item.equalsIgnoreCase("")){
-						item = "TNT";
-					}else{
-						item += ", TNT";
-					}
-				}
-				if(hand.getType() == Material.LAVA_BUCKET){
-					flag = true;
-					if(item.equalsIgnoreCase("")){
-						item = "LAVA_BUCKET";
-					}else{
-						item += ", LAVA_BUCKET";
-					}
-				}
-				if(hand.getType() == Material.LAVA){
-					flag = true;
-					if(item.equalsIgnoreCase("")){
-						item = "LAVA";
-					}else{
-						item += ", LAVA";
-					}
-				}
-				if(hand.getType() == Material.WATER_BUCKET){
-					flag = true;
-					if(item.equalsIgnoreCase("")){
-						item = "WATER_BUCKET";
-					}else{
-						item += ", WATER_BUCKET";
-					}
-				}
-				if(hand.getType() == Material.WATER){
-					flag = true;
-					if(item.equalsIgnoreCase("")){
-						item = "WATER";
-					}else{
-						item += ", WATER";
-					}
-				}
-				if(hand.getType() == Material.FLINT_AND_STEEL){
-					flag = true;
-					if(item.equalsIgnoreCase("")){
-						item = "FLINT_AND_STEEL";
-					}else{
-						item += ", FLINT_AND_STEEL";
-					}
-				}
-				if(hand.getType() == Material.FIRE){
-					flag = true;
-					if(item.equalsIgnoreCase("")){
-						item = "FIRE";
-					}else{
-						item += ", FIRE";
-					}
-				}
-				if(hand.getType() == Material.FIREBALL){
-					flag = true;
-					if(item.equalsIgnoreCase("")){
-						item = "FIREBALL";
-					}else{
-						item += ", FIREBALL";
-					}
-				}
-				if(hand.getType() == Material.EXPLOSIVE_MINECART){
-					flag = true;
-					if(item.equalsIgnoreCase("")){
-						item = "TNT_MINECART";
-					}else{
-						item += ", TNT_MINECART";
-					}
+			if(is[n] == null){
+				continue;
+			}
+			ItemStack hand = is[n];
+			if(hand.getType() == Material.TNT){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "TNT";
+				}else{
+					item += ", TNT";
 				}
 			}
-			if(flag){
-				if(!(PermissionsEx.getUser(player).inGroup("Default") || PermissionsEx.getUser(player).inGroup("QPPE"))){
-					return;
+			if(hand.getType() == Material.LAVA_BUCKET){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "LAVA_BUCKET";
+				}else{
+					item += ", LAVA_BUCKET";
 				}
-				if(PermissionsEx.getUser(player).inGroup("Regular")){
-					return;
+			}
+			if(hand.getType() == Material.LAVA){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "LAVA";
+				}else{
+					item += ", LAVA";
 				}
-				if(def.containsKey(player.getName())){
-					if(def.get(player.getName()).equalsIgnoreCase(item)){
-						return;
-					}
+			}
+			if(hand.getType() == Material.WATER_BUCKET){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "WATER_BUCKET";
+				}else{
+					item += ", WATER_BUCKET";
 				}
-				def.put(player.getName(), item);
-				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
-						p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」がアイテム「" + item + "」を所持しています。");
-						p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "すぐにテレポートせず、様子を見てください。スペクテイターモードで確認するのもアリです。");
-					}
+			}
+			if(hand.getType() == Material.WATER){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "WATER";
+				}else{
+					item += ", WATER";
+				}
+			}
+			if(hand.getType() == Material.FLINT_AND_STEEL){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "FLINT_AND_STEEL";
+				}else{
+					item += ", FLINT_AND_STEEL";
+				}
+			}
+			if(hand.getType() == Material.FIRE){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "FIRE";
+				}else{
+					item += ", FIRE";
+				}
+			}
+			if(hand.getType() == Material.FIREBALL){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "FIREBALL";
+				}else{
+					item += ", FIREBALL";
+				}
+			}
+			if(hand.getType() == Material.EXPLOSIVE_MINECART){
+				flag = true;
+				if(item.equalsIgnoreCase("")){
+					item = "TNT_MINECART";
+				}else{
+					item += ", TNT_MINECART";
 				}
 			}
 		}
+		if(flag){
+			if(!(PermissionsEx.getUser(player).inGroup("Default") || PermissionsEx.getUser(player).inGroup("QPPE"))){
+				return;
+			}
+			if(PermissionsEx.getUser(player).inGroup("Regular")){
+				return;
+			}
+			if(def.containsKey(player.getName())){
+				if(def.get(player.getName()).equalsIgnoreCase(item)){
+					return;
+				}
+			}
+			def.put(player.getName(), item);
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
+					p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」がアイテム「" + item + "」を所持しています。");
+					p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "すぐにテレポートせず、様子を見てください。スペクテイターモードで確認するのもアリです。");
+				}
+			}
+		}
+	}
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onBlockPlacekEvent(BlockPlaceEvent event) {
+	public void onBlockPlaceEvent(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		Block hand = event.getBlock();
 		String item = "";
@@ -188,7 +189,7 @@ public class DefaultCheck implements Listener {
 			flag = true;
 			if(item.equalsIgnoreCase("")){
 				item = "WATER";
-				}else{
+			}else{
 				item += ", WATER";
 			}
 		}
@@ -324,5 +325,22 @@ public class DefaultCheck implements Listener {
 			}
 		}
 	}
-
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onBlockFadeEvent(BlockFadeEvent event) {
+		if(event.getBlock().getType() != Material.ICE){
+			return;
+		}
+		event.setCancelled(true);
+	}
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onBlockIcePlace(BlockPlaceEvent event) {
+		Player player = event.getPlayer();
+		Block hand = event.getBlock();
+		if(hand.getType() != Material.ICE){
+			return;
+		}
+		if(PermissionsEx.getUser(player).inGroup("QPPE") || PermissionsEx.getUser(player).inGroup("Default")){
+			event.setCancelled(true);
+		}
+	}
 }
