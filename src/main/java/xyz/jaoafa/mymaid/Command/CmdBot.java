@@ -129,7 +129,7 @@ public class CmdBot implements CommandExecutor {
 					return true;
 				}
 				botchat.put(player.getName(), type);
-				Method.SendMessage(sender, cmd, "jaotanとの一対一の会話機能のBotTypeを「" + type.getName() + "」に変更しました。");
+				Method.SendMessage(sender, cmd, "プレイヤー「" + player.getName() + "」とらjaotanとの一対一の会話機能のBotTypeを「" + type.getName() + "」に変更しました。");
 				return true;
 			}
 		}
@@ -264,7 +264,7 @@ public class CmdBot implements CommandExecutor {
 		if(CotogotoNobyAPIKEY == null){
 			return "データを取得できませんでした。(CotogotoNoby 1)";
 		}
-		String url = "https://www.cotogoto.ai/webapi/noby.json?appkey=" + CotogotoNobyAPIKEY + " &text=" + text;
+		String url = "https://www.cotogoto.ai/webapi/noby.json?appkey=" + CotogotoNobyAPIKEY + "&text=" + text;
 		JSONObject obj = getHttpJson(url, null);
 		if(obj == null){
 			return "データを取得できませんでした。(CotogotoNoby 2)";
@@ -303,6 +303,7 @@ public class CmdBot implements CommandExecutor {
 				in.close();
 				connect.disconnect();
 
+				System.out.println("[MyMaid] URLGetConnected(Error): " + address);
 				BugReport.report(new IOException(builder.toString()));
 				return null;
 			}

@@ -52,6 +52,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 								p.sendMessage("[Botjaotan] " + ChatColor.GREEN + "jaotan => " + player.getName() + ": " + res);
 							}
 						}
+						plugin.getLogger().info("[Botjaotan] " + "jaotan => " + player.getName() + ": " + res);
 					}
 				}.runTaskLater(plugin, 20);
 			}
