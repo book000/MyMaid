@@ -216,7 +216,7 @@ public class CmdBot implements CommandExecutor {
 		contents.put("apikey", A3RTAPIKEY);
 		contents.put("query", text);
 
-		JSONObject obj = postHttpJson(url, headers, contents);
+		JSONObject obj = postHttpJsonByForm(url, headers, contents);
 		if(obj == null){
 			return "データを取得できませんでした。(A3RT 2)";
 		}
@@ -247,7 +247,7 @@ public class CmdBot implements CommandExecutor {
 		Map<String, String> contents = new HashMap<String, String>();
 		contents.put("utt", text);
 
-		JSONObject obj = postHttpJson(url, headers, contents);
+		JSONObject obj = postHttpJsonByJson(url, headers, contents);
 		if(obj == null){
 			return "データを取得できませんでした。(Docomo 2)";
 		}
@@ -304,6 +304,7 @@ public class CmdBot implements CommandExecutor {
 				connect.disconnect();
 
 				System.out.println("[MyMaid] URLGetConnected(Error): " + address);
+				System.out.println("[MyMaid] Response: " + connect.getResponseMessage());
 				BugReport.report(new IOException(builder.toString()));
 				return null;
 			}
@@ -329,7 +330,7 @@ public class CmdBot implements CommandExecutor {
 		}
 	}
 
-	private static JSONObject postHttpJson(String address, Map<String, String> headers, Map<String, String> contents){
+	private static JSONObject postHttpJsonByForm(String address, Map<String, String> headers, Map<String, String> contents){
 		StringBuilder builder = new StringBuilder();
 		try{
 			URL url = new URL(address);
@@ -365,6 +366,74 @@ public class CmdBot implements CommandExecutor {
 				in.close();
 				connect.disconnect();
 
+				System.out.println("[MyMaid] URLGetConnected(Error): " + address);
+				System.out.println("[MyMaid] Response: " + connect.getResponseMessage());
+				BugReport.report(new IOException(builder.toString()));
+				return null;
+			}
+
+			InputStream in = connect.getInputStream();
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				builder.append(line);
+			}
+			in.close();
+			connect.disconnect();
+			System.out.println("[MyMaid] URLPostConnected: " + address);
+			System.out.println("[MyMaid] Data: " + builder.toString());
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(builder.toString());
+			JSONObject json = (JSONObject) obj;
+			return json;
+		}catch(Exception e){
+			BugReport.report(e);
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static JSONObject postHttpJsonByJson(String address, Map<String, String> headers, Map<String, String> contents){
+		StringBuilder builder = new StringBuilder();
+		try{
+			URL url = new URL(address);
+
+			HttpURLConnection connect = (HttpURLConnection)url.openConnection();
+			connect.setRequestMethod("POST");
+			if(headers != null){
+				for(Map.Entry<String, String> header : headers.entrySet()){
+					connect.setRequestProperty(header.getKey(), header.getValue());
+				}
+			}
+
+			connect.setDoOutput(true);
+			OutputStreamWriter out = new OutputStreamWriter(connect.getOutputStream());
+			//List<String> list = new ArrayList<>();
+			JSONObject paramobj = new JSONObject();
+			for(Map.Entry<String, String> content : contents.entrySet()){
+				//list.add(content.getKey() + "=" + content.getValue());
+				paramobj.put(content.getKey(), content.getValue());
+			}
+			//String param = implode(list, "&");
+			out.write(paramobj.toJSONString());
+			out.close();
+
+			connect.connect();
+
+			if(connect.getResponseCode() != HttpURLConnection.HTTP_OK){
+				InputStream in = connect.getErrorStream();
+
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					builder.append(line);
+				}
+				in.close();
+				connect.disconnect();
+
+				System.out.println("[MyMaid] URLGetConnected(Error): " + address);
+				System.out.println("[MyMaid] Response: " + connect.getResponseMessage());
 				BugReport.report(new IOException(builder.toString()));
 				return null;
 			}
