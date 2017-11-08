@@ -107,11 +107,37 @@ public class CmdBot implements CommandExecutor {
 				Method.SendMessage(sender, cmd, "jaotanとの一対一の会話機能のBotTypeを「" + type.getName() + "」に変更しました。");
 				return true;
 			}
+		}else if(args.length == 3){
+			if(args[0].equalsIgnoreCase("type")){
+				Player player = Bukkit.getPlayer(args[2]);
+				if(player == null){
+					Method.SendMessage(sender, cmd, "指定されたプレイヤーは見つかりません。");
+					return true;
+				}
+				if(!botchat.containsKey(player.getName())){
+					Method.SendMessage(sender, cmd, "jaotanとの一対一の会話機能はオフになっています。");
+					return true;
+				}
+				if(!isNumber(args[1])){
+					Method.SendMessage(sender, cmd, "指定されたBotTypeは数値ではありません。");
+					return true;
+				}
+				int i = Integer.parseInt(args[1]);
+				BotType type = BotType.searchByID(i);
+				if(type == BotType.UNKNOWN){
+					Method.SendMessage(sender, cmd, "指定されたBotTypeは見つかりません。");
+					return true;
+				}
+				botchat.put(player.getName(), type);
+				Method.SendMessage(sender, cmd, "jaotanとの一対一の会話機能のBotTypeを「" + type.getName() + "」に変更しました。");
+				return true;
+			}
 		}
 		Method.SendMessage(sender, cmd, "----- Bot -----");
 		Method.SendMessage(sender, cmd, "jaotanとサーバ内で会話できるように設定したり、解除したりできます。");
 		Method.SendMessage(sender, cmd, "/bot: jaotanと会話するように設定します。");
 		Method.SendMessage(sender, cmd, "/bot type <BotTypeID>: jaotanの発言BotTypeを変更します。");
+		Method.SendMessage(sender, cmd, "/bot type <BotTypeID> <Player>: 指定したPlayerとのjaotanの発言BotTypeを変更します。");
 		Method.SendMessage(sender, cmd, "/bot disable: 自分との会話を解除します。");
 		Method.SendMessage(sender, cmd, "/bot <Player>: 指定したPlayerとjaotanが会話するように設定します。");
 		Method.SendMessage(sender, cmd, "/bot disable <Player>: 指定したPlayerとjaotanとの会話を解除します。");
