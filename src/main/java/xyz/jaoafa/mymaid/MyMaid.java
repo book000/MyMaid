@@ -620,6 +620,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getLogger().info("Loaded DocomoAPIKEY");
 			CmdBot.DocomoAPIKEY = conf.getString("DocomoAPIKEY");
 		}
+		if(conf.contains("CotogotoNobyAPIKEY")){
+			getLogger().info("Loaded CotogotoNobyAPIKEY");
+			CmdBot.CotogotoNobyAPIKEY = conf.getString("CotogotoNobyAPIKEY");
+		}
 	}
 	/**
 	 * jaoPoint読み込み

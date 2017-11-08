@@ -151,6 +151,7 @@ public class CmdBot implements CommandExecutor {
 		case UserLocal: return getUserLocalChat(player.getName(), text);
 		case A3RT: return getA3RTChat(text);
 		case DOCOMO: return getDocomoChat(text);
+		case CotogotoNoby: return getCotogotoNobyChat(text);
 		case UNKNOWN: return text;
 		}
 		return text;
@@ -229,6 +230,24 @@ public class CmdBot implements CommandExecutor {
 			return (String) obj.get("utt");
 		}else{
 			return "データを取得できませんでした。(Docomo 3)";
+		}
+	}
+
+	public static String CotogotoNobyAPIKEY = null;
+	private static String getCotogotoNobyChat(String text){
+		if(CotogotoNobyAPIKEY == null){
+			return "データを取得できませんでした。(CotogotoNoby 1)";
+		}
+		String url = "https://www.cotogoto.ai/webapi/noby.json?appkey=" + CotogotoNobyAPIKEY + " &text=" + text;
+		JSONObject obj = getHttpJson(url, null);
+		if(obj == null){
+			return "データを取得できませんでした。(CotogotoNoby 2)";
+		}
+
+		if(obj.containsKey("text")){
+			return (String) obj.get("text");
+		}else{
+			return "データを取得できませんでした。(CotogotoNoby 3)";
 		}
 	}
 
@@ -356,6 +375,7 @@ public class CmdBot implements CommandExecutor {
 		UserLocal(1, "UserLocal サポートチャットボット"), // BotID: 1
 		A3RT(2, "A3RT Talk API"), // BotID: 2
 		DOCOMO(3, "docomo 雑談対話API"), // BotID: 3
+		CotogotoNoby(4, "Cotogoto Noby API"), // BotID: 4
 
 		UNKNOWN(-1, "NotFound");
 
