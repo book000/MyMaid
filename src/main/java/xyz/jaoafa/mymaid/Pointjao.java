@@ -23,6 +23,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import xyz.jaoafa.mymaid.Discord.Discord;
+
 /**
  * ポイントシステム
  * @author mine_book000
@@ -129,6 +131,7 @@ public class Pointjao {
 			player.sendMessage("[POINT] " + ChatColor.GREEN + "システムの処理に失敗しました。開発者にお問い合わせください。");
 		}
 		player.sendMessage("[POINT] " + ChatColor.GREEN + usejao + "ポイントを使用しました。現在" + newjao + "ポイント持っています。");
+		DiscordNotice(player, usejao, NoticeType.Use, reason);
 		try {
 			String type = "Use";
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -159,6 +162,7 @@ public class Pointjao {
 			player.sendMessage("[POINT] " + ChatColor.GREEN + "システムの処理に失敗しました。開発者にお問い合わせください。");
 		}
 		player.sendMessage("[POINT] " + ChatColor.GREEN + addjao + "ポイントを追加しました。現在" + newjao + "ポイント持っています。");
+		DiscordNotice(player, addjao, NoticeType.Add, reason);
 		try {
 			String type = "Add";
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -181,6 +185,7 @@ public class Pointjao {
 		int now = getjao(offplayer);
 		int newjao = now + addjao;
 		jao.put(offplayer.getUniqueId().toString(), newjao);
+		DiscordNotice(offplayer, addjao, NoticeType.Add, reason);
 		try {
 			Savejao();
 		} catch (Exception e1) {
@@ -197,11 +202,13 @@ public class Pointjao {
 		}
 		return true;
 	}
+	@Deprecated
 	/**
 	 * UUIDにポイントを追加
 	 * @param uuid UUID
 	 * @param addjao 追加するポイント
 	 * @return 実行できたかどうか
+	 * @deprecated Discordへの通知が無いため。他のaddjaoを使用すべき
 	 * @author mine_book000
 	*/
 	public static boolean addjao(String uuid, int addjao, String reason){
@@ -214,6 +221,7 @@ public class Pointjao {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
+		//DiscordNotice(player, usejao, NoticeType.Add, reason);
 		try {
 			String type = "Add";
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -223,6 +231,37 @@ public class Pointjao {
 			BugReport.report(e);
 		}
 		return true;
+	}
+
+	/**
+	 * Discord#toma_labに通知を出す
+	 * @param offplayer OfflinePlayer
+	 * @param jao ポイント
+	 * @param type 加算か減算
+	 * @return 実行できたかどうか
+	 * @author mine_book000
+	*/
+	private static void DiscordNotice(OfflinePlayer offplayer, int jao, NoticeType type, String reason){
+		if(offplayer == null){
+			return;
+		}
+		Discord.send("293856671799967744", "**jaoPoint Logger**: " + offplayer.getName() + "に" + jao + "ポイントを" + type.getName() + "しました。\n" + "理由: " + reason);
+	}
+
+	public enum NoticeType {
+		Add("加算"),
+		Use("減算"),
+
+		UNKNOWN("NotFound");
+
+		private String name;
+		NoticeType(String name) {
+			this.name = name;
+		}
+
+		public String getName(){
+			return name;
+		}
 	}
 
 	/**
