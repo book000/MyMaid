@@ -45,7 +45,10 @@ public class CmdBot implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "jaotanとの一対一の会話機能をオンにしました。");
 			return true;
 		}else if(args.length == 1){
-			if(args[0].equalsIgnoreCase("disable")){
+			if(args[0].equalsIgnoreCase("help")){
+				sendHelp(sender, cmd, commandLabel);
+				return true;
+			}else if(args[0].equalsIgnoreCase("disable")){
 				// コマンド実行者との会話を終了
 				if(!(sender instanceof Player)){
 					Method.SendMessage(sender, cmd, "このコマンドはゲーム内での実行できます。");
@@ -133,6 +136,19 @@ public class CmdBot implements CommandExecutor {
 				return true;
 			}
 		}
+		sendHelp(sender, cmd, commandLabel);
+		return true;
+	}
+	public boolean isNumber(String num) {
+		try {
+			Integer.parseInt(num);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+
+	public static void sendHelp(CommandSender sender, Command cmd, String commandLabel){
 		Method.SendMessage(sender, cmd, "----- Bot -----");
 		Method.SendMessage(sender, cmd, "jaotanとサーバ内で会話できるように設定したり、解除したりできます。");
 		Method.SendMessage(sender, cmd, "/bot: jaotanと会話するように設定します。");
@@ -145,15 +161,6 @@ public class CmdBot implements CommandExecutor {
 		for(BotType type : BotType.values()){
 			if(type == BotType.UNKNOWN) continue;
 			Method.SendMessage(sender, cmd, type.getId() +  ": " + type.getName());
-		}
-		return false;
-	}
-	public boolean isNumber(String num) {
-		try {
-			Integer.parseInt(num);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
 		}
 	}
 

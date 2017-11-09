@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -93,6 +94,31 @@ public class VarCmd implements CommandExecutor {
 		ScoreboardManager sbm = Bukkit.getScoreboardManager();
 		Scoreboard sb = sbm.getMainScoreboard();
 		for(Objective obj : sb.getObjectives()){
+			World world = null;
+			if(sender instanceof Player){
+				Player player = (Player) sender;
+				world = player.getWorld();
+			}else if(sender instanceof BlockCommandSender){
+				BlockCommandSender cmdb = (BlockCommandSender) sender;
+				world = cmdb.getBlock().getWorld();
+			}
+			if(world == null){
+				continue;
+			}
+
+			for(String name : sb.getEntries()){
+				Entity entity = null;
+				for(Entity e : world.getEntities()){
+					if(e.getName().equalsIgnoreCase(name)){
+						entity = e;
+					}
+				}
+				if(entity == null){
+					continue;
+				}
+				text = text.replaceAll("\\$" +  "Score_" + obj.getName() + "_" + entity.getName() + "\\$", name);
+			}
+
 		}
 
 		// ----- 事前定義(予約済み変数) ----- //
