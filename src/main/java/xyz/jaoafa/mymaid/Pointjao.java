@@ -245,14 +245,16 @@ public class Pointjao {
 		if(offplayer == null){
 			return;
 		}
-		Discord.send("293856671799967744", "**jaoPoint Logger**: " + offplayer.getName() + "に" + jao + "ポイントを" + type.getName() + "しました。\n" + "理由: " + reason);
+		if(offplayer.getUniqueId() == null){
+			Discord.send("293856671799967744", ":scroll:**jaoPoint Logger**: " + offplayer.getName() + "に" + jao + "ポイントを" + type.getName() + "しました。\n" + "理由: " + reason + "\n" + "***警告: UUIDがnullを返しました。***");
+		}else{
+			Discord.send("293856671799967744", ":scroll:**jaoPoint Logger**: " + offplayer.getName() + "に" + jao + "ポイントを" + type.getName() + "しました。\n" + "理由: " + reason);
+		}
 	}
 
 	public enum NoticeType {
 		Add("加算"),
-		Use("減算"),
-
-		UNKNOWN("NotFound");
+		Use("減算");
 
 		private String name;
 		NoticeType(String name) {
