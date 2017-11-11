@@ -147,6 +147,7 @@ public class Pointjao {
 			player.sendMessage("[POINT] " + ChatColor.GREEN + "システムの処理に失敗しました。開発者にお問い合わせください。");
 		}
 		player.sendMessage("[POINT] " + ChatColor.GREEN + usejao + "ポイントを使用しました。現在" + newjao + "ポイント持っています。");
+		player.sendMessage("[POINT] " + ChatColor.GREEN + "理由: " + reason);
 		DiscordNotice(player, usejao, NoticeType.Use, reason);
 		try {
 			String type = "Use";
@@ -214,6 +215,7 @@ public class Pointjao {
 			player.sendMessage("[POINT] " + ChatColor.GREEN + "システムの処理に失敗しました。開発者にお問い合わせください。");
 		}
 		player.sendMessage("[POINT] " + ChatColor.GREEN + addjao + "ポイントを追加しました。現在" + newjao + "ポイント持っています。");
+		player.sendMessage("[POINT] " + ChatColor.GREEN + "理由: " + reason);
 		DiscordNotice(player, addjao, NoticeType.Add, reason);
 		try {
 			String type = "Add";

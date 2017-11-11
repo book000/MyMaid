@@ -109,9 +109,9 @@ public class Jao implements CommandExecutor {
 
 				boolean bool = Pointjao.addjao(offplayer, point, reason);
 				if(bool){
-					Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」に" + point + "を追加しました。");
+					Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」に" + point + "ポイントを追加しました。");
 				}else{
-					Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」に" + point + "を追加できませんでした。");
+					Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」に" + point + "ポイントを追加できませんでした。");
 				}
 				return true;
 			}else if(args[0].equalsIgnoreCase("use")){
@@ -170,9 +170,9 @@ public class Jao implements CommandExecutor {
 
 				boolean bool = Pointjao.usejao(offplayer, point, reason);
 				if(bool){
-					Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」から" + point + "を減算しました。");
+					Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」から" + point + "ポイントを減算しました。");
 				}else{
-					Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」から" + point + "を減算できませんでした。");
+					Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」から" + point + "ポイントを減算できませんでした。");
 				}
 				return true;
 			}
