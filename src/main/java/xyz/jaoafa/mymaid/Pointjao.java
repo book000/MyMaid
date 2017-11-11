@@ -110,6 +110,21 @@ public class Pointjao {
 		}
 	}
 	/**
+	 * プレイヤーが指定したポイントを所持しているかどうか確認
+	 * @param player 確認するプレイヤー
+	 * @param hasjao 所持確認するポイント数
+	 * @return 所持していたらtrue、していなかったらfalse
+	 * @author mine_book000
+	*/
+	public static boolean hasjao(OfflinePlayer offplayer, int hasjao){
+		int now = getjao(offplayer);
+		if(now >= hasjao){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	/**
 	 * プレイヤーからポイントを減算
 	 * @param player プレイヤー
 	 * @param usejao 減算するポイント
@@ -143,10 +158,42 @@ public class Pointjao {
 		}
 		return true;
 	}
+
 	/**
 	 * プレイヤーからポイントを減算
+	 * @param offplayer プレイヤー
+	 * @param usejao 減算するポイント
+	 * @return 実行できたかどうか
+	 * @author mine_book000
+	*/
+	public static boolean usejao(OfflinePlayer offplayer, int usejao, String reason){
+		int now = getjao(offplayer);
+		if(!hasjao(offplayer, usejao)){
+			return false;
+		}
+		int newjao = now - usejao;
+		jao.put(offplayer.getUniqueId().toString(), newjao);
+		try {
+			Savejao();
+		} catch (Exception e1) {
+			// TODO 自動生成された catch ブロック
+			BugReport.report(e1);
+		}
+		DiscordNotice(offplayer, usejao, NoticeType.Use, reason);
+		try {
+			String type = "Use";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			UpdateQuery("INSERT INTO jaopoint (player, uuid, type, point, reason, nowpoint, description, date) VALUES ('" + offplayer.getName() + "', '" + offplayer.getUniqueId().toString() +"', '" +  type + "', " + usejao + ", '" + reason + "', " + newjao + ", 'プラグイン', '" + sdf.format(new Date()) + "');");
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			BugReport.report(e);
+		}
+		return true;
+	}
+	/**
+	 * プレイヤーにポイントを追加
 	 * @param player プレイヤー
-	 * @param addjao 減算するポイント
+	 * @param addjao 追加するポイント
 	 * @return 実行できたかどうか
 	 * @author mine_book000
 	*/
@@ -175,9 +222,9 @@ public class Pointjao {
 		return true;
 	}
 	/**
-	 * オフラインプレイヤーからポイントを減算
+	 * オフラインプレイヤーにポイントを追加
 	 * @param offplayer プレイヤー
-	 * @param addjao 減算するポイント
+	 * @param addjao 追加するポイント
 	 * @return 実行できたかどうか
 	 * @author mine_book000
 	*/
