@@ -3,11 +3,12 @@ package xyz.jaoafa.mymaid.Command;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
@@ -94,31 +96,18 @@ public class VarCmd implements CommandExecutor {
 		ScoreboardManager sbm = Bukkit.getScoreboardManager();
 		Scoreboard sb = sbm.getMainScoreboard();
 		for(Objective obj : sb.getObjectives()){
-			World world = null;
-			if(sender instanceof Player){
-				Player player = (Player) sender;
-				world = player.getWorld();
-			}else if(sender instanceof BlockCommandSender){
-				BlockCommandSender cmdb = (BlockCommandSender) sender;
-				world = cmdb.getBlock().getWorld();
-			}
-			if(world == null){
-				continue;
-			}
+			String regex = "\\$Score_" + obj.getName() + "_(.+?)\\$";
+			Pattern p = Pattern.compile(regex);
 
-			for(String name : sb.getEntries()){
-				Entity entity = null;
-				for(Entity e : world.getEntities()){
-					if(e.getName().equalsIgnoreCase(name)){
-						entity = e;
-					}
-				}
-				if(entity == null){
+			Matcher m = p.matcher(text);
+
+			while(m.find()){
+				Score i = obj.getScore(m.group(1));
+				if(i == null){
 					continue;
 				}
-				text = text.replaceAll("\\$" +  "Score_" + obj.getName() + "_" + entity.getName() + "\\$", name);
+				text = text.replaceAll("\\$" +  "Score_" + obj.getName() + "_" + m.group(1) + "\\$", ""+i.getScore());
 			}
-
 		}
 
 		// ----- 事前定義(予約済み変数) ----- //
