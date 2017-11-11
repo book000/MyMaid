@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -167,6 +168,10 @@ public class Pointjao {
 	 * @author mine_book000
 	*/
 	public static boolean usejao(OfflinePlayer offplayer, int usejao, String reason){
+		Player player = Bukkit.getPlayer(offplayer.getUniqueId());
+		if(player != null){
+			return usejao(player, usejao, reason);
+		}
 		int now = getjao(offplayer);
 		if(!hasjao(offplayer, usejao)){
 			return false;
@@ -229,6 +234,10 @@ public class Pointjao {
 	 * @author mine_book000
 	*/
 	public static boolean addjao(OfflinePlayer offplayer, int addjao, String reason){
+		Player player = Bukkit.getPlayer(offplayer.getUniqueId());
+		if(player != null){
+			return addjao(player, addjao, reason);
+		}
 		int now = getjao(offplayer);
 		int newjao = now + addjao;
 		jao.put(offplayer.getUniqueId().toString(), newjao);
