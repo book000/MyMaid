@@ -1,16 +1,11 @@
 package xyz.jaoafa.mymaid.Command;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
-import xyz.jaoafa.mymaid.MyMaid;
-import xyz.jaoafa.mymaid.Pointjao;
-import xyz.jaoafa.mymaid.EventHandler.OnSummer2017;
 
 public class Summer implements CommandExecutor {
 	JavaPlugin plugin;
@@ -18,6 +13,13 @@ public class Summer implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		Method.SendMessage(sender, cmd, "2017年版サバイバルワールドは、2017/09/30を持って運用を終了し、2017/10/31を持ってデータを削除いたしました。");
+		Method.SendMessage(sender, cmd, "このコマンドにつきましても、後日完全に削除させていただきます。");
+		Method.SendMessage(sender, cmd, "ご利用、誠にありがとうございました。");
+		return true;
+		// 2017/12/31あたりにコマンド完全削除予定。
+
+		/*
 		if(args.length == 1){
 			// /summer online
 			if(args[0].equalsIgnoreCase("online")){
@@ -115,5 +117,6 @@ public class Summer implements CommandExecutor {
 		Method.SendMessage(sender, cmd, "jP: jaoSurvivalPointからjaoPointに交換します。");
 		Method.SendMessage(sender, cmd, "jSP: jaoPointからjaoSurvivalPointに交換します。");
 		return true;
+		*/
 	}
 }
