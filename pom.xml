@@ -67,10 +67,10 @@
 			<url>http://repo.mikeprimm.com/</url>
 		</repository>
 		<!-- Vault API -->
-		<repository>
+		<!--<repository>
 			<id>vault-repo</id>
 			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
-		</repository>
+		</repository>-->
 		<!-- CommonsLang3 -->
 		<repository>
 			<id>commons-lang3</id>
@@ -170,11 +170,11 @@
 			<optional>true</optional>
 		</dependency>
 		<!-- Vault API -->
-		<dependency>
+		<!--<dependency>
 			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>VaultAPI</artifactId>
 			<version>1.6</version>
-		</dependency>
+		</dependency>-->
 		<!-- CommonsLang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
