@@ -26,6 +26,7 @@ import xyz.jaoafa.mymaid.Command.BON;
 import xyz.jaoafa.mymaid.Command.CmdBot;
 import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.WO;
+import xyz.jaoafa.mymaid.Discord.Discord;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class OnAsyncPlayerChatEvent implements Listener {
@@ -53,6 +54,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 							}
 						}
 						plugin.getLogger().info("[Botjaotan] " + "jaotan => " + player.getName() + ": " + res);
+						Discord.send("**jaotan => " + player.getName() + "**: " + res);
 					}
 				}.runTaskLater(plugin, 20);
 			}
