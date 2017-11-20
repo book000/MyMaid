@@ -57,6 +57,22 @@ public class OnAsyncPlayerChatEvent implements Listener {
 						Discord.send("**jaotan => " + player.getName() + "**: " + res);
 					}
 				}.runTaskLater(plugin, 20);
+			}else if(Bukkit.getServer().getOnlinePlayers().size() == 1){
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						String res = CmdBot.getBotChatResult(player, e.getMessage());
+						SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+						player.sendMessage(ChatColor.GRAY + "[" + timeFormat.format(new Date()) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan" +  ": " + res);
+						for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+							if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
+								p.sendMessage("[Botjaotan] " + ChatColor.GREEN + "jaotan => " + player.getName() + ": " + res);
+							}
+						}
+						plugin.getLogger().info("[Botjaotan] " + "jaotan => " + player.getName() + ": " + res);
+						Discord.send("**jaotan => " + player.getName() + "**: " + res);
+					}
+				}.runTaskLater(plugin, 20);
 			}
 		}
 		if(e.getMessage().equalsIgnoreCase("afa") && oldtext.equalsIgnoreCase("jao")){

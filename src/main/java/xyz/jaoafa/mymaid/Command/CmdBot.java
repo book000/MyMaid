@@ -70,6 +70,8 @@ public class CmdBot implements CommandExecutor {
 				}
 				botchat.put(player.getName(), BotType.UserLocal);
 				Method.SendMessage(sender, cmd, "プレイヤー「" + player.getName() + "」のjaotanとの一対一の会話機能をオンにしました。");
+				Method.SendMessage(sender, cmd, "BotTypeを変更するには/bot type <BotTypeID>を使用します。");
+				Method.SendMessage(sender, cmd, "停止するには/bot disableを使用します。");
 				return true;
 			}
 		}else if(args.length == 2){
@@ -132,7 +134,7 @@ public class CmdBot implements CommandExecutor {
 					return true;
 				}
 				botchat.put(player.getName(), type);
-				Method.SendMessage(sender, cmd, "プレイヤー「" + player.getName() + "」とらjaotanとの一対一の会話機能のBotTypeを「" + type.getName() + "」に変更しました。");
+				Method.SendMessage(sender, cmd, "プレイヤー「" + player.getName() + "」とのjaotanとの一対一の会話機能のBotTypeを「" + type.getName() + "」に変更しました。");
 				return true;
 			}
 		}
@@ -188,6 +190,10 @@ public class CmdBot implements CommandExecutor {
 		case UNKNOWN: return text;
 		}
 		return text;
+	}
+
+	public static String getOnePlayerChatResult(String text){
+		return getCotogotoNobyChat(text);
 	}
 
 	public static String UserLocalAPIKEY = null;
