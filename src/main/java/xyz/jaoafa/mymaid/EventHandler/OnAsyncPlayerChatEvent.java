@@ -61,7 +61,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						String res = CmdBot.getBotChatResult(player, e.getMessage());
+						String res = CmdBot.getOnePlayerChatResult(e.getMessage());
 						SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 						player.sendMessage(ChatColor.GRAY + "[" + timeFormat.format(new Date()) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan" +  ": " + res);
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {

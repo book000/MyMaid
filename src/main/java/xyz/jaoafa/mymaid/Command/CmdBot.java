@@ -288,14 +288,12 @@ public class CmdBot implements CommandExecutor {
 		if(CotogotoNobyAPIKEY == null){
 			return "データを取得できませんでした。(CotogotoNoby 1)";
 		}
-		/*
 		try {
 			text = URLEncoder.encode(text, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			BugReport.report(e);
 			return "データを取得できませんでした。(CotogotoNoby 2)";
 		}
-		*/
 		String url = "https://www.cotogoto.ai/webapi/noby.json?appkey=" + CotogotoNobyAPIKEY + "&text=" + text;
 		JSONObject obj = getHttpJson(url, null);
 		if(obj == null){
