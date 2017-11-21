@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -201,17 +203,26 @@ public class CmdBot implements CommandExecutor {
 		if(UserLocalAPIKEY == null){
 			return "データを取得できませんでした。(UserLocal 1)";
 		}
+
+		try {
+			nickname = URLEncoder.encode(nickname, "UTF-8");
+			text = URLEncoder.encode(text, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			BugReport.report(e);
+			return "データを取得できませんでした。(UserLocal 2)";
+		}
+
 		String url = "https://chatbot-api.userlocal.jp/api/chat?key=" + UserLocalAPIKEY + "&bot_name=jaotan&user_id=" + nickname + "&user_name=" + nickname + "&message=" + text;
 		JSONObject obj = getHttpJson(url, null);
 		if(obj == null){
-			return "データを取得できませんでした。(UserLocal 2)";
+			return "データを取得できませんでした。(UserLocal 3)";
 		}
 
 		String status = (String) obj.get("status");
 		if(status.equalsIgnoreCase("success")){
 			return (String) obj.get("result");
 		}else{
-			return "データを取得できませんでした。(UserLocal 3)";
+			return "データを取得できませんでした。(UserLocal 4)";
 		}
 	}
 
@@ -277,16 +288,22 @@ public class CmdBot implements CommandExecutor {
 		if(CotogotoNobyAPIKEY == null){
 			return "データを取得できませんでした。(CotogotoNoby 1)";
 		}
+		try {
+			text = URLEncoder.encode(text, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			BugReport.report(e);
+			return "データを取得できませんでした。(CotogotoNoby 2)";
+		}
 		String url = "https://www.cotogoto.ai/webapi/noby.json?appkey=" + CotogotoNobyAPIKEY + "&text=" + text;
 		JSONObject obj = getHttpJson(url, null);
 		if(obj == null){
-			return "データを取得できませんでした。(CotogotoNoby 2)";
+			return "データを取得できませんでした。(CotogotoNoby 3)";
 		}
 
 		if(obj.containsKey("text")){
 			return (String) obj.get("text");
 		}else{
-			return "データを取得できませんでした。(CotogotoNoby 3)";
+			return "データを取得できませんでした。(CotogotoNoby 4)";
 		}
 	}
 
