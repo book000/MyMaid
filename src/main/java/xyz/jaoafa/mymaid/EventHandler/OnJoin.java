@@ -23,6 +23,7 @@ import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.CmdBot;
 import xyz.jaoafa.mymaid.Command.Cmd_Account;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class OnJoin implements Listener {
 	JavaPlugin plugin;
@@ -35,6 +36,12 @@ public class OnJoin implements Listener {
 
 		if(Bukkit.getServer().getOnlinePlayers().size() == 1){
 			CmdBot.type = CmdBot.BotType.getRandomBotType();
+			Discord.send("**[CmdBot]** ぼっち用jaotanおしゃべりAPIを「" + CmdBot.type.getName() + "」に設定しました。");
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					p.sendMessage("[CmdBot] " + ChatColor.GREEN + "ぼっち用jaotanおしゃべりAPIを「" + CmdBot.type.getName() + "」に設定しました。");
+				}
+			}
 		}
 
 		String tps1m = Method.getTPS1m();

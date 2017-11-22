@@ -39,6 +39,12 @@ public class OnQuitGame implements Listener {
   		}
   		if(Bukkit.getServer().getOnlinePlayers().size() == 1){
 			CmdBot.type = CmdBot.BotType.getRandomBotType();
+			Discord.send("**[CmdBot]** ぼっち用jaotanおしゃべりAPIを「" + CmdBot.type.getName() + "」に設定しました。");
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					p.sendMessage("[CmdBot] " + ChatColor.GREEN + "ぼっち用jaotanおしゃべりAPIを「" + CmdBot.type.getName() + "」に設定しました。");
+				}
+			}
 		}
   		for(Player p: Bukkit.getServer().getOnlinePlayers()){
   			if(MyBlock.myblock.containsKey(p.getName())){
