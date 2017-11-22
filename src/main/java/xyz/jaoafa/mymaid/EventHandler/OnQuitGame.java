@@ -37,7 +37,7 @@ public class OnQuitGame implements Listener {
   			MyMaid.nextbakrender = false;
   			OnExplosion.tntexplode = true;
   		}
-  		if(Bukkit.getServer().getOnlinePlayers().size() == 1){
+  		if((Bukkit.getServer().getOnlinePlayers().size() - 1) == 1){
 			CmdBot.type = CmdBot.BotType.getRandomBotType();
 			Discord.send("**[CmdBot]** ぼっち用jaotanおしゃべりAPIを「" + CmdBot.type.getName() + "」に設定しました。");
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
