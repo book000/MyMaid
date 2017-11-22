@@ -21,6 +21,7 @@ import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
+import xyz.jaoafa.mymaid.Command.CmdBot;
 import xyz.jaoafa.mymaid.Command.Cmd_Account;
 
 public class OnJoin implements Listener {
@@ -31,6 +32,10 @@ public class OnJoin implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer(); // Joinしたプレイヤー
+
+		if(Bukkit.getServer().getOnlinePlayers().size() == 1){
+			CmdBot.type = CmdBot.BotType.getRandomBotType();
+		}
 
 		String tps1m = Method.getTPS1m();
 		String tps5m = Method.getTPS5m();

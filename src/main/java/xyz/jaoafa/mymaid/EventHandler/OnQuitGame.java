@@ -21,6 +21,7 @@ import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
+import xyz.jaoafa.mymaid.Command.CmdBot;
 import xyz.jaoafa.mymaid.Command.MyBlock;
 import xyz.jaoafa.mymaid.Discord.Discord;
 
@@ -36,6 +37,9 @@ public class OnQuitGame implements Listener {
   			MyMaid.nextbakrender = false;
   			OnExplosion.tntexplode = true;
   		}
+  		if(Bukkit.getServer().getOnlinePlayers().size() == 1){
+			CmdBot.type = CmdBot.BotType.getRandomBotType();
+		}
   		for(Player p: Bukkit.getServer().getOnlinePlayers()){
   			if(MyBlock.myblock.containsKey(p.getName())){
   				player.showPlayer(p);

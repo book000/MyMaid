@@ -35,7 +35,6 @@ public class OnAsyncPlayerChatEvent implements Listener {
 		this.plugin = plugin;
 	}
 
-
 	String oldtext = "";
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
@@ -61,7 +60,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						String res = CmdBot.getOnePlayerChatResult(e.getMessage());
+						String res = CmdBot.getOnePlayerChatResult(player, e.getMessage());
 						SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 						player.sendMessage(ChatColor.GRAY + "[" + timeFormat.format(new Date()) + "]" + ChatColor.GOLD + "■" + ChatColor.WHITE + "jaotan" +  ": " + res);
 						for(Player p: Bukkit.getServer().getOnlinePlayers()) {

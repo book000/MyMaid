@@ -9,12 +9,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,8 +26,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class CmdBot implements CommandExecutor {
 	JavaPlugin plugin;
@@ -194,8 +198,22 @@ public class CmdBot implements CommandExecutor {
 		return text;
 	}
 
-	public static String getOnePlayerChatResult(String text){
-		return getCotogotoNobyChat(text);
+	public static BotType type = BotType.CotogotoNoby; // デフォルトはCotogoto
+	public static String getOnePlayerChatResult(Player player, String text){
+		Discord.send("**[CmdBot]** ぼっち用jaotanおしゃべりAPIを「" + type.getName() + "」に設定しました。");
+		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+			if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				p.sendMessage("[CmdBot] " + ChatColor.GREEN + "ぼっち用jaotanおしゃべりAPIを「" + type.getName() + "」に設定しました。");
+			}
+		}
+		switch(type){
+		case UserLocal: return getUserLocalChat(player.getName(), text);
+		case A3RT: return getA3RTChat(text);
+		case DOCOMO: return getDocomoChat(text);
+		case CotogotoNoby: return getCotogotoNobyChat(text);
+		case UNKNOWN: return text;
+		}
+		return text;
 	}
 
 	public static String UserLocalAPIKEY = null;
@@ -528,6 +546,12 @@ public class CmdBot implements CommandExecutor {
 			}
 
 			return UNKNOWN;
+		}
+
+		public static BotType getRandomBotType(){
+			SecureRandom random = new SecureRandom();
+			int x = random.nextInt(BotType.values().length);
+	        return BotType.values()[x];
 		}
 	}
 }
