@@ -48,7 +48,9 @@ public class InvLoad implements CommandExecutor {
 						item.setAmount((Integer)data.getValue().get("Amount"));
 						item.setData((MaterialData)data.getValue().get("Data"));
 						item.setDurability((short)data.getValue().get("Durability"));
-						item.addUnsafeEnchantments((Map<Enchantment, Integer>)data.getValue().get("Enchantments"));
+						if(data.getValue().containsKey("Enchantments")){
+							item.addUnsafeEnchantments((Map<Enchantment, Integer>)data.getValue().get("Enchantments"));
+						}
 						item.setItemMeta((ItemMeta)data.getValue().get("ItemMeta"));
 						player.getInventory().setItem(data.getKey(), item);
 					}
@@ -57,7 +59,9 @@ public class InvLoad implements CommandExecutor {
 						item.setAmount((Integer)data.getValue().get("Amount"));
 						item.setData((MaterialData)data.getValue().get("Data"));
 						item.setDurability((short)data.getValue().get("Durability"));
-						item.addUnsafeEnchantments((Map<Enchantment, Integer>)data.getValue().get("Enchantments"));
+						if(data.getValue().containsKey("Enchantments")){
+							item.addUnsafeEnchantments((Map<Enchantment, Integer>)data.getValue().get("Enchantments"));
+						}
 						item.setItemMeta((ItemMeta)data.getValue().get("ItemMeta"));
 						if(data.getKey() == 0){
 							player.getInventory().setHelmet(item);
