@@ -190,6 +190,15 @@
 			<systemPath>${basedir}/lib/PeriodMatch-0.0.1.jar</systemPath>
 			<scope>system</scope>
 		</dependency>
+		<!-- MinecraftJPVoteMissFiller -->
+		<dependency>
+			<groupId>com.jaoafa</groupId>
+			<artifactId>MinecraftJPVoteMissFiller</artifactId>
+			<version>0.0.1</version>
+			<classifier>shaded</classifier>
+			<systemPath>${basedir}/lib/MinecraftJPVoteMissFiller.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
 	</dependencies>
 	<url>http://jaoafa.com/</url>
 </project>

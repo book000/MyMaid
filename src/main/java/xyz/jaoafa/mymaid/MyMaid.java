@@ -171,6 +171,7 @@ import xyz.jaoafa.mymaid.EventHandler.OnServerCommandEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnSignClick;
 import xyz.jaoafa.mymaid.EventHandler.OnSummer2017;
 import xyz.jaoafa.mymaid.EventHandler.OnVehicleCreateEvent;
+import xyz.jaoafa.mymaid.EventHandler.OnVoteMissFillerEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnVotifierEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnWeatherChangeEvent;
 import xyz.jaoafa.mymaid.EventHandler.SpawnEggRegulation;
@@ -504,6 +505,14 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new AFK(this), this);
 
 		getServer().getPluginManager().registerEvents(new Event(this), this);
+
+		if(getServer().getPluginManager().isPluginEnabled("MinecraftJPVoteMissFiller")){
+			getLogger().info("MinecraftJPVoteMissFillerが導入されているため自動補填イベントを受信します。");
+			getServer().getPluginManager().registerEvents(new OnVoteMissFillerEvent(this), this);
+		}else{
+			getLogger().info("MinecraftJPVoteMissFillerが導入されていないため自動補填イベントが受信できません。");
+			getLogger().info("自動補填を行うにはMinecraftJPVoteMissFillerを導入してください。");
+		}
 	}
 	/**
 	 * コンフィグ読み込み

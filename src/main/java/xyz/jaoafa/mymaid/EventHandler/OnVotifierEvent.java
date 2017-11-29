@@ -34,6 +34,12 @@ public class OnVotifierEvent implements Listener {
 	}
 	@EventHandler
 	public void onVotifierEvent(VotifierEvent event) {
+		Vote vote = event.getVote();
+		String name = vote.getUsername();
+		VoteReceive(name);
+	}
+
+	public static void VoteReceive(String name){
 		final int VOTEPOINT = 20;
 
 		String oldVote = "取得できませんでした";
@@ -42,8 +48,6 @@ public class OnVotifierEvent implements Listener {
 		String oldjao = "取得できませんでした";
 		String newjao = "取得できませんでした";
 
-		Vote vote = event.getVote();
-		String name = vote.getUsername();
 		String i;
 
 		Statement statement;
@@ -111,7 +115,7 @@ public class OnVotifierEvent implements Listener {
 		} catch (ParseException e) {
 			BugReport.report(e);
 		}
-		*/
+		 */
 
 		/* ------------- 投票イベント関連終了 ------------- */
 
@@ -174,7 +178,7 @@ public class OnVotifierEvent implements Listener {
 				+ "投票前jaoポイント: " + oldjao + "\n"
 				+ "投票後jaoポイント: " + newjao);
 
-			/*
+		/*
         	try {
 				SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Date start = format.parse("2017/07/01 00:00:00");
@@ -187,10 +191,10 @@ public class OnVotifierEvent implements Listener {
 			} catch (ParseException e) {
 				BugReport.report(e);
 			}
-			 */
+		 */
 
-			//SimpleDateFormat date = new SimpleDateFormat("yyyy-MM");
-			/*
+		//SimpleDateFormat date = new SimpleDateFormat("yyyy-MM");
+		/*
     		if(date.format(Date).equalsIgnoreCase("2017-02")){
     			Random rnd = new Random();
     			int random = rnd.nextInt(50)+1;
@@ -199,6 +203,6 @@ public class OnVotifierEvent implements Listener {
     			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + player.getName() + "さんが投票し、2月ポイント補填ボーナスを" + random + "ポイント追加しました。");
     			Discord.send(player.getName() + "さんが投票し、2月ポイント補填ボーナスを" + random + "ポイント追加しました。");
     		}
-			 */
+		 */
 	}
 }

@@ -4,7 +4,7 @@ version: 0.0.1
 description: General Plugin
 database: true
 author: mine_book000
-softdepend: [EEWAlert, PermissionsEx, WorldEdit, LunaChat, CoreProtect, Votifier, MCBans, DiscordMC, Vault,PeriodMatch]
+softdepend: [EEWAlert, PermissionsEx, WorldEdit, LunaChat, CoreProtect, Votifier, MCBans, DiscordMC, Vault, PeriodMatch, MinecraftJPVoteMissFiller]
 website: https://jaoafa.com/
 commands:
    jf:
