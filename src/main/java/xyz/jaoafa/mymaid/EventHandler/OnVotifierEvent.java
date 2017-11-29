@@ -139,7 +139,7 @@ public class OnVotifierEvent implements Listener {
 		}else if(Bukkit.getOfflinePlayer(uuid) != null){
 			OfflinePlayer offplayer = Bukkit.getOfflinePlayer(uuid);
 			if(offplayer == null){
-				Discord.send("254166905852657675", ":outbox_tray:**投票受信エラー**: " + name + "のBukkit.getPlayerがnullを返却したため、投票処理が正常に行われませんでした。");
+				Discord.send("254166905852657675", ":outbox_tray:**投票受信エラー**: " + name + "のBukkit.getOfflinePlayerがnullを返却したため、投票処理が正常に行われませんでした。");
 				return;
 			}
 			name = offplayer.getName();
