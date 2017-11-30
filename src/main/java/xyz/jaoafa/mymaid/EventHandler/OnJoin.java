@@ -178,8 +178,11 @@ public class OnJoin implements Listener {
 		try{
 			new netaccess(plugin, player).runTaskAsynchronously(plugin);
 		}catch(java.lang.NoClassDefFoundError e){
-			new netaccess(plugin, player).run();
-			BugReport.report(e);
+			try{
+				new Thread(new netaccess(plugin, player)).start();
+			}catch(java.lang.NoClassDefFoundError ex){
+				BugReport.report(ex);
+			}
 		}
 	}
 	private class netaccess extends BukkitRunnable{
