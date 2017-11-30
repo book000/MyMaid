@@ -13,8 +13,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import com.mcbans.firestar.mcbans.MCBans;
+import com.mcbans.firestar.mcbans.api.MCBansAPI;
+import com.mcbans.firestar.mcbans.api.data.PlayerLookupData;
+import com.mcbans.firestar.mcbans.callBacks.LookupCallback;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
@@ -41,6 +47,38 @@ public class OnJoin implements Listener {
 				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
 					p.sendMessage("[CmdBot] " + ChatColor.GREEN + "ぼっち用jaotanおしゃべりAPIを「" + CmdBot.type.getName() + "」に設定しました。");
 				}
+			}
+		}
+
+		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+			Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("MCBans");
+			if(plugin != null){
+				MCBansAPI mcbansAPI = ((MCBans) plugin).getAPI(plugin);
+				mcbansAPI.lookupPlayer(player.getName(), player.getUniqueId().toString(), "", "", new LookupCallback(){
+					@Override
+					public void success(PlayerLookupData data){
+						if(data.getReputation() != 10){
+							//QPPEでRep10じゃなければLに落とす
+							Player player = Bukkit.getPlayerExact(data.getPlayerName());
+							for(String group : PermissionsEx.getPermissionManager().getGroupNames()){
+								if(PermissionsEx.getUser(player).inGroup(group)){
+									PermissionsEx.getUser(player).removeGroup(group);
+								}
+							}
+							PermissionsEx.getUser(player).addGroup("Limited");
+							for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+								if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+									p.sendMessage("[MyMaid] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」はQPPEなのにRep10でなかったのでLimitedになりました。");
+								}
+							}
+							Discord.send("223582668132974594", ":house_abandoned:プレイヤー「" + player.getName() + "」はQPPEなのにRep10でなかったのでLimitedになりました。");
+						}
+					}
+					@Override
+					public void error(String message){
+						System.out.print("Could not lookup player " + player + "! " + message);
+					}
+				});
 			}
 		}
 
@@ -146,9 +184,9 @@ public class OnJoin implements Listener {
 	}
 	private class netaccess extends BukkitRunnable{
 		Player player;
-    	public netaccess(JavaPlugin plugin, Player player) {
-    		this.player = player;
-    	}
+		public netaccess(JavaPlugin plugin, Player player) {
+			this.player = player;
+		}
 		@Override
 		public void run() {
 			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
