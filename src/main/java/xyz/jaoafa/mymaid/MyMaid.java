@@ -22,7 +22,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
@@ -340,6 +342,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 	 */
 	private void LoggerAddSlackSendHandle(){
 		SlackSend("_*------------------- Server Start -------------------*_");
+		Logger logger = Bukkit.getLogger();
+		logger.setLevel(Level.ALL);
 		Handler handler = new Handler() {
 
 			@Override
@@ -363,7 +367,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 				SlackSend("`[" + timeFormat.format(Date) + " " + Level + "]: " + message + "`");
 			}
 		};
-		Bukkit.getLogger().addHandler(handler);
+		logger.addHandler(handler);
 	}
 
 	String SlackToken = null;
