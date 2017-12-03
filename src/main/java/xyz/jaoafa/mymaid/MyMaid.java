@@ -1,11 +1,15 @@
 package xyz.jaoafa.mymaid;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
@@ -277,6 +283,9 @@ public class MyMaid extends JavaPlugin implements Listener {
 		//レシピ(クラフト)追加
 		Add_Recipe();
 
+		//ログをSlackに送り付ける奴
+		LoggerAddSlackSendHandle();
+
 		//Compromised Accountのキャッシュ処理
 		Compromised_Account_Cacher();
 		//BukkitRunnableの動作確認
@@ -307,7 +316,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getServer().getPluginManager().registerEvents(new WorldAllowCommand(), this);
 		}
 		dynmapbridge = DynmapBridge.load(getJavaPlugin()); // nullが帰ってくるかも?
-        /*
+		/*
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
         	getLogger().info("RegisteredServiceProvider<Economy> is null.");
@@ -322,8 +331,99 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
         }
-        */
+		 */
 	}
+
+	/**
+	 * サーバログSlack送信
+	 * @author mine_book000
+	 */
+	private void LoggerAddSlackSendHandle(){
+		SlackSend("_*------------------- Server Start -------------------*_");
+		Handler handler = new Handler() {
+
+			@Override
+			public void close() throws SecurityException {
+				// TODO 自動生成されたメソッド・スタブ
+			}
+
+			@Override
+			public void flush() {
+				// TODO 自動生成されたメソッド・スタブ
+			}
+
+			@Override
+			public void publish(LogRecord record) {
+				// TODO 自動生成されたメソッド・スタブ
+				String message = record.getMessage();
+				String Level = record.getLevel().getName();
+				Date Date = new Date();
+				SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
+				SlackSend("`[" + timeFormat.format(Date) + " " + Level + "]: " + message + "`");
+			}
+		};
+		Bukkit.getLogger().addHandler(handler);
+	}
+
+	String SlackToken = null;
+	public void SlackSend(String text){
+		if(SlackToken == null){
+			return;
+		}
+		try {
+			text = URLEncoder.encode(text, "UTF-8");
+			String url = "https://slack.com/api/chat.postMessage?token=" + SlackToken + "&channel=%23serverlog&text=" + text + "&as_user=true";
+			getHttp(url);
+		} catch (UnsupportedEncodingException e) {
+			// TODO 自動生成された catch ブロック
+			BugReport.report(e);
+		}
+	}
+
+	private static void getHttp(String address){
+		StringBuilder builder = new StringBuilder();
+		try{
+			URL url = new URL(address);
+
+			HttpURLConnection connect = (HttpURLConnection)url.openConnection();
+			connect.setRequestMethod("GET");
+
+			connect.connect();
+
+			if(connect.getResponseCode() != HttpURLConnection.HTTP_OK){
+				InputStream in = connect.getErrorStream();
+
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					builder.append(line);
+				}
+				in.close();
+				connect.disconnect();
+
+				System.out.println("[MyMaid] URLGetConnected(Error): " + address);
+				System.out.println("[MyMaid] Response: " + connect.getResponseMessage());
+				BugReport.report(new IOException(builder.toString()));
+				return;
+			}
+
+			InputStream in = connect.getInputStream();
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				builder.append(line);
+			}
+			in.close();
+			connect.disconnect();
+			return;
+		}catch(Exception e){
+			BugReport.report(e);
+			return;
+		}
+	}
+
 	/**
 	 * 連携プラグイン確認
 	 * @author mine_book000
@@ -632,6 +732,10 @@ public class MyMaid extends JavaPlugin implements Listener {
 		if(conf.contains("CotogotoNobyAPIKEY")){
 			getLogger().info("Loaded CotogotoNobyAPIKEY");
 			CmdBot.CotogotoNobyAPIKEY = conf.getString("CotogotoNobyAPIKEY");
+		}
+		if(conf.contains("SlackToken")){
+			getLogger().info("Loaded SlackToken");
+			SlackToken = conf.getString("SlackToken");
 		}
 	}
 	/**
@@ -1262,7 +1366,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 
 	}
-	*/
+	 */
 	public static class dot_section extends BukkitRunnable{
 		Player player;
 		LunaChatAPI lunachatapi;
@@ -1341,7 +1445,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 
 	}
-	*/
+	 */
 	public static JavaPlugin getJavaPlugin(){
 		return instance;
 	}
