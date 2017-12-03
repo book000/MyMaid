@@ -1,32 +1,24 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.ucchyocean.lc.channel.Channel;
 import com.github.ucchyocean.lc.channel.ChannelPlayer;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MyMaid.dot;
 import xyz.jaoafa.mymaid.Command.BON;
-import xyz.jaoafa.mymaid.Command.CmdBot;
 import xyz.jaoafa.mymaid.Command.DOT;
 import xyz.jaoafa.mymaid.Command.WO;
-import xyz.jaoafa.mymaid.Discord.Discord;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class OnAsyncPlayerChatEvent implements Listener {
@@ -38,8 +30,9 @@ public class OnAsyncPlayerChatEvent implements Listener {
 	String oldtext = "";
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e){
-		if(!e.getMessage().equalsIgnoreCase(".")){
+		/*if(!e.getMessage().equalsIgnoreCase(".")){
 			Player player = e.getPlayer();
+
 			if(CmdBot.isPlayerBotChat(player)){
 				new BukkitRunnable() {
 					@Override
@@ -73,7 +66,7 @@ public class OnAsyncPlayerChatEvent implements Listener {
 					}
 				}.runTaskLater(plugin, 20);
 			}
-		}
+		}*/
 		if(e.getMessage().equalsIgnoreCase("afa") && oldtext.equalsIgnoreCase("jao")){
 			Method.SendTipsALL("このjao afaって言うのはこのサーバにログインした時にする挨拶だよ！やってみよう！");
 		}
