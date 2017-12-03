@@ -10,10 +10,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -438,8 +446,38 @@ public class CmdBot implements CommandExecutor {
 		try{
 			URL url = new URL(address);
 
-			HttpURLConnection connect = (HttpURLConnection)url.openConnection();
+			TrustManager[] tm = { new X509TrustManager() {
+				@Override
+				public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType)
+						throws CertificateException {
+					// TODO 自動生成されたメソッド・スタブ
+
+				}
+				@Override
+				public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType)
+						throws CertificateException {
+					// TODO 自動生成されたメソッド・スタブ
+
+				}
+				@Override
+				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+					// TODO 自動生成されたメソッド・スタブ
+					return null;
+				}
+			}};
+			SSLContext sslcontext = SSLContext.getInstance("SSL");
+			sslcontext.init(null, tm, null);
+			HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+				@Override
+				public boolean verify(String hostname, SSLSession session) {
+					return true;
+				}
+			});
+
+			HttpsURLConnection connect = (HttpsURLConnection)url.openConnection();
 			connect.setRequestMethod("POST");
+			connect.setSSLSocketFactory(sslcontext
+			        .getSocketFactory());
 			if(headers != null){
 				for(Map.Entry<String, String> header : headers.entrySet()){
 					connect.setRequestProperty(header.getKey(), header.getValue());
@@ -549,7 +587,7 @@ public class CmdBot implements CommandExecutor {
 			}
 			SecureRandom random = new SecureRandom();
 			int x = random.nextInt(types.size());
-	        return types.get(x);
+			return types.get(x);
 		}
 	}
 }
