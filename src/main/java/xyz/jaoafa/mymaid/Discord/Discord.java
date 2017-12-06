@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.json.simple.JSONObject;
@@ -31,8 +32,6 @@ import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.impl.events.GuildCreateEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IRole;
-import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.Status;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
@@ -50,7 +49,7 @@ public class Discord {
 
 	public Discord(JavaPlugin plugin, String token) {
 		this.plugin = plugin;
-		this.token = token;
+		Discord.token = token;
 	}
 
 	public void start(){
@@ -121,7 +120,7 @@ public class Discord {
 		headers.put("User-Agent", "DiscordBot (https://jaoafa.com, v0.0.1)");
 
 		Map<String, String> contents = new HashMap<String, String>();
-		headers.put("content", message);
+		contents.put("content", message);
 		return postHttpJsonByJson("https://discordapp.com/api/channels/250613942106193921/messages", headers, contents);
 	}
 
@@ -178,6 +177,7 @@ public class Discord {
 			}
 			//String param = implode(list, "&");
 			out.write(paramobj.toJSONString());
+			//Bukkit.getLogger().info(paramobj.toJSONString());
 			out.close();
 
 			connect.connect();
@@ -193,7 +193,7 @@ public class Discord {
 				in.close();
 				connect.disconnect();
 
-				//BugReport.report(new IOException(builder.toString()));
+				Bukkit.getLogger().warning("DiscordWARN: " + builder.toString());
 				return false;
 			}
 
@@ -211,6 +211,7 @@ public class Discord {
 			//JSONObject json = (JSONObject) obj;
 			return true;
 		}catch(Exception e){
+			e.printStackTrace();
 			//BugReport.report(e);
 			return false;
 		}
@@ -438,6 +439,7 @@ public class Discord {
 	}
 
 	public static boolean isChannel(String channelid_or_name){
+		return false;/*
 		IChannel channel = null;
 		for (IChannel one : guild.getChannels()) {
 			if(!one.getID().equalsIgnoreCase(channelid_or_name)){
@@ -457,6 +459,7 @@ public class Discord {
 			return false;
 		}
 		return true;
+		*/
 	}
 	public static Queue<String> SendData = new ArrayDeque<String>();
 	public static BukkitTask task = null;
@@ -506,16 +509,16 @@ public class Discord {
 	}
 
 	public static String format(String message){
-		if(guild == null){
+		/*if(guild == null){
 			MyMaid.getJavaPlugin().getLogger().info("Discordサーバへの接続に失敗しました。(Guildが見つかりません。)");
 			return message;
-		}
+		}*/
 		for(Map.Entry<String, String> one : LinkedAccount.entrySet()){
 			String player = one.getKey();
 			String disid = one.getValue();
 			message = message.replaceAll("@" + Pattern.quote(player), "<@" + disid + ">");
 		}
-
+/*
 		for (IRole role : guild.getRoles()) {
 			message = message.replaceAll("@" + Pattern.quote(role.getName()), "<@&" + role.getID() + ">");
 		}
@@ -529,6 +532,7 @@ public class Discord {
 		for (IChannel channel : guild.getChannels()) {
 			message = message.replaceAll("#" + Pattern.quote(channel.getName()), "<#" + channel.getID() + ">");
 		}
+		*/
 		return message;
 	}
 
