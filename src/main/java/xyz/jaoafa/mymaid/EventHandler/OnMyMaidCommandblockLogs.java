@@ -72,6 +72,11 @@ public class OnMyMaidCommandblockLogs implements Listener {
 					return;
 				}
 
+				if(cmdb.getWorld().getName().startsWith("kassi-hp-tk")){
+					// 2017年12月イベント対策
+					return;
+				}
+
 				log(plugin, cmdb.getCommand(), min_player, min, cmdb.getWorld().getName(), cmdb.getX(), cmdb.getY(), cmdb.getZ());
     		}
         }
