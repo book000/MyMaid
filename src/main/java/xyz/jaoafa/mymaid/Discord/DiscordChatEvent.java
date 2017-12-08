@@ -3,14 +3,13 @@ package xyz.jaoafa.mymaid.Discord;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.md_5.bungee.api.ChatColor;
 import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IEmoji;
 import sx.blah.discord.handle.obj.IMessage.Attachment;
-import xyz.jaoafa.mymaid.MyMaid;
 
 public class DiscordChatEvent {
 	JavaPlugin plugin;
@@ -19,7 +18,7 @@ public class DiscordChatEvent {
 	}
 	@EventSubscriber
     public void ChatEvent(MessageReceivedEvent event) {
-		if(!event.getMessage().getChannel().getID().equalsIgnoreCase(Discord.channel.getID())){
+		if(event.getMessage().getChannel().getLongID() != new Long(Discord.channel.getLongID())){
 			return;
 		}
 		//String content = event.getMessage().getContent();
@@ -47,20 +46,18 @@ public class DiscordChatEvent {
         */
 		for(IEmoji emoji : emojis){
 			String EmojiName = emoji.getName();
-			String EmojiID = emoji.getID();
+			long EmojiID = emoji.getLongID();
 
 			content = content.replaceAll("<:" + EmojiName + ":" + EmojiID + ">", ":" + EmojiName + ":");
 		}
 
-		String author = event.getMessage().getAuthor().getNicknameForGuild(Discord.guild).orElseGet(() -> event.getMessage().getAuthor().getName());
+		String author = event.getMessage().getAuthor().getNicknameForGuild(Discord.guild);
+		if(author == null) author = event.getMessage().getAuthor().getName();
 		Bukkit.broadcastMessage(ChatColor.AQUA + "(Discord) " + ChatColor.RESET + author + ": " + content);
 
 		List<Attachment> embeds = event.getMessage().getAttachments();
 		for(Attachment embed : embeds){
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw @a [\"\",{\"text\":\"(Discord) \",\"color\":\"aqua\"},{\"text\":\"" + author + "(File): \",\"color\":\"none\"},{\"text\":\"" + embed.getFilename() + "\",\"underlined\":true,\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + embed.getUrl() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"" + embed.getUrl() +" を開きます。\"}]}},\"color\":\"none\"}]");
 		}
-
-		org.bukkit.entity.Player fake = Bukkit.getPlayer(author);
-		MyMaid.dynmapbridge.chat(fake, content);
 	}
 }

@@ -29,10 +29,9 @@ import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
-import sx.blah.discord.handle.impl.events.GuildCreateEvent;
+import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.Status;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
@@ -88,6 +87,10 @@ public class Discord {
 			plugin.getLogger().info("Disable MyMaid...");
 			plugin.getServer().getPluginManager().disablePlugin(plugin);
 			return;
+		}
+
+		if (Discord4J.LOGGER instanceof Discord4J.Discord4JLogger) {
+			((Discord4J.Discord4JLogger) Discord4J.LOGGER).setLevel(Discord4J.Discord4JLogger.Level.NONE);
 		}
 
 		plugin.getServer().getPluginManager().registerEvents(new BukkitChatEvent(plugin), plugin);
@@ -217,7 +220,7 @@ public class Discord {
 		}
 	}
 
-/*
+	/*
 	public static boolean send(String message){
 		if(channel == null){
 			return false;
@@ -242,7 +245,7 @@ public class Discord {
 		}
 		return true;
 	}
-*/
+	 */
 	public static boolean Filesend(IChannel channel, String path){
 		File file = new File(path);
 		if(!file.exists()){
@@ -280,18 +283,18 @@ public class Discord {
 	public static boolean Filesend(String channelid_or_name, String path){
 		IChannel channel = null;
 		for (IChannel one : guild.getChannels()) {
-			if(!one.getID().equalsIgnoreCase(channelid_or_name)){
+			if(one.getLongID() != new Long(channelid_or_name)){
 				continue;
 			}
 			channel = one;
-        }
+		}
 		if(channel == null){
 			for (IChannel one : guild.getChannels()) {
 				if(!one.getName().equalsIgnoreCase(channelid_or_name)){
 					continue;
 				}
 				channel = one;
-	        }
+			}
 		}
 		if(channel == null){
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(指定されたチャンネルが見つかりません。)");
@@ -412,23 +415,23 @@ public class Discord {
 		send(channel, message);
 		return true;
 	}
-	*/
+	 */
 
 	public static boolean send(String channelid_or_name, String message, EmbedObject embed){
 		IChannel channel = null;
 		for (IChannel one : guild.getChannels()) {
-			if(!one.getID().equalsIgnoreCase(channelid_or_name)){
+			if(one.getLongID() != new Long(channelid_or_name)){
 				continue;
 			}
 			channel = one;
-        }
+		}
 		if(channel == null){
 			for (IChannel one : guild.getChannels()) {
 				if(!one.getName().equalsIgnoreCase(channelid_or_name)){
 					continue;
 				}
 				channel = one;
-	        }
+			}
 		}
 		if(channel == null){
 			MyMaid.getJavaPlugin().getLogger().info("Discordへのメッセージ送信に失敗しました。(指定されたチャンネルが見つかりません。)");
@@ -459,7 +462,7 @@ public class Discord {
 			return false;
 		}
 		return true;
-		*/
+		 */
 	}
 	public static Queue<String> SendData = new ArrayDeque<String>();
 	public static BukkitTask task = null;
@@ -471,7 +474,7 @@ public class Discord {
 		}
 		task = new MyMaid.QueueDiscordSendData(MyMaid.getJavaPlugin()).runTaskTimer(MyMaid.getJavaPlugin(), 0, 10);
 	}
-	*/
+	 */
 
 	// LinkedAccount: MinecraftID | DiscordID
 	public static Map<String, String> LinkedAccount = new HashMap<String, String>();
@@ -518,7 +521,7 @@ public class Discord {
 			String disid = one.getValue();
 			message = message.replaceAll("@" + Pattern.quote(player), "<@" + disid + ">");
 		}
-/*
+		/*
 		for (IRole role : guild.getRoles()) {
 			message = message.replaceAll("@" + Pattern.quote(role.getName()), "<@&" + role.getID() + ">");
 		}
@@ -532,17 +535,17 @@ public class Discord {
 		for (IChannel channel : guild.getChannels()) {
 			message = message.replaceAll("#" + Pattern.quote(channel.getName()), "<#" + channel.getID() + ">");
 		}
-		*/
+		 */
 		return message;
 	}
 
 	@EventSubscriber
-    public void onGuildCreate(GuildCreateEvent event) {
+	public void onGuildCreate(GuildCreateEvent event) {
 		if (event.getGuild() == null) {
-            return;
-        }
+			return;
+		}
 
-		if(event.getGuild().getID().equalsIgnoreCase("189377932429492224")){
+		if(event.getGuild().getLongID() == new Long("189377932429492224")){
 			plugin.getLogger().info("DiscordGuildを選択しました。" + event.getGuild().getName());
 			setGuild(event.getGuild());
 		}
@@ -552,14 +555,14 @@ public class Discord {
 		}
 
 		for (IChannel channel : event.getGuild().getChannels()) {
-			if(!channel.getID().equalsIgnoreCase("250613942106193921")){
+			if(channel.getLongID() != new Long("250613942106193921")){
 				continue;
 			}
-			if(!channel.getGuild().getID().equalsIgnoreCase(Discord.guild.getID())){
+			if(channel.getGuild().getLongID() != new Long(Discord.guild.getLongID())){
 				continue;
 			}
 			Discord.channel = channel;
-        }
+		}
 		if(channel == null){
 			plugin.getLogger().info("Discordサーバへの接続に失敗しました。(Channelが見つかりません。)");
 		}
@@ -572,6 +575,6 @@ public class Discord {
 		Discord.guild = guild;
 	}
 	public static void setGame(String game){
-		Discord.client.changeStatus(Status.game(game));
+		Discord.client.changePlayingText(game);
 	}
 }

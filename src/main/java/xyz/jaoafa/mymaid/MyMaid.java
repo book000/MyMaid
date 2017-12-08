@@ -307,6 +307,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 			getServer().getPluginManager().registerEvents(new WorldAllowCommand(), this);
 		}
 		dynmapbridge = DynmapBridge.load(getJavaPlugin()); // nullが帰ってくるかも?
+
 		/*
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
