@@ -32,6 +32,8 @@ import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IRole;
+import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
@@ -115,7 +117,7 @@ public class Discord {
 			plugin.getLogger().info("Discordへの接続解除に失敗しました。");
 		}
 	}
-
+	/*
 	public static boolean send(String message){
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("Content-Type", "application/json");
@@ -126,6 +128,7 @@ public class Discord {
 		contents.put("content", message);
 		return postHttpJsonByJson("https://discordapp.com/api/channels/250613942106193921/messages", headers, contents);
 	}
+	 */
 
 	@SuppressWarnings("unchecked")
 	private static boolean postHttpJsonByJson(String address, Map<String, String> headers, Map<String, String> contents){
@@ -220,7 +223,6 @@ public class Discord {
 		}
 	}
 
-	/*
 	public static boolean send(String message){
 		if(channel == null){
 			return false;
@@ -245,7 +247,7 @@ public class Discord {
 		}
 		return true;
 	}
-	 */
+
 	public static boolean Filesend(IChannel channel, String path){
 		File file = new File(path);
 		if(!file.exists()){
@@ -442,27 +444,26 @@ public class Discord {
 	}
 
 	public static boolean isChannel(String channelid_or_name){
-		return false;/*
 		IChannel channel = null;
-		for (IChannel one : guild.getChannels()) {
-			if(!one.getID().equalsIgnoreCase(channelid_or_name)){
-				continue;
+		try {
+			for (IChannel one : guild.getChannels()) {
+				if(one.getLongID() != new Long(channelid_or_name)){
+					continue;
+				}
+				channel = one;
 			}
-			channel = one;
-        }
-		if(channel == null){
+		}catch(NumberFormatException e){
 			for (IChannel one : guild.getChannels()) {
 				if(!one.getName().equalsIgnoreCase(channelid_or_name)){
 					continue;
 				}
 				channel = one;
-	        }
+			}
 		}
 		if(channel == null){
 			return false;
 		}
 		return true;
-		 */
 	}
 	public static Queue<String> SendData = new ArrayDeque<String>();
 	public static BukkitTask task = null;
@@ -521,21 +522,19 @@ public class Discord {
 			String disid = one.getValue();
 			message = message.replaceAll("@" + Pattern.quote(player), "<@" + disid + ">");
 		}
-		/*
 		for (IRole role : guild.getRoles()) {
-			message = message.replaceAll("@" + Pattern.quote(role.getName()), "<@&" + role.getID() + ">");
+			message = message.replaceAll("@" + Pattern.quote(role.getName()), "<@&" + role.getLongID() + ">");
 		}
 
 		for (IUser user : guild.getUsers()){
-			if(!(user.getNicknameForGuild(guild).orElseGet(()->"").equalsIgnoreCase(""))){
-				message = message.replaceAll("@" + Pattern.quote(user.getNicknameForGuild(guild).get()), "<@" + user.getID() + ">");
+			if(user.getNicknameForGuild(guild) != null){
+				message = message.replaceAll("@" + Pattern.quote(user.getNicknameForGuild(guild)), "<@" + user.getLongID() + ">");
 			}
-			message = message.replaceAll("@" + Pattern.quote(user.getName()), "<@" + user.getID() + ">");
+			message = message.replaceAll("@" + Pattern.quote(user.getName()), "<@" + user.getLongID() + ">");
 		}
 		for (IChannel channel : guild.getChannels()) {
-			message = message.replaceAll("#" + Pattern.quote(channel.getName()), "<#" + channel.getID() + ">");
+			message = message.replaceAll("#" + Pattern.quote(channel.getName()), "<#" + channel.getLongID() + ">");
 		}
-		 */
 		return message;
 	}
 

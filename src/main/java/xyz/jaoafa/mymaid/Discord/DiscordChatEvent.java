@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IEmoji;
 import sx.blah.discord.handle.obj.IMessage.Attachment;
 
 public class DiscordChatEvent {
@@ -21,16 +20,15 @@ public class DiscordChatEvent {
 		if(event.getMessage().getChannel().getLongID() != new Long(Discord.channel.getLongID())){
 			return;
 		}
-		//String content = event.getMessage().getContent();
-		//List<IUser> mentions = event.getMessage().getMentions();
-		//List<IRole> roleMentions = event.getMessage().getRoleMentions();
-		List<IEmoji> emojis = event.getMessage().getGuild().getEmojis();
+		/*String content = event.getMessage().getContent();
+		List<IUser> mentions = event.getMessage().getMentions();
+		List<IRole> roleMentions = event.getMessage().getRoleMentions();
+		List<IEmoji> emojis = event.getMessage().getGuild().getEmojis();*/
 		String content = event.getMessage().getFormattedContent();
-
-		 /*
+/*
 		for (IUser u : mentions) {
             String name = u.getNicknameForGuild(Discord.guild).get();
-            String id = u.getID();
+            String id = u.getLongID();
 
             // User name
             content = content.replaceAll("<@" + id + ">", "@" + name);
@@ -39,18 +37,17 @@ public class DiscordChatEvent {
         }
 		for (IRole r : roleMentions) {
             String roleName = r.getName();
-            String roleId = r.getID();
+            long roleId = r.getLongID();
 
             content = content.replaceAll("<@&" + roleId + ">", "@" + roleName);
         }
-        */
 		for(IEmoji emoji : emojis){
 			String EmojiName = emoji.getName();
 			long EmojiID = emoji.getLongID();
 
 			content = content.replaceAll("<:" + EmojiName + ":" + EmojiID + ">", ":" + EmojiName + ":");
 		}
-
+*/
 		String author = event.getMessage().getAuthor().getNicknameForGuild(Discord.guild);
 		if(author == null) author = event.getMessage().getAuthor().getName();
 		Bukkit.broadcastMessage(ChatColor.AQUA + "(Discord) " + ChatColor.RESET + author + ": " + content);

@@ -17,9 +17,6 @@ public class OnTypingEvent {
 	}
 	@EventSubscriber
     public void onTypingEvent(TypingEvent event) {
-		if(event.getChannel() == null){
-			Bukkit.getLogger().warning("ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		}
 		if(event.getChannel().getLongID() != new Long(Discord.channel.getLongID())){
 			return;
 		}
