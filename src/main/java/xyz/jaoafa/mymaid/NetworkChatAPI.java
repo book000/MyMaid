@@ -41,6 +41,7 @@ public class NetworkChatAPI {
 
 			if(!token.equals(NETWORKCHATAPIACCESSTOKEN)){
 				response.append("ERROR! : ACCESS TOKEN is invalid!");
+				return;
 			}
 
 			String author = parms.get("author");
