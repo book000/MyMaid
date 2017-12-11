@@ -24,8 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.json.simple.JSONObject;
 
-import sx.blah.discord.Discord4J;
-import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
@@ -52,6 +50,11 @@ public class Discord {
 	}
 
 	public void start(){
+		plugin.getServer().getPluginManager().registerEvents(new BukkitChatEvent(plugin), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new BukkitListener(plugin), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new OnDynmapWebChat(plugin), plugin);
+		/*
+
 		try {
 			ClientBuilder builder = new ClientBuilder()
 				.withToken(token)
@@ -91,7 +94,7 @@ public class Discord {
 		}catch(java.lang.NullPointerException e){
 			// Nothing
 		}
-
+*/
 	}
 
 	public void end(){

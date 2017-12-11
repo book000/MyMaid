@@ -1,6 +1,7 @@
 package xyz.jaoafa.mymaid;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -634,6 +635,13 @@ public class MyMaid extends JavaPlugin implements Listener {
 		if(conf.contains("CotogotoNobyAPIKEY")){
 			getLogger().info("Loaded CotogotoNobyAPIKEY");
 			CmdBot.CotogotoNobyAPIKEY = conf.getString("CotogotoNobyAPIKEY");
+		}
+		if(conf.contains("NETWORKCHATAPIACCESSTOKEN")){
+			try {
+				new NetworkChatAPI(this, conf.getString("NETWORKCHATAPIACCESSTOKEN"));
+			} catch (IOException e) {
+				BugReport.report(e);
+			}
 		}
 	}
 	/**
