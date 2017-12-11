@@ -378,7 +378,7 @@ public class Discord {
 		headers.put("User-Agent", "DiscordBot (https://jaoafa.com, v0.0.1)");
 
 		Map<String, String> contents = new HashMap<String, String>();
-		headers.put("content", message);
+		contents.put("content", message);
 		return postHttpJsonByJson("https://discordapp.com/api/channels/" + channelid + "/messages", headers, contents);
 	}
 
@@ -557,10 +557,10 @@ public class Discord {
 			plugin.getLogger().info("Discordサーバへの接続に失敗しました。(Channelが見つかりません。)");
 		}
 		plugin.getLogger().info("Discordサーバへの接続に完了しました。ID: " + event.getClient().getOurUser().getName());
-	}
+	}/*
 	private void setClient(IDiscordClient client){
 		Discord.client = client;
-	}
+	}*/
 	private void setGuild(IGuild guild){
 		Discord.guild = guild;
 	}
