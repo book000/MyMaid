@@ -32,8 +32,6 @@ import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IRole;
-import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
@@ -105,7 +103,7 @@ public class Discord {
 			plugin.getLogger().info("Discordへの接続解除に失敗しました。");
 		}
 	}
-	/*
+
 	public static boolean send(String message){
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("Content-Type", "application/json");
@@ -116,7 +114,7 @@ public class Discord {
 		contents.put("content", message);
 		return postHttpJsonByJson("https://discordapp.com/api/channels/250613942106193921/messages", headers, contents);
 	}
-	 */
+
 
 	@SuppressWarnings("unchecked")
 	private static boolean postHttpJsonByJson(String address, Map<String, String> headers, Map<String, String> contents){
@@ -210,7 +208,7 @@ public class Discord {
 			return false;
 		}
 	}
-
+/*
 	public static boolean send(String message){
 		if(channel == null){
 			return false;
@@ -234,7 +232,7 @@ public class Discord {
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	public static boolean Filesend(IChannel channel, String path){
 		File file = new File(path);
@@ -510,6 +508,7 @@ public class Discord {
 			String disid = one.getValue();
 			message = message.replaceAll("@" + Pattern.quote(player), "<@" + disid + ">");
 		}
+		/*
 		for (IRole role : guild.getRoles()) {
 			message = message.replaceAll("@" + Pattern.quote(role.getName()), "<@&" + role.getLongID() + ">");
 		}
@@ -523,6 +522,7 @@ public class Discord {
 		for (IChannel channel : guild.getChannels()) {
 			message = message.replaceAll("#" + Pattern.quote(channel.getName()), "<#" + channel.getLongID() + ">");
 		}
+		*/
 		return message;
 	}
 
@@ -562,6 +562,9 @@ public class Discord {
 		Discord.guild = guild;
 	}
 	public static void setGame(String game){
-		Discord.client.changePlayingText(game);
+		return;
+		/*
+		if(Discord.client == null) return;
+		Discord.client.changePlayingText(game);*/
 	}
 }
