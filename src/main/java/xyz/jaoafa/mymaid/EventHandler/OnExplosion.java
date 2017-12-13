@@ -79,6 +79,9 @@ public class OnExplosion implements Listener {
 				event.setCancelled(true);
 				return;
 			}
+			if(location.getWorld().getName().startsWith("kassi-hp-tk")){
+				return;
+			}
 			if(tntexplode){ // 通知オンなら通知確認処理後通知
 				if(min < 20 && (PermissionsEx.getUser(min_player).inGroup("Admin") || PermissionsEx.getUser(min_player).inGroup("Moderator"))){
 					// 20ブロック以内でAdminとModeratorがいたら無視
