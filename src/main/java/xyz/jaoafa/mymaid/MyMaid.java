@@ -1016,6 +1016,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 	}
 
+	String OldTps1mColor = "";
+
 	/**
 	 * TPS更新(1分毎)
 	 * @author mine_book000
@@ -1034,6 +1036,13 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}catch(NumberFormatException e){
 				tps1mcolor = "green";
 			}
+
+			if(tps1mcolor.equalsIgnoreCase("red") && !OldTps1mColor.equalsIgnoreCase("red")){
+				// やばいぞ
+				Bukkit.broadcastMessage("[TPSChecker] " + ChatColor.RED + "ちょっと待って！TPSがかなり下がっています！(" + tps1m + "/20)");
+				Bukkit.broadcastMessage("[TPSChecker] " + ChatColor.RED + "意図的なサーバへの負荷をかける行為は「サーバルール」の「サーバシステムに危害を加えない。」に違反すると判断される場合があります。あなたの行動が負荷になっていないかぜひ確認してみてください。");
+			}
+			OldTps1mColor = tps1mcolor;
 
 			String tps5mcolor;
 			try{
@@ -1060,24 +1069,6 @@ public class MyMaid extends JavaPlugin implements Listener {
 			}
 
 
-			// TPSと関係ないけど
-			SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-			Date Date = new Date();
-			if(date.format(Date).equalsIgnoreCase("2017-10-31")){
-				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-					if(player.getInventory().getHelmet() == null){
-						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + ChatColor.GREEN + "今日はハロウィン！当サーバでは頭にジャックオランタンをかぶせています！");
-						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + ChatColor.GREEN + "今日一日は外してもすぐに再度かぶせられちゃうので我慢してね！");
-						player.getInventory().setHelmet(new ItemStack(Material.JACK_O_LANTERN));
-						continue;
-					}
-					if(player.getInventory().getHelmet().getType() != Material.JACK_O_LANTERN){
-						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + ChatColor.GREEN + "今日はハロウィン！当サーバでは頭にジャックオランタンをかぶせています！");
-						player.sendMessage(ChatColor.DARK_BLUE + "[Halloween] " + ChatColor.GREEN + "今日一日は外してもすぐに再度かぶせられちゃうので我慢してね！");
-						player.getInventory().setHelmet(new ItemStack(Material.JACK_O_LANTERN));
-					}
-				}
-			}
 		}
 	}
 	/**
