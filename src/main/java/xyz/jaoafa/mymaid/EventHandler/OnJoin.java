@@ -13,21 +13,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import com.mcbans.firestar.mcbans.MCBans;
-import com.mcbans.firestar.mcbans.api.MCBansAPI;
-import com.mcbans.firestar.mcbans.api.data.PlayerLookupData;
-import com.mcbans.firestar.mcbans.callBacks.LookupCallback;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.Command.AFK;
-import xyz.jaoafa.mymaid.Command.CmdBot;
 import xyz.jaoafa.mymaid.Command.Cmd_Account;
 import xyz.jaoafa.mymaid.Discord.Discord;
 
@@ -39,7 +32,7 @@ public class OnJoin implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer(); // Joinしたプレイヤー
-
+/*
 		if(Bukkit.getServer().getOnlinePlayers().size() == 1){
 			CmdBot.type = CmdBot.BotType.getRandomBotType();
 			Discord.send("**[CmdBot]** ぼっち用jaotanおしゃべりAPIを「" + CmdBot.type.getName() + "」に設定しました。");
@@ -49,8 +42,34 @@ public class OnJoin implements Listener {
 				}
 			}
 		}
-
+*/
 		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+			String reputation = Method.url_jaoplugin("mcbansRep", "u=" + player.getUniqueId().toString());
+			if(reputation.equalsIgnoreCase("ERROR")){
+				// 取得失敗
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+						p.sendMessage("[QPPEChecker] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」の評価値を取得することができませんでした。");
+					}
+				}
+			}else{
+				if(reputation.equalsIgnoreCase("10")){
+					//QPPEでRep10じゃなければLに落とす
+					for(String group : PermissionsEx.getPermissionManager().getGroupNames()){
+						if(PermissionsEx.getUser(player).inGroup(group)){
+							PermissionsEx.getUser(player).removeGroup(group);
+						}
+					}
+					PermissionsEx.getUser(player).addGroup("Limited");
+					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+						if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+							p.sendMessage("[MyMaid] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」はQPPEなのにRep10でなかったのでLimitedになりました。(現在の評価値: " + reputation + ")");
+						}
+					}
+					Discord.send("223582668132974594", ":house_abandoned:プレイヤー「" + player.getName() + "」はQPPEなのにRep10でなかったのでLimitedになりました。(現在の評価値: " + reputation + ")");
+				}
+			}
+			/*
 			Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("MCBans");
 			if(plugin != null){
 				MCBansAPI mcbansAPI = ((MCBans) plugin).getAPI(plugin);
@@ -80,6 +99,7 @@ public class OnJoin implements Listener {
 					}
 				});
 			}
+			*/
 		}
 
 		String tps1m = Method.getTPS1m();
