@@ -233,8 +233,32 @@ public class Cmd_City implements CommandExecutor {
 				Method.SendMessage(sender, cmd, "登録に成功しました。");
 				Corner.remove(player.getName());
 				return true;
+			}else if(args[0].equalsIgnoreCase("setdesc")){
+				String cityName = args[1];
+				String desc = "";
+				int c = 2;
+				while(args.length > c){
+					desc += args[c]+" ";
+					c++;
+
+				}
+				AreaMarker select = null;
+				MarkerSet markerset = markerapi.getMarkerSet("towns");
+				for(AreaMarker areamarker : markerset.getAreaMarkers()){
+					if(areamarker.getLabel().equals(cityName)){
+						select = areamarker;
+					}
+				}
+				if(select == null){
+					Method.SendMessage(sender, cmd, "指定された市名のエリアは見つかりませんでした。");
+					return true;
+				}
+				desc = htmlspecialchars(desc);
+				select.setDescription("<b>" + select.getLabel() + "</b><br />" +  desc);
+				Method.SendMessage(sender, cmd, "指定された市名のエリアへ説明文を追加しました。");
+				return true;
 			}
-		}else if(args.length >= 2){
+		}else if(args.length >= 3){
 			if(args[0].equalsIgnoreCase("setdesc")){
 				String cityName = args[1];
 				String desc = "";
