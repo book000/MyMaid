@@ -27,6 +27,7 @@ public class Cmd_City implements CommandExecutor {
 	}
 	/*
 	 /city addcorner - コーナーを追加
+	 /city clearcorner - コーナーを削除
 	 /city add <Name> <Color> - 市の範囲を色と共に設定(Dynmapに表示)
 	 /city del <Name> - 市の範囲を削除
 	 /city setdesc <説明> - 市の説明を設定
@@ -257,6 +258,14 @@ public class Cmd_City implements CommandExecutor {
 				return true;
 			}
 		}
+		Method.SendMessage(sender, cmd, "----- City -----");
+		Method.SendMessage(sender, cmd, "/city addcorner - コーナーを追加");
+		Method.SendMessage(sender, cmd, "/city clearcorner - コーナーを削除");
+		Method.SendMessage(sender, cmd, "/city show - いまいる地点の情報を表示。(未完成)");
+		Method.SendMessage(sender, cmd, "/city add <Name> <Color> - 市の範囲を色と共に設定(Dynmapに表示)");
+		Method.SendMessage(sender, cmd, "/city del <Name> - 市の範囲を削除");
+		Method.SendMessage(sender, cmd, "/city setdesc <説明> - 市の説明を設定");
+		Method.SendMessage(sender, cmd, "/city show <市名> - 市の情報を表示。");
 		return false;
 	}
 	/**
