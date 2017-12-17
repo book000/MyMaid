@@ -2,6 +2,8 @@ package xyz.jaoafa.mymaid.Command;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -212,8 +214,8 @@ public class Cmd_City implements CommandExecutor {
 				}
 
 				MarkerSet set = markerapi.getMarkerSet("towns");
-				Set<Double> Xs = new LinkedHashSet<Double>();
-				Set<Double> Zs = new LinkedHashSet<Double>();
+				List<Double> Xs = new LinkedList<Double>();
+				List<Double> Zs = new LinkedList<Double>();
 				for(Location loc : corner){
 					Xs.add(new Double(loc.getBlockX()) + 0.5);
 					Zs.add(new Double(loc.getBlockZ()) + 0.5);
@@ -232,7 +234,7 @@ public class Cmd_City implements CommandExecutor {
 				Corner.remove(player.getName());
 				return true;
 			}
-		}else if(args.length >= 3){
+		}else if(args.length >= 2){
 			if(args[0].equalsIgnoreCase("setdesc")){
 				String cityName = args[1];
 				String desc = "";
@@ -253,7 +255,8 @@ public class Cmd_City implements CommandExecutor {
 					Method.SendMessage(sender, cmd, "指定された市名のエリアは見つかりませんでした。");
 					return true;
 				}
-				select.setDescription(desc);
+				desc = htmlspecialchars(desc);
+				select.setDescription("<b>" + select.getLabel() + "</b><br />" +  desc);
 				Method.SendMessage(sender, cmd, "指定された市名のエリアへ説明文を追加しました。");
 				return true;
 			}
@@ -264,9 +267,21 @@ public class Cmd_City implements CommandExecutor {
 		Method.SendMessage(sender, cmd, "/city show - いまいる地点の情報を表示。(未完成)");
 		Method.SendMessage(sender, cmd, "/city add <Name> <Color> - 市の範囲を色と共に設定(Dynmapに表示)");
 		Method.SendMessage(sender, cmd, "/city del <Name> - 市の範囲を削除");
-		Method.SendMessage(sender, cmd, "/city setdesc <説明> - 市の説明を設定");
-		Method.SendMessage(sender, cmd, "/city show <市名> - 市の情報を表示。");
-		return false;
+		Method.SendMessage(sender, cmd, "/city setdesc <Name> <Description> - 市の説明を設定");
+		Method.SendMessage(sender, cmd, "/city show <Name> - 市の情報を表示。");
+		return true;
+	}
+
+	String htmlspecialchars(String str){
+
+		String[] escape = {"&", "<", ">", "\"", "\'", "\n", "\t"};
+		String[] replace = {"&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "<br>", "&#x0009;"};
+
+		for (int i = 0; i < escape.length; i++ ){
+			str = str.replace(escape[i], replace[i]);
+		}
+
+		return str;
 	}
 	/**
 	 * Dynmapエリアの各コーナーの最大値もしくは最小値を取得する
