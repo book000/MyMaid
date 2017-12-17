@@ -1018,7 +1018,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 	}
 
-	String OldTps1mColor = "";
+	double OldTps1mColor = 20;
 
 	/**
 	 * TPS更新(1分毎)
@@ -1035,16 +1035,19 @@ public class MyMaid extends JavaPlugin implements Listener {
 			try{
 				double tps1m_double = Double.parseDouble(tps1m);
 				tps1mcolor = Method.TPSColor(tps1m_double);
+
+				if(tps1m_double <= 11 && OldTps1mColor > 11){
+					// やばいぞ
+					Bukkit.broadcastMessage("[TPSChecker] " + ChatColor.RED + "ちょっと待って！TPSがかなり下がっています！(" + tps1m + " / 20)");
+					Bukkit.broadcastMessage("[TPSChecker] " + ChatColor.RED + "意図的なサーバへの負荷をかける行為は「サーバルール」の「サーバシステムに危害を加えない。」に違反すると判断される場合があります。あなたの行動が負荷になっていないかぜひ確認してみてください。");
+					Discord.send("[TPSChecker] ちょっと待って！TPSがかなり下がっています！(" + tps1m + " / 20)");
+				}
+				OldTps1mColor = tps1m_double;
 			}catch(NumberFormatException e){
 				tps1mcolor = "green";
 			}
 
-			if(tps1mcolor.equalsIgnoreCase("red") && !OldTps1mColor.equalsIgnoreCase("red")){
-				// やばいぞ
-				Bukkit.broadcastMessage("[TPSChecker] " + ChatColor.RED + "ちょっと待って！TPSがかなり下がっています！(" + tps1m + "/20)");
-				Bukkit.broadcastMessage("[TPSChecker] " + ChatColor.RED + "意図的なサーバへの負荷をかける行為は「サーバルール」の「サーバシステムに危害を加えない。」に違反すると判断される場合があります。あなたの行動が負荷になっていないかぜひ確認してみてください。");
-			}
-			OldTps1mColor = tps1mcolor;
+
 
 			String tps5mcolor;
 			try{
