@@ -496,5 +496,9 @@ commands:
       description: jaotanとサーバ内で会話できるように設定したり、解除したりできます。
       permission: mymaid.bot
       permission-message: You do not have permission to perform this command.
+   city:
+      description: 市の範囲を登録したり削除したりできます。
+      permission: mymaid.city
+      permission-message: You do not have permission to perform this command.
 
 
