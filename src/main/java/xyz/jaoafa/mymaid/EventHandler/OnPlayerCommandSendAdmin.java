@@ -23,22 +23,26 @@ public class OnPlayerCommandSendAdmin implements Listener {
 		this.plugin = plugin;
 	}
 	@EventHandler
-    public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e){
+	public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e){
 		Player player = e.getPlayer();
-    	if (!(player instanceof Player)) {
+		if (!(player instanceof Player)) {
 			return;
 		}
-  		String command = e.getMessage();
+		String command = e.getMessage();
 		String groupname = "";
-  		Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
+		Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
 		for(String group : groups){
 			if(PermissionsEx.getUser(player).inGroup(group)){
 				groupname = group;
 			}
 		}
+		if(groupname.equalsIgnoreCase("Default") || groupname.equalsIgnoreCase("Regular") || groupname.equalsIgnoreCase("Moderator") || groupname.equalsIgnoreCase("Admin")){
+			// Default以上は実行試行したコマンドを返す
+			player.sendMessage(ChatColor.DARK_GRAY + "Cmd: " + command); // 仮
+		}
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 			if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) && (!player.getName().equals(p.getName()))){
-			//if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator"))){
+				//if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator"))){
 				p.sendMessage(ChatColor.GRAY + "(" + groupname +") " + player.getName() + ": " + ChatColor.YELLOW + command);
 			}
 		}
@@ -56,7 +60,7 @@ public class OnPlayerCommandSendAdmin implements Listener {
 			if(!Bukkit.getServer().getOnlinePlayers().contains(commands[1])){
 				return;
 			}
-			*/
+			 */
 			if(tells.contains(commands[0])){
 				if(commands.length <= 2){
 					return;
@@ -74,7 +78,7 @@ public class OnPlayerCommandSendAdmin implements Listener {
 					String jp = MyMaid.lunachatapi.japanize(text, JapanizeType.GOOGLE_IME);
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 						if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) && (!player.getName().equals(p.getName()))){
-						//if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator"))){
+							//if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator"))){
 							p.sendMessage(ChatColor.GRAY + "(" + ChatColor.YELLOW + jp + ChatColor.GRAY + ")");
 						}
 					}
@@ -97,7 +101,7 @@ public class OnPlayerCommandSendAdmin implements Listener {
 					String jp = MyMaid.lunachatapi.japanize(text, JapanizeType.GOOGLE_IME);
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 						if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) && (!player.getName().equals(p.getName()))){
-						//if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator"))){
+							//if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator"))){
 							p.sendMessage(ChatColor.GRAY + "(" + ChatColor.YELLOW + jp + ChatColor.GRAY + ")");
 						}
 					}
