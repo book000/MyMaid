@@ -53,7 +53,7 @@ public class OnJoin implements Listener {
 					}
 				}
 			}else{
-				if(reputation.equalsIgnoreCase("10")){
+				if(!reputation.equalsIgnoreCase("10")){
 					//QPPEでRep10じゃなければLに落とす
 					for(String group : PermissionsEx.getPermissionManager().getGroupNames()){
 						if(PermissionsEx.getUser(player).inGroup(group)){
