@@ -86,6 +86,35 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 					Method.SendMessage(sender, cmd, "次のページを見るには「/dt list " + (page + 1) + "」を実行します。");
 				}
 				return true;
+			}else if(args[0].equalsIgnoreCase("near")){
+				if(!(sender instanceof Player)){
+					Method.SendMessage(sender, cmd, "このコマンドはサーバ内から実行可能です。");
+					return true;
+				}
+				Player player = (Player) sender;
+				Location loc = player.getLocation();
+				Marker SelectMarker = null;
+				double distance = Double.MAX_VALUE;
+				for(MarkerSet markerset : markerapi.getMarkerSets()){
+					for(Marker marker : markerset.getMarkers()){
+						if(!marker.getWorld().equalsIgnoreCase(player.getWorld().getName())){
+							continue;
+						}
+						World world = Bukkit.getWorld(marker.getWorld());
+						double nowdistance = loc.distance(new Location(world, marker.getX(), marker.getY(), marker.getZ()));
+						if(distance > nowdistance){
+							SelectMarker = marker;
+							distance = nowdistance;
+						}
+					}
+				}
+				if(SelectMarker == null){
+					Method.SendMessage(sender, cmd, "マーカーが見つかりませんでした。");
+					return true;
+				}
+				Method.SendMessage(sender, cmd, "あなたから一番近い場所にあるマーカーは「" + SelectMarker.getLabel() + "」というマーカーです。");
+				Method.SendMessage(sender, cmd, "約" + (int) distance + "ブロック程度のところにあり、「/dt " + SelectMarker.getLabel() + "」というコマンドでテレポートできます！");
+				return true;
 			}else{
 				// addとかdelとか以外 => マーカー名？
 				// /dt <MarkerName>
@@ -345,6 +374,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 		}
 		Method.SendMessage(sender, cmd, "---- Dynmap Teleporter ----");
 		Method.SendMessage(sender, cmd, "/dt [Player] <MarkerName...>: MarkerNameにテレポートします。Playerを指定した場合はそのPlayerをテレポートさせます。");
+		Method.SendMessage(sender, cmd, "/dt near: あなたの近くのマーカーを表示します。");
 		Method.SendMessage(sender, cmd, "/dt add <MarkerName> <MarkerType>: Markerを追加します。");
 		Method.SendMessage(sender, cmd, "/dt del <MarkerName> <MarkerType>: Markerを削除します。");
 		return true;
