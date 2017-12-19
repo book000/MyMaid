@@ -80,6 +80,36 @@ public class Cmd_City implements CommandExecutor {
 					Corner.remove(player.getName());
 					Method.SendMessage(sender, cmd, "削除に成功しました。");
 					return true;
+				}else{
+					Method.SendMessage(sender, cmd, "削除に失敗しました。");
+					return true;
+				}
+			}else if(args[0].equalsIgnoreCase("undocorner")){
+				// /city undocorner - ひとつ前に追加したコーナーを削除
+				if(Corner.containsKey(player.getName())){
+					Set<Location> corner = new LinkedHashSet<Location>();
+					int now = 0;
+					Location loc = null;
+					for(Location one : Corner.get(player.getName())){
+						if(now == (Corner.get(player.getName()).size() - 1)){
+							loc = one;
+							break;
+						}
+						corner.add(one);
+						now++;
+					}
+					if(loc == null){
+						Method.SendMessage(sender, cmd, "ひとつ前のコーナーの削除に失敗しました。");
+						return true;
+					}
+
+					Corner.put(player.getName(), corner);
+
+					Method.SendMessage(sender, cmd, "ひとつ前のコーナー(X: " + loc.getBlockX() + " / Z: " + loc.getBlockZ() + ")の削除に成功しました。");
+					return true;
+				}else{
+					Method.SendMessage(sender, cmd, "ひとつ前のコーナーの削除に失敗しました。");
+					return true;
 				}
 			}else if(args[0].equalsIgnoreCase("show")){
 				// /city show [市名] - 市の情報を表示。市名を設定しないといまいるところの市情報を表示(できるかどうか)
@@ -287,6 +317,7 @@ public class Cmd_City implements CommandExecutor {
 		}
 		Method.SendMessage(sender, cmd, "----- City -----");
 		Method.SendMessage(sender, cmd, "/city addcorner - コーナーを追加");
+		Method.SendMessage(sender, cmd, "/city undocorner - ひとつ前に追加したコーナーを削除");
 		Method.SendMessage(sender, cmd, "/city clearcorner - コーナーを削除");
 		Method.SendMessage(sender, cmd, "/city show - いまいる地点の情報を表示。(未完成)");
 		Method.SendMessage(sender, cmd, "/city add <Name> <Color> - 市の範囲を色と共に設定(Dynmapに表示)");
