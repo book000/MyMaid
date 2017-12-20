@@ -21,6 +21,7 @@ import org.dynmap.markers.MarkerAPI;
 import org.dynmap.markers.MarkerSet;
 
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.EventHandler.CityCornerEditer._OpenGUI;
 
 public class Cmd_City implements CommandExecutor {
 	JavaPlugin plugin;
@@ -216,6 +217,49 @@ public class Cmd_City implements CommandExecutor {
 				Method.SendMessage(sender, cmd, "--- " + label + " ---");
 				Method.SendMessage(sender, cmd, "説明: " + desc);
 				return true;
+			}else if(args[0].equalsIgnoreCase("addcorner")){
+				String cityName = args[1];
+				AreaMarker select = null;
+				MarkerSet markerset = markerapi.getMarkerSet("towns");
+				for(AreaMarker areamarker : markerset.getAreaMarkers()){
+					if(areamarker.getLabel().equals(cityName)){
+						select = areamarker;
+					}
+				}
+				if(select == null){
+					Method.SendMessage(sender, cmd, "指定された市名のエリアは見つかりませんでした。");
+					return true;
+				}
+				List<Double> Xs = new LinkedList<Double>();
+				List<Double> Zs = new LinkedList<Double>();
+				for(int i = 0; i < select.getCornerCount(); i++){
+					Xs.add(select.getCornerX(i));
+					Zs.add(select.getCornerZ(i));
+				}
+				Location loc = player.getLocation();
+				Xs.add(loc.getBlockX() + 0.5);
+				Zs.add(loc.getBlockZ() + 0.5);
+				double[] ArrXs = Xs.stream().mapToDouble(Double::doubleValue).toArray();
+				double[] ArrZs = Zs.stream().mapToDouble(Double::doubleValue).toArray();
+				select.setCornerLocations(ArrXs, ArrZs);
+				Method.SendMessage(sender, cmd, "エリア「" + select.getLabel() + "」に新しいコーナーを追加しました。");
+				Method.SendMessage(sender, cmd, "順番を変更したりする場合は、「/city editcorner <Name>」コマンドをお使いください。");
+				return true;
+			}else if(args[0].equalsIgnoreCase("editcorner")){
+				String cityName = args[1];
+				AreaMarker select = null;
+				MarkerSet markerset = markerapi.getMarkerSet("towns");
+				for(AreaMarker areamarker : markerset.getAreaMarkers()){
+					if(areamarker.getLabel().equals(cityName)){
+						select = areamarker;
+					}
+				}
+				if(select == null){
+					Method.SendMessage(sender, cmd, "指定された市名のエリアは見つかりませんでした。");
+					return true;
+				}
+				new _OpenGUI(player, select).runTaskLater(plugin, 1);
+				return true;
 			}
 		}else if(args.length == 3){
 			if(args[0].equalsIgnoreCase("add")){
@@ -317,13 +361,15 @@ public class Cmd_City implements CommandExecutor {
 		}
 		Method.SendMessage(sender, cmd, "----- City -----");
 		Method.SendMessage(sender, cmd, "/city addcorner - コーナーを追加");
+		Method.SendMessage(sender, cmd, "/city addcorner <Name> - 既存のエリアにコーナーを追加");
 		Method.SendMessage(sender, cmd, "/city undocorner - ひとつ前に追加したコーナーを削除");
 		Method.SendMessage(sender, cmd, "/city clearcorner - コーナーを削除");
 		Method.SendMessage(sender, cmd, "/city show - いまいる地点の情報を表示。(未完成)");
-		Method.SendMessage(sender, cmd, "/city add <Name> <Color> - 市の範囲を色と共に設定(Dynmapに表示)");
-		Method.SendMessage(sender, cmd, "/city del <Name> - 市の範囲を削除");
+		Method.SendMessage(sender, cmd, "/city add <Name> <Color> - エリアの範囲を色と共に設定(Dynmapに表示)");
+		Method.SendMessage(sender, cmd, "/city del <Name> - エリアの範囲を削除");
+		Method.SendMessage(sender, cmd, "/city editcorner <Name> - 指定されたエリアのコーナーエディタを使用してコーナーを編集");
 		Method.SendMessage(sender, cmd, "/city setdesc <Name> <Description> - 市の説明を設定");
-		Method.SendMessage(sender, cmd, "/city show <Name> - 市の情報を表示。");
+		Method.SendMessage(sender, cmd, "/city show <Name> - エリアの情報を表示。");
 		return true;
 	}
 

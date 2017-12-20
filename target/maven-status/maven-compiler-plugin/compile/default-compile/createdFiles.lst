@@ -131,7 +131,6 @@ xyz\jaoafa\mymaid\SerializableLocation.class
 xyz\jaoafa\mymaid\Command\MyMaid_NetworkApi.class
 xyz\jaoafa\mymaid\Command\AFK$afking.class
 xyz\jaoafa\mymaid\Discord\SendMessage.class
-xyz\jaoafa\mymaid\EventHandler\OnJoin$1.class
 xyz\jaoafa\mymaid\Command\TS$TS_DOOM.class
 xyz\jaoafa\mymaid\Discord\OnDynmapWebChat.class
 xyz\jaoafa\mymaid\Command\MyBlock$1.class

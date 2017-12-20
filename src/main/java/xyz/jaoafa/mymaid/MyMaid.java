@@ -135,6 +135,7 @@ import xyz.jaoafa.mymaid.Command.Where;
 import xyz.jaoafa.mymaid.Command.WorldTeleport;
 import xyz.jaoafa.mymaid.Discord.Discord;
 import xyz.jaoafa.mymaid.EventHandler.AntiJaoium;
+import xyz.jaoafa.mymaid.EventHandler.CityCornerEditer;
 import xyz.jaoafa.mymaid.EventHandler.DefaultCheck;
 import xyz.jaoafa.mymaid.EventHandler.EyeMove;
 import xyz.jaoafa.mymaid.EventHandler.Menu;
@@ -463,6 +464,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		//Listener
 		getServer().getPluginManager().registerEvents(this, this);
 		getServer().getPluginManager().registerEvents(new AntiJaoium(this), this);
+		getServer().getPluginManager().registerEvents(new CityCornerEditer(this), this);
 		getServer().getPluginManager().registerEvents(new DefaultCheck(this), this);
 		getServer().getPluginManager().registerEvents(new EyeMove(this), this);
 		getServer().getPluginManager().registerEvents(new Menu(this), this);
