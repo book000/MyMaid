@@ -137,6 +137,10 @@ public class CityCornerEditer implements Listener {
 					int i = SelectCorner.get(player.getName());
 					AreaMarker area = AreaMarkers.get(player.getName());
 					CornerTeleport(player, area, i);
+				}else if(itemmeta.getDisplayName().equalsIgnoreCase("このコーナーの座標を変える")){
+					int i = SelectCorner.get(player.getName());
+					AreaMarker area = AreaMarkers.get(player.getName());
+					CornerLocationEdit(player, area, i);
 				}else if(itemmeta.getDisplayName().equalsIgnoreCase("このコーナーを削除する")){
 					int i = SelectCorner.get(player.getName());
 					AreaMarker area = AreaMarkers.get(player.getName());
@@ -162,6 +166,16 @@ public class CityCornerEditer implements Listener {
 		Location loc = new Location(world, x, y, z);
 		player.teleport(loc);
 		player.sendMessage("[CornerEditer] " + ChatColor.GREEN + "#" + (i + 1) + "へテレポートしました。");
+	}
+
+	void CornerLocationEdit(Player player, AreaMarker area, int i){
+		SelectCorner.remove(player.getName());
+		player.closeInventory();
+		Location loc = player.getLocation();
+		double x = loc.getBlockX() + 0.5;
+		double z = loc.getBlockZ() + 0.5;
+		player.sendMessage("[CornerEditer] " + ChatColor.GREEN + "#" + (i + 1) + "の座標をX: " + x + ", Z: " + z + "に変更しました。");
+		player.closeInventory();
 	}
 
 	void CornerDelete(Player player, AreaMarker area, int i){
@@ -271,6 +285,13 @@ public class CityCornerEditer implements Listener {
 		itemmeta_green.setDisplayName("コーナーへテレポートする");
 		item_green.setItemMeta(itemmeta_green);
 		inv.setItem(20, item_green);
+
+		ItemStack item_yellow = new ItemStack(Material.WOOL);
+		item_yellow.setDurability((short) 4); // 黄
+		ItemMeta itemmeta_yellow = item_yellow.getItemMeta();
+		itemmeta_yellow.setDisplayName("このコーナーの座標を変える");
+		item_yellow.setItemMeta(itemmeta_yellow);
+		inv.setItem(22, item_yellow);
 
 		ItemStack item_red = new ItemStack(Material.WOOL);
 		item_red.setDurability((short) 14); // 赤
