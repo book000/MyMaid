@@ -28,14 +28,6 @@ public class Cmd_City implements CommandExecutor {
 	public Cmd_City(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-	/*
-	 /city addcorner - コーナーを追加
-	 /city clearcorner - コーナーを削除
-	 /city add <Name> <Color> - 市の範囲を色と共に設定(Dynmapに表示)
-	 /city del <Name> - 市の範囲を削除
-	 /city setdesc <説明> - 市の説明を設定
-	 /city show [市名] - 市の情報を表示。市名を設定しないといまいるところの市情報を表示(できるかどうか)
-	 */
 
 	/**
 	 * デバックモードか<br>
@@ -59,7 +51,7 @@ public class Cmd_City implements CommandExecutor {
 		MarkerAPI markerapi = dynmapapi.getMarkerAPI();
 
 		if(markerapi.getMarkerSet("towns") == null){
-			Bukkit.getLogger().info("市情報を保管するDynmapSets「towns」が存在しないため、作成します。");
+			Bukkit.getLogger().info("エリア情報を保管するDynmapSets「towns」が存在しないため、作成します。");
 			markerapi.createMarkerSet("towns", "Towns", null, true);
 		}
 
@@ -113,7 +105,7 @@ public class Cmd_City implements CommandExecutor {
 					return true;
 				}
 			}else if(args[0].equalsIgnoreCase("show")){
-				// /city show [市名] - 市の情報を表示。市名を設定しないといまいるところの市情報を表示(できるかどうか)
+				// /city show [エリア名] - エリアの情報を表示。エリア名を設定しないといまいるところのエリア情報を表示(できるかどうか)
 				long start = System.currentTimeMillis();
 
 				MarkerSet markerset = markerapi.getMarkerSet("towns");
@@ -193,11 +185,11 @@ public class Cmd_City implements CommandExecutor {
 				for(AreaMarker areamarker : markerset.getAreaMarkers()){
 					if(areamarker.getLabel().equals(cityName)){
 						areamarker.deleteMarker();
-						Method.SendMessage(sender, cmd, "指定された市名のエリアを削除しました。");
+						Method.SendMessage(sender, cmd, "指定されたエリア名のエリアを削除しました。");
 						return true;
 					}
 				}
-				Method.SendMessage(sender, cmd, "指定された市名のエリアは見つかりませんでした。");
+				Method.SendMessage(sender, cmd, "指定されたエリア名のエリアは見つかりませんでした。");
 				return true;
 			}else if(args[0].equalsIgnoreCase("show")){
 				String cityName = args[1];
@@ -209,7 +201,7 @@ public class Cmd_City implements CommandExecutor {
 					}
 				}
 				if(select == null){
-					Method.SendMessage(sender, cmd, "指定された市名のエリアは見つかりませんでした。");
+					Method.SendMessage(sender, cmd, "指定されたエリア名のエリアは見つかりませんでした。");
 					return true;
 				}
 				String label = select.getLabel();
@@ -227,7 +219,7 @@ public class Cmd_City implements CommandExecutor {
 					}
 				}
 				if(select == null){
-					Method.SendMessage(sender, cmd, "指定された市名のエリアは見つかりませんでした。");
+					Method.SendMessage(sender, cmd, "指定されたエリア名のエリアは見つかりませんでした。");
 					return true;
 				}
 				List<Double> Xs = new LinkedList<Double>();
@@ -255,7 +247,7 @@ public class Cmd_City implements CommandExecutor {
 					}
 				}
 				if(select == null){
-					Method.SendMessage(sender, cmd, "指定された市名のエリアは見つかりませんでした。");
+					Method.SendMessage(sender, cmd, "指定されたエリア名のエリアは見つかりませんでした。");
 					return true;
 				}
 				new _OpenGUI(player, select).runTaskLater(plugin, 1);
@@ -263,7 +255,7 @@ public class Cmd_City implements CommandExecutor {
 			}
 		}else if(args.length == 3){
 			if(args[0].equalsIgnoreCase("add")){
-				// /city add <Name> <Color> - 市の範囲を設定(Dynmapに表示)
+				// /city add <Name> <Color> - エリアの範囲を設定(Dynmapに表示)
 				if(!Corner.containsKey(player.getName())){
 					// コーナー未登録
 					Method.SendMessage(sender, cmd, "コーナーが未登録です。/city addcornerを使用してコーナーを登録してください。");
@@ -281,7 +273,7 @@ public class Cmd_City implements CommandExecutor {
 				for(MarkerSet markerset : markerapi.getMarkerSets()){
 					for(AreaMarker areamarker : markerset.getAreaMarkers()){
 						if(areamarker.getLabel().equals(cityName)){
-							Method.SendMessage(sender, cmd, "登録しようとした市名は既に存在します。再登録する場合は削除してください。");
+							Method.SendMessage(sender, cmd, "登録しようとしたエリア名は既に存在します。再登録する場合は削除してください。");
 							return true;
 						}
 					}
@@ -302,10 +294,44 @@ public class Cmd_City implements CommandExecutor {
 					return true;
 				}
 				area.setFillStyle(area.getFillOpacity(), 0x808080);
-				int colorint = Integer.parseInt(color, 16);
+
+				int colorint;
+				try{
+					colorint = Integer.parseInt(color, 16);
+				}catch(NumberFormatException e){
+					Method.SendMessage(sender, cmd, "登録に失敗しました。");
+					Method.SendMessage(sender, cmd, "色の指定が不正です。");
+					return true;
+				}
 				area.setLineStyle(area.getLineWeight(), area.getLineOpacity(), colorint);
 				Method.SendMessage(sender, cmd, "登録に成功しました。");
 				Corner.remove(player.getName());
+				return true;
+			}else if(args[0].equalsIgnoreCase("setcolor")){
+				// /city color <Name> <Color> - エリアの色を変更
+				String cityName = args[1];
+				String color = args[2];
+				AreaMarker select = null;
+				MarkerSet markerset = markerapi.getMarkerSet("towns");
+				for(AreaMarker areamarker : markerset.getAreaMarkers()){
+					if(areamarker.getLabel().equals(cityName)){
+						select = areamarker;
+					}
+				}
+				if(select == null){
+					Method.SendMessage(sender, cmd, "指定されたエリア名のエリアは見つかりませんでした。");
+					return true;
+				}
+				int newcolorint;
+				try{
+					newcolorint = Integer.parseInt(color, 16);
+				}catch(NumberFormatException e){
+					Method.SendMessage(sender, cmd, "登録に失敗しました。");
+					Method.SendMessage(sender, cmd, "色の指定が不正です。");
+					return true;
+				}
+				select.setLineStyle(select.getLineWeight(), select.getLineOpacity(), newcolorint);
+				Method.SendMessage(sender, cmd, "エリア色の変更に成功しました。");
 				return true;
 			}else if(args[0].equalsIgnoreCase("setdesc")){
 				String cityName = args[1];
@@ -324,12 +350,12 @@ public class Cmd_City implements CommandExecutor {
 					}
 				}
 				if(select == null){
-					Method.SendMessage(sender, cmd, "指定された市名のエリアは見つかりませんでした。");
+					Method.SendMessage(sender, cmd, "指定されたエリア名のエリアは見つかりませんでした。");
 					return true;
 				}
 				desc = htmlspecialchars(desc);
 				select.setDescription("<b>" + select.getLabel() + "</b><br />" +  desc);
-				Method.SendMessage(sender, cmd, "指定された市名のエリアへ説明文を追加しました。");
+				Method.SendMessage(sender, cmd, "指定されたエリア名のエリアへ説明文を追加しました。");
 				return true;
 			}
 		}else if(args.length >= 3){
@@ -350,12 +376,12 @@ public class Cmd_City implements CommandExecutor {
 					}
 				}
 				if(select == null){
-					Method.SendMessage(sender, cmd, "指定された市名のエリアは見つかりませんでした。");
+					Method.SendMessage(sender, cmd, "指定されたエリア名のエリアは見つかりませんでした。");
 					return true;
 				}
 				desc = htmlspecialchars(desc);
 				select.setDescription("<b>" + select.getLabel() + "</b><br />" +  desc);
-				Method.SendMessage(sender, cmd, "指定された市名のエリアへ説明文を追加しました。");
+				Method.SendMessage(sender, cmd, "指定されたエリア名のエリアへ説明文を追加しました。");
 				return true;
 			}
 		}
@@ -367,8 +393,9 @@ public class Cmd_City implements CommandExecutor {
 		Method.SendMessage(sender, cmd, "/city show - いまいる地点の情報を表示。(未完成)");
 		Method.SendMessage(sender, cmd, "/city add <Name> <Color> - エリアの範囲を色と共に設定(Dynmapに表示)");
 		Method.SendMessage(sender, cmd, "/city del <Name> - エリアの範囲を削除");
+		Method.SendMessage(sender, cmd, "/city setcolor <Name> <Color> - エリアの色を変更");
 		Method.SendMessage(sender, cmd, "/city editcorner <Name> - 指定されたエリアのコーナーエディタを使用してコーナーを編集");
-		Method.SendMessage(sender, cmd, "/city setdesc <Name> <Description> - 市の説明を設定");
+		Method.SendMessage(sender, cmd, "/city setdesc <Name> <Description> - エリアの説明を設定");
 		Method.SendMessage(sender, cmd, "/city show <Name> - エリアの情報を表示。");
 		return true;
 	}
