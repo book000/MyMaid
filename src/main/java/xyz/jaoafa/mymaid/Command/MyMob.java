@@ -169,9 +169,7 @@ public class MyMob implements CommandExecutor {
 					boo = true;
 				}
 				if(!boo){
-					mymob.put(player.getName(), entityname);
 					Method.SendMessage(sender, cmd, "選択されたMobにはなれません。");
-
 					return true;
 				}
 				mymob.put(player.getName(), entityname);
