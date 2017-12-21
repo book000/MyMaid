@@ -118,7 +118,7 @@ public class CityCornerEditer implements Listener {
 					// 保存
 					AreaMarker area = AreaMarkers.get(player.getName());
 					Inventory inv = event.getClickedInventory();
-					SaveCorners(player, inv, area);
+					SaveCorners(player, inv, area, true);
 				}else if(itemmeta.getDisplayName().equalsIgnoreCase("キャンセル")){
 					// キャンセル
 					AreaMarkers.remove(player.getName());
@@ -177,7 +177,7 @@ public class CityCornerEditer implements Listener {
 		player.closeInventory();
 	}
 
-	void SaveCorners(Player player, Inventory inv, AreaMarker area){
+	void SaveCorners(Player player, Inventory inv, AreaMarker area, boolean closeinv){
 		// 保存動作
 		Map<Integer, Location> corners = new HashMap<Integer, Location>();
 		for(int i = 0; i < area.getCornerCount(); i++){
@@ -199,10 +199,10 @@ public class CityCornerEditer implements Listener {
 			try{
 				o = Integer.parseInt(name);
 			}catch(NumberFormatException e){
-				System.out.println("[CornerEditer_SYSTENERROR] " + name + " is not integer!");
-				player.sendMessage("[CornerEditer] " + ChatColor.GREEN + "エリア「" + area.getLabel() + "」のコーナーデータの保存に失敗しました。");
-				player.closeInventory();
-				return;
+				continue;
+			}
+			if(!corners.containsKey(o)){
+				continue;
 			}
 			Location loc = corners.get(o - 1);
 			double x = loc.getX();
@@ -221,7 +221,7 @@ public class CityCornerEditer implements Listener {
 		area.setCornerLocations(ArrXs, ArrZs);
 		AreaMarkers.remove(player.getName());
 		player.sendMessage("[CornerEditer] " + ChatColor.GREEN + "エリア「" + area.getLabel() + "」のコーナーデータを保存しました。");
-		player.closeInventory();
+		if(closeinv) player.closeInventory();
 	}
 
 	private class openCornerModeInv extends BukkitRunnable{
