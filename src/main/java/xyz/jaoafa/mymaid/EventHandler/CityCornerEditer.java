@@ -107,8 +107,10 @@ public class CityCornerEditer implements Listener {
 				// 旗を右クリック→コーナーモード
 				if(!event.isRightClick()) return;
 				if(!AreaMarkers.containsKey(player.getName())) return;
+				Inventory inv = event.getClickedInventory();
 				int i = event.getSlot();
 				AreaMarker area = AreaMarkers.get(player.getName());
+				SaveCorners(player, inv, area, false); // #28
 				new openCornerModeInv(player, area, i).runTaskLater(plugin, 1);
 			}else if(event.getCurrentItem().getType() == Material.WOOL){
 				// 羊毛→保存かキャンセルのどっちか
