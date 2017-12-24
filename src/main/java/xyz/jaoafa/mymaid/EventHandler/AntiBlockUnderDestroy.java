@@ -7,12 +7,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-public class AntiBlockUnderDestroy {
+public class AntiBlockUnderDestroy implements Listener {
 	JavaPlugin plugin;
 	public AntiBlockUnderDestroy(JavaPlugin plugin) {
 		this.plugin = plugin;
@@ -30,7 +31,7 @@ public class AntiBlockUnderDestroy {
 		if (!(player instanceof Player)) {
 			return;
 		}
-		if(!(PermissionsEx.getUser(player).inGroup("QPPE") && PermissionsEx.getUser(player).inGroup("Default"))){
+		if(!(PermissionsEx.getUser(player).inGroup("Default") || PermissionsEx.getUser(player).inGroup("QPPE"))){
 			return;
 		}
 		if(!destroy.containsKey(player.getName())){
@@ -47,12 +48,20 @@ public class AntiBlockUnderDestroy {
 		}
 
 		if(y == (oldy - 1)){
-			if(destroycount.containsKey(player.getName()) && destroycount.get(player.getName()) >= 5){
-				player.sendMessage("[CheckBlockDestory] " + ChatColor.RED + "荒らし対策のため、ブロックの直下掘りは禁止されています。");
-				event.setCancelled(true);
-				destroycount.put(player.getName(), destroycount.get(player.getName()) + 1);
+			if(destroycount.containsKey(player.getName())){
+				if(destroycount.get(player.getName()) >= 5){
+					player.sendMessage("[CheckBlockDestory] " + ChatColor.RED + "荒らし対策のため、ブロックの直下掘りは禁止されています。");
+					event.setCancelled(true);
+					return;
+				}else{
+					destroycount.put(player.getName(), destroycount.get(player.getName()) + 1);
+				}
 			}else{
 				destroycount.put(player.getName(), 1);
+			}
+		}else{
+			if(destroycount.containsKey(player.getName()) && destroycount.get(player.getName()) >= 5){
+				destroycount.put(player.getName(), 0);
 			}
 		}
 		destroy.put(player.getName(), loc);
