@@ -1,12 +1,8 @@
 package xyz.jaoafa.mymaid.Command;
 
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
@@ -17,7 +13,9 @@ public class E implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
-		if (sender instanceof Player) {
+		Method.SendMessage(sender, cmd, "システム障害に伴い、一時的に/eコマンドを停止しています。");
+		return true;
+		/*if (sender instanceof Player) {
 			Player player = (Player)sender;
 			World World = player.getWorld();
 			Location location = player.getLocation();
@@ -43,5 +41,6 @@ public class E implements CommandExecutor {
 		}
 		Method.SendMessage(sender, cmd, "プレイヤーかコマンドブロックから実行してください");
 		return true;
+		*/
 	}
 }

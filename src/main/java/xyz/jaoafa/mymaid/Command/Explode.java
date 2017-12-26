@@ -3,13 +3,10 @@ package xyz.jaoafa.mymaid.Command;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
@@ -21,6 +18,9 @@ public class Explode implements CommandExecutor {
 	}
 	public static Map<Location,Integer> explode = new HashMap<Location,Integer>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		Method.SendMessage(sender, cmd, "システム障害に伴い、一時的に/explodeコマンドを停止しています。");
+		return true;
+		/*
 		if(args.length == 0){
 			Method.SendMessage(sender, cmd, "----- Explodeoff List -----");
 			Method.SendMessage(sender, cmd, "World X Y Z R");
@@ -38,12 +38,6 @@ public class Explode implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "---------------------------");
 			return true;
 		}
-		/*
-		if(args.length >= 5 && args.length <= 3){
-			Method.SendMessage(sender, cmd, "引数が多すぎるか足りません");
-			return true;
-		}
-		*/
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
@@ -124,5 +118,6 @@ public class Explode implements CommandExecutor {
 			return true;
 		}
 		return true;
+		*/
 	}
 }
