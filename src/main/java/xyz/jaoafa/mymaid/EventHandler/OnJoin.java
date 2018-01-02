@@ -52,6 +52,7 @@ public class OnJoin implements Listener {
 						p.sendMessage("[QPPEChecker] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」の評価値を取得することができませんでした。");
 					}
 				}
+				Discord.send("293856671799967744", "プレイヤー「" + player.getName() + "」の評価値を取得することができませんでした。");
 			}else{
 				if(!reputation.equalsIgnoreCase("10")){
 					//QPPEでRep10じゃなければLに落とす
@@ -234,24 +235,19 @@ public class OnJoin implements Listener {
 					check = false;
 				}
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Limited")){
-						continue;
-					}
-					if(PermissionsEx.getUser(p).inGroup("Provisional")){
-						continue;
-					}
-					if(PermissionsEx.getUser(p).inGroup("Default")){
-						if(!PermissionsEx.getUser(p).inGroup("Regular")){
-							continue;
-						}
-					}
-					if(PermissionsEx.getUser(p).inGroup("Ban")){
-						continue;
-					}
 					if(AFK.getAFKing(p)){
 						continue;
 					}
-					check = false;
+					if(PermissionsEx.getUser(p).inGroup("Regular")){
+						check = false;
+						break;
+					}else if(PermissionsEx.getUser(p).inGroup("Moderator")){
+						check = false;
+						break;
+					}else if(PermissionsEx.getUser(p).inGroup("Admin")){
+						check = false;
+						break;
+					}
 				}
 				if(check){
 					Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Limited");
