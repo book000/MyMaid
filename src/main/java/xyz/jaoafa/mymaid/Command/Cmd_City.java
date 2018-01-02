@@ -1,5 +1,6 @@
 package xyz.jaoafa.mymaid.Command;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -19,6 +20,7 @@ import org.dynmap.DynmapAPI;
 import org.dynmap.markers.AreaMarker;
 import org.dynmap.markers.MarkerAPI;
 import org.dynmap.markers.MarkerSet;
+import org.tritonus.share.ArraySet;
 
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.EventHandler.CityCornerEditer._OpenGUI;
@@ -34,6 +36,8 @@ public class Cmd_City implements CommandExecutor {
 	 * デバックモードならtrue, そうでなければfalse
 	 */
 	final boolean DebugMode = true;
+	static final int LOCATION_X = 0;
+	static final int LOCATION_Z = 1;
 
 	Map<String, Set<Location>> Corner = new HashMap<String, Set<Location>>();
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
@@ -107,7 +111,29 @@ public class Cmd_City implements CommandExecutor {
 			}else if(args[0].equalsIgnoreCase("show")){
 				// /city show [エリア名] - エリアの情報を表示。エリア名を設定しないといまいるところのエリア情報を表示(できるかどうか)
 				long start = System.currentTimeMillis();
+				Location now = player.getLocation();
+				MarkerSet markerset = markerapi.getMarkerSet("towns");
+				boolean bool = true;
+				for(AreaMarker areamarker : markerset.getAreaMarkers()){
+					ArraySet<Location> locs = new ArraySet<>();
+					for(int i = 0; i < areamarker.getCornerCount(); i++){
+						Location loc = new Location(Bukkit.getWorld(areamarker.getWorld()), areamarker.getCornerX(i), -114514, areamarker.getCornerZ(i));
+						locs.add(loc);
+					}
+					if(inArea(now, locs)){
+						Method.SendMessage(sender, cmd, "この場所は「" + areamarker.getLabel() + "」という名前のエリアです。");
+						Method.SendMessage(sender, cmd, "説明: " + areamarker.getDescription());
+						bool = true;
+					}
+				}
+				if(bool) Method.SendMessage(sender, cmd, "この場所はエリア登録されていません。");
 
+				if(DebugMode){
+					long end = System.currentTimeMillis();
+					System.out.println("処理時間: " + (end - start)  + "ms");
+				}
+
+				/*
 				MarkerSet markerset = markerapi.getMarkerSet("towns");
 				for(AreaMarker areamarker : markerset.getAreaMarkers()){
 					// @param XorZ Xならtrue, Zならfalse
@@ -146,7 +172,7 @@ public class Cmd_City implements CommandExecutor {
 					System.out.println("処理時間: " + (end - start)  + "ms");
 				}
 				return true;
-
+				 */
 				/*
 				double minX = 0;
 				double maxX = 0;
@@ -411,86 +437,210 @@ public class Cmd_City implements CommandExecutor {
 
 		return str;
 	}
+
 	/**
-	 * Dynmapエリアの各コーナーの最大値もしくは最小値を取得する
-	 * @param areamarker AreaMarkerを指定
-	 * @param XorZ Xならtrue, Zならfalse
-	 * @param isMaxMaxならtrue, Minならfalse
-	 * @return 最大値もしくは最小値
-	 * @author mine_book000
+	 * エリアの中にいるか調べる(ダミーエリア指定無)
+	 * @param l 現在地
+	 * @param locs エリアコーナー
+	 * @return いる場合はtrue, いない場合はfalse
 	 */
-	private int getMaxOrMin(AreaMarker areamarker, boolean XorZ, boolean isMax){
-		int m;
-		if(isMax){
-			// Maxなので最小値当てる
-			m = Integer.MIN_VALUE;
-		}else{
-			m = Integer.MAX_VALUE;
-		}
-		for(int o = 0; o < areamarker.getCornerCount(); o++){
-			double XorZInt;
-			if(XorZ){
-				XorZInt = areamarker.getCornerX(o);
-			}else{
-				XorZInt = areamarker.getCornerZ(o);
-			}
-			if(isMax){
-				if(XorZInt > m){
-					m = (int) XorZInt;
-				}
-			}else{
-				if(XorZInt < m){
-					m = (int) XorZInt;
-				}
-			}
-		}
-		if(DebugMode) System.out.println("XorZ: " + Boolean.toString(XorZ) + " / 最大・最小: " + Boolean.toString(isMax) + " / 数値: " + m);
-		return m;
+	public boolean inArea(Location l, ArraySet<Location> locs){
+		return inArea(l, locs, false);
 	}
 
 	/**
-	 * コーナー通過数を取得
-	 * @param areamarker AreaMarkerを指定
-	 * @param width X値
-	 * @param height Y値
-	 * @return
+	 * エリアの中にいるか調べる(ダミーエリア指定有)
+	 * @param l 現在地
+	 * @param locs エリアコーナー
+	 * @param f ダミーエリアかどうか。trueはダミーエリア、falseはダミーエリアではない(0はダミーエリアでfalse,1はtrue ?)
+	 * @return いる場合はtrue, いない場合はfalse
 	 */
-	int getCorners(AreaMarker areamarker, int width, int height){
-		// 現在地 タテ, ヨコ = height, width
-		int passingcount = 0; // NubescoX : 通過数
-		for(int o = 0; (o + 1) < areamarker.getCornerCount(); o++){
-			int x = (int) areamarker.getCornerX(o);
-			int z = (int) areamarker.getCornerZ(o);
-			int next_x = (int) areamarker.getCornerX(o + 1);
-			int next_z = (int) areamarker.getCornerZ(o + 1);
-			// タテ判定 とりあえず挟まってればいい
-			if(z > width &&  next_z > width){
-				// 下なので何もしない
-				if(DebugMode) System.out.println("下(v)");
-				if(DebugMode) System.out.println("Z: " + z + " / NEXT_Z: " + next_z);
-			}else if(z < width &&  next_z < width){
-				// 上なので何もしない
-				if(DebugMode) System.out.println("上(^)");
-			}else if(z == width &&  next_z == width){
-				// 水平なので無視
-				if(DebugMode) System.out.println("水平(-)");
-			}else{
-				// 挟まっている
-				// ヨコ判定 0,1 1,2 2,3...
-				if(x >= height && next_x >= height){
-					// 重なっているもしくは右なので足す
-					passingcount++;
-				}else if(x < height && next_x < height){
-					// 左なので何もしない
-					if(DebugMode) System.out.println("<-");
-				}else{
-					// 挟まっている最悪のパータン 今回何もしない
-					if(DebugMode) System.out.println("<>");
+	public boolean inArea(Location l, ArraySet<Location> locs, boolean f) {
+		if(isSquare(locs)){
+			return getSW(locs).getX() < l.getX() && getSW(locs).getZ() < l.getZ() && getNE(locs).getX() > l.getX() && getNE(locs).getZ() > l.getZ();
+		}else if(isTriangle(locs)){
+			return ws(locs.get(0), locs.get(1), locs.get(3), l);
+		} else { // 多角形
+			Location nwst = new Location(Bukkit.getWorlds().get(0), min(locs, LOCATION_X), -114514, min(locs, LOCATION_Z));
+			Location nest = new Location(Bukkit.getWorlds().get(0), max(locs, LOCATION_X), -114514, min(locs, LOCATION_Z));
+			Location swst = new Location(Bukkit.getWorlds().get(0), min(locs, LOCATION_X), -114514, max(locs, LOCATION_Z));
+			Location sest = new Location(Bukkit.getWorlds().get(0), min(locs, LOCATION_X), -114514, min(locs, LOCATION_Z));
+			boolean inDummyArea = false;
+			//ダミーエリアの生成
+			ArraySet<Location> dummysNW = new ArraySet<>();
+			ArraySet<Location> dummysNE = new ArraySet<>();
+			ArraySet<Location> dummysSW = new ArraySet<>();
+			ArraySet<Location> dummysSE = new ArraySet<>();
+			for (Location lc : locs) {
+				if (lc.getX() > nwst.getX() || lc.getZ() > nwst.getZ()) {
+					dummysNW.add(lc);
+				}
+
+				if (lc.getX() < nest.getX() || lc.getZ() > nwst.getZ()) {
+					dummysNE.add(lc);
+				}
+				if (lc.getX() < sest.getX() || lc.getZ() < sest.getZ()) {
+					dummysSE.add(lc);
+				}
+				if (lc.getX() > swst.getX() || lc.getZ() < swst.getZ()) {
+					dummysSW.add(lc);
 				}
 			}
-			if(DebugMode) System.out.println("Now: " + o);
+			//ダミーエリアの中にいるか？
+			if (inArea(l, dummysNW, !f) || inArea(l, dummysNE, !f) || inArea(l, dummysSE, !f) || inArea(l, dummysSW, !f)) { // ここでダミーエリアのダミーエリアは判定したいエリア
+				inDummyArea = true;
+			}
+
+			if (inDummyArea) {
+				return f;
+			} else {
+				return !f;
+			}
 		}
-		if(DebugMode) System.out.println("passingcount: " + passingcount);
-		return passingcount;
+	}
+
+	public Location getSW(ArraySet<Location> locs) throws IllegalArgumentException {
+		double x = Double.MIN_VALUE, y, z = Double.MIN_VALUE;
+		if (locs.size() == 0){
+			throw new IllegalArgumentException();
+		}else{
+			y = locs.get(0).getY();
+		}
+		for (Location l : locs) {
+			if (x > l.getX()) x = l.getX();
+			if (z > l.getX()) z = l.getZ();
+		}
+		return new Location(Bukkit.getWorlds().get(0), x, y, z);
+	}
+
+	public Location getNE(ArraySet<Location> locs) throws IllegalArgumentException {
+		double x = Double.MAX_VALUE, y, z = Double.MAX_VALUE;
+		if (locs.size() == 0){
+			throw new IllegalArgumentException();
+		}else{
+			y = locs.get(0).getY();
+		}
+		for (Location l : locs) {
+			if (x < l.getX()) x = l.getX();
+			if (z < l.getX()) z = l.getZ();
+		}
+		return new Location(Bukkit.getWorlds().get(0), x,y,z);
+	}
+
+	/**
+	 * 四角形かどうか
+	 * @param locs
+	 * @return
+	 */
+	boolean isSquare(Set<Location> locs){
+		return locs.size() == 4 ? true : false; // 4つの点だったら四角形
+	}
+
+	/**
+	 * 三角形かどうか
+	 * @param locs
+	 * @return
+	 */
+	boolean isTriangle(Set<Location> locs){
+		return locs.size() == 3 ? true : false; // 3つの点だったら三角形
+	}
+
+	/**
+	 * 最小値
+	 * @param locs
+	 * @param flag
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public double min(ArraySet<Location> locs,int flag) throws IllegalArgumentException {
+		switch (flag) {
+		case LOCATION_X:
+			double x = Double.MAX_VALUE;
+			for (Location l : locs) {
+				if (x > l.getX()) x = l.getX();
+			}
+			return x;
+		case LOCATION_Z:
+			double z = Double.MAX_VALUE;
+			for (Location l : locs) {
+				if (z > l.getZ()) z = l.getZ();
+			}
+			return z;
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
+	/**
+	 * 最大値
+	 * @param locs
+	 * @param flag
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public double max(ArraySet<Location> locs, int flag) throws IllegalArgumentException {
+		switch (flag) {
+		case LOCATION_X:
+			double x = Double.MIN_VALUE;
+			for (Location l : locs) {
+				if (x < l.getX()) x = l.getX();
+			}
+			return x;
+		case LOCATION_Z:
+			double z = Double.MIN_VALUE;
+			for (Location l : locs) {
+				if (z < l.getZ()) z = l.getZ();
+			}
+			return z;
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
+	/**
+	 *
+	 * @param locs
+	 * @param l
+	 * @return
+	 */
+	public boolean i(ArrayList<Location> locs, Location l) {
+		int len = locs.size();
+		for (int i=0;i>=len-2;i++) {
+			if (ws(locs.get(0), locs.get(i+1), locs.get(i+2), l)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param p4
+	 * @return p1,p2,p3を頂点とする三角形の中にp4があるか
+	 * @see http://www5d.biglobe.ne.jp/~tomoya03/shtml/algorithm/Hougan.htm
+	 */
+	public boolean ws(Location p1, Location p2, Location p3, Location p4) {
+		//三点が一直線上にあるなら居ないと判定
+		if ((p1.getX() - p3.getX()) * (p1.getZ() - p2.getZ()) == (p1.getX() - p2.getX()) * (p1.getZ() - p3.getZ())) {
+			return false;
+		}
+		if (intersectM(p1, p2, p4, p3) < 0) return false;
+		if (intersectM(p1, p3, p4, p2) < 0) return false;
+		if (intersectM(p2, p3, p4, p1) < 0) return false;
+		return true;
+	}
+
+	public double intersectM(Location p1, Location p2, Location p3, Location p4) {
+		return (
+				(p1.getX() - p2.getX()) *
+				(p3.getZ() - p1.getZ()) +
+				(p1.getZ() - p2.getZ()) *
+				(p1.getX() - p3.getX())
+				) * (
+						(p1.getX() - p2.getX()) *
+						(p4.getZ() - p1.getZ()) +
+						(p1.getZ() - p2.getZ()) *
+						(p1.getX() - p4.getX())
+						);
 	}
 }
