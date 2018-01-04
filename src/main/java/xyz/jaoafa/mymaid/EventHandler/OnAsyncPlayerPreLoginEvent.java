@@ -30,6 +30,7 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class OnAsyncPlayerPreLoginEvent implements Listener {
 	JavaPlugin plugin;
@@ -44,6 +45,17 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 		InetAddress ip = e.getAddress();
 		UUID uuid = e.getUniqueId();
 		String host = e.getAddress().getHostName();
+
+		if(name.equalsIgnoreCase("jaotan")){
+			e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, ChatColor.RED + "[Login Denied! Reason: System]\n"
+					+ ChatColor.RESET + ChatColor.WHITE + "あなたのMinecraftIDはシステム運用上、ログイン不可能と判断されました。\n"
+					+ ChatColor.RESET + ChatColor.AQUA + "ログインするには、MinecraftIDを変更してください。");
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator") || PermissionsEx.getUser(p).inGroup("Regular")) {
+					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>jaotan kicker");
+				}
+			}
+		}
 
 		String data = Method.url_jaoplugin("login2", "p="+name+"&u="+uuid+"&i="+ip+"&h="+host);
 		JSONParser parser = new JSONParser();
@@ -69,6 +81,7 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>複垢(" + player + ")");
 				}
 			}
+			Discord.send("223582668132974594", "***" + e.getName() + "***: jaotanで入ろうとした。");
 			return;
 		}
 
