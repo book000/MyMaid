@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,9 +56,20 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>jaotan kicker");
 				}
 			}
+			Discord.send("223582668132974594", "***" + e.getName() + "***: jaotanで入ろうとした。\n"
+					+ "ヒント: jaotanを誰かひとりのプレイヤーが使用できるようにしてしまうことは、運営側の「jaotanはみんなのもの」という意向とずれてしまうため、「jaotan」というMinecraftIDでのログインは禁止している。");
+			return;
 		}
 
-		String data = Method.url_jaoplugin("login2", "p="+name+"&u="+uuid+"&i="+ip+"&h="+host);
+		String permission = "Limited";
+		Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
+		for(String group : groups){
+			if(PermissionsEx.getUser(name).inGroup(group)){
+				permission = group;
+			}
+		}
+
+		String data = Method.url_jaoplugin("login2", "p="+name+"&u="+uuid+"&i="+ip+"&h="+host+"&per="+permission);
 		JSONParser parser = new JSONParser();
 		JSONObject obj;
 		try {
@@ -81,7 +93,6 @@ public class OnAsyncPlayerPreLoginEvent implements Listener {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + e.getName()+"->>複垢(" + player + ")");
 				}
 			}
-			Discord.send("223582668132974594", "***" + e.getName() + "***: jaotanで入ろうとした。");
 			return;
 		}
 
