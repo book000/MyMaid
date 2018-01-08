@@ -31,7 +31,12 @@ public class AntiBlockUnderDestroy implements Listener {
 		if (!(player instanceof Player)) {
 			return;
 		}
-		if(!(PermissionsEx.getUser(player).inGroup("Default") || PermissionsEx.getUser(player).inGroup("QPPE"))){
+		int destroyOK;
+		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+			destroyOK = 3;
+		}else if(PermissionsEx.getUser(player).inGroup("Default")){
+			destroyOK = 5;
+		}else{
 			return;
 		}
 		if(!destroy.containsKey(player.getName())){
@@ -49,7 +54,7 @@ public class AntiBlockUnderDestroy implements Listener {
 
 		if(y == (oldy - 1)){
 			if(destroycount.containsKey(player.getName())){
-				if(destroycount.get(player.getName()) >= 5){
+				if(destroycount.get(player.getName()) >= destroyOK){
 					player.sendMessage("[CheckBlockDestory] " + ChatColor.RED + "荒らし対策のため、ブロックの直下掘りは禁止されています。");
 					event.setCancelled(true);
 					return;
