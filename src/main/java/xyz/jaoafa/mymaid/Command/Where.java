@@ -1,48 +1,21 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import com.sk89q.worldedit.IncompleteRegionException;
-import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.regions.CuboidRegionSelector;
-import com.sk89q.worldedit.regions.RegionSelector;
-
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 
-@SuppressWarnings("deprecation")
 public class Where implements CommandExecutor {
 	JavaPlugin plugin;
 	public Where(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
-	@SuppressWarnings("unchecked")
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		Method.SendMessage(sender, cmd, "このコマンドは廃止されました。今後は/cityコマンドをお使いくださいますようお願い申し上げます。");
+		return true;
+		/*
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
@@ -193,9 +166,9 @@ public class Where implements CommandExecutor {
 			}
 		}
 		Method.SendMessage(sender, cmd, "第1引数にはadd, flag, deleteが使用できます。");
-		return true;
+		return true;*/
 	}
-
+/*
 	private class messageset extends BukkitRunnable{
 		JavaPlugin plugin;
 		CommandSender sender;
@@ -690,5 +663,5 @@ public class Where implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "削除しました。");
 			return;
 		}
-	}
+	}*/
 }
