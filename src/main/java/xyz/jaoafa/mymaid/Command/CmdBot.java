@@ -17,7 +17,6 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,6 +38,9 @@ public class CmdBot implements CommandExecutor {
 	public static Map<String, BotType> botchat = new HashMap<String, BotType>();
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		Method.SendMessage(sender, cmd, "このコマンドは一時的に停止しています。");
+		return true;
+		/*
 		if(args.length == 0){
 			// コマンド実行者と会話
 			if(!(sender instanceof Player)){
@@ -145,6 +147,7 @@ public class CmdBot implements CommandExecutor {
 		}
 		sendHelp(sender, cmd, commandLabel);
 		return true;
+		*/
 	}
 	public boolean isNumber(String num) {
 		try {
