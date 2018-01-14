@@ -224,8 +224,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 				if(page != maxpage){
 					Method.SendMessage(sender, cmd, "次のページを見るには「/dt list " + (page + 1) + "」を実行します。");
 				}
-
-
+				return true;
 			}else{
 				// addとかdelとか以外 => プレイヤー名？
 				// /dt <Player> <MarkerName>
