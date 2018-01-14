@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.ParseSelector;
 import xyz.jaoafa.mymaid.Discord.Discord;
+import xyz.jaoafa.mymaid.Jail.Jail;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class OnPlayerCommand implements Listener {
@@ -24,6 +25,7 @@ public class OnPlayerCommand implements Listener {
 	public OnPlayerCommand(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerCommand(PlayerCommandPreprocessEvent event){
 		String command = event.getMessage();
@@ -62,6 +64,11 @@ public class OnPlayerCommand implements Listener {
 					killflag = true;
 				}else if(PermissionsEx.getUser(player).inGroup("Default")){
 					killflag = true;
+				}
+				if(args[1].equalsIgnoreCase("@e")){
+					Jail.JailAdd(player, Bukkit.getOfflinePlayer("jaotan"), "コマンド「/kill @e」の実行", false);
+					event.setCancelled(true);
+					return;
 				}
 				if(killflag){
 					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
