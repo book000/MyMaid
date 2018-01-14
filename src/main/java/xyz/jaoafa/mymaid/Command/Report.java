@@ -1,5 +1,8 @@
 package xyz.jaoafa.mymaid.Command;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,8 +38,13 @@ public class Report implements CommandExecutor {
 			if(sender instanceof org.bukkit.entity.Player){
 				if(MyMaid.lunachatapi.isPlayerJapanize(sender.getName())){
 					String jp = MyMaid.lunachatapi.japanize(text, JapanizeType.GOOGLE_IME);
-					text += "\n(" + jp + ")";
+					text += "\\n(" + jp + ")";
 				}
+			}
+			try {
+				text = URLEncoder.encode(text, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// 仕方がない？
 			}
 			Method.url_jaoplugin("report", "p="+name+"&t="+text);
 			Method.SendMessage(sender, cmd, "送信しました。");
