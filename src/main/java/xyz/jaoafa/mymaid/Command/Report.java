@@ -5,7 +5,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.ucchyocean.lc.japanize.JapanizeType;
+
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.MyMaid;
 
 public class Report implements CommandExecutor {
 	JavaPlugin plugin;
@@ -28,6 +31,12 @@ public class Report implements CommandExecutor {
 			if(old.equalsIgnoreCase(text)){
 				Method.SendMessage(sender, cmd, "前回通報された内容と同じです。");
 				return true;
+			}
+			if(sender instanceof org.bukkit.entity.Player){
+				if(MyMaid.lunachatapi.isPlayerJapanize(sender.getName())){
+					String jp = MyMaid.lunachatapi.japanize(text, JapanizeType.GOOGLE_IME);
+					text += "\n(" + jp + ")";
+				}
 			}
 			Method.url_jaoplugin("report", "p="+name+"&t="+text);
 			Method.SendMessage(sender, cmd, "送信しました。");
