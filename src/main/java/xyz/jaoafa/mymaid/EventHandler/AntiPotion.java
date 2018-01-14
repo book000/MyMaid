@@ -1,5 +1,6 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class AntiPotion implements Listener {
 	 * @param effects ポーションエフェクトのリスト
 	 * @return trueで許可、falseで不許可
 	 */
-	private boolean ApplyCustomEffects(List<PotionEffect> effects){
+	public static boolean ApplyCustomEffects(Collection<PotionEffect> effects){
 		Set<PotionEffectType> effectTypes = new HashSet<PotionEffectType>();
 		for(PotionEffect effect : effects){
 			PotionEffectType type = effect.getType();
@@ -61,6 +62,7 @@ public class AntiPotion implements Listener {
 			return;
 		}
 		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+			// Limited同様、所持を含む全部の動作を禁止。付与も禁止
 			ItemStack item = event.getItem();
 			if(item.getType() != Material.POTION){
 				return;
@@ -112,31 +114,20 @@ public class AntiPotion implements Listener {
 	@EventHandler
 	public void PotionInteract(PlayerInteractEvent event){ // クリックするときとか
 		Player player = event.getPlayer();
-		if(player.getInventory().getItemInHand().getType() != Material.POTION){
+	    ItemStack item = event.getItem();
+		if(item.getType() != Material.POTION){
 			return;
 		}
 	    if(PermissionsEx.getUser(player).inGroup("Limited")){
 			// 所持を含む全部の動作を禁止
-		    ItemStack item = event.getItem();
-	    	if(item.getType() != Material.POTION){
-				return;
-			}
 			event.setCancelled(true);
 			return;
 		}
 		if(PermissionsEx.getUser(player).inGroup("QPPE")){
 			// Limited同様、所持を含む全部の動作を禁止。付与も禁止
-		    ItemStack item = event.getItem();
-		    if(item.getType() != Material.POTION){
-				return;
-			}
 			event.setCancelled(true);
 		}else if(PermissionsEx.getUser(player).inGroup("Default")){
 			// 所持、飲むことのみ許可、ただし透明化・スピードなどサーバに負荷がかかったり、他のプレイヤーに迷惑がかかる可能性のあるポーションは禁止
-			ItemStack item = event.getItem();
-		    if(item.getType() != Material.POTION){
-				return;
-			}
 			event.setCancelled(true);
 		}
 	}

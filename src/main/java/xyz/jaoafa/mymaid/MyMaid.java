@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -457,6 +459,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		new AutoMessage().runTaskTimer(this, 0L, 12000L);
 		new TPSChange().runTaskTimer(this, 0L, 1200L);
 		new CheckCling().runTaskTimer(this, 0L, 20L);
+		new PotionEffectChecker().runTaskTimer(this, 0L, 200L);
 	}
 	/**
 	 * リスナー設定
@@ -1141,7 +1144,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 	public static Map<String,Long> afktime = new HashMap<String,Long>();
 	/**
-	 * AFKチェックタスク
+	 * AFKチェックタスク(1分毎)
 	 * @author mine_book000
 	 */
 	private class AFKChecker extends BukkitRunnable{
@@ -1167,6 +1170,41 @@ public class MyMaid extends JavaPlugin implements Listener {
 						AFK.setAFK_True(player);
 					}
 				}
+			}
+		}
+	}
+
+	/**
+	 * ポーションエフェクトチェックタスク(10秒毎)
+	 * @author mine_book000
+	 */
+	private class PotionEffectChecker extends BukkitRunnable{
+		public PotionEffectChecker(){
+
+		}
+		@Override
+		public void run() {
+			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+				Collection<PotionEffect> effects = player.getActivePotionEffects();
+				if(PermissionsEx.getUser(player).inGroup("Limited")){
+					// 所持を含む全部の動作を禁止
+					for(PotionEffect pe : effects){
+						player.removePotionEffect(pe.getType());
+					}
+				}else if(PermissionsEx.getUser(player).inGroup("QPPE")){
+					for(PotionEffect pe : effects){
+						player.removePotionEffect(pe.getType());
+					}
+				}else if(PermissionsEx.getUser(player).inGroup("Default")){
+					// 所持、飲むことのみ許可、ただし透明化・スピードなどサーバに負荷がかかったり、他のプレイヤーに迷惑がかかる可能性のあるポーションは禁止
+					// 許可されてないもののエフェクトがついていた時点で消す
+					if(!AntiPotion.ApplyCustomEffects(effects)){
+						for(PotionEffect pe : effects){
+							player.removePotionEffect(pe.getType());
+						}
+					}
+				}
+
 			}
 		}
 	}
