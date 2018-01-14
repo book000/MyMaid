@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -68,6 +69,8 @@ public class Jail {
 		block.put(player.getUniqueId().toString(), false); // 設置破壊不可
 		area.put(player.getUniqueId().toString(), false); // 範囲外移動
 		lasttext.put(player.getUniqueId().toString(), false); // まだ遺言を残してない
+
+		if(player.getGameMode() == GameMode.SPECTATOR) player.setGameMode(GameMode.CREATIVE);
 
 		World Jao_Afa = Bukkit.getServer().getWorld("Jao_Afa");
 		Location minami = new Location(Jao_Afa, 1767, 70, 1767);
@@ -156,6 +159,8 @@ public class Jail {
 			player.getInventory().clear();
 			// player.getEnderChest().clear(); - さすがにエンダーチェスト消すのはかわいそうかなと思ってきた
 		}
+
+		if(player.getGameMode() == GameMode.SPECTATOR) player.setGameMode(GameMode.CREATIVE);
 
 		World Jao_Afa = Bukkit.getServer().getWorld("Jao_Afa");
 		Location minami = new Location(Jao_Afa, 1767, 70, 1767);
@@ -252,6 +257,8 @@ public class Jail {
 			player.getInventory().clear();
 			// player.getEnderChest().clear(); - さすがにエンダーチェスト消すのはかわいそうかなと思ってきた
 		}
+
+		if(player.getGameMode() == GameMode.SPECTATOR) player.setGameMode(GameMode.CREATIVE);
 
 		World Jao_Afa = Bukkit.getServer().getWorld("Jao_Afa");
 		Location minami = new Location(Jao_Afa, 1767, 70, 1767);
