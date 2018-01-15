@@ -111,7 +111,7 @@ public class AntiPotion implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void PotionInteract(PlayerInteractEvent event){ // クリックするときとか
 		Player player = event.getPlayer();
 	    ItemStack item = event.getItem();
