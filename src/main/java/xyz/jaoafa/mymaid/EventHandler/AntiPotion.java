@@ -56,6 +56,7 @@ public class AntiPotion implements Listener {
 	@EventHandler
 	public void PotionDrink(PlayerItemConsumeEvent event){ // ポーションを飲む
 		Player player = event.getPlayer();
+	    if(event.getItem() == null) return;
 		if(PermissionsEx.getUser(player).inGroup("Limited")){
 			// 所持を含む全部の動作を禁止
 			event.setCancelled(true);
@@ -115,6 +116,7 @@ public class AntiPotion implements Listener {
 	public void PotionInteract(PlayerInteractEvent event){ // クリックするときとか
 		Player player = event.getPlayer();
 	    ItemStack item = event.getItem();
+	    if(item == null) return;
 		if(item.getType() != Material.POTION){
 			return;
 		}
@@ -136,7 +138,7 @@ public class AntiPotion implements Listener {
     public void PlayerPickupItem(PlayerPickupItemEvent event){
 		Player player = event.getPlayer();
 		ItemStack item = event.getItem().getItemStack();
-
+	    if(item == null) return;
 		if(PermissionsEx.getUser(player).inGroup("Limited")){
 			// 所持を含む全部の動作を禁止
 			if(item.getType() != Material.POTION){
