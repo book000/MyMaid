@@ -142,7 +142,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 					player.teleport(loc);
 					MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
 					MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + markerlabel + "!");
-					Discord.send("*[" + player.getName() + ": " + player.getName() + " to " + markerlabel + "]*");
+					Discord.send("*[" + ChatColor.ITALIC + player.getName() + ChatColor.GRAY + ": " + ChatColor.ITALIC + player.getName() + ChatColor.GRAY + " to " + ChatColor.ITALIC + markerlabel + ChatColor.GRAY + "]*");
 					Bukkit.broadcastMessage(ChatColor.GRAY + "[" + player.getName() + ": " + player.getName() + " は " + markerlabel + " にワープしました]");
 					return true;
 				}else{
@@ -257,7 +257,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 					MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
 					MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + markerlabel + "!");
 					Discord.send("*[" + sender.getName() + ": " + player.getName() + " to " + markerlabel + "]*");
-					Bukkit.broadcastMessage(ChatColor.GRAY + "[" + sender.getName() + ": " + player.getName() + " は " + markerlabel + " にワープしました]");
+					Bukkit.broadcastMessage(ChatColor.GRAY + "[" + ChatColor.ITALIC + sender.getName() + ChatColor.GRAY + ": " + ChatColor.ITALIC + player.getName() + ChatColor.GRAY + " は " + ChatColor.ITALIC + markerlabel + ChatColor.GRAY + " にワープしました]");
 					return true;
 				}else{
 					// 見つからなかった
@@ -361,7 +361,7 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 					MyMaid.TitleSender.setTime_second(player, 2, 5, 2);
 					MyMaid.TitleSender.sendTitle(player, "", ChatColor.AQUA +  "You have been teleported to " + markerlabel + "!");
 					Discord.send("*[" + sender.getName() + ": " + player.getName() + " to " + markerlabel + "]*");
-					Bukkit.broadcastMessage(ChatColor.GRAY + "[" + sender.getName() + ": " + player.getName() + " は " + markerlabel + " にワープしました]");
+					Bukkit.broadcastMessage(ChatColor.GRAY + "[" + ChatColor.ITALIC + sender.getName() + ChatColor.GRAY + ": " + ChatColor.ITALIC + player.getName() + ChatColor.GRAY + " は " + ChatColor.ITALIC + markerlabel + ChatColor.GRAY + " にワープしました]");
 					return true;
 				}else{
 					// 見つからなかった
