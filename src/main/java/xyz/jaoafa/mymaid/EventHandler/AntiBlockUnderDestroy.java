@@ -52,7 +52,7 @@ public class AntiBlockUnderDestroy implements Listener {
 			return;
 		}
 
-		if(y == (oldy - 1)){
+		if(y == (oldy - 1) || (oldy - y) >= 3){
 			if(destroycount.containsKey(player.getName())){
 				if(destroycount.get(player.getName()) >= destroyOK){
 					player.sendMessage("[CheckBlockDestory] " + ChatColor.RED + "荒らし対策のため、ブロックの直下掘りは禁止されています。");

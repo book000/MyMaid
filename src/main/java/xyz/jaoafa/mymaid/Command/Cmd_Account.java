@@ -100,6 +100,7 @@ public class Cmd_Account implements CommandExecutor {
 					}
 				}
 			}
+			return true;
 		}
 		Method.SendMessage(sender, cmd, "--- jaoAccount Help ---");
 		Method.SendMessage(sender, cmd, "/account: jaoアカウントの情報を表示します。");
