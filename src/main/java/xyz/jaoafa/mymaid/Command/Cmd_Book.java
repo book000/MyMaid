@@ -355,6 +355,15 @@ public class Cmd_Book implements CommandExecutor {
 					BookMeta book = (BookMeta) player.getItemInHand().getItemMeta();
 
 					String title = book.getTitle();
+
+					ResultSet res = statement.executeQuery("SELECT * FROM book WHERE title = '" + title + "'");
+					if(res.next()){
+						// 被りを防ぐため、同名の本は販売できない
+						Method.SendMessage(sender, cmd, "指定された本の題名と同じ題名の本が発売されています。");
+						Method.SendMessage(sender, cmd, "システムの障害を引き起こしたり、無駄な発売のし過ぎを未然に防ぐため、同名の本を複数販売することはできません。");
+						return true;
+					}
+
 					String pages_data = implode(book.getPages(), "§j");
 
 					String author = player.getName();
