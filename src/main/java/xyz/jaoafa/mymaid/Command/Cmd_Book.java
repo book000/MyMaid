@@ -101,7 +101,7 @@ public class Cmd_Book implements CommandExecutor {
 						int createdate = res.getInt("createdate");
 
 						MyMaidBookData bookdata;
-						if(author_uuid == "null"){
+						if(author_uuid.equalsIgnoreCase("null") || author_uuid.equalsIgnoreCase("")){
 							bookdata = new MyMaidBookData(id, title, author, pages_str, requiredjao, book_count, history, status, createdate);
 						}else{
 							UUID uuid = UUID.fromString(author_uuid);
@@ -160,7 +160,7 @@ public class Cmd_Book implements CommandExecutor {
 						int createdate = res.getInt("createdate");
 
 
-						if(author_uuid == "null"){
+						if(author_uuid.equalsIgnoreCase("null") || author_uuid.equalsIgnoreCase("")){
 							bookdata = new MyMaidBookData(id, title, author, pages_str, requiredjao, book_count, history, status, createdate);
 						}else{
 							UUID uuid = UUID.fromString(author_uuid);
@@ -194,7 +194,7 @@ public class Cmd_Book implements CommandExecutor {
 						String status = res.getString("status");
 						int createdate = res.getInt("createdate");
 
-						if(author_uuid == "null"){
+						if(author_uuid.equalsIgnoreCase("null") || author_uuid.equalsIgnoreCase("")){
 							bookdata = new MyMaidBookData(id, title, author, pages_str, requiredjao, book_count, history, status, createdate);
 						}else{
 							UUID uuid = UUID.fromString(author_uuid);
@@ -271,7 +271,7 @@ public class Cmd_Book implements CommandExecutor {
 						int createdate = res.getInt("createdate");
 
 
-						if(author_uuid == "null"){
+						if(author_uuid.equalsIgnoreCase("null") || author_uuid.equalsIgnoreCase("")){
 							bookdata = new MyMaidBookData(id, title, author, pages_str, requiredjao, book_count, history, status, createdate);
 						}else{
 							UUID uuid = UUID.fromString(author_uuid);
@@ -305,7 +305,7 @@ public class Cmd_Book implements CommandExecutor {
 						String status = res.getString("status");
 						int createdate = res.getInt("createdate");
 
-						if(author_uuid == "null"){
+						if(author_uuid.equalsIgnoreCase("null") || author_uuid.equalsIgnoreCase("")){
 							bookdata = new MyMaidBookData(id, title, author, pages_str, requiredjao, book_count, history, status, createdate);
 						}else{
 							UUID uuid = UUID.fromString(author_uuid);
@@ -418,7 +418,7 @@ public class Cmd_Book implements CommandExecutor {
 						int createdate = res.getInt("createdate");
 
 						MyMaidBookData bookdata;
-						if(author_uuid == "null"){
+						if(author_uuid.equalsIgnoreCase("null") || author_uuid.equalsIgnoreCase("")){
 							bookdata = new MyMaidBookData(id, title, author, pages_str, requiredjao, book_count, history, status, createdate);
 						}else{
 							UUID uuid = UUID.fromString(author_uuid);
