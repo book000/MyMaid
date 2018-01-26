@@ -500,5 +500,9 @@ commands:
       description: 市の範囲を登録したり削除したりできます。
       permission: mymaid.city
       permission-message: You do not have permission to perform this command.
+   book:
+      description: 本を販売したり購入したりできます。
+      permission: mymaid.book
+      permission-message: You do not have permission to perform this command.
 
 

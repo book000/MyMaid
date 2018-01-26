@@ -190,6 +190,11 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 					}
 				}
 
+				if(!isNumber(args[1])){
+					Method.SendMessage(sender, cmd, "指定されたページは数値ではありません。");
+					return true;
+				}
+
 				int count = 0;
 				int page = Integer.parseInt(args[1]);
 				int startcount = (page - 1) * 10;
@@ -376,7 +381,18 @@ public class Dynmap_Teleporter implements CommandExecutor, TabCompleter {
 		Method.SendMessage(sender, cmd, "/dt near: あなたの近くのマーカーを表示します。");
 		Method.SendMessage(sender, cmd, "/dt add <MarkerName> <MarkerType>: Markerを追加します。");
 		Method.SendMessage(sender, cmd, "/dt del <MarkerName> <MarkerType>: Markerを削除します。");
+		Method.SendMessage(sender, cmd, "/dt list: Markerリストを表示します。");
+		Method.SendMessage(sender, cmd, "/dt list <Page>: 指定されたページのMarkerリストを表示します。");
 		return true;
+	}
+
+	boolean isNumber(String num) {
+		try {
+			Integer.parseInt(num);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
