@@ -264,7 +264,6 @@ public class Cmd_Book implements CommandExecutor {
 							return true;
 						}
 
-
 						int id = res.getInt("id");
 						String title = res.getString("title");
 						String author = res.getString("author");
@@ -336,6 +335,11 @@ public class Cmd_Book implements CommandExecutor {
 						Method.SendMessage(sender, cmd, "この本は" + offplayer.getName() + "の販売物のため、販売を終了できません。");
 						return true;
 					}
+					if(!bookdata.getStatus().equalsIgnoreCase("now")){
+						Method.SendMessage(sender, cmd, "この本は現在販売中ではないため、販売を終了できません。");
+						return true;
+					}
+
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					String date = sdf.format(new Date());
 					bookdata.addHistory(player, MyMaidBookHistoryType.END, date);
@@ -606,6 +610,7 @@ class MyMaidBookData {
 		OfflinePlayer offplayer = Bukkit.getOfflinePlayer(author_name);
 		if(offplayer != null){
 			author_uuid = offplayer.getUniqueId();
+			this.author = offplayer;
 		}
 		pages = Arrays.asList(pages_str.split("§j"));
 		this.requiredjao = requiredjao;
@@ -622,6 +627,7 @@ class MyMaidBookData {
 		OfflinePlayer offplayer = Bukkit.getOfflinePlayer(author_uuid);
 		if(offplayer != null){
 			author_name = offplayer.getName();
+			this.author = offplayer;
 		}else{
 			throw new IllegalArgumentException("データの解析に失敗しました。(This UUID Player is not found. / UUID: " + author_uuid.toString() + ")");
 		}
@@ -671,7 +677,7 @@ class MyMaidBookData {
 
 	List<MyMaidBookHistory> getHistory(){
 		// 一行ごとに「mine_book000|create|1514732400」など。
-		List<String> lines = Arrays.asList(getRawHistory().split("\r\n"));
+		List<String> lines = Arrays.asList(getRawHistory().replaceAll("\r\n", "\n").split("\n"));
 		List<MyMaidBookHistory> historyList = new ArrayList<MyMaidBookHistory>();
 		for(String line : lines){
 			String[] line_data = line.split(",");
@@ -681,7 +687,7 @@ class MyMaidBookData {
 			}else{
 				// データ形式が不適合
 				Discord.send("293856671799967744", ":octagonal_sign:MyMaidのBookコマンドにてMyMaidBookHistoryのデータ形式不適合が発生しました。\nデータ: ```" + line + "```\n行数: " + lines.size() + "行\n列数: " + line_data.length + "列");
-				Bukkit.getLogger().warning("MyMaidのBookコマンドにてMyMaidBookHistoryのデータ形式不適合が発生しました。\nデータ: ```" + line + "```\n行数: " + lines.size() + "行\n列数: " + line_data.length + "列");
+				//Bukkit.getLogger().warning("MyMaidのBookコマンドにてMyMaidBookHistoryのデータ形式不適合が発生しました。\nデータ: ```" + line + "```\n行数: " + lines.size() + "行\n列数: " + line_data.length + "列");
 			}
 		}
 		return historyList;
