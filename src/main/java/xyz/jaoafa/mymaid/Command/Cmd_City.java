@@ -23,7 +23,6 @@ import org.dynmap.markers.MarkerSet;
 import org.tritonus.share.ArraySet;
 
 import xyz.jaoafa.mymaid.Method;
-import xyz.jaoafa.mymaid.EventHandler.CityCornerEditer._OpenGUI;
 
 public class Cmd_City implements CommandExecutor {
 	JavaPlugin plugin;
@@ -264,6 +263,9 @@ public class Cmd_City implements CommandExecutor {
 				Method.SendMessage(sender, cmd, "順番を変更したりする場合は、「/city editcorner <Name>」コマンドをお使いください。");
 				return true;
 			}else if(args[0].equalsIgnoreCase("editcorner")){
+				Method.SendMessage(sender, cmd, "システム障害が多くみられるため、一時的にeditcornerの使用を停止しています。");
+				return true;
+				/*
 				String cityName = args[1];
 				AreaMarker select = null;
 				MarkerSet markerset = markerapi.getMarkerSet("towns");
@@ -278,6 +280,7 @@ public class Cmd_City implements CommandExecutor {
 				}
 				new _OpenGUI(player, select).runTaskLater(plugin, 1);
 				return true;
+				*/
 			}
 		}else if(args.length == 3){
 			if(args[0].equalsIgnoreCase("add")){
