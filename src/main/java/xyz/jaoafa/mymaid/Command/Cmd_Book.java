@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -114,7 +115,7 @@ public class Cmd_Book implements CommandExecutor {
 								return true;
 							}
 						}
-						Method.SendMessage(sender, cmd, "[" + bookdata.getID() + "] " + bookdata.getTitle() + " - " + bookdata.getAuthorName() + "(" + bookdata.getRequiredjao() + "jao)");
+						Method.SendMessage(sender, cmd, "[" + bookdata.getID() + "] " + bookdata.getTitle() + ChatColor.GREEN + " - " + bookdata.getAuthorName() + "(" + bookdata.getRequiredjao() + "jao)");
 						count++;
 					}
 
@@ -159,6 +160,14 @@ public class Cmd_Book implements CommandExecutor {
 						String status = res.getString("status");
 						int createdate = res.getInt("createdate");
 
+						if(status.equalsIgnoreCase("end")){
+							// 販売終了
+							Method.SendMessage(sender, cmd, "指定された本はすでに販売を終了しています。");
+							return true;
+						}else if(!status.equalsIgnoreCase("now")){
+							Method.SendMessage(sender, cmd, "指定された本は未発売か、なにかしらの理由で販売できません。(Status: " + status + ")");
+							return true;
+						}
 
 						if(author_uuid.equalsIgnoreCase("null") || author_uuid.equalsIgnoreCase("")){
 							bookdata = new MyMaidBookData(id, title, author, pages_str, requiredjao, book_count, history, status, createdate);
@@ -243,8 +252,101 @@ public class Cmd_Book implements CommandExecutor {
 					Method.SendMessage(sender, cmd, "このコマンドはサーバ内から実行可能です。");
 					return true;
 				}
-				//Player player = (Player) sender;
-				Method.SendMessage(sender, cmd, "未実装です。実装を希望される場合はDiscord#debeloperで希望すると実装が早くなるかもしれません。");
+				Player player = (Player) sender;
+				try{
+					MyMaidBookData bookdata = null;
+					if(isNumber(args[1])){
+						// ID
+						ResultSet res = statement.executeQuery("SELECT * FROM book WHERE id = " + args[1]);
+
+						if(!res.next()){
+							Method.SendMessage(sender, cmd, "指定された本は見つかりませんでした。");
+							return true;
+						}
+
+
+						int id = res.getInt("id");
+						String title = res.getString("title");
+						String author = res.getString("author");
+						String author_uuid = res.getString("author_uuid");
+						String pages_str = res.getString("data");
+						int requiredjao = res.getInt("requiredjao");
+						int book_count = res.getInt("count");
+						String history = res.getString("history");
+						String status = res.getString("status");
+						int createdate = res.getInt("createdate");
+
+
+						if(author_uuid.equalsIgnoreCase("null") || author_uuid.equalsIgnoreCase("")){
+							bookdata = new MyMaidBookData(id, title, author, pages_str, requiredjao, book_count, history, status, createdate);
+						}else{
+							UUID uuid = UUID.fromString(author_uuid);
+
+							try{
+								bookdata = new MyMaidBookData(id, title, uuid, status, requiredjao, book_count, history, status, createdate);
+							}catch(IllegalArgumentException e){
+								BugReport.report(e);
+								Method.SendMessage(sender, cmd, "データの解析に失敗しました。");
+								return true;
+							}
+						}
+					}else{
+						PreparedStatement ps = MyMaid.c.prepareStatement("SELECT * FROM book WHERE title = ?");
+						ps.setString(1, args[1]);
+						ResultSet res = ps.executeQuery();
+
+						if(!res.next()){
+							Method.SendMessage(sender, cmd, "指定された本は見つかりませんでした。");
+							return true;
+						}
+
+						int id = res.getInt("id");
+						String title = res.getString("title");
+						String author = res.getString("author");
+						String author_uuid = res.getString("author_uuid");
+						String pages_str = res.getString("data");
+						int requiredjao = res.getInt("requiredjao");
+						int book_count = res.getInt("count");
+						String history = res.getString("history");
+						String status = res.getString("status");
+						int createdate = res.getInt("createdate");
+
+						if(author_uuid.equalsIgnoreCase("null") || author_uuid.equalsIgnoreCase("")){
+							bookdata = new MyMaidBookData(id, title, author, pages_str, requiredjao, book_count, history, status, createdate);
+						}else{
+							UUID uuid = UUID.fromString(author_uuid);
+
+							try{
+								bookdata = new MyMaidBookData(id, title, uuid, status, requiredjao, book_count, history, status, createdate);
+							}catch(IllegalArgumentException e){
+								BugReport.report(e);
+								Method.SendMessage(sender, cmd, "データの解析に失敗しました。");
+								return true;
+							}
+						}
+					}
+
+					if(bookdata.getAuthor() == null){
+						Method.SendMessage(sender, cmd, "この本は販売終了できません。(プレイヤーデータ取得失敗)");
+						return true;
+					}
+					OfflinePlayer offplayer = bookdata.getAuthor();
+					if(!offplayer.getUniqueId().toString().equalsIgnoreCase(player.getUniqueId().toString())){ // 割とクソ実装感ある
+						// UUIDが違ったら(プレイヤーが違ったら)
+						Method.SendMessage(sender, cmd, "この本は" + offplayer.getName() + "の販売物のため、販売を終了できません。");
+						return true;
+					}
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					String date = sdf.format(new Date());
+					bookdata.addHistory(player, MyMaidBookHistoryType.END, date);
+					statement.execute("UPDATE book SET history = '" + bookdata.getRawHistory() + "', status = 'end' WHERE id = " + bookdata.getID() + ";");
+					Method.SendMessage(sender, cmd, "販売を終了しました。");
+					return true;
+				} catch (SQLException e) {
+					// TODO 自動生成された catch ブロック
+					Method.SendMessage(sender, cmd, BugReport.report(e));
+					return true;
+				}
 			}else if(args[0].equalsIgnoreCase("history")){
 				// /book history <Name|ID>
 				try{
@@ -356,7 +458,7 @@ public class Cmd_Book implements CommandExecutor {
 
 					String title = book.getTitle();
 
-					ResultSet res = statement.executeQuery("SELECT * FROM book WHERE title = '" + title + "'");
+					ResultSet res = statement.executeQuery("SELECT * FROM book WHERE title = '" + title + "' AND status = 'now'");
 					if(res.next()){
 						// 被りを防ぐため、同名の本は販売できない
 						Method.SendMessage(sender, cmd, "指定された本の題名と同じ題名の本が発売されています。");
@@ -569,7 +671,7 @@ class MyMaidBookData {
 
 	List<MyMaidBookHistory> getHistory(){
 		// 一行ごとに「mine_book000|create|1514732400」など。
-		List<String> lines = Arrays.asList(getRawHistory().split("\n"));
+		List<String> lines = Arrays.asList(getRawHistory().split("\r\n"));
 		List<MyMaidBookHistory> historyList = new ArrayList<MyMaidBookHistory>();
 		for(String line : lines){
 			String[] line_data = line.split(",");
