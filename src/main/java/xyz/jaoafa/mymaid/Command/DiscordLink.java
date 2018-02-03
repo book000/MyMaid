@@ -1,7 +1,5 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.util.Collection;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class DiscordLink implements CommandExecutor {
 	JavaPlugin plugin;
@@ -29,13 +27,7 @@ public class DiscordLink implements CommandExecutor {
 			Method.SendMessage(sender, cmd, "引数は1つのみにしてください。(/discordlink <AuthID>)");
 			return true;
 		}
-		String g = "";
-		Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
-		for(String group : groups){
-			if(PermissionsEx.getUser(player).inGroup(group)){
-				g = group;
-			}
-		}
+		String g = PermissionsManager.getPermissionMainGroup(player);
 		String result = Method.url_jaoplugin("disauth", "player=" + player.getName() + "&uuid=" + player.getUniqueId() + "&authid=" + args[0] + "&pex=" + g);
 		if(result.equalsIgnoreCase("Err")){
 			Method.SendMessage(sender, cmd, "AuthIDは英数字のみ受け付けています。");

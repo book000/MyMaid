@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 
 public class OnPlayerItemConsumeEvent implements Listener {
@@ -21,7 +21,8 @@ public class OnPlayerItemConsumeEvent implements Listener {
 		if(event.getItem().getType() != Material.POTION){
 			return;
 		}
-		if(!PermissionsEx.getUser(player).inGroup("QPPE")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(!group.equalsIgnoreCase("QPPE")){
 			return;
 		}
 		event.setCancelled(true);

@@ -12,7 +12,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class NoWither implements Listener {
 	JavaPlugin plugin;
@@ -47,7 +47,8 @@ public class NoWither implements Listener {
 			event.setCancelled(true);
             min_player.sendMessage("[NoWither] " + ChatColor.GREEN + "負荷対策の為にウィザーの召喚を禁止しています。ご協力をお願いします。");
             for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+            	String group = PermissionsManager.getPermissionMainGroup(p);
+				if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 					p.sendMessage("[" + ChatColor.RED + "NoWither" + ChatColor.WHITE + "] " + ChatColor.GREEN + min_player.getName() + "の近くでウィザーが発生しましたが、発生を規制されました。");
 				}
 			}

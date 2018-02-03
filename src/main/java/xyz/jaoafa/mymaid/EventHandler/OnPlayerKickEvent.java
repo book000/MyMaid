@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class OnPlayerKickEvent implements Listener {
@@ -47,7 +47,8 @@ public class OnPlayerKickEvent implements Listener {
 
 		}
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-			if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")){
+			String group = PermissionsManager.getPermissionMainGroup(p);
+			if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 				p.sendMessage("[KickReason] " + ChatColor.GREEN + e.getPlayer().getName() + " Kick Reason: 「" + e.getReason() + "」");
 			}
 		}

@@ -14,8 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.ParseSelector;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Discord.Discord;
 import xyz.jaoafa.mymaid.Jail.Jail;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
@@ -58,11 +58,12 @@ public class OnPlayerCommand implements Listener {
 
 			if(args[0].equalsIgnoreCase("/kill")){
 				boolean killflag = false;
-				if(PermissionsEx.getUser(player).inGroup("Limited")){
+				String group = PermissionsManager.getPermissionMainGroup(player);
+				if(group.equalsIgnoreCase("Limited")){
 					killflag = true;
-				}else if(PermissionsEx.getUser(player).inGroup("QPPE")){
+				}else if(group.equalsIgnoreCase("QPPE")){
 					killflag = true;
-				}else if(PermissionsEx.getUser(player).inGroup("Default")){
+				}else if(group.equalsIgnoreCase("Default")){
 					killflag = true;
 				}
 				if(args[1].equalsIgnoreCase("@e")){
@@ -156,11 +157,12 @@ public class OnPlayerCommand implements Listener {
 			}
 			if(args[0].equalsIgnoreCase("/minecraft:kill")){
 				boolean killflag = false;
-				if(PermissionsEx.getUser(player).inGroup("Limited")){
+				String group = PermissionsManager.getPermissionMainGroup(player);
+				if(group.equalsIgnoreCase("Limited")){
 					killflag = true;
-				}else if(PermissionsEx.getUser(player).inGroup("QPPE")){
+				}else if(group.equalsIgnoreCase("QPPE")){
 					killflag = true;
-				}else if(PermissionsEx.getUser(player).inGroup("Default")){
+				}else if(group.equalsIgnoreCase("Default")){
 					killflag = true;
 				}
 				if(killflag){
@@ -266,11 +268,12 @@ public class OnPlayerCommand implements Listener {
 					event.setCancelled(true);
 					return;
 				}else{
+					String group = PermissionsManager.getPermissionMainGroup(player);
 					if(
-							PermissionsEx.getUser(player).inGroup("Limited")
-						|| PermissionsEx.getUser(player).inGroup("QPPE")
-						|| PermissionsEx.getUser(player).inGroup("Default")
-						|| PermissionsEx.getUser(player).inGroup("Regular")
+							group.equalsIgnoreCase("Limited")
+						|| group.equalsIgnoreCase("QPPE")
+						|| group.equalsIgnoreCase("Default")
+						|| group.equalsIgnoreCase("Regular")
 					){
 						player.sendMessage("Unknown command. Type \"/help\" for help.");
 						event.setCancelled(true);

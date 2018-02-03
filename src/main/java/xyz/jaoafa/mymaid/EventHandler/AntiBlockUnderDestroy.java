@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class AntiBlockUnderDestroy implements Listener {
 	JavaPlugin plugin;
@@ -31,10 +31,13 @@ public class AntiBlockUnderDestroy implements Listener {
 		if (!(player instanceof Player)) {
 			return;
 		}
+
+		String group = PermissionsManager.getPermissionMainGroup(player);
+
 		int destroyOK;
-		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+		if(group.equalsIgnoreCase("QPPE")){
 			destroyOK = 3;
-		}else if(PermissionsEx.getUser(player).inGroup("Default")){
+		}else if(group.equalsIgnoreCase("Default")){
 			destroyOK = 5;
 		}else{
 			return;

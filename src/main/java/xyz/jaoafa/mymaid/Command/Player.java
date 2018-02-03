@@ -1,6 +1,6 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -8,8 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class Player implements CommandExecutor {
 	JavaPlugin plugin;
@@ -24,31 +24,41 @@ public class Player implements CommandExecutor {
 				return true;
 			}
 			org.bukkit.entity.Player player = (org.bukkit.entity.Player) sender;
-			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
+			String MainGroup = PermissionsManager.getPermissionMainGroup(player);
+			List<String> groups = PermissionsManager.getPermissionGroupList(player);
+
 			for(String group : groups){
-				if(PermissionsEx.getUser(player).inGroup(group)){
-					if(PermissionsEx.getUser(player).inGroup("Default")){
-						if(PermissionsEx.getUser(player).inGroup("Regular")){
-							Method.SendMessage(player, cmd, "You Permission group \"Regular\"");
-							return true;
-						}
-					}
+				if(MainGroup.equalsIgnoreCase(group)){
+					Method.SendMessage(player, cmd, "You Permission group \"" + group +"\" (Main)");
+				}else{
 					Method.SendMessage(player, cmd, "You Permission group \"" + group +"\"");
 				}
 			}
 		}else if(args.length == 1){
 			String p = args[0];
-			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
-			for(String group : groups){
-				if(PermissionsEx.getUser(p).inGroup(group)){
-					if(PermissionsEx.getUser(p).inGroup("Default")){
-						if(PermissionsEx.getUser(p).inGroup("Regular")){
-							Method.SendMessage(sender, cmd, p + " Permission group \"Regular\"");
-							return true;
-						}
-					}
-					Method.SendMessage(sender, cmd, p + " Permission group \"" + group +"\"");
+
+			if(p == null){
+				Method.SendMessage(sender, cmd, "引数にnullを指定できません。"); // 本来ありえなさそうだけど
+				return true;
+			}
+
+			try{
+				String MainGroup = PermissionsManager.getPermissionMainGroup(p);
+				if(MainGroup == null){
+					Method.SendMessage(sender, cmd, "メイングループを取得できませんでした。");
+					return true;
 				}
+				List<String> groups = PermissionsManager.getPermissionGroupList(p);
+				for(String group : groups){
+					if(MainGroup.equalsIgnoreCase(group)){
+						Method.SendMessage(sender, cmd, "You Permission group \"" + group +"\" (Main)");
+					}else{
+						Method.SendMessage(sender, cmd, "You Permission group \"" + group +"\"");
+					}
+				}
+			}catch(IllegalArgumentException e){
+				Method.SendMessage(sender, cmd, "プレイヤーを取得できません。");
+				return true;
 			}
 		}else{
 			Method.SendMessage(sender, cmd, "引数が適していません。");

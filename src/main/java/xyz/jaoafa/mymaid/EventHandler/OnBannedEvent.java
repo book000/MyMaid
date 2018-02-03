@@ -10,8 +10,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.mcbans.firestar.mcbans.events.PlayerBannedEvent;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class OnBannedEvent implements Listener {
@@ -31,7 +31,8 @@ public class OnBannedEvent implements Listener {
 			Bukkit.broadcastMessage("[BANDATA] " + ChatColor.GREEN + "理由「" + reason + "」");
 			Method.url_jaoplugin("ban", "p="+player+"&b="+sender+"&t=gban&r="+reason);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin")) {
+				String group = PermissionsManager.getPermissionMainGroup(p);
+				if(group.equalsIgnoreCase("Admin")) {
 					p.sendMessage("[BANDATA] " + ChatColor.GREEN + "サーバの評価値を上げるため、MCBansに証拠画像を提供してください！ http://mcbans.com/server/jaoafa.com");
 				}
 			}

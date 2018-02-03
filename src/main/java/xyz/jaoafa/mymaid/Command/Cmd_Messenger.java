@@ -7,9 +7,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Messenger;
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class Cmd_Messenger implements CommandExecutor {
 	JavaPlugin plugin;
@@ -35,11 +35,9 @@ public class Cmd_Messenger implements CommandExecutor {
 			if(args[0].equalsIgnoreCase("add")){
 				if (sender instanceof Player) {
 					Player p = (Player) sender;
-					if(!PermissionsEx.getUser(p).inGroup("Admin")){
-						if(!PermissionsEx.getUser(p).inGroup("Moderator")){
-							Method.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
-							return true;
-						}
+					String group = PermissionsManager.getPermissionMainGroup(p);
+					if(!group.equalsIgnoreCase("Admin") && !group.equalsIgnoreCase("Moderator")){
+						Method.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
 					}
 				}else if(!(sender instanceof ConsoleCommandSender)){
 					Method.SendMessage(sender, cmd, "このコマンドはサーバ内もしくはコンソールから実行可能です。");
@@ -66,11 +64,9 @@ public class Cmd_Messenger implements CommandExecutor {
 			}else if(args[0].equalsIgnoreCase("del")){
 				if (sender instanceof Player) {
 					Player p = (Player) sender;
-					if(!PermissionsEx.getUser(p).inGroup("Admin")){
-						if(!PermissionsEx.getUser(p).inGroup("Moderator")){
-							Method.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
-							return true;
-						}
+					String group = PermissionsManager.getPermissionMainGroup(p);
+					if(!group.equalsIgnoreCase("Admin") && !group.equalsIgnoreCase("Moderator")){
+						Method.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
 					}
 				}else if(!(sender instanceof ConsoleCommandSender)){
 					Method.SendMessage(sender, cmd, "このコマンドはサーバ内もしくはコンソールから実行可能です。");

@@ -3,7 +3,6 @@ package xyz.jaoafa.mymaid.EventHandler;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
 import org.bukkit.Bukkit;
@@ -19,8 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.json.simple.JSONObject;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class OnMyMaidCommandblockLogs implements Listener {
 	JavaPlugin plugin;
@@ -106,12 +105,8 @@ public class OnMyMaidCommandblockLogs implements Listener {
         		obj.put("distance", distance);
         		obj.put("players", play);
 
-        		Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
-        		for(String group : groups){
-        			if(PermissionsEx.getUser(player).inGroup(group)){
-        				obj.put("permission", group);
-        			}
-        		}
+        		String group = PermissionsManager.getPermissionMainGroup(player);
+        		obj.put("permission", group);
         		obj.put("time", sdfall.format(new Date()));
 
                 	String str = obj.toJSONString();

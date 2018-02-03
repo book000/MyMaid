@@ -19,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 /*
  * ポーション系は、いろいろちょっとめんどくさいので、以下のように権限によって使用の可否を決める
@@ -57,19 +57,20 @@ public class AntiPotion implements Listener {
 	public void PotionDrink(PlayerItemConsumeEvent event){ // ポーションを飲む
 		Player player = event.getPlayer();
 	    if(event.getItem() == null) return;
-		if(PermissionsEx.getUser(player).inGroup("Limited")){
+	    String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Limited")){
 			// 所持を含む全部の動作を禁止
 			event.setCancelled(true);
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+		if(group.equalsIgnoreCase("QPPE")){
 			// Limited同様、所持を含む全部の動作を禁止。付与も禁止
 			ItemStack item = event.getItem();
 			if(item.getType() != Material.POTION){
 				return;
 			}
 			event.setCancelled(true);
-		}else if(PermissionsEx.getUser(player).inGroup("Default")){
+		}else if(group.equalsIgnoreCase("Default")){
 			// 所持、飲むことのみ許可、ただし透明化・スピードなどサーバに負荷がかかったり、他のプレイヤーに迷惑がかかる可能性のあるポーションは禁止
 			ItemStack item = event.getItem();
 			if(item.getType() != Material.POTION){
@@ -90,19 +91,20 @@ public class AntiPotion implements Listener {
 			return;
 		}
 		Player player = (Player) event.getPotion().getShooter();
-		if(PermissionsEx.getUser(player).inGroup("Limited")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Limited")){
 			// 所持を含む全部の動作を禁止
 			event.setCancelled(true);
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+		if(group.equalsIgnoreCase("QPPE")){
 			// Limited同様、所持を含む全部の動作を禁止。付与も禁止
 			ItemStack item = event.getPotion().getItem();
 			if(item.getType() != Material.POTION){
 				return;
 			}
 			event.setCancelled(true);
-		}else if(PermissionsEx.getUser(player).inGroup("Default")){
+		}else if(group.equalsIgnoreCase("Default")){
 			// 所持、飲むことのみ許可、ただし透明化・スピードなどサーバに負荷がかかったり、他のプレイヤーに迷惑がかかる可能性のあるポーションは禁止
 			ItemStack item = event.getPotion().getItem();
 			if(item.getType() != Material.POTION){
@@ -120,15 +122,16 @@ public class AntiPotion implements Listener {
 		if(item.getType() != Material.POTION){
 			return;
 		}
-	    if(PermissionsEx.getUser(player).inGroup("Limited")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+	    if(group.equalsIgnoreCase("Limited")){
 			// 所持を含む全部の動作を禁止
 			event.setCancelled(true);
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+		if(group.equalsIgnoreCase("QPPE")){
 			// Limited同様、所持を含む全部の動作を禁止。付与も禁止
 			event.setCancelled(true);
-		}else if(PermissionsEx.getUser(player).inGroup("Default")){
+		}else if(group.equalsIgnoreCase("Default")){
 			// 所持、飲むことのみ許可、ただし透明化・スピードなどサーバに負荷がかかったり、他のプレイヤーに迷惑がかかる可能性のあるポーションは禁止
 			event.setCancelled(true);
 		}
@@ -139,7 +142,8 @@ public class AntiPotion implements Listener {
 		Player player = event.getPlayer();
 		ItemStack item = event.getItem().getItemStack();
 	    if(item == null) return;
-		if(PermissionsEx.getUser(player).inGroup("Limited")){
+	    String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Limited")){
 			// 所持を含む全部の動作を禁止
 			if(item.getType() != Material.POTION){
 				return;
@@ -147,13 +151,13 @@ public class AntiPotion implements Listener {
 			event.setCancelled(true);
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+		if(group.equalsIgnoreCase("QPPE")){
 			// Limited同様、所持を含む全部の動作を禁止。付与も禁止
 		    if(item.getType() != Material.POTION){
 				return;
 			}
 			event.setCancelled(true);
-		}else if(PermissionsEx.getUser(player).inGroup("Default")){
+		}else if(group.equalsIgnoreCase("Default")){
 			// 所持、飲むことのみ許可、ただし透明化・スピードなどサーバに負荷がかかったり、他のプレイヤーに迷惑がかかる可能性のあるポーションは禁止
 		    if(item.getType() != Material.POTION){
 				return;

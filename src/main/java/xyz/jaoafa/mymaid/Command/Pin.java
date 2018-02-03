@@ -1,6 +1,5 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,8 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.EventHandler.OnAsyncPlayerPreLoginEvent;
 
 public class Pin implements CommandExecutor {
@@ -24,7 +23,6 @@ public class Pin implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
-			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
 		Player player = (Player) sender;
@@ -40,7 +38,6 @@ public class Pin implements CommandExecutor {
 
 		if (args.length == 0){
 			Method.SendMessage(sender, cmd, "エラーが発生しました。PINコードを入力してください。");
-			Bukkit.getLogger().info("ERROR! PINコードが入力されませんでした。");
 			return true;
 		}else{
 			pin = args[0]; //入力されたコードを代入
@@ -81,13 +78,7 @@ public class Pin implements CommandExecutor {
 			return true;
 		}else{
 			Bukkit.broadcastMessage("[MyMaid] " + ChatColor.GREEN + player.getName() + "さんが認証を通過しました。");
-			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
-			for(String group : groups){
-				if(PermissionsEx.getUser(player).inGroup(group)){
-					PermissionsEx.getUser(player).removeGroup(group);
-				}
-			}
-			PermissionsEx.getUser(player).addGroup("Default");
+			PermissionsManager.setPermissionsGroup(player, "Default");
 			sender.sendMessage("[MyMaid] " + ChatColor.GREEN + "登録しました。当鯖にお越しいただきありがとうございます。");
 			sender.sendMessage("[MyMaid] " + ChatColor.GREEN + "是非当鯖の宣伝をよろしくおねがいします！");
 			sender.sendMessage("[MyMaid] " + ChatColor.GREEN + "minecraft.jpで投票する: https://minecraft.jp/servers/jaoafa.com");

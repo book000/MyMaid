@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class OnPotionSplashEvent implements Listener {
 	JavaPlugin plugin;
@@ -19,7 +19,8 @@ public class OnPotionSplashEvent implements Listener {
 			return;
 		}
 		Player player = (Player) event.getEntity().getShooter();
-		if(!PermissionsEx.getUser(player).inGroup("QPPE")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(!group.equalsIgnoreCase("QPPE")){
 			return;
 		}
 		event.setCancelled(true);

@@ -2,7 +2,6 @@ package xyz.jaoafa.mymaid.EventHandler;
 
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,10 +15,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.MyBlock;
 import xyz.jaoafa.mymaid.Discord.Discord;
@@ -94,20 +93,8 @@ public class OnQuitGame implements Listener {
     	}
 		@Override
 		public void run() {
-			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
-			String pex = "";
-			for(String group : groups){
-				if(PermissionsEx.getUser(player).inGroup(group)){
-					if(PermissionsEx.getUser(player).inGroup("Default")){
-						if(PermissionsEx.getUser(player).inGroup("Regular")){
-							pex = "Regular";
-						}
-					}else{
-						pex = group;
-					}
-				}
-			}
-			Method.url_jaoplugin("pex", "p="+player.getName()+"&u="+player.getUniqueId()+"&pex="+pex);
+			String group = PermissionsManager.getPermissionMainGroup(player);
+			Method.url_jaoplugin("pex", "p="+player.getName()+"&u="+player.getUniqueId()+"&pex="+group);
 		}
 	}
 }

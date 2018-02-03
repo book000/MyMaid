@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Pointjao;
 import xyz.jaoafa.mymaid.WorldAllowCommand;
 import xyz.jaoafa.mymaid.Jail.Jail;
@@ -28,9 +28,9 @@ public class Cmdmymaid implements CommandExecutor {
 					return true;
 				}
 				Player p = (org.bukkit.entity.Player) sender;
-				if(!PermissionsEx.getUser(p).inGroup("Admin")){
+				String group = PermissionsManager.getPermissionMainGroup(p);
+				if(!group.equalsIgnoreCase("Admin") && !group.equalsIgnoreCase("Moderator")){
 					Method.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
-					return true;
 				}
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(player.getName().equalsIgnoreCase(args[1])){
@@ -54,9 +54,9 @@ public class Cmdmymaid implements CommandExecutor {
 					return true;
 				}
 				Player p = (org.bukkit.entity.Player) sender;
-				if(!PermissionsEx.getUser(p).inGroup("Admin")){
+				String group = PermissionsManager.getPermissionMainGroup(p);
+				if(!group.equalsIgnoreCase("Admin") && !group.equalsIgnoreCase("Moderator")){
 					Method.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
-					return true;
 				}
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					if(player.getName().equalsIgnoreCase(args[1])){

@@ -31,7 +31,6 @@ import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 /**
  * 主要メゾット
@@ -286,19 +285,6 @@ public class Method {
 		sender.sendMessage("[" + cmd.getName().toUpperCase() +"] " + ChatColor.GREEN + text);
 	}
 	/**
-	 * 指定したプレイヤーのPermissionsExにおけるグループに入っているかどうか確認する
-	 * @param player 取得するプレイヤー
-	 * @param group PermissionsExのグループ名
-	 * @return 入っていたらtrue、入っていなかったらfalse
-	 * @author mine_book000
-	 */
-	public static boolean CheckQroup(Player player, String group) {
-		if(PermissionsEx.getUser(player).inGroup(group)){
-			return true;
-		}
-		return false;
-	}
-	/**
 	 * UUIDかどうか？
 	 * @param uuid UUIDかどうかチェックする文字列
 	 * @return UUIDだったらtrue、そうでなかったらfalse
@@ -331,7 +317,8 @@ public class Method {
 	 */
 	public static void SendTipsALL(String text) {
 		for(Player p: Bukkit.getServer().getOnlinePlayers()){
-			if(!PermissionsEx.getUser(p).inGroup("Admin") && !PermissionsEx.getUser(p).inGroup("Moderator") && !PermissionsEx.getUser(p).inGroup("Regular")){
+			String group = PermissionsManager.getPermissionMainGroup(p);
+			if(!group.equalsIgnoreCase("Admin") && !group.equalsIgnoreCase("Moderator") && !group.equalsIgnoreCase("Regular")){
 				if(tips.containsKey(p.getName())){
 					if(tips.get(p.getName()).equalsIgnoreCase(text)){
 						continue;

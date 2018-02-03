@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class Event implements Listener {
 	JavaPlugin plugin;
@@ -69,8 +69,9 @@ public class Event implements Listener {
 				event.setCancelled(true);
 				return;
 			}
-			if(!PermissionsEx.getUser(player).inGroup("Admin")){
-				if(!PermissionsEx.getUser(player).inGroup("Moderator")){
+			String group = PermissionsManager.getPermissionMainGroup(player);
+			if(!group.equalsIgnoreCase("Admin")){
+				if(!group.equalsIgnoreCase("Moderator")){
 					player.sendMessage("[JAIL] " + ChatColor.GREEN + "楽園にブロックを設置できません。");
 					event.setCancelled(true);
 					return;
@@ -93,7 +94,8 @@ public class Event implements Listener {
 		if (!(player instanceof Player)) {
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("QPPE")){
 			if(event.getBlock().getType() == Material.COMMAND){
 				player.sendMessage("[COMMANDCHECK] " + ChatColor.GREEN + "QPPE権限ではコマンドブロックを破壊することができません。");
 				event.setCancelled(true);
@@ -105,8 +107,8 @@ public class Event implements Listener {
 		World World = Bukkit.getServer().getWorld("Jao_Afa");
 		Location prison = new Location(World, 1767, 70, 1767);
 		if(prison.distance(event.getBlock().getLocation()) <= 150){
-			if(!PermissionsEx.getUser(player).inGroup("Admin")){
-				if(!PermissionsEx.getUser(player).inGroup("Moderator")){
+			if(!group.equalsIgnoreCase("Admin")){
+				if(!group.equalsIgnoreCase("Moderator")){
 					player.sendMessage("[JAIL] " + ChatColor.GREEN + "楽園でブロックを破壊できません。");
 					event.setCancelled(true);
 					return;

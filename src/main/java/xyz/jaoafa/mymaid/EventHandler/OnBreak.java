@@ -13,7 +13,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.material.Crops;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class OnBreak implements Listener {
 	JavaPlugin plugin;
@@ -32,7 +32,8 @@ public class OnBreak implements Listener {
 			return;
 		}
 		Block block = event.getBlock();
-		if(PermissionsEx.getUser(player).inGroup("QPPE") || PermissionsEx.getUser(player).inGroup("Default")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("QPPE") || group.equalsIgnoreCase("Default")){
 			// QPPEとDefaultは一部ブロックを破壊できない
 			if(LDNoBreak.contains(block.getType())){
 				event.setCancelled(true);

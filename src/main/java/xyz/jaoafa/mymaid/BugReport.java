@@ -13,7 +13,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class BugReport {
@@ -86,7 +85,8 @@ public class BugReport {
 
 	private static void AdminSend(Throwable exception){
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-			if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+			String group = PermissionsManager.getPermissionMainGroup(p);
+			if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 				p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。");
 				p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + exception.getMessage());
 			}

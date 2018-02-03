@@ -16,10 +16,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class Vote implements CommandExecutor {
 	JavaPlugin plugin;
@@ -40,7 +40,8 @@ public class Vote implements CommandExecutor {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					String group = PermissionsManager.getPermissionMainGroup(p);
+					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。(NoVote/ClassNotFoundException | SQLException)通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 					}
@@ -51,7 +52,8 @@ public class Vote implements CommandExecutor {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				String group = PermissionsManager.getPermissionMainGroup(p);
+				if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。(NoVote/SQLException)通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 				}
@@ -116,7 +118,8 @@ public class Vote implements CommandExecutor {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					String group = PermissionsManager.getPermissionMainGroup(p);
+					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。(NoVote/SQLException)通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 					}
@@ -169,7 +172,8 @@ public class Vote implements CommandExecutor {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					String group = PermissionsManager.getPermissionMainGroup(p);
+					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。(NoVote/SQLException)通常は再起動で直りますが直らない場合は開発者に連絡を行ってください。");
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 					}

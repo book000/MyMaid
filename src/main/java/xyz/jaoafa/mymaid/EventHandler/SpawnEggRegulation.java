@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class SpawnEggRegulation implements Listener {
 	JavaPlugin plugin;
@@ -36,7 +36,8 @@ public class SpawnEggRegulation implements Listener {
 			return;
 		}
 		MobType type = getMobTypeFromId(is.getDurability());
-		if(PermissionsEx.getUser(player).inGroup("Limited") || PermissionsEx.getUser(player).inGroup("QPPE")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Limited") || group.equalsIgnoreCase("QPPE")){
 			event.setCancelled(true);
 			if(old.containsKey(player.getName())){
 				if(old.get(player.getName()).equalsIgnoreCase(type.name())){
@@ -45,7 +46,8 @@ public class SpawnEggRegulation implements Listener {
 			}
 			old.put(player.getName(), type.name());
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				String p_group = PermissionsManager.getPermissionMainGroup(p);
+				if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")) {
 					p.sendMessage("[SPAWNEGG] " + ChatColor.GREEN + "「" + player.getName() + "」が「" + type.name() + "」をスポーンさせようとしましたが規制されました。");
 				}
 			}

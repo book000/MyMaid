@@ -35,11 +35,11 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.regions.CuboidRegionSelector;
 import com.sk89q.worldedit.regions.RegionSelector;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Pointjao;
 
 @SuppressWarnings("deprecation")
@@ -136,11 +136,12 @@ public class Land implements CommandExecutor, Listener {
 			Method.SendMessage(sender, cmd, "このコマンドが使用できるワールドではありまぜん。");
 			return true;
 		}
-		if(PermissionsEx.getUser(player).inGroup("Limited")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Limited")){
 			Method.SendMessage(sender, cmd, "このコマンドが使用できる権限を持っていません。");
 			return true;
 		}
-		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+		if(group.equalsIgnoreCase("QPPE")){
 			Method.SendMessage(sender, cmd, "このコマンドが使用できる権限を持っていません。");
 			return true;
 		}
@@ -266,9 +267,9 @@ public class Land implements CommandExecutor, Listener {
 
 	private void Command_LandNew(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		Player player = (Player) sender;
-		if(!PermissionsEx.getUser(player).inGroup("Admin")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(!group.equalsIgnoreCase("Admin") && !group.equalsIgnoreCase("Moderator")){
 			Method.SendMessage(sender, cmd, "このコマンドは管理部のみ使用可能です。");
-			return;
 		}
 		LocalSession session = WorldEdit.getInstance().getSession(player.getName());
 		RegionSelector regionSelector;
@@ -767,7 +768,8 @@ public class Land implements CommandExecutor, Listener {
 		if(!player.getLocation().getWorld().getName().equalsIgnoreCase("ReJao_Afa")){
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("Admin")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
 			return;
 		}
 		Statement statement;
@@ -826,7 +828,8 @@ public class Land implements CommandExecutor, Listener {
 		if(!player.getLocation().getWorld().getName().equalsIgnoreCase("ReJao_Afa")){
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("Admin")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
 			return;
 		}
 		Statement statement;
@@ -885,7 +888,8 @@ public class Land implements CommandExecutor, Listener {
 		if(!player.getLocation().getWorld().getName().equalsIgnoreCase("ReJao_Afa")){
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("Admin")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
 			return;
 		}
 		Statement statement;
@@ -944,7 +948,8 @@ public class Land implements CommandExecutor, Listener {
 		if(!player.getLocation().getWorld().getName().equalsIgnoreCase("ReJao_Afa")){
 			return;
 		}
-		if(PermissionsEx.getUser(player).inGroup("Admin")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
 			return;
 		}
 		Statement statement;
@@ -1136,8 +1141,8 @@ public class Land implements CommandExecutor, Listener {
 			if(!block.getWorld().getName().equalsIgnoreCase("ReJao_Afa")){
 				return;
 			}
-
-			if(PermissionsEx.getUser(player).inGroup("Admin")){
+			String group = PermissionsManager.getPermissionMainGroup(player);
+			if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
 				return;
 			}
 			Statement statement;
@@ -1197,7 +1202,8 @@ public class Land implements CommandExecutor, Listener {
 				return;
 			}
 
-			if(PermissionsEx.getUser(player).inGroup("Admin")){
+			String group = PermissionsManager.getPermissionMainGroup(player);
+			if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
 				return;
 			}
 			Statement statement;

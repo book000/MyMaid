@@ -14,7 +14,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Command.Explode;
 import xyz.jaoafa.mymaid.Discord.Discord;
 
@@ -75,7 +75,8 @@ public class OnExplosion implements Listener {
 			if(min_player == null){
 				return;
 			}
-			if(PermissionsEx.getUser(min_player).inGroup("QPPE")){
+			String group = PermissionsManager.getPermissionMainGroup(min_player);
+			if(group.equalsIgnoreCase("QPPE")){
 				event.setCancelled(true);
 				return;
 			}
@@ -83,12 +84,12 @@ public class OnExplosion implements Listener {
 				return;
 			}
 			if(tntexplode){ // 通知オンなら通知確認処理後通知
-				if(min < 20 && (PermissionsEx.getUser(min_player).inGroup("Admin") || PermissionsEx.getUser(min_player).inGroup("Moderator"))){
+				if(min < 20 && (group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator"))){
 					// 20ブロック以内でAdminとModeratorがいたら無視
 				}else{
 					tntexplode = false;
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-						if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+						if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 							p.sendMessage("[" + ChatColor.RED + "TNT" + ChatColor.WHITE + "] " + ChatColor.GREEN + min_player.getName() + "の近く(" + min + "block)の" + x + " " + y + " " + z + "地点["+location.getWorld().getName()+"]にてTNTが爆発し、ブロックが破壊されました。確認して下さい。");
 						}
 					}

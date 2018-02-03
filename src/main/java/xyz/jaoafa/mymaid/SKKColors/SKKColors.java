@@ -21,10 +21,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Command.Color;
 import xyz.jaoafa.mymaid.Jail.Jail;
 
@@ -292,7 +292,8 @@ public class SKKColors {
 	 * @author mine_book000
 	 */
 	public static ChatColor getPlayerSKKChatColor(Player player){
-		if(PermissionsEx.getUser(player).inGroup("Limited")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Limited")){
 			return ChatColor.BLACK;
 		}else if(Jail.isJail(player)){
 			return ChatColor.DARK_GRAY;
@@ -406,7 +407,8 @@ public class SKKColors {
 	 * @author mine_book000
 	 */
 	public static String getPlayerSKKJoinMessage(Player player){
-		if(PermissionsEx.getUser(player).inGroup("Limited")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Limited")){
 			return ChatColor.RED + player.getName() + ChatColor.YELLOW + " joined the game.";
 		}
 		int i = getPlayerVoteCount(player);

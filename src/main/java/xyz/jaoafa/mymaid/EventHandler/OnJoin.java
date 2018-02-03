@@ -2,7 +2,6 @@ package xyz.jaoafa.mymaid.EventHandler;
 
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
 import org.bukkit.Bukkit;
@@ -16,10 +15,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Cmd_Account;
 import xyz.jaoafa.mymaid.Discord.Discord;
@@ -32,6 +31,7 @@ public class OnJoin implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer(); // Joinしたプレイヤー
+		String group = PermissionsManager.getPermissionMainGroup(player);
 /*
 		if(Bukkit.getServer().getOnlinePlayers().size() == 1){
 			CmdBot.type = CmdBot.BotType.getRandomBotType();
@@ -43,12 +43,12 @@ public class OnJoin implements Listener {
 			}
 		}
 */
-		if(PermissionsEx.getUser(player).inGroup("QPPE")){
+		if(group.equalsIgnoreCase("QPPE")){
 			String reputation = Method.url_jaoplugin("mcbansRep", "u=" + player.getUniqueId().toString());
 			if(reputation.equalsIgnoreCase("ERROR")){
 				// 取得失敗
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 						p.sendMessage("[QPPEChecker] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」の評価値を取得することができませんでした。");
 					}
 				}
@@ -56,14 +56,10 @@ public class OnJoin implements Listener {
 			}else{
 				if(!reputation.equalsIgnoreCase("10")){
 					//QPPEでRep10じゃなければLに落とす
-					for(String group : PermissionsEx.getPermissionManager().getGroupNames()){
-						if(PermissionsEx.getUser(player).inGroup(group)){
-							PermissionsEx.getUser(player).removeGroup(group);
-						}
-					}
-					PermissionsEx.getUser(player).addGroup("Limited");
+					PermissionsManager.setPermissionsGroup(player, "Limited");
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-						if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+						String p_group = PermissionsManager.getPermissionMainGroup(p);
+						if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")) {
 							p.sendMessage("[MyMaid] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」はQPPEなのにRep10でなかったのでLimitedになりました。(現在の評価値: " + reputation + ")");
 						}
 					}
@@ -144,9 +140,10 @@ public class OnJoin implements Listener {
 			// 「空のブロックにはコードまたはコメントを記述する必要があります」
 		}
 		InetAddress ip = player.getAddress().getAddress();
-		if(PermissionsEx.getUser(player).inGroup("Limited")){
+		if(group.equalsIgnoreCase("Limited")){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				String p_group = PermissionsManager.getPermissionMainGroup(p);
+				if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "新規ちゃんだよ！やったね☆");
 				}
 			}
@@ -161,7 +158,8 @@ public class OnJoin implements Listener {
 		String data = Method.url_jaoplugin("access", "i="+ip);
 		if(data.equalsIgnoreCase("NO")){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				String p_group = PermissionsManager.getPermissionMainGroup(p);
+				if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:なし");
 				}
 			}
@@ -169,7 +167,8 @@ public class OnJoin implements Listener {
 			Bukkit.getLogger().info("このユーザーがアクセスしたページ:なし");
 		}else if(data.indexOf(",") == -1){
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				String p_group = PermissionsManager.getPermissionMainGroup(p);
+				if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:"+data+"");
 				}
 			}
@@ -181,7 +180,8 @@ public class OnJoin implements Listener {
 				accesstext += "「"+one+"」";
 			}
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				String p_group = PermissionsManager.getPermissionMainGroup(p);
+				if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "このユーザーがアクセスしたページ:"+accesstext+"など");
 				}
 			}
@@ -213,19 +213,7 @@ public class OnJoin implements Listener {
 		}
 		@Override
 		public void run() {
-			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
-			String pex = "";
-			for(String group : groups){
-				if(PermissionsEx.getUser(player).inGroup(group)){
-					if(PermissionsEx.getUser(player).inGroup("Default")){
-						if(PermissionsEx.getUser(player).inGroup("Regular")){
-							pex = "Regular";
-						}
-					}else{
-						pex = group;
-					}
-				}
-			}
+			String pex = PermissionsManager.getPermissionMainGroup(player);
 
 			Method.url_jaoplugin("pex", "p="+player.getName()+"&u="+player.getUniqueId()+"&pex="+pex);
 			String re = Method.url_jaoplugin("mcbanscheck", "p="+player.getName());
@@ -238,13 +226,14 @@ public class OnJoin implements Listener {
 					if(AFK.getAFKing(p)){
 						continue;
 					}
-					if(PermissionsEx.getUser(p).inGroup("Regular")){
+					String group = PermissionsManager.getPermissionMainGroup(p);
+					if(group.equalsIgnoreCase("Regular")){
 						check = false;
 						break;
-					}else if(PermissionsEx.getUser(p).inGroup("Moderator")){
+					}else if(group.equalsIgnoreCase("Moderator")){
 						check = false;
 						break;
-					}else if(PermissionsEx.getUser(p).inGroup("Admin")){
+					}else if(group.equalsIgnoreCase("Admin")){
 						check = false;
 						break;
 					}
@@ -255,13 +244,7 @@ public class OnJoin implements Listener {
 				}else{
 					Method.url_jaoplugin("sinki", "p="+player.getName()+"&pex=Default");
 				}
-				groups = PermissionsEx.getPermissionManager().getGroupNames();
-				for(String group : groups){
-					if(PermissionsEx.getUser(player).inGroup(group)){
-						PermissionsEx.getUser(player).removeGroup(group);
-					}
-				}
-				PermissionsEx.getUser(player).addGroup("QPPE");
+				PermissionsManager.setPermissionsGroup(player, "QPPE");
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 					if(!AFK.getAFKing(p) && p.getGameMode() != GameMode.SPECTATOR){
 						MyMaid.TitleSender.setTime_second(p, 2, 5, 2);

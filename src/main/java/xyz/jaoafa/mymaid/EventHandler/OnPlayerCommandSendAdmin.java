@@ -1,7 +1,6 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -14,8 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.ucchyocean.lc.japanize.JapanizeType;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.MyMaid;
+import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class OnPlayerCommandSendAdmin implements Listener {
 	JavaPlugin plugin;
@@ -29,21 +28,16 @@ public class OnPlayerCommandSendAdmin implements Listener {
 			return;
 		}
 		String command = e.getMessage();
-		String groupname = "";
-		Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
-		for(String group : groups){
-			if(PermissionsEx.getUser(player).inGroup(group)){
-				groupname = group;
-			}
-		}
-		if(groupname.equalsIgnoreCase("Default") || groupname.equalsIgnoreCase("Regular") || groupname.equalsIgnoreCase("Moderator") || groupname.equalsIgnoreCase("Admin")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Default") || group.equalsIgnoreCase("Regular") || group.equalsIgnoreCase("Moderator") || group.equalsIgnoreCase("Admin")){
 			// Default以上は実行試行したコマンドを返す
 			player.sendMessage(ChatColor.DARK_GRAY + "Cmd: " + command); // 仮
 		}
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-			if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) && (!player.getName().equals(p.getName()))){
+			String p_group = PermissionsManager.getPermissionMainGroup(p);
+			if((p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")) && (!player.getName().equals(p.getName()))){
 				//if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator"))){
-				p.sendMessage(ChatColor.GRAY + "(" + groupname +") " + player.getName() + ": " + ChatColor.YELLOW + command);
+				p.sendMessage(ChatColor.GRAY + "(" + group +") " + player.getName() + ": " + ChatColor.YELLOW + command);
 			}
 		}
 		if(command.contains(" ")){
@@ -77,7 +71,8 @@ public class OnPlayerCommandSendAdmin implements Listener {
 				if(MyMaid.lunachatapi.isPlayerJapanize(player.getName())){
 					String jp = MyMaid.lunachatapi.japanize(text, JapanizeType.GOOGLE_IME);
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-						if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) && (!player.getName().equals(p.getName()))){
+						String p_group = PermissionsManager.getPermissionMainGroup(p);
+						if((p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")) && (!player.getName().equals(p.getName()))){
 							//if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator"))){
 							p.sendMessage(ChatColor.GRAY + "(" + ChatColor.YELLOW + jp + ChatColor.GRAY + ")");
 						}
@@ -100,7 +95,8 @@ public class OnPlayerCommandSendAdmin implements Listener {
 				if(MyMaid.lunachatapi.isPlayerJapanize(player.getName())){
 					String jp = MyMaid.lunachatapi.japanize(text, JapanizeType.GOOGLE_IME);
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-						if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) && (!player.getName().equals(p.getName()))){
+						String p_group = PermissionsManager.getPermissionMainGroup(p);
+						if((p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")) && (!player.getName().equals(p.getName()))){
 							//if((PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator"))){
 							p.sendMessage(ChatColor.GRAY + "(" + ChatColor.YELLOW + jp + ChatColor.GRAY + ")");
 						}

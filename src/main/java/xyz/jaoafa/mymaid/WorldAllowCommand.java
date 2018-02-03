@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Discord.Discord;
 
 public class WorldAllowCommand implements Listener {
@@ -45,9 +44,10 @@ public class WorldAllowCommand implements Listener {
 		String[] args = command.split(" ", 0);
 		String Firstarg = StringUtils.stripStart(args[0], "/");
 		World world = player.getWorld();
+		String group = PermissionsManager.getPermissionMainGroup(player);
 
-		// AdminとModeratorはチェストの例外
-		if(PermissionsEx.getUser(player).inGroup("Admin") || PermissionsEx.getUser(player).inGroup("Moderator")){
+		// AdminとModeratorはチェックの例外
+		if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 			return;
 		}
 
@@ -67,7 +67,7 @@ public class WorldAllowCommand implements Listener {
 				player.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + "そのコマンド「" + Firstarg + "」はこのワールドで実行が制限されているため使用できません。");
 				player.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + "使用したい場合は管理部にお問い合わせください。");
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 						p.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + player.getName() + "がワールド「" + world.getName() + "」で使用禁止されているコマンド「" + Firstarg + "」を使用しようとしました。");
 					}
 				}
@@ -82,7 +82,7 @@ public class WorldAllowCommand implements Listener {
 				player.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + "そのコマンド「" + Firstarg + "」はこのワールドで実行が制限されているため使用できません。");
 				player.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + "使用したい場合は管理部にお問い合わせください。");
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 						p.sendMessage("[" + ChatColor.RED + "CommandCheck" + ChatColor.WHITE + "] " + ChatColor.GREEN + player.getName() + "がワールド「" + world.getName() + "」で使用禁止されているコマンド「" + Firstarg + "」を使用しようとしました。");
 					}
 				}

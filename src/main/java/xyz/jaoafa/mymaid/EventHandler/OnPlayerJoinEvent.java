@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -21,11 +20,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Pointjao;
 import xyz.jaoafa.mymaid.Discord.Discord;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
@@ -49,13 +48,7 @@ public class OnPlayerJoinEvent implements Listener {
 					+ "一定期間中に連絡がない場合は処罰される可能性があります。\n"
 					+ "詳しくは以下ページをご覧ください\n"
 					+ "https://jaoafa.com/proof/fban/?id=" + id);
-			Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
-			for(String group : groups){
-				if(PermissionsEx.getUser(event.getPlayer()).inGroup(group)){
-					PermissionsEx.getUser(event.getPlayer()).removeGroup(group);
-				}
-			}
-			PermissionsEx.getUser(event.getPlayer()).addGroup("Limited");
+			PermissionsManager.setPermissionsGroup(player, "Limited");
 			event.getPlayer().setOp(false);
 		}
 
@@ -141,7 +134,8 @@ public class OnPlayerJoinEvent implements Listener {
 			SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
 			Date Date = new Date();
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				String group = PermissionsManager.getPermissionMainGroup(p);
+				if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 					p.sendMessage("[TodayFirstCheck] " + ChatColor.GREEN + event.getPlayer().getName() + "は本日初ログインです。");
 				}
 			}
@@ -215,7 +209,8 @@ public class OnPlayerJoinEvent implements Listener {
 			new TabListSKKReloader(plugin, p).runTaskLater(plugin, 20L);
 		}
 
-		if(PermissionsEx.getUser(event.getPlayer()).inGroup("Limited")){
+		String group = PermissionsManager.getPermissionMainGroup(player);
+		if(group.equalsIgnoreCase("Limited")){
 			// Limitedは強制的に初期スポへ
 			Location location = Bukkit.getWorld("Jao_Afa").getSpawnLocation();
 			event.getPlayer().teleport(location);

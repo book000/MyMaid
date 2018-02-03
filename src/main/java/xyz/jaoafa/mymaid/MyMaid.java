@@ -50,7 +50,6 @@ import com.ittekikun.plugin.eewalert.EEWAlert;
 import com.jaoafa.PeriodMatch.PeriodMatch;
 import com.jaoafa.PeriodMatch.PeriodMatchAPI;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
 import xyz.jaoafa.mymaid.Command.AFK;
 import xyz.jaoafa.mymaid.Command.Access;
 import xyz.jaoafa.mymaid.Command.Actionbar;
@@ -222,7 +221,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		//連携プラグインの確認
 		//Load_Plugin("EEWAlert");
-		Load_Plugin("PermissionsEx");
+		//Load_Plugin("PermissionsEx");
 		Load_Plugin("WorldEdit");
 		Load_Plugin("dynmap");
 		Load_Plugin("LunaChat");
@@ -521,6 +520,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new AFK(this), this);
 
 		getServer().getPluginManager().registerEvents(new Event(this), this);
+
+		getServer().getPluginManager().registerEvents(new PermissionsManager(this), this);
 
 		if(getServer().getPluginManager().isPluginEnabled("MinecraftJPVoteMissFiller")){
 			getLogger().info("MinecraftJPVoteMissFillerが導入されているため自動補填イベントを受信します。");
@@ -1188,16 +1189,17 @@ public class MyMaid extends JavaPlugin implements Listener {
 		public void run() {
 			for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 				Collection<PotionEffect> effects = player.getActivePotionEffects();
-				if(PermissionsEx.getUser(player).inGroup("Limited")){
+				String group = PermissionsManager.getPermissionMainGroup(player);
+				if(group.equalsIgnoreCase("Limited")){
 					// 所持を含む全部の動作を禁止
 					for(PotionEffect pe : effects){
 						player.removePotionEffect(pe.getType());
 					}
-				}else if(PermissionsEx.getUser(player).inGroup("QPPE")){
+				}else if(group.equalsIgnoreCase("QPPE")){
 					for(PotionEffect pe : effects){
 						player.removePotionEffect(pe.getType());
 					}
-				}else if(PermissionsEx.getUser(player).inGroup("Default")){
+				}else if(group.equalsIgnoreCase("Default")){
 					// 所持、飲むことのみ許可、ただし透明化・スピードなどサーバに負荷がかかったり、他のプレイヤーに迷惑がかかる可能性のあるポーションは禁止
 					// 許可されてないもののエフェクトがついていた時点で消す
 					if(!AntiPotion.ApplyCustomEffects(effects)){
@@ -1419,7 +1421,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 					// TODO 自動生成された catch ブロック
 					e1.printStackTrace();
 					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-						if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+						String group = PermissionsManager.getPermissionMainGroup(p);
+						if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 							p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。ClassNotFoundException / SQLException");
 							p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 						}
@@ -1430,7 +1433,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					String group = PermissionsManager.getPermissionMainGroup(p);
+					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。SQLException");
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e.getMessage());
 					}
@@ -1456,7 +1460,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+				String group = PermissionsManager.getPermissionMainGroup(p);
+				if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 					p.sendMessage("[MyMaid] " + ChatColor.GREEN + "Mod情報: " + strmods);
 				}
 			}
@@ -1467,7 +1472,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 				// TODO 自動生成された catch ブロック
 				e1.printStackTrace();
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(PermissionsEx.getUser(p).inGroup("Admin") || PermissionsEx.getUser(p).inGroup("Moderator")) {
+					String group = PermissionsManager.getPermissionMainGroup(p);
+					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")) {
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "MyMaidのシステム障害が発生しました。SQLException");
 						p.sendMessage("[MyMaid] " + ChatColor.GREEN + "エラー: " + e1.getMessage());
 					}

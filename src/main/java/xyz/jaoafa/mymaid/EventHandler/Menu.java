@@ -2,7 +2,6 @@ package xyz.jaoafa.mymaid.EventHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ru.tehkode.permissions.bukkit.PermissionsEx;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Pointjao;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
@@ -47,13 +46,7 @@ public class Menu implements Listener {
 		skullMeta_player_head.setDisplayName(player.getName() + "のデータ");
 
 		String color = SKKColors.getPlayerSKKChatColor(player).name();
-		String nowGroup = "";
-		Collection<String> groups = PermissionsEx.getPermissionManager().getGroupNames();
-		for(String group : groups){
-			if(PermissionsEx.getUser(player).inGroup(group)){
-				nowGroup = group;
-			}
-		}
+		String nowGroup = PermissionsManager.getPermissionMainGroup(player);
 
 		List<String> lore = new ArrayList<String>();
 		lore.add("UUID: " + player.getUniqueId());
