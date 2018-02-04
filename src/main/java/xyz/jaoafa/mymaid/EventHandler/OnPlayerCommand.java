@@ -90,7 +90,7 @@ public class OnPlayerCommand implements Listener {
 					return;
 				}
 				if(args[1].startsWith("@e")){
-					if(player.hasPermission("mymaid.pex.provisional") || player.hasPermission("mymaid.pex.default")){
+					if(group.equalsIgnoreCase("QPPE") || group.equalsIgnoreCase("Default")){
 						player.sendMessage("[COMMAND] " + ChatColor.GREEN + "└( ・з・)┘");
 						event.setCancelled(true);
 						return;
@@ -184,7 +184,7 @@ public class OnPlayerCommand implements Listener {
 					return;
 				}
 				if(args[1].startsWith("@e")){
-					if(player.hasPermission("mymaid.pex.provisional") || player.hasPermission("mymaid.pex.default")){
+					if(group.equalsIgnoreCase("QPPE") || group.equalsIgnoreCase("Default")){
 						player.sendMessage("[COMMAND] " + ChatColor.GREEN + "└( ・з・)┘");
 						event.setCancelled(true);
 						return;

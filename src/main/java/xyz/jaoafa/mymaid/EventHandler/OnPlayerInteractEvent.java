@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.Method;
+import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Command.Explode;
 import xyz.jaoafa.mymaid.EventHandler.OnExplosion.TNT_Explode_Reset;
 
@@ -52,7 +53,8 @@ public class OnPlayerInteractEvent implements Listener {
 					return;
 				}
 			}
-			if(player.hasPermission("mymaid.pex.default") || player.hasPermission("mymaid.pex.provisional")){
+			String group = PermissionsManager.getPermissionMainGroup(player);
+			if(group.equalsIgnoreCase("QPPE") || group.equalsIgnoreCase("Default")){
 				clickedBlock.breakNaturally();
 				e.setCancelled(true);
 				return;
