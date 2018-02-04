@@ -40,6 +40,7 @@ public class Jao implements CommandExecutor {
 				Method.SendMessage(sender, cmd, "/jao help: このヘルプを表示します。");
 				Method.SendMessage(sender, cmd, "/jao add <Player> <Point> <Reason>: PlayerにReasonという理由でPointを追加します。");
 				Method.SendMessage(sender, cmd, "/jao use <Player> <Point> <Reason>: PlayerからReasonという理由でPointを減算します。");
+				Method.SendMessage(sender, cmd, "/jao pay <Player> <Point> <Reason>: PlayerからReasonという理由でPointを支払います。");
 				return true;
 			}
 			Player player = Bukkit.getPlayer(args[0]);
@@ -175,11 +176,64 @@ public class Jao implements CommandExecutor {
 					Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」から" + point + "ポイントを減算できませんでした。");
 				}
 				return true;
+			}else if(args[0].equalsIgnoreCase("pay")){
+				// /jao pay player point reason
+				if (!(sender instanceof Player)) {
+					Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
+					Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
+					return true;
+				}
+				Player player = (Player) sender;
+
+				@SuppressWarnings("deprecation")
+				OfflinePlayer offplayer = Bukkit.getOfflinePlayer(args[1]);
+				if(offplayer == null){
+					Method.SendMessage(sender, cmd, "プレイヤーが見つかりません。");
+					return true;
+				}
+
+				int point;
+				try{
+					point = Integer.parseInt(args[2]);
+				}catch(NumberFormatException e){
+					Method.SendMessage(sender, cmd, "ポイントには数値を指定してください。");
+					return true;
+				}
+				if(point <= 0){
+					Method.SendMessage(sender, cmd, "ポイントは1以上を指定してください。");
+					return true;
+				}
+
+				String reason = "";
+				int c = 3;
+				while(args.length > c){
+					reason += args[c];
+					if(args.length != (c+1)){
+						reason += " ";
+					}
+					c++;
+				}
+
+				String add_reason = "プレイヤー「" + offplayer.getName() + "」へ「" + reason + "」という理由での支払い。";
+				String use_reason = "プレイヤー「" + player.getName() + "」から「" + reason + "」という理由での支払い。";
+
+				boolean use_bool = Pointjao.usejao(player, point, add_reason);
+				if(use_bool){
+					boolean add_bool = Pointjao.addjao(offplayer, point, use_reason);
+					if(add_bool){
+						Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」に" + point + "ポイントを支払いました。");
+					}else{
+						Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」に" + point + "ポイントを支払えませんでした。");
+						Pointjao.addjao(player, point, "『" + add_reason + "』の失敗による返却");
+					}
+				}else{
+					Method.SendMessage(sender, cmd, "プレイヤー「" +  offplayer.getName() + "」から" + point + "ポイントを減算できませんでした。");
+				}
+				return true;
 			}
 		}
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
-			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
 			return true;
 		}
 		Player player = (Player) sender;
