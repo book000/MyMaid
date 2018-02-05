@@ -1,29 +1,11 @@
 package xyz.jaoafa.mymaid.Command;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import xyz.jaoafa.mymaid.BugReport;
 import xyz.jaoafa.mymaid.Method;
-import xyz.jaoafa.mymaid.MyMaid;
-import xyz.jaoafa.mymaid.MySQL;
 
 public class Card implements CommandExecutor {
 	JavaPlugin plugin;
@@ -31,6 +13,9 @@ public class Card implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		Method.SendMessage(sender, cmd, "このコマンドは話し合いにより廃止されました。");
+		return true;
+		/*
 		if (!(sender instanceof Player)) {
 			Method.SendMessage(sender, cmd, "このコマンドはゲーム内から実行してください。");
 			Bukkit.getLogger().info("ERROR! コマンドがゲーム内から実行されませんでした。");
@@ -238,5 +223,6 @@ public class Card implements CommandExecutor {
 			return true;
 		}
 		return false;
+		*/
 	}
 }
