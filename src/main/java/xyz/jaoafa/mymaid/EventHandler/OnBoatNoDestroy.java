@@ -21,6 +21,9 @@ public class OnBoatNoDestroy implements Listener {
 		if(event.getAttacker() != null){
 			return;
 		}
+		if(event.getVehicle().getFireTicks() != -1){
+			return;
+		}
 		event.setCancelled(true);
 	}
 }
