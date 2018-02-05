@@ -145,6 +145,17 @@ public class Land implements CommandExecutor, Listener {
 			Method.SendMessage(sender, cmd, "このコマンドが使用できる権限を持っていません。");
 			return true;
 		}
+
+		long unixtime = System.currentTimeMillis() / 1000L;
+		if(unixtime <= 1518447600){
+			// 廃止
+			Method.SendMessage(sender, cmd, "当コマンドは、2018/02/12 23:59:59に廃止されました。詳しくは以下ブログ記事をご覧ください。");
+			Method.SendMessage(sender, cmd, "https://jaoafa.com/blog/future_style/rejao-afa_ded_notice");
+			return true;
+		}
+		Method.SendMessage(sender, cmd, "このコマンドは2018/02/12 23:59:59に自動的に廃止されます。詳しくは以下ブログ記事をご覧ください。");
+		Method.SendMessage(sender, cmd, "https://jaoafa.com/blog/future_style/rejao-afa_ded_notice");
+
 		if(args.length == 0){
 			Command_Land(sender, cmd, commandLabel, args);
 			return true;
