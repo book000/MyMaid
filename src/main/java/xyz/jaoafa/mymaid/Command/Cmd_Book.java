@@ -236,6 +236,8 @@ public class Cmd_Book implements CommandExecutor {
 						Method.SendMessage(sender, cmd, "購入された本をインベントリに追加しました。");
 					}
 
+					Method.SendMessage(sender, cmd, "必ずお読みください: https://jaoafa.com/blog/tomachi/book_command_item_duplication");
+
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					String date = sdf.format(new Date());
 					bookdata.addHistory(player, MyMaidBookHistoryType.BUY, date);
