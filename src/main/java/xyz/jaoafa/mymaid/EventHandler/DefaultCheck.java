@@ -141,7 +141,8 @@ public class DefaultCheck implements Listener {
 			}
 			def.put(player.getName(), item);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
+				String p_group = PermissionsManager.getPermissionMainGroup(p);
+				if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")){
 					p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」がアイテム「" + item + "」を所持しています。");
 					p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "すぐにテレポートせず、様子を見てください。スペクテイターモードで確認するのもアリです。");
 				}
@@ -241,7 +242,8 @@ public class DefaultCheck implements Listener {
 			}
 			def.put(player.getName(), item);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
+				String p_group = PermissionsManager.getPermissionMainGroup(p);
+				if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")){
 					p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + player.getName() + "」がアイテム「" + item + "」を設置しました。");
 					p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "すぐにテレポートせず、様子を見てください。スペクテイターモードで確認するのもアリです。");
 				}
@@ -255,7 +257,7 @@ public class DefaultCheck implements Listener {
 		}
 		Player damager = (Player) event.getDamager(); //殴った人
 		Entity entity = event.getEntity(); //殴られたエンティティ
-		String group = PermissionsManager.getPermissionMainGroup(damager);
+		//String group = PermissionsManager.getPermissionMainGroup(damager);
 		/*if(!(group.equalsIgnoreCase("Default") || group.equalsIgnoreCase("QPPE"))){
 			return;
 		}
@@ -274,7 +276,8 @@ public class DefaultCheck implements Listener {
 				wolf.teleport(tamerplayer);
 				tamerplayer.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + damager.getName() + "」があなたの飼っている狼を攻撃しようとしたのでテレポートさせました。");
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
+					String p_group = PermissionsManager.getPermissionMainGroup(p);
+					if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")){
 						p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + damager.getName() + "」がプレイヤー「" + tamerplayer.getName() + "」の飼っている狼を攻撃しようとしたのでテレポートさせました。");
 					}
 				}
@@ -283,7 +286,8 @@ public class DefaultCheck implements Listener {
 				OfflinePlayer tamerplayer = (OfflinePlayer) tamer;
 				wolf.setHealth(wolf.getMaxHealth());
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
+					String p_group = PermissionsManager.getPermissionMainGroup(p);
+					if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")){
 						p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + damager.getName() + "」がプレイヤー「" + tamerplayer.getName() + "」の飼っている狼を攻撃しようとしました。");
 					}
 				}
@@ -300,7 +304,8 @@ public class DefaultCheck implements Listener {
 				ocelot.teleport(tamerplayer);
 				tamerplayer.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + damager.getName() + "」があなたの飼っている猫を攻撃しようとしたのでテレポートさせました。");
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
+					String p_group = PermissionsManager.getPermissionMainGroup(p);
+					if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")){
 						p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + damager.getName() + "」がプレイヤー「" + tamerplayer.getName() + "」の飼っている猫を攻撃しようとしたのでテレポートさせました。");
 					}
 				}
@@ -309,7 +314,8 @@ public class DefaultCheck implements Listener {
 				OfflinePlayer tamerplayer = (OfflinePlayer) tamer;
 				ocelot.setHealth(ocelot.getMaxHealth());
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
+					String p_group = PermissionsManager.getPermissionMainGroup(p);
+					if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")){
 						p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + damager.getName() + "」がプレイヤー「" + tamerplayer.getName() + "」の飼っている猫を攻撃しようとしました。");
 					}
 				}
@@ -321,7 +327,8 @@ public class DefaultCheck implements Listener {
 					name = entity.getName();
 				}
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					if(group.equalsIgnoreCase("Admin") || group.equalsIgnoreCase("Moderator")){
+					String p_group = PermissionsManager.getPermissionMainGroup(p);
+					if(p_group.equalsIgnoreCase("Admin") || p_group.equalsIgnoreCase("Moderator")){
 						p.sendMessage("[DefaultCheck] " + ChatColor.GREEN + "プレイヤー「" + damager.getName() + "」が「" + name + "(" + entity.getType() + ")」を殺害しました。");
 					}
 				}
