@@ -256,12 +256,12 @@ public class DefaultCheck implements Listener {
 		Player damager = (Player) event.getDamager(); //殴った人
 		Entity entity = event.getEntity(); //殴られたエンティティ
 		String group = PermissionsManager.getPermissionMainGroup(damager);
-		if(!(group.equalsIgnoreCase("Default") || group.equalsIgnoreCase("QPPE"))){
+		/*if(!(group.equalsIgnoreCase("Default") || group.equalsIgnoreCase("QPPE"))){
 			return;
 		}
 		if(group.equalsIgnoreCase("Regular")){
 			return;
-		}
+		}*/
 		if(entity.getType() == EntityType.WOLF){
 			Wolf wolf = (Wolf)entity;
 			AnimalTamer tamer = wolf.getOwner();
