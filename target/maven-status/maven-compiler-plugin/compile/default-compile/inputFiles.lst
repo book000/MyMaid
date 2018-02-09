@@ -1,5 +1,6 @@
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\DedMsg.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Eye.java
+C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Jail\Jail_Event.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerChangedWorldEvent.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\MakeCmd.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmb.java
@@ -33,6 +34,7 @@ C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Sign.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Access.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\NoWither.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Hat.java
+C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Jail\EBan_Event.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\TitleSender.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnMyMaidCommandblockLogs.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\RuleLoad.java
@@ -80,6 +82,7 @@ C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnAsync
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\CityCornerEditer.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerInteractEvent.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnPlayerKickEvent.java
+C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmd_EBan.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Nuke.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\EyeMove.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnProjectileLaunchEvent.java
@@ -105,6 +108,7 @@ C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Cmdmymaid.ja
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Inv.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnExplosion.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnBowClickEvent.java
+C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Jail\EBan.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\UpGallery.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\IpAddressUtils.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\SKKColors\SKKColors.java
@@ -142,7 +146,6 @@ C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Command\Quiz.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\Menu.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\PermissionsManager.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\ConfLang.java
-C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\Jail\Event.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\ParseSelector.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\OnJoin.java
 C:\Users\Tomachi\git\MyMaid\src\main\java\xyz\jaoafa\mymaid\EventHandler\AntiJaoium.java

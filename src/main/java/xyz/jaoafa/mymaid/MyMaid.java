@@ -64,6 +64,7 @@ import xyz.jaoafa.mymaid.Command.CmdBot;
 import xyz.jaoafa.mymaid.Command.Cmd_Account;
 import xyz.jaoafa.mymaid.Command.Cmd_Book;
 import xyz.jaoafa.mymaid.Command.Cmd_City;
+import xyz.jaoafa.mymaid.Command.Cmd_EBan;
 import xyz.jaoafa.mymaid.Command.Cmd_Messenger;
 import xyz.jaoafa.mymaid.Command.Cmd_Respawn;
 import xyz.jaoafa.mymaid.Command.Cmdb;
@@ -183,8 +184,10 @@ import xyz.jaoafa.mymaid.EventHandler.OnVotifierEvent;
 import xyz.jaoafa.mymaid.EventHandler.OnWeatherChangeEvent;
 import xyz.jaoafa.mymaid.EventHandler.SpawnEggRegulation;
 import xyz.jaoafa.mymaid.EventHandler.SpectatorContinue;
-import xyz.jaoafa.mymaid.Jail.Event;
+import xyz.jaoafa.mymaid.Jail.EBan;
+import xyz.jaoafa.mymaid.Jail.EBan_Event;
 import xyz.jaoafa.mymaid.Jail.Jail;
+import xyz.jaoafa.mymaid.Jail.Jail_Event;
 import xyz.jaoafa.mymaid.SKKColors.SKKColors;
 
 public class MyMaid extends JavaPlugin implements Listener {
@@ -277,8 +280,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 		Import_Command_Executor();
 		//jaopoint読み込み
 		Load_JaoPoint();
-		//Jail情報読み込み
-		Load_JailData();
+		//Jail, EBan情報読み込み
+		Load_JailEBanData();
 		//コンフィグ読み込み
 		Load_Config();
 		//レシピ(クラフト)追加
@@ -367,6 +370,7 @@ public class MyMaid extends JavaPlugin implements Listener {
 		getCommand("account").setExecutor(new Cmd_Account(this));
 		getCommand("book").setExecutor(new Cmd_Book(this));
 		getCommand("city").setExecutor(new Cmd_City(this));
+		getCommand("eban").setExecutor(new Cmd_EBan(this));
 		getCommand("messenger").setExecutor(new Cmd_Messenger(this));
 		getCommand("respawn").setExecutor(new Cmd_Respawn(this));
 		getCommand("cmdb").setExecutor(new Cmdb(this));
@@ -519,7 +523,8 @@ public class MyMaid extends JavaPlugin implements Listener {
 
 		getServer().getPluginManager().registerEvents(new AFK(this), this);
 
-		getServer().getPluginManager().registerEvents(new Event(this), this);
+		getServer().getPluginManager().registerEvents(new Jail_Event(this), this);
+		getServer().getPluginManager().registerEvents(new EBan_Event(this), this);
 
 		getServer().getPluginManager().registerEvents(new PermissionsManager(this), this);
 
@@ -673,17 +678,23 @@ public class MyMaid extends JavaPlugin implements Listener {
 		}
 	}
 	/**
-	 * Jail情報読み込み
+	 * Jail, EBan情報読み込み
 	 * @author mine_book000
 	 */
-	private void Load_JailData(){
-		//jaoポイントをロード
+	private void Load_JailEBanData(){
 		try {
 			Jail.LoadJailData();
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-			getLogger().info("jail情報のロードに失敗しました。");
+			getLogger().info("Jail情報のロードに失敗しました。");
+		}
+		try {
+			EBan.LoadEBanData();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			getLogger().info("EBan情報のロードに失敗しました。");
 		}
 	}
 	/**
@@ -921,7 +932,15 @@ public class MyMaid extends JavaPlugin implements Listener {
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
-			getLogger().info("jail情報のセーブに失敗しました。");
+			getLogger().info("Jail情報のセーブに失敗しました。");
+			BugReport.report(e);
+		}
+		try {
+			EBan.SaveEBanData();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+			getLogger().info("EBan情報のセーブに失敗しました。");
 			BugReport.report(e);
 		}
 

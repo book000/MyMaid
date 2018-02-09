@@ -504,5 +504,10 @@ commands:
       description: 本を販売したり購入したりできます。
       permission: mymaid.book
       permission-message: You do not have permission to perform this command.
+   eban:
+      description: 指定されたプレイヤーをEBanしたり、解除したりできます。
+      permission: mymaid.eban
+      permission-message: You do not have permission to perform this command.
+
 
 

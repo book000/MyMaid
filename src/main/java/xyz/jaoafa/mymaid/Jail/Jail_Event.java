@@ -21,9 +21,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.jaoafa.mymaid.PermissionsManager;
 
-public class Event implements Listener {
+public class Jail_Event implements Listener {
 	JavaPlugin plugin;
-	public Event(JavaPlugin plugin) {
+	public Jail_Event(JavaPlugin plugin) {
 		this.plugin = plugin;
 	}
 	@EventHandler
