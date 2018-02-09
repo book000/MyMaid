@@ -12,6 +12,7 @@ import com.mcbans.firestar.mcbans.events.PlayerBannedEvent;
 
 import xyz.jaoafa.mymaid.Method;
 import xyz.jaoafa.mymaid.PermissionsManager;
+import xyz.jaoafa.mymaid.Jail.EBan;
 import xyz.jaoafa.mymaid.Jail.Jail;
 
 public class OnBannedEvent implements Listener {
@@ -51,6 +52,9 @@ public class OnBannedEvent implements Listener {
 			OfflinePlayer jaotan = Bukkit.getOfflinePlayer("jaotan");
 			if(Jail.isJail(offplayer)){
 				Jail.JailRemove(offplayer, jaotan);
+			}
+			if(EBan.isEBan(offplayer)){
+				EBan.Remove(offplayer);
 			}
 		}else if(event.isTempBan()){
 			Bukkit.broadcastMessage("[BANDATA] " + ChatColor.GREEN + "プレイヤー「" + player + "」がプレイヤー「" + sender +"」によってTBanされました。");

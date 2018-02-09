@@ -26,7 +26,7 @@ import xyz.jaoafa.mymaid.MyMaid;
 import xyz.jaoafa.mymaid.MySQL;
 import xyz.jaoafa.mymaid.PermissionsManager;
 import xyz.jaoafa.mymaid.Command.Color;
-import xyz.jaoafa.mymaid.Jail.Jail;
+import xyz.jaoafa.mymaid.Jail.EBan;
 
 public class SKKColors {
 	public static Map<String, Integer> votecount = new HashMap<String, Integer>();
@@ -295,7 +295,7 @@ public class SKKColors {
 		String group = PermissionsManager.getPermissionMainGroup(player);
 		if(group.equalsIgnoreCase("Limited")){
 			return ChatColor.BLACK;
-		}else if(Jail.isJail(player)){
+		}else if(EBan.isEBan(player)){
 			return ChatColor.DARK_GRAY;
 		}else if(Color.color.containsKey(player.getName())){
 			return Color.color.get(player.getName());
