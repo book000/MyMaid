@@ -161,7 +161,7 @@ public class EBan {
 
 		try {
 			statement.execute("INSERT INTO eban (player, uuid, banned_by, reason, status, date) VALUES ('" + player.getName() + "', '" + player.getUniqueId().toString() + "', '" + banned_by.getName() + "', '" + reason + "', 'punishing', '" + date + "');");
-			statement.execute("INSERT INTO banlist (player, uuid, type, bannedby, reason, time) VALUES ('" + player.getName() + "', 'eban', '" + banned_by.getName() + "', '" + reason + "', '" + date + "')");
+			statement.execute("INSERT INTO banlist (player, uuid, type, bannedby, reason, time) VALUES ('" + player.getName() + "', '" + player.getUniqueId().toString() + "', 'eban', '" + banned_by.getName() + "', '" + reason + "', '" + date + "')");
 		} catch (SQLException e) {
 			BugReport.report(e);
 		}
