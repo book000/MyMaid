@@ -1,10 +1,14 @@
 package xyz.jaoafa.mymaid.EventHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,18 +21,34 @@ public class AntiBlockUnderDestroy implements Listener {
 	JavaPlugin plugin;
 	public AntiBlockUnderDestroy(JavaPlugin plugin) {
 		this.plugin = plugin;
+
+		addNotUnderDestroyBlock();
 	}
 	public static Map<String, Location> destroy = new HashMap<String, Location>();
 	public static Map<String, Integer> destroycount = new HashMap<String, Integer>();
+
+	List<Material> NG_UNDERDESTROYBLOCK = new ArrayList<Material>();
+
+	private void addNotUnderDestroyBlock(){
+		NG_UNDERDESTROYBLOCK.add(Material.DIRT);
+		NG_UNDERDESTROYBLOCK.add(Material.STONE);
+	}
+
 	@EventHandler
 	public void onAntiBlockUnderDestroy(BlockBreakEvent event){
 		Player player = event.getPlayer();
-		Location loc = event.getBlock().getLocation();
+		Block block = event.getBlock();
+		Location loc = block.getLocation();
 		int x = loc.getBlockX();
 		int y = loc.getBlockY();
 		int z = loc.getBlockZ();
 
 		if (!(player instanceof Player)) {
+			return;
+		}
+
+		if(!NG_UNDERDESTROYBLOCK.contains(block.getType())){
+			event.setCancelled(true);
 			return;
 		}
 
