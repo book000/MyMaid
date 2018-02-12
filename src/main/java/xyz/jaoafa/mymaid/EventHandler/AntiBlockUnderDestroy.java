@@ -5,17 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import xyz.jaoafa.mymaid.PermissionsManager;
 
 public class AntiBlockUnderDestroy implements Listener {
 	JavaPlugin plugin;
@@ -36,7 +31,7 @@ public class AntiBlockUnderDestroy implements Listener {
 
 	@EventHandler
 	public void onAntiBlockUnderDestroy(BlockBreakEvent event){
-		Player player = event.getPlayer();
+		/*Player player = event.getPlayer();
 		Block block = event.getBlock();
 		Location loc = block.getLocation();
 		int x = loc.getBlockX();
@@ -92,6 +87,6 @@ public class AntiBlockUnderDestroy implements Listener {
 				destroycount.put(player.getName(), 0);
 			}
 		}
-		destroy.put(player.getName(), loc);
+		destroy.put(player.getName(), loc);*/
 	}
 }
